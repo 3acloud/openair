@@ -88,7 +88,7 @@ The first time you open the page, you will be asked to enter a **User Key**. Thi
 
 ## Included Apps
 
-The collection includes nearly a hundred apps across the following categories:
+The collection includes over a hundred apps across the following categories:
 
 | Category | Use Cases |
 | --- | --- |
