@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/banner.svg" alt="openair — Turn Skills into apps with AirThink, AirCode and your local Codex" width="100%">
+  <img src="docs/images/banner.en.svg" alt="openair — Turn Skills into apps with AirThink, AirCode and your local Codex" width="100%">
 </p>
 
 <p align="center">
