@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>真人IP封面工坊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{color-scheme:dark;--bg:#0e0e13;--surface:#17171d;--surface2:#202028;--ink:#f5f0ea;--muted:#aba5a9;--gold:#d8b77e;--line:rgba(216,183,126,.28);--pink:#db4d8d;--shadow:0 20px 60px rgba(0,0,0,.3)}
+:root[data-mode="light"]{color-scheme:light;--bg:#f7f4ef;--surface:#fffdfa;--surface2:#eee7e0;--ink:#241d23;--muted:#6e626a;--gold:#9b6d35;--line:rgba(143,101,54,.3);--pink:#ad2865;--shadow:0 16px 45px rgba(42,30,28,.12)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans SC',system-ui,sans-serif}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.09;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E")}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}a{color:inherit}button:disabled{opacity:.45;cursor:not-allowed}.app-header{position:relative;z-index:1001;position:sticky;top:0;background:rgba(12,12,18,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}:root[data-mode="light"] .app-header{background:rgba(247,244,239,.92)}.nav-main{height:72px;max-width:1440px;margin:auto;padding:0 clamp(16px,3vw,42px);display:flex;align-items:center;gap:26px}.brand{border:0;background:none;color:var(--ink);display:flex;align-items:center;gap:12px;padding:0;white-space:nowrap;font-family:'Noto Serif SC',serif;font-size:18px;font-weight:700}.brand-icon{width:37px;height:37px;display:grid;place-items:center;border:1.5px solid var(--gold);color:var(--gold);border-radius:5px;transform:rotate(-6deg)}.brand-icon i{transform:rotate(6deg)}.nav-links{display:flex;align-items:center;gap:28px;margin-left:auto;white-space:nowrap}.nav-link{border:0;background:transparent;color:var(--muted);height:72px;position:relative;padding:0 2px}.nav-link.active{color:var(--ink)}.nav-link.active:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--pink)}.nav-actions{display:flex;gap:8px;align-items:center}.lang-button,.menu-button{border:1px solid var(--line);background:transparent;color:var(--gold);border-radius:9px;padding:8px 11px;white-space:nowrap}.menu-button{display:none;margin-left:auto}.mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--line);padding:12px 20px;box-shadow:var(--shadow)}.mobile-menu.open{display:grid;gap:5px}.mobile-menu button{color:var(--ink);background:transparent;border:0;text-align:left;padding:12px;border-radius:8px}.mobile-menu button:hover{background:var(--surface2)}.app-header.compact .nav-links,.app-header.compact .nav-actions{display:none}.app-header.compact .menu-button{display:block}main{position:relative;z-index:1;max-width:1440px;margin:auto;padding:0 clamp(16px,3vw,42px) 110px}.page{display:none}.page.active{display:block}.hero{min-height:560px;display:grid;grid-template-columns:1.06fr .94fr;align-items:center;gap:45px;padding:65px 0 48px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}h1,h2,h3{font-family:'Noto Serif SC','Playfair Display',serif;margin:0}h1{font-size:clamp(38px,5.2vw,74px);line-height:1.22;letter-spacing:-.035em}.hero h1 em{font-style:normal;color:var(--gold)}.lead{line-height:1.9;color:var(--muted);max-width:670px;font-size:16px}.hero-actions,.section-actions,.card-actions,.modal-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid var(--line);border-radius:10px;padding:11px 18px;background:var(--surface2);color:var(--ink);display:inline-flex;align-items:center;gap:8px;justify-content:center;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(216,183,126,.15)}.btn.primary{background:linear-gradient(130deg,#d8b77e,#b98b55);border-color:transparent;color:#1b1315;font-weight:700}.btn.pink{background:var(--pink);border-color:var(--pink);color:white}.btn.ghost{background:transparent}.btn.small{padding:7px 10px;font-size:12px}.hero-art{position:relative;height:390px}.cover-mock{position:absolute;width:68%;height:245px;border:1px solid var(--gold);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;background:linear-gradient(135deg,#19141e,#5b2444 58%,#d8a169);transition:transform .25s}.cover-mock:nth-child(1){top:10px;left:5%;transform:rotate(-11deg)}.cover-mock:nth-child(2){top:70px;right:0;background:linear-gradient(135deg,#141c2f,#31344e 55%,#c4966e);transform:rotate(9deg)}.cover-mock:nth-child(3){top:125px;left:13%;background:linear-gradient(140deg,#242026,#684353 55%,#ddad7a);transform:rotate(-2deg)}.cover-mock:hover{transform:translateY(-7px);box-shadow:0 0 30px rgba(216,183,126,.35)}.mock-person{position:absolute;right:5%;bottom:-18px;font-size:190px;color:rgba(255,236,214,.25)}.mock-text{position:absolute;left:20px;top:45px;font-family:'Noto Serif SC',serif;font-size:26px;font-weight:700;max-width:65%;line-height:1.3}.mock-index{position:absolute;left:20px;bottom:18px;font-size:11px;letter-spacing:.15em;color:#f9dac3}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:8px 0 72px}.glass,.stat,.style-card,.work-card,.library-card{background:color-mix(in srgb,var(--surface) 89%,transparent);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);backdrop-filter:blur(14px)}.stat{padding:25px}.stat strong{display:block;font-family:'Playfair Display','Noto Serif SC',serif;font-size:36px;color:var(--gold);margin-top:6px}.stat small{color:var(--muted)}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:22px}.section-heading h2,.page-heading h1{font-size:clamp(28px,3vw,42px)}.section-heading p,.page-heading p{color:var(--muted);line-height:1.7}.section{margin-bottom:72px}.style-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.style-card{text-align:left;padding:17px;color:var(--ink);transition:transform .2s,box-shadow .2s}.style-card:hover,.library-card:hover{transform:translateY(-5px);box-shadow:0 0 28px rgba(216,183,126,.2)}.style-swatch{height:102px;border-radius:9px;display:flex;align-items:end;padding:14px;margin-bottom:15px;overflow:hidden}.style-swatch:before{content:"";width:58%;height:12px;border-top:2px solid rgba(255,255,255,.8);border-bottom:2px solid rgba(255,255,255,.4);transform:rotate(-8deg)}.style-card strong{display:block;font-size:16px}.style-card small{color:var(--muted);line-height:1.7}.cards-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.library-card{overflow:hidden;transition:transform .2s,box-shadow .2s}.cover-thumb{aspect-ratio:21/9;background:linear-gradient(135deg,var(--surface2),#64415c);position:relative;overflow:hidden;display:grid;place-items:center;color:var(--gold)}.cover-thumb img{width:100%;height:100%;object-fit:cover}.cover-thumb i{font-size:34px;opacity:.6}.card-body{padding:16px}.card-title{margin:0 0 12px;font-size:16px;line-height:1.5;overflow-wrap:anywhere}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{border:1px solid var(--line);color:var(--gold);border-radius:99px;font-size:11px;padding:4px 8px}.card-actions{margin-top:15px}.page-heading{padding:45px 0 30px;display:flex;align-items:end;justify-content:space-between;gap:16px}.work-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:23px;align-items:start}.work-card{padding:25px}.work-card h2{font-size:23px;margin-bottom:24px}.field{margin-bottom:22px}.field label.field-label{display:block;font-weight:600;margin-bottom:9px}.field input,.field select,.field textarea,.filter-bar input,.filter-bar select{width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:12px;outline:none}.field input:focus,.field select:focus,.field textarea:focus,.filter-bar input:focus,.filter-bar select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(216,183,126,.13)}.field textarea{min-height:100px;resize:vertical}.choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.choice{border:1px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:9px;padding:12px 8px;text-align:left;min-height:75px}.choice.active{border-color:var(--pink);box-shadow:inset 0 0 0 1px var(--pink)}.choice i{display:block;color:var(--gold);margin-bottom:7px}.choice small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:5px}.mini-style-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.mini-style-grid button{border:1px solid var(--line);border-radius:7px;background:var(--surface2);color:var(--ink);padding:9px 5px;font-size:11px}.mini-style-grid button.active,.ratio-list button.active{border-color:var(--pink);color:var(--pink)}.ratio-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}.ratio-list button{background:var(--surface2);border:1px solid var(--line);border-radius:99px;color:var(--ink);padding:6px 10px}.asset-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.asset{width:78px;height:80px;border:1px solid var(--line);border-radius:8px;position:relative;overflow:hidden;background:var(--surface2);display:grid;place-items:center}.asset img{width:100%;height:100%;object-fit:cover}.asset span{font-size:10px;overflow-wrap:anywhere;padding:5px}.asset button{position:absolute;right:2px;top:2px;border:0;border-radius:50%;background:#1b1724;color:white;width:22px;height:22px}.preview-panel{position:sticky;top:92px}.preview-stage{border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle at 70% 30%,rgba(216,183,126,.15),transparent 45%),var(--surface2);min-height:220px;aspect-ratio:21/9;position:relative;overflow:hidden;display:grid;place-items:center;text-align:center;padding:20px}.preview-stage:after{content:"";position:absolute;inset:7%;border:1px dashed rgba(216,183,126,.4);pointer-events:none}.preview-stage.generated:after{display:none}.preview-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.preview-stage .placeholder{z-index:1}.preview-stage .placeholder i{font-size:28px;color:var(--gold);display:block;margin-bottom:12px}.preview-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.status{color:var(--muted);font-size:13px;line-height:1.7;margin-top:12px}.filter-bar{display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:9px;margin-bottom:22px}.empty{padding:36px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.load-more{display:block;margin:24px auto 0}.modal-backdrop{position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:24px}.modal-backdrop.open{display:flex}.modal{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);width:min(880px,100%);max-height:calc(100dvh - 48px);overflow:auto;padding:26px 26px 80px}.modal-top{display:flex;justify-content:space-between;gap:15px;align-items:start;margin-bottom:16px}.modal-close{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:8px;width:35px;height:35px}.modal-cover{width:100%;aspect-ratio:21/9;object-fit:contain;background:var(--surface2);border-radius:9px}.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0}.detail-item{padding:12px;background:var(--surface2);border-radius:8px;overflow-wrap:anywhere}.detail-item small{display:block;color:var(--muted);margin-bottom:5px}.markdown-body{background:var(--surface)!important;color:var(--ink)!important;max-width:100%;overflow-wrap:anywhere}.markdown-body img{max-width:100%}.toast{position:fixed;z-index:3000;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface2);color:var(--ink);border:1px solid var(--gold);padding:10px 18px;border-radius:8px;display:none;max-width:90vw}.toast.show{display:block}
+@media(max-width:980px){.hero{grid-template-columns:1fr}.hero-art{height:310px;max-width:600px;width:100%;margin:auto}.work-layout{grid-template-columns:1fr}.preview-panel{position:static}.filter-bar{grid-template-columns:repeat(2,1fr)}.filter-bar input{grid-column:1/-1}.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){main{padding-bottom:180px}.nav-main{height:62px}.brand{font-size:15px}.hero{padding:42px 0;min-height:0}.hero-art{height:240px}.cover-mock{height:170px}.mock-person{font-size:125px}.mock-text{font-size:18px}.stat-grid,.style-grid,.cards-grid{grid-template-columns:1fr}.stat-grid{gap:9px}.stat{padding:16px}.stat strong{font-size:27px}.page-heading{align-items:start;flex-direction:column}.work-card{padding:18px}.choice-grid{gap:5px}.choice{font-size:12px}.choice small{font-size:10px}.modal-backdrop.markdown-open{padding:0}.modal-backdrop.markdown-open .modal{max-height:100dvh;height:100dvh;width:100%;border-radius:0;padding:18px 18px 180px}.modal{padding-bottom:180px}}
+</style>
+</head>
+<body>
+<header class="app-header" id="appHeader"><div class="nav-main"><button class="brand" id="brandButton" type="button"><span class="brand-icon"><i class="fa-solid fa-user"></i></span><span data-i18n="brand">真人IP封面工坊</span></button><nav class="nav-links" id="navLinks"><button class="nav-link active" data-page="home" data-i18n="home">首页</button><button class="nav-link" data-page="studio" data-i18n="studio">创作工坊</button><button class="nav-link" data-page="library" data-i18n="library">作品库</button></nav><div class="nav-actions"><button class="lang-button" id="languageButton" type="button">EN</button></div><button class="menu-button" id="menuButton" type="button" aria-label="Menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div><div class="mobile-menu" id="mobileMenu"><button data-page="home" data-i18n="home">首页</button><button data-page="studio" data-i18n="studio">创作工坊</button><button data-page="library" data-i18n="library">作品库</button><button id="mobileLanguageButton" type="button">English</button></div></header>
+<main>
+<section class="page active" id="pageHome"><div class="hero"><div><div class="eyebrow">PORTRAIT COVER ATELIER · AI DESIGN</div><h1 data-i18n="heroTitle">把真人IP做成<br><em>可发布的高清封面</em></h1><p class="lead" data-i18n="heroDesc">提供文章主题与参考素材，选择风格和视觉重点，由 AI 结合真人形象生成教程、产品介绍与经验分享封面。</p><div class="hero-actions"><button class="btn primary" id="heroStart"><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="start">立即开始创作</span></button><button class="btn ghost" id="heroLibrary" data-i18n="browse">浏览作品库</button></div></div><div class="hero-art" aria-hidden="true"><div class="cover-mock"><div class="mock-person"><i class="fa-solid fa-user"></i></div><div class="mock-text">CREATE<br>WITH IMPACT</div><div class="mock-index">01 / EDITORIAL</div></div><div class="cover-mock"><div class="mock-person"><i class="fa-solid fa-user"></i></div><div class="mock-text">MAKE IT<br>PERSONAL</div><div class="mock-index">02 / STORIES</div></div><div class="cover-mock"><div class="mock-person"><i class="fa-solid fa-user"></i></div><div class="mock-text">YOUR IDEAS,<br>IN FOCUS</div><div class="mock-index">03 / PORTRAIT</div></div></div></div><div class="stat-grid"><div class="stat"><small data-i18n="total">总作品数</small><strong id="statTotal">—</strong></div><div class="stat"><small data-i18n="portraitCount">真人出镜作品数</small><strong id="statPortrait">—</strong></div><div class="stat"><small data-i18n="styleCount">九种风格覆盖数</small><strong><span id="statStyles">—</span><small> / 9</small></strong></div></div><section class="section"><div class="section-heading"><div><div class="eyebrow">STYLE LIBRARY</div><h2 data-i18n="nineStyles">九种封面风格橱窗</h2></div></div><div class="style-grid" id="homeStyles"></div></section><section class="section"><div class="section-heading"><div><div class="eyebrow">RECENT CREATIONS</div><h2 data-i18n="recent">最近封面</h2></div><button class="btn small ghost" id="recentMore" data-i18n="viewAll">查看全部</button></div><div class="cards-grid" id="recentGrid"></div></section></section>
+<section class="page" id="pageStudio"><div class="page-heading"><div><div class="eyebrow">CREATION STUDIO</div><h1 data-i18n="studio">创作工坊</h1><p data-i18n="studioDesc">填写主题、风格与素材，生成一张可发布的高清文章封面</p></div><button class="btn ghost" id="studioLibrary"><i class="fa-solid fa-images"></i><span data-i18n="library">作品库</span></button></div><div class="work-layout"><div class="work-card"><h2 data-i18n="coverDesign">封面设计</h2><form id="coverForm"><div class="field"><label class="field-label" for="coverForm_title" data-i18n="title">文章标题或主题</label><input id="coverForm_title" name="文章标题或主题" type="text" required placeholder="例如：3天搭好个人知识库"></div><div class="field"><label class="field-label" for="coverForm_style" data-i18n="style">风格</label><select id="coverForm_style" name="风格"></select><div class="mini-style-grid" id="styleChoices"></div></div><div class="field"><label class="field-label" for="coverForm_focus" data-i18n="focus">视觉重点</label><select id="coverForm_focus" name="视觉重点"></select><div class="choice-grid" id="focusChoices"></div></div><div class="field"><label class="field-label" for="coverForm_person" data-i18n="person">真人使用方式</label><select id="coverForm_person" name="真人使用方式"></select><div class="choice-grid" id="personChoices"></div></div><div class="field"><label class="field-label" for="coverForm_assets" data-i18n="assets">素材文件</label><input id="coverForm_assets" name="素材文件" type="text" readonly><div class="section-actions" style="margin-top:9px"><button class="btn small" id="selectImageButton" type="button"><i class="fa-solid fa-image"></i><span data-i18n="selectImage">选择图片</span></button><button class="btn small" id="selectFileButton" type="button"><i class="fa-solid fa-paperclip"></i><span data-i18n="selectFile">选择文件</span></button><button class="btn small" id="captureButton" type="button"><i class="fa-solid fa-camera"></i><span data-i18n="capture">拍摄参考</span></button></div><div class="asset-list" id="assetList"></div></div><div class="field"><label class="field-label" for="coverForm_ratio" data-i18n="ratio">封面比例</label><div class="ratio-list" id="ratioChoices"></div><input id="coverForm_ratio" name="封面比例" type="text" placeholder="留空则使用 21:9"></div><div class="field"><label class="field-label" for="coverForm_notes" data-i18n="notes">补充要求</label><textarea id="coverForm_notes" name="补充要求" placeholder="可写真人姿势、必须保留的文字、希望避开的颜色；不要虚构品牌 Logo"></textarea></div><div class="section-actions"><button class="btn primary" id="submitButton" type="submit" disabled><i class="fa-solid fa-sparkles"></i><span id="submitLabel" data-i18n="generate">生成高清封面</span></button><button class="btn ghost" id="regenerateButton" type="button" hidden data-i18n="regenerate">按当前设定重新生成</button><button class="btn ghost" id="clearButton" type="button" data-i18n="clear">清空重做</button></div></form></div><div class="work-card preview-panel"><div class="section-heading"><div><div class="eyebrow">LIVE CANVAS</div><h2 data-i18n="canvas">封面画布</h2></div></div><div class="preview-stage" id="previewStage"><div class="placeholder" id="previewPlaceholder"><i class="fa-solid fa-wand-magic-sparkles"></i><strong data-i18n="waiting">等待生成</strong><div class="status" id="previewHint"></div></div><img id="previewImage" alt="" hidden></div><div class="status" id="pollStatus"></div><div class="preview-tools"><button class="btn small" id="downloadCurrent" disabled data-i18n="download">下载封面</button><button class="btn small" id="openCurrent" disabled data-i18n="openNew">新窗口打开</button><button class="btn small" id="againCurrent" disabled data-i18n="again">再做一张</button></div></div></div></section>
+<section class="page" id="pageLibrary"><div class="page-heading"><div><div class="eyebrow">THE ARCHIVE</div><h1 data-i18n="library">作品库</h1><p data-i18n="libraryDesc">浏览、回看和整理全部封面作品</p></div><button class="btn primary" id="newCover"><i class="fa-solid fa-plus"></i><span data-i18n="newCover">新建封面</span></button></div><div class="filter-bar"><input id="searchInput" type="search" placeholder="搜索标题或补充要求"><select id="styleFilter"></select><select id="focusFilter"></select><select id="personFilter"></select><select id="ratioFilter"></select></div><div class="cards-grid" id="libraryGrid"></div><button class="btn ghost load-more" id="loadMore" type="button" hidden data-i18n="loadMore">查看更多</button></section>
+</main>
+<div class="modal-backdrop" id="detailBackdrop"><div class="modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal-top"><div><div class="eyebrow">COVER DETAILS</div><h2 id="detailTitle"></h2></div><button class="modal-close" id="detailClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div id="detailContent"></div><div class="modal-actions" id="detailActions"></div></div></div><div class="toast" id="toast" role="status"></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("3bbb3a483b6d4a3b_真人IP封面设计")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const TABLE='封面设计/默认表格', SUBMIT_TABLE='封面设计';
+const FIELDS=['文章标题或主题','风格','视觉重点','真人使用方式','素材文件','封面比例','补充要求'];
+const ALL_FIELDS=[...FIELDS,'封面图片'];
+const STYLES=['暖色手绘教程风','产品主视觉风','深色科技爆发风','撕纸拼贴风','编辑杂志风','黑金步骤爆款风','高饱和实测冲击风','手写结果承诺风','产品后台沉浸风'];
+const SWATCHES=['linear-gradient(135deg,#e49b72,#f7dcb4)','#915a64','linear-gradient(135deg,#0b1231,#324f83,#ee4787)','linear-gradient(135deg,#a84063,#e9d4b0)','linear-gradient(135deg,#d4c6b3,#392d35)','linear-gradient(135deg,#090909,#af8b52)','linear-gradient(135deg,#f03d56,#ffb62e)','linear-gradient(135deg,#6656aa,#ecc5cf)','linear-gradient(135deg,#122a36,#2c8a8b)'];
+const FOCI=['自动选择','标题','真人','产品或界面','流程','结果','故事场景'];
+const PEOPLE=['使用参考人物','原图直接放入或抠图','不使用真人'];
+const RATIOS=['21:9','16:9','3:4','1:1','9:16','4:3'];
+const I18N={cn:{brand:'真人IP封面工坊',home:'首页',studio:'创作工坊',library:'作品库',heroTitle:'把真人IP做成<br><em>可发布的高清封面</em>',heroDesc:'提供文章主题与参考素材，选择风格和视觉重点，由 AI 结合真人形象生成教程、产品介绍与经验分享封面。',start:'立即开始创作',browse:'浏览作品库',total:'总作品数',portraitCount:'真人出镜作品数',styleCount:'九种风格覆盖数',nineStyles:'九种封面风格橱窗',recent:'最近封面',viewAll:'查看全部',studioDesc:'填写主题、风格与素材，生成一张可发布的高清文章封面',coverDesign:'封面设计',title:'文章标题或主题',style:'风格',focus:'视觉重点',person:'真人使用方式',assets:'素材文件',selectImage:'选择图片',selectFile:'选择文件',capture:'拍摄参考',ratio:'封面比例',notes:'补充要求',generate:'生成高清封面',save:'保存修改',regenerate:'按当前设定重新生成',clear:'清空重做',canvas:'封面画布',waiting:'等待生成',download:'下载封面',openNew:'新窗口打开',again:'再做一张',libraryDesc:'浏览、回看和整理全部封面作品',newCover:'新建封面',loadMore:'查看更多',details:'查看详情',edit:'编辑',delete:'删除',close:'关闭',auto:'自动选择',none:'暂无作品',noPerson:'无真人方案',poll:'正在结合真人形象与风格绘制高清封面…',timeout:'生成等待已超时，可稍后在作品库查看。',confirmDelete:'确定删除这张封面吗？',deleted:'已删除',saved:'已保存修改',failed:'操作失败：',styleDescriptions:['温暖亲切的手绘教程','突出产品的精致主视觉','强对比的科技冲击','自由活泼的纸张拼贴','细腻克制的杂志排版','黑金配色的步骤表达','鲜明有力的实测展示','手写感的结果承诺','沉浸式产品界面'],personDescriptions:['保持身份一致，姿势随视觉重点','保持脸、表情、动作、服装和发型','画面不加入人物'],focusIcons:['fa-wand-magic-sparkles','fa-heading','fa-user','fa-desktop','fa-list-ol','fa-bullseye','fa-film']},en:{brand:'Portrait Cover Atelier',home:'Home',studio:'Studio',library:'Library',heroTitle:'Make your portrait IP<br><em>publication ready</em>',heroDesc:'Bring a topic and reference assets. Choose a style and focus, then generate a high resolution cover for tutorials, products and stories.',start:'Start creating',browse:'Browse library',total:'Total covers',portraitCount:'Covers with people',styleCount:'Styles used',nineStyles:'Nine cover styles',recent:'Recent covers',viewAll:'View all',studioDesc:'Add your topic, style and materials to create a publication ready cover',coverDesign:'Cover design',title:'Article title or topic',style:'Style',focus:'Visual focus',person:'Person usage',assets:'Assets',selectImage:'Choose image',selectFile:'Choose file',capture:'Take photo',ratio:'Cover ratio',notes:'Additional requirements',generate:'Generate cover',save:'Save changes',regenerate:'Generate with these settings',clear:'Start over',canvas:'Cover canvas',waiting:'Waiting to generate',download:'Download cover',openNew:'Open in new window',again:'Make another',libraryDesc:'Browse, revisit and organize your covers',newCover:'New cover',loadMore:'Load more',details:'Details',edit:'Edit',delete:'Delete',close:'Close',auto:'Automatic',none:'No covers yet',noPerson:'No person in cover',poll:'Creating your high resolution cover…',timeout:'Generation timed out. Check the library later.',confirmDelete:'Delete this cover?',deleted:'Deleted',saved:'Changes saved',failed:'Operation failed: ',styleDescriptions:['Warm and friendly hand drawn tutorial','Elegant product hero visual','High contrast technology energy','Expressive torn paper collage','Considered editorial layout','Black and gold step guide','Vivid hands on results','Handwritten promise of results','Immersive product interface'],personDescriptions:['Keep identity consistent; pose follows focus','Keep face, expression, pose, clothes and hair','Do not add a person'],focusIcons:['fa-wand-magic-sparkles','fa-heading','fa-user','fa-desktop','fa-list-ol','fa-bullseye','fa-film']}};
+const EN_VALUES={'自动选择':'Automatic','暖色手绘教程风':'Warm illustrated tutorial','产品主视觉风':'Product hero','深色科技爆发风':'Dark tech','撕纸拼贴风':'Torn paper collage','编辑杂志风':'Editorial magazine','黑金步骤爆款风':'Black and gold steps','高饱和实测冲击风':'Vivid hands on results','手写结果承诺风':'Handwritten promise','产品后台沉浸风':'Immersive product UI','标题':'Title','真人':'Person','产品或界面':'Product or interface','流程':'Process','结果':'Result','故事场景':'Story scene','使用参考人物':'Use reference person','原图直接放入或抠图':'Use original image or cutout','不使用真人':'No person'};
+const state={lang:'cn',page:'home',history:[],row:0,busy:false,image:'',records:[],visible:9,detailRow:0,pollToken:0};
+const el=id=>document.getElementById(id), tr=key=>I18N[state.lang][key]||key, label=value=>state.lang==='en'?(EN_VALUES[value]||value):value;
+function toast(message){const node=el('toast');node.textContent=message;node.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>node.classList.remove('show'),4000)}
+function esc(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fileUrl(name,privatePath=false){return 'https://www.ithinkair.com:3031/'+(privatePath?'private/':'download/')+encodeURIComponent(name)}
+function openFile(name,privatePath=false){if(!name)return;window.open(fileUrl(name,privatePath),'_blank','noopener')}
+function normalizeCSV(text){return text?parseCSV(String(text)).filter(row=>row.some(cell=>String(cell).trim()!=='')):[]}
+async function cell(field,row){return await callAppBridge({type:'GetCellValue',data:TABLE,payload:field+'/'+row})}
+function setLang(lang){state.lang=lang;document.documentElement.lang=lang==='cn'?'zh-CN':'en';localStorage.setItem('iThinkAir_UiLanguage',lang);document.querySelectorAll('[data-i18n]').forEach(node=>{const value=tr(node.dataset.i18n);if(node.dataset.i18n==='heroTitle')node.innerHTML=value;else node.textContent=value});el('languageButton').textContent=lang==='cn'?'EN':'中文';el('mobileLanguageButton').textContent=lang==='cn'?'English':'中文';el('coverForm_title').placeholder=lang==='cn'?'例如：3天搭好个人知识库':'e.g. Build a knowledge base in 3 days';el('coverForm_ratio').placeholder=lang==='cn'?'留空则使用 21:9':'Leave blank for 21:9';el('coverForm_notes').placeholder=lang==='cn'?'可写真人姿势、必须保留的文字、希望避开的颜色；不要虚构品牌 Logo':'Describe pose, required text, colors to avoid; do not invent a brand logo';el('searchInput').placeholder=lang==='cn'?'搜索标题或补充要求':'Search titles or notes';renderChoices();renderStyles();renderCards();renderHint();updateSubmit();}
+function chooseLanguage(){const saved=localStorage.getItem('iThinkAir_UiLanguage');if(saved!==null&&saved!=='')return saved==='en'?'en':'cn';const url=new URLSearchParams(location.search).get('lang');if(url==='en')return'en';if(url==='cn')return'cn';const langs=navigator.languages;if(!langs||!langs.length)return'cn';return langs.some(item=>/^zh(?:-|$)/i.test(item))?'cn':'en'}
+function menu(open){el('mobileMenu').classList.toggle('open',open);el('menuButton').setAttribute('aria-expanded',String(open))}
+function checkNav(){const header=el('appHeader');header.classList.remove('compact');const nav=el('navLinks');const needed=el('brandButton').offsetWidth+nav.scrollWidth+el('languageButton').offsetWidth+90;header.classList.toggle('compact',needed>el('appHeader').clientWidth);if(!header.classList.contains('compact'))menu(false)}
+function navigate(page,push=true,restore=0){if(!['home','studio','library'].includes(page))return;if(push&&state.page!==page)state.history.push({page:state.page,scroll:window.scrollY});state.page=page;document.querySelectorAll('.page').forEach(node=>node.classList.toggle('active',node.id==='page'+page[0].toUpperCase()+page.slice(1)));document.querySelectorAll('.nav-link').forEach(node=>node.classList.toggle('active',node.dataset.page===page));menu(false);window.scrollTo(0,restore);if(page==='library')refreshLibrary();if(page==='home')refreshHome()}
+function airBack(){if(el('detailBackdrop').classList.contains('open')){closeDetail();return'false'}if(el('mobileMenu').classList.contains('open')){menu(false);return'false'}if(state.history.length){const previous=state.history.pop();navigate(previous.page,false,previous.scroll);return'false'}return'true'}window.airBack=airBack;
+function renderStyles(){el('homeStyles').innerHTML=STYLES.map((name,i)=>`<button class="style-card" type="button" data-style="${esc(name)}"><div class="style-swatch" style="background:${SWATCHES[i]}"></div><strong>${esc(label(name))}</strong><small>${esc(tr('styleDescriptions')[i])}</small></button>`).join('')}
+function optionHTML(values){return values.map(v=>`<option value="${esc(v)}">${esc(label(v))}</option>`).join('')}
+function renderChoices(){const values={style:el('coverForm_style').value||'自动选择',focus:el('coverForm_focus').value||'自动选择',person:el('coverForm_person').value||PEOPLE[0]};el('coverForm_style').innerHTML=optionHTML(['自动选择',...STYLES]);el('coverForm_focus').innerHTML=optionHTML(FOCI);el('coverForm_person').innerHTML=optionHTML(PEOPLE);el('coverForm_style').value=values.style;el('coverForm_focus').value=values.focus;el('coverForm_person').value=values.person;el('styleChoices').innerHTML=STYLES.map(name=>`<button type="button" data-choice="style" data-value="${esc(name)}" class="${name===values.style?'active':''}">${esc(label(name))}</button>`).join('');el('focusChoices').innerHTML=FOCI.slice(1).map((name,i)=>`<button class="choice ${name===values.focus?'active':''}" type="button" data-choice="focus" data-value="${esc(name)}"><i class="fa-solid ${I18N.cn.focusIcons[i+1]}"></i>${esc(label(name))}</button>`).join('');el('personChoices').innerHTML=PEOPLE.map((name,i)=>`<button class="choice ${name===values.person?'active':''}" type="button" data-choice="person" data-value="${esc(name)}"><i class="fa-solid ${['fa-user-check','fa-image-portrait','fa-user-slash'][i]}"></i>${esc(label(name))}<small>${esc(tr('personDescriptions')[i])}</small></button>`).join('');el('ratioChoices').innerHTML=RATIOS.map(r=>`<button type="button" data-ratio="${r}" class="${r===el('coverForm_ratio').value?'active':''}">${r}</button>`).join('');renderFilters()}
+function renderFilters(){const configs=[['styleFilter',STYLES,'style'],['focusFilter',FOCI.slice(1),'focus'],['personFilter',PEOPLE,'person'],['ratioFilter',RATIOS,'ratio']];for(const [id,values,key] of configs){const node=el(id),old=node.value;node.innerHTML=`<option value="">${esc(tr(key))}: ${state.lang==='cn'?'全部':'All'}</option>`+optionHTML(values);node.value=old}}
+function renderHint(){const style=el('coverForm_style').value;const person=el('coverForm_person').value;const assets=el('coverForm_assets').value;el('previewHint').textContent=(person==='不使用真人'||(!assets&&person!=='使用参考人物')?tr('noPerson')+' · ':'')+label(style||'自动选择');const ratio=el('coverForm_ratio').value||'21:9';if(/^\d+\s*:\s*\d+$/.test(ratio)){const [a,b]=ratio.split(':').map(Number);if(a>0&&b>0)el('previewStage').style.aspectRatio=`${a}/${b}`}}
+function renderAssets(){const names=el('coverForm_assets').value.split(',').map(x=>x.trim()).filter(Boolean);el('assetList').innerHTML=names.map((name,i)=>`<div class="asset"><img src="${fileUrl(name)}" alt="${esc(name)}" onerror="this.style.display='none';this.nextElementSibling.hidden=false"><span hidden>${esc(name)}</span><button type="button" data-remove="${i}" aria-label="Remove">×</button></div>`).join('');renderHint()}
+function setImage(name){state.image=name||'';el('previewImage').hidden=!name;el('previewPlaceholder').hidden=!!name;el('previewStage').classList.toggle('generated',!!name);if(name)el('previewImage').src=fileUrl(name);else el('previewImage').removeAttribute('src');for(const id of ['downloadCurrent','openCurrent','againCurrent'])el(id).disabled=!name;}
+function updateSubmit(){el('submitButton').disabled=state.busy||!el('coverForm_title').value.trim();el('submitLabel').textContent=state.row>0?tr('save'):tr('generate');el('regenerateButton').hidden=state.row===0;el('regenerateButton').disabled=state.busy;el('clearButton').disabled=state.busy}
+function formData(){const form=el('coverForm');const data={};for(const field of FIELDS){const node=form.elements.namedItem(field);data[field]=node?node.value:''}return data}
+function clearForm(){state.pollToken++;state.busy=false;state.row=0;el('coverForm').reset();el('coverForm_style').value='自动选择';el('coverForm_focus').value='自动选择';el('coverForm_person').value=PEOPLE[0];el('pollStatus').textContent='';setImage('');renderChoices();renderAssets();updateSubmit()}
+async function addAsset(type){try{const name=await callAppBridge({type});if(!name)return;const node=el('coverForm_assets');node.value=[...node.value.split(',').map(x=>x.trim()).filter(Boolean),name].join(',');renderAssets()}catch(e){toast(tr('failed')+e)}}
+function makeRecord(row,index){return{row:index+1,title:row[0]||'',style:row[1]||'',focus:row[2]||'',person:row[3]||'',assets:row[4]||'',ratio:row[5]||'',notes:row[6]||'',image:''}}
+async function fetchRecords(){const csv=await callAppBridge({type:'GetTableCSV',data:TABLE,payload:FIELDS.join(',')});const rows=normalizeCSV(csv);state.records=rows.map(makeRecord);return state.records}
+async function attachImages(records){const results=await Promise.allSettled(records.map(record=>cell('封面图片',record.row)));for(let i=0;i<records.length;i++)if(results[i].status==='fulfilled')records[i].image=results[i].value||''}
+function coverHTML(record){return `<div class="cover-thumb">${record.image?`<img src="${fileUrl(record.image)}" alt="${esc(record.title)}">`:'<i class="fa-solid fa-image"></i>'}</div>`}
+function cardHTML(record,recent=false){return `<article class="library-card" data-row="${record.row}"><div data-detail="${record.row}" style="cursor:pointer">${coverHTML(record)}<div class="card-body"><h3 class="card-title">${esc(record.title||'—')}</h3><div class="chips"><span class="chip">${esc(label(record.style||'自动选择'))}</span><span class="chip">${esc(label(record.focus||'自动选择'))}</span>${recent?'':`<span class="chip">${esc(label(record.person))}</span><span class="chip">${esc(record.ratio||'21:9')}</span>`}</div></div></div>${recent?'':`<div class="card-actions" style="padding:0 16px 16px"><button class="btn small" data-detail="${record.row}">${tr('details')}</button><button class="btn small" data-edit="${record.row}">${tr('edit')}</button><button class="btn small" data-download="${record.row}">${tr('download')}</button><button class="btn small" data-delete="${record.row}">${tr('delete')}</button></div>`}</article>`}
+function renderCards(){const recent=state.records.slice(0,6);el('recentGrid').innerHTML=recent.length?recent.map(r=>cardHTML(r,true)).join(''):`<div class="empty">${tr('none')}</div>`;let filtered=state.records.filter(r=>{const q=el('searchInput').value.trim().toLocaleLowerCase();return(!q||(r.title+' '+r.notes).toLocaleLowerCase().includes(q))&&(!el('styleFilter').value||r.style===el('styleFilter').value)&&(!el('focusFilter').value||r.focus===el('focusFilter').value)&&(!el('personFilter').value||r.person===el('personFilter').value)&&(!el('ratioFilter').value||r.ratio===el('ratioFilter').value)});el('libraryGrid').innerHTML=filtered.length?filtered.slice(0,state.visible).map(r=>cardHTML(r)).join(''):`<div class="empty">${tr('none')}</div>`;el('loadMore').hidden=filtered.length<=state.visible}
+async function refreshLibrary(){try{await fetchRecords();renderCards();await attachImages(state.records);renderCards()}catch(e){toast(tr('failed')+e)}}
+async function refreshHome(){try{const [count,peopleCsv,stylesCsv]=await Promise.all([callAppBridge({type:'GetRecordCount',data:TABLE}),callAppBridge({type:'GetTableCSV',data:TABLE,payload:'真人使用方式'}),callAppBridge({type:'GetTableCSV',data:TABLE,payload:'风格'})]);el('statTotal').textContent=String(count||0);el('statPortrait').textContent=normalizeCSV(peopleCsv).filter(r=>PEOPLE.slice(0,2).includes(r[0])).length;el('statStyles').textContent=new Set(normalizeCSV(stylesCsv).map(r=>r[0]).filter(s=>s&&s!=='自动选择')).size;await fetchRecords();const recent=state.records.slice(0,6);renderCards();await attachImages(recent);renderCards()}catch(e){toast(tr('failed')+e)}}
+async function loadEdit(row){try{state.pollToken++;state.busy=true;updateSubmit();const values=await Promise.all(ALL_FIELDS.map(field=>cell(field,row)));state.row=row;for(let i=0;i<FIELDS.length;i++){const node=el('coverForm').elements.namedItem(FIELDS[i]);if(node)node.value=values[i]||''}setImage(values[7]||'');state.busy=false;renderChoices();renderAssets();updateSubmit();closeDetail();navigate('studio')}catch(e){state.busy=false;updateSubmit();toast(tr('failed')+e)}}
+async function submitNew(){const data=formData();data['封面图片']='';state.busy=true;state.pollToken++;const token=state.pollToken;updateSubmit();el('pollStatus').textContent=tr('poll');setImage('');try{await callAppBridge({type:'SubmitRecord',data:SUBMIT_TABLE,payload:JSON.stringify(data)});state.row=1;updateSubmit();await pollImage(token);await refreshLibrary();await refreshHome()}catch(e){el('pollStatus').textContent='';toast(tr('failed')+e)}finally{if(token===state.pollToken){state.busy=false;updateSubmit()}}}
+async function pollImage(token){const start=Date.now();while(token===state.pollToken&&Date.now()-start<1800000){const result=await cell('封面图片',1);if(token!==state.pollToken)return;if(result&&String(result).trim()){setImage(String(result).trim());el('pollStatus').textContent='';return}await new Promise(resolve=>setTimeout(resolve,1000))}if(token===state.pollToken)el('pollStatus').textContent=tr('timeout')}
+async function saveEdit(){const data=formData(),row=state.row;state.busy=true;updateSubmit();try{for(const field of FIELDS)await callAppBridge({type:'SetCellValue',data:TABLE,payload:field+'/'+row+'/'+data[field]});toast(tr('saved'));await refreshLibrary();await refreshHome()}catch(e){toast(tr('failed')+e)}finally{state.busy=false;updateSubmit()}}
+async function deleteRecord(row){if(!window.confirm(tr('confirmDelete')))return;try{await callAppBridge({type:'DeleteRecord',data:TABLE,payload:row.toString()});if(state.row===row)clearForm();closeDetail();toast(tr('deleted'));await refreshLibrary();await refreshHome()}catch(e){toast(tr('failed')+e)}}
+function markdownHTML(text){if(!window.marked)return `<pre>${esc(text)}</pre>`;let html=marked.parse(text||'');if(window.DOMPurify)html=DOMPurify.sanitize(html);const holder=document.createElement('div');holder.innerHTML=html;holder.querySelectorAll('img').forEach(img=>{const source=img.getAttribute('src')||'';const href=/^https?:\/\//i.test(source)||/^data:/i.test(source)?source:fileUrl(source);img.src=href;const a=document.createElement('a');a.href=href;a.target='_blank';a.download='';img.replaceWith(a);a.appendChild(img)});return holder.innerHTML}
+async function showDetail(row){state.detailRow=row;el('detailBackdrop').classList.add('open');el('detailBackdrop').classList.add('markdown-open');el('detailTitle').textContent='…';el('detailContent').innerHTML='';el('detailActions').innerHTML='';try{const values=await Promise.all(ALL_FIELDS.map(field=>cell(field,row)));if(state.detailRow!==row)return;const data=Object.fromEntries(ALL_FIELDS.map((field,i)=>[field,values[i]||'']));el('detailTitle').textContent=data['文章标题或主题']||'—';const image=data['封面图片'];const files=data['素材文件'].split(',').map(s=>s.trim()).filter(Boolean);el('detailContent').innerHTML=`${image?`<img class="modal-cover" src="${fileUrl(image)}" alt="${esc(data['文章标题或主题'])}">`:''}<div class="detail-grid">${['风格','视觉重点','真人使用方式','封面比例'].map(field=>`<div class="detail-item"><small>${esc(state.lang==='cn'?field:({'风格':'Style','视觉重点':'Focus','真人使用方式':'Person usage','封面比例':'Ratio'}[field]))}</small>${esc(label(data[field]||'—'))}</div>`).join('')}</div>${files.length?`<h3>${tr('assets')}</h3><div class="asset-list">${files.map(name=>`<a class="asset" href="${fileUrl(name)}" target="_blank" download><img src="${fileUrl(name)}" alt="${esc(name)}" onerror="this.style.display='none';this.nextElementSibling.hidden=false"><span hidden>${esc(name)}</span></a>`).join('')}</div>`:''}<h3 style="margin:22px 0 12px">${tr('notes')}</h3><div class="markdown-body">${markdownHTML(data['补充要求'])}</div>`;el('detailActions').innerHTML=`<button class="btn primary" data-detail-download="${row}" ${image?'':'disabled'}>${tr('download')}</button><button class="btn" data-detail-edit="${row}">${tr('edit')}</button><button class="btn ghost" id="detailActionClose">${tr('close')}</button>`}catch(e){el('detailTitle').textContent=tr('failed')+e}}
+function closeDetail(){state.detailRow=0;el('detailBackdrop').classList.remove('open','markdown-open')}
+function bind(){el('brandButton').addEventListener('click',()=>{if(window.parent&&typeof window.parent.closeFullHtml==='function')window.parent.closeFullHtml(false)});document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.page)));el('menuButton').addEventListener('click',()=>menu(!el('mobileMenu').classList.contains('open')));document.addEventListener('click',e=>{if(!el('appHeader').contains(e.target))menu(false)});window.addEventListener('resize',checkNav);new ResizeObserver(checkNav).observe(el('appHeader'));el('languageButton').addEventListener('click',()=>setLang(state.lang==='cn'?'en':'cn'));el('mobileLanguageButton').addEventListener('click',()=>{setLang(state.lang==='cn'?'en':'cn');menu(false)});el('heroStart').onclick=()=>navigate('studio');el('heroLibrary').onclick=()=>navigate('library');el('recentMore').onclick=()=>navigate('library');el('studioLibrary').onclick=()=>navigate('library');el('newCover').onclick=()=>{clearForm();navigate('studio')};el('homeStyles').addEventListener('click',e=>{const b=e.target.closest('[data-style]');if(!b)return;el('coverForm_style').value=b.dataset.style;renderChoices();renderHint();navigate('studio')});document.querySelectorAll('#coverForm select').forEach(n=>n.addEventListener('change',()=>{renderChoices();renderHint()}));el('styleChoices').onclick=el('focusChoices').onclick=el('personChoices').onclick=e=>{const b=e.target.closest('[data-choice]');if(!b)return;el('coverForm_'+b.dataset.choice).value=b.dataset.value;renderChoices();renderHint()};el('ratioChoices').onclick=e=>{const b=e.target.closest('[data-ratio]');if(!b)return;el('coverForm_ratio').value=b.dataset.ratio;renderChoices();renderHint()};el('coverForm_ratio').addEventListener('input',renderHint);el('coverForm_title').addEventListener('input',updateSubmit);el('coverForm_assets').addEventListener('change',renderAssets);el('assetList').addEventListener('click',e=>{const b=e.target.closest('[data-remove]');if(!b)return;const names=el('coverForm_assets').value.split(',').map(s=>s.trim()).filter(Boolean);names.splice(Number(b.dataset.remove),1);el('coverForm_assets').value=names.join(',');renderAssets()});el('selectImageButton').onclick=()=>addAsset('SelectImage');el('selectFileButton').onclick=()=>addAsset('SelectFile');el('captureButton').onclick=()=>addAsset('CapturePhoto');el('clearButton').onclick=clearForm;el('coverForm').addEventListener('submit',async e=>{e.preventDefault();if(state.busy||!el('coverForm_title').value.trim())return;if(state.row)await saveEdit();else await submitNew()});el('regenerateButton').onclick=()=>{if(!state.busy)submitNew()};el('downloadCurrent').onclick=()=>openFile(state.image);el('openCurrent').onclick=()=>openFile(state.image,true);el('againCurrent').onclick=()=>{state.row=0;setImage('');updateSubmit();el('pollStatus').textContent=''};for(const id of ['searchInput','styleFilter','focusFilter','personFilter','ratioFilter'])el(id).addEventListener(id==='searchInput'?'input':'change',()=>{state.visible=9;renderCards()});el('loadMore').onclick=()=>{state.visible+=9;renderCards()};for(const grid of [el('recentGrid'),el('libraryGrid')])grid.addEventListener('click',async e=>{const button=e.target.closest('[data-detail],[data-edit],[data-delete],[data-download]');if(!button)return;const d=button.dataset;if(d.detail)await showDetail(Number(d.detail));else if(d.edit)await loadEdit(Number(d.edit));else if(d.delete)await deleteRecord(Number(d.delete));else if(d.download){const row=Number(d.download);let name=state.records.find(r=>r.row===row)?.image;if(!name)name=await cell('封面图片',row);openFile(name)}});el('detailClose').onclick=closeDetail;el('detailBackdrop').addEventListener('click',e=>{if(e.target===el('detailBackdrop'))closeDetail()});el('detailActions').addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;if(b.id==='detailActionClose')closeDetail();else if(b.dataset.detailEdit)await loadEdit(Number(b.dataset.detailEdit));else if(b.dataset.detailDownload){const name=await cell('封面图片',Number(b.dataset.detailDownload));openFile(name)}});document.addEventListener('keydown',e=>{if(e.key==='Escape')airBack()});document.addEventListener('focusin',e=>{if(e.target.matches('input,textarea,select'))setTimeout(()=>e.target.scrollIntoView({block:'center',behavior:'smooth'}),300)});if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>{const active=document.activeElement;if(active&&active.matches('input,textarea,select'))setTimeout(()=>active.scrollIntoView({block:'center',behavior:'smooth'}),150)})}
+async function initialize(){bind();setLang(chooseLanguage());checkNav();clearForm();try{const mode=await callAppBridge({type:'模式'});document.documentElement.dataset.mode=mode==='亮色'?'light':'dark'}catch(e){document.documentElement.dataset.mode='dark'}await refreshHome()}
+document.addEventListener('DOMContentLoaded',()=>{(async () => { await initialize(); })();});
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>gongwen-dna hero</title><style>
+:root{
+  --ink:#221f1f; --ink-soft:#4f4948; --ink-faint:#867e7b;
+  --paper-deep:#dbd6d3; --rule:rgba(44,38,38,.16);
+  --red:#e2000f; --red-deep:#c8000d; --red-soft:rgba(226,0,15,.52);
+  --serif:"Songti SC","STSong","Noto Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Noto Sans SC","Microsoft YaHei",Arial,sans-serif;
+  --mono:"SFMono-Regular","Menlo","Consolas",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{display:grid;justify-content:center;align-content:center;padding:40px;
+  color:var(--ink);font-family:var(--sans);background:#eceae8;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+.scene{position:relative;width:1200px;height:560px;overflow:hidden;
+  background-color:var(--paper-deep)}
+.rain{position:absolute;inset:0;z-index:5;width:100%;height:100%;
+  pointer-events:none;mix-blend-mode:multiply;filter:saturate(.26);opacity:.48}
+.mist{position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:
+    radial-gradient(760px 300px at 52% 0%,rgba(255,252,244,.23),transparent 70%),
+    radial-gradient(760px 420px at 44% 100%,rgba(116,94,60,.10),transparent 64%)}
+
+.article{position:relative;z-index:2;width:100%;height:100%;
+  padding:104px 64px 52px;overflow:hidden;
+  background-color:rgba(253,252,251,.90);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23p)' opacity='0.18'/%3E%3C/svg%3E"),
+    linear-gradient(168deg,rgba(255,255,254,.88) 0%,rgba(244,241,239,.86) 52%,rgba(227,222,219,.86) 100%);
+  display:flex;flex-direction:column}
+.article::before{content:"";position:absolute;inset:26px;
+  border:1px solid rgba(42,42,40,.10);pointer-events:none}
+.corner{position:absolute;z-index:3;width:14px;height:14px;
+  border:1px solid rgba(42,42,40,.24);pointer-events:none}
+.corner.tl{top:26px;left:26px;border-right:0;border-bottom:0}
+.corner.tr{top:26px;right:26px;border-left:0;border-bottom:0}
+.corner.bl{bottom:26px;left:26px;border-right:0;border-top:0}
+.corner.br{bottom:26px;right:26px;border-left:0;border-top:0}
+
+.left{position:relative;z-index:3;display:flex;flex-direction:column;
+  justify-content:center}
+.meta{position:absolute;top:50px;left:64px;right:150px;
+  display:flex;justify-content:space-between;gap:18px;
+  padding-bottom:12px;border-bottom:2px solid var(--red);
+  color:var(--ink-faint);font-family:var(--mono);font-size:11px;
+  letter-spacing:.22em}
+.kicker{margin-bottom:16px;color:var(--red);font-size:12px;
+  font-weight:300;letter-spacing:.30em}
+h1{max-width:760px}
+h1 .ctx{display:block;white-space:nowrap;font-size:30px;line-height:1.35;
+  font-weight:300;letter-spacing:.04em;color:var(--ink-soft)}
+h1 .product{display:block;white-space:nowrap;margin-top:14px;
+  font-family:var(--serif);font-size:72px;line-height:1.1;font-weight:500;
+  letter-spacing:.025em;color:var(--red-deep)}
+.rule{width:54px;height:1px;margin:22px 0 0;background:var(--ink-soft);opacity:.42}
+.lead{max-width:660px;margin-top:26px;color:var(--ink-soft);
+  font-family:var(--serif);font-size:22px;line-height:1.72;font-weight:300}
+
+.foot{display:flex;align-items:flex-start;gap:56px;margin-top:52px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,140px));gap:22px}
+.stat{border-top:1px solid var(--rule);padding-top:14px}
+.stat b{display:block;font-family:var(--serif);font-size:34px;
+  font-weight:300;color:var(--red)}
+.stat span{display:block;margin-top:5px;font-size:14px;color:var(--ink-soft)}
+
+.made{border-top:1px solid var(--rule);padding-top:14px;padding-left:56px;
+  border-left:1px solid var(--rule);margin-left:4px}
+.stamp{position:absolute;top:44px;right:64px;z-index:3;
+  display:flex;width:56px;height:56px;align-items:center;
+  justify-content:center;border:1px solid var(--red);color:var(--red);
+  font-family:var(--serif);font-size:14px;line-height:1.25;letter-spacing:.14em}
+.made .label{color:var(--ink-faint);font-family:var(--mono);font-size:10px;
+  letter-spacing:.26em}
+.made .row{display:flex;align-items:center;gap:14px;margin-top:9px}
+.made img{display:block;height:26px;width:auto}
+.made .url{color:var(--ink-soft);font-size:13px;letter-spacing:.04em}
+</style></head><body>
+<main class="scene"><canvas class="rain" aria-hidden="true"></canvas><div class="mist"></div>
+<article class="article">
+<span class="corner tl"></span><span class="corner tr"></span>
+<span class="corner bl"></span><span class="corner br"></span>
+
+<div class="meta"><span>GONGWEN DNA · AGENT SKILL</span><span>103 万字 · 全量统计</span></div>
+
+<div class="left">
+  <div class="kicker">语料实测</div>
+  <h1><span class="ctx">基于 103 万字语料统计的</span><span class="product">公文写作 skill</span></h1>
+  <div class="rule"></div>
+  <p class="lead">把公文的“像不像”变成可测量、可验收的数值。</p>
+  <div class="foot">
+    <div class="stats">
+      <div class="stat"><b>306</b><span>篇全量统计</span></div>
+      <div class="stat"><b>7</b><span>类文体参数</span></div>
+      <div class="stat"><b>12</b><span>项可验收指标</span></div>
+    </div>
+    <div class="made">
+      <div class="label">MADE ON</div>
+      <div class="row"><img src=".moxt-logo.png" alt="Moxt"><span class="url">moxt.ai</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="stamp">公<br>文</div>
+</article></main>
+<script src="rain.js"></script>
+</body></html>

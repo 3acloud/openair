@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>故事连环画</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{--paper:#f7f1e3;--paper2:#ede4d4;--card:#fffaf0;--ink:#2c1810;--muted:#705c4f;--red:#c44536;--line:#cbb9a3;--shade:rgba(44,24,16,.12);color-scheme:light}
+body.dark{--paper:#211d1b;--paper2:#302823;--card:#372e28;--ink:#f7eedf;--muted:#c4b7a6;--red:#e87462;--line:#65554a;--shade:rgba(0,0,0,.3);color-scheme:dark}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font:15px/1.65 system-ui,-apple-system,"Microsoft YaHei",sans-serif;background:linear-gradient(135deg,var(--paper),var(--paper2));min-height:100vh}body:before{content:"";pointer-events:none;position:fixed;inset:0;opacity:.16;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:76px 76px;z-index:-1}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}button:disabled{opacity:.46;cursor:not-allowed}a{color:inherit;text-decoration:none}
+.nav{position:relative;z-index:1001;position:sticky;top:0;background:#2c1810;color:#fff5e9;border-bottom:3px solid #c44536;box-shadow:0 4px 16px #0003}.nav-inner{height:64px;max-width:1320px;margin:auto;padding:0 24px;display:flex;align-items:center;gap:20px}.brand{display:flex;align-items:center;gap:10px;border:0;background:none;color:inherit;font:700 22px Georgia,"KaiTi",serif;white-space:nowrap}.brand i{color:#efad82}.nav-actions{margin-left:auto;display:flex;align-items:center;gap:10px}.tabs{display:flex;align-items:center;gap:4px}.tab{border:0;background:none;color:#e8d9c8;padding:18px 15px;white-space:nowrap;border-bottom:3px solid transparent}.tab.active{color:#fff;border-bottom-color:#e87462}.lang{background:#ffffff15;color:#fff;border:1px solid #ffffff50;border-radius:20px;padding:5px 11px}.menu-toggle{display:none;background:transparent;color:white;border:1px solid #ffffff70;border-radius:8px;padding:7px 11px}.mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:#352219;padding:9px 20px 14px;box-shadow:0 10px 22px #0004}.mobile-menu.open{display:grid;gap:4px}.mobile-menu .tab{text-align:left;padding:10px}.mobile-menu .lang{justify-self:start;margin-top:5px}
+main{max-width:1320px;margin:auto;padding:28px 24px 130px}.page{display:none}.page.active{display:block}.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;padding:64px clamp(26px,6vw,92px);background:linear-gradient(110deg,var(--card),var(--paper2));box-shadow:0 16px 40px var(--shade)}.hero:after{content:"";position:absolute;right:6%;top:-15%;height:140%;border-left:1px dashed var(--line);transform:rotate(11deg)}.eyebrow{color:var(--red);font-weight:800;letter-spacing:.18em;text-transform:uppercase}.hero h1,.page-title h1{font:700 clamp(36px,5vw,66px)/1.15 Georgia,"KaiTi",serif;margin:12px 0 20px}.hero p{max-width:690px;color:var(--muted);font-size:18px}.btn-row{display:flex;gap:10px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;padding:10px 17px;border:1px solid var(--ink);background:var(--ink);color:var(--card);font-weight:700;transition:transform .2s,box-shadow .2s}.btn:hover:not(:disabled),.frame:hover{transform:translateY(-3px);box-shadow:0 9px 20px var(--shade)}.btn.secondary{background:transparent;color:var(--ink)}.btn.red{background:var(--red);border-color:var(--red);color:white}.btn.small{padding:6px 10px;font-size:13px}.btn.ghost{background:transparent;color:var(--muted);border-color:var(--line)}.section-head,.page-title{display:flex;align-items:end;justify-content:space-between;gap:18px;margin:36px 0 17px}.section-head h2,.page-title h1{margin:0;font-family:Georgia,"KaiTi",serif}.section-head h2{font-size:29px}.section-head p,.page-title p{margin:4px 0 0;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}.frame{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 15px var(--shade);transition:transform .2s,box-shadow .2s}.stat{padding:24px}.stat i{font-size:23px;color:var(--red)}.stat strong{display:block;font:700 38px Georgia,serif;margin:8px 0 0}.stat span{color:var(--muted)}.styles{display:flex;gap:9px;flex-wrap:wrap}.style-pill{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--line);background:var(--card);border-radius:100px}.swatch{width:15px;height:15px;border-radius:4px;flex:none}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.work-card{overflow:hidden}.cover{height:142px;position:relative;display:grid;place-items:center;background:linear-gradient(135deg,#8d624e,#d8b397);color:#fff;font:700 28px Georgia,"KaiTi",serif}.cover:before{content:"";position:absolute;inset:16px;border:1px solid #ffffff91}.cover.water2{background:linear-gradient(135deg,#acc6ad,#e5b5ae)}.cover.ink{background:linear-gradient(135deg,#1d4344,#9bb3a9)}.cover.comic{background:linear-gradient(135deg,#eea822,#c44536)}.cover.pixel{background:repeating-conic-gradient(#887f6b 0 25%,#b6a98e 0 50%) 0/42px 42px}.stamp{position:absolute;right:14px;top:14px;background:var(--red);color:white;font-size:12px;padding:3px 8px;transform:rotate(7deg);border:1px solid white}.card-body{padding:17px}.excerpt{font-size:17px;font-weight:700;line-height:1.5;min-height:54px;word-break:break-word}.meta{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0}.meta span{font-size:12px;background:var(--paper2);padding:3px 8px;border-radius:6px}.card-actions{display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:13px}.empty{text-align:center;padding:60px 20px;border:1px dashed var(--line);border-radius:18px;background:var(--card)}.empty i{font-size:58px;color:var(--red)}.empty h3{font:700 26px Georgia,"KaiTi",serif}
+.studio-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}.panel{padding:24px}.panel h2{font:700 26px Georgia,"KaiTi",serif;margin:0 0 20px}.field{margin-bottom:20px}.field label{display:block;font-weight:700;margin-bottom:7px}.field small{display:block;color:var(--muted);margin-top:5px}.field input,.field select,.field textarea,.filters input,.filters select{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink)}textarea{min-height:180px;resize:vertical}.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.choice{position:relative;cursor:pointer}.choice input{position:absolute;opacity:0;width:1px;height:1px}.choice span{display:block;height:100%;border:1px solid var(--line);padding:12px;border-radius:9px;background:var(--paper);font-size:13px}.choice input:checked+span{border:2px solid var(--red);background:var(--card)}.mini-grid{display:grid;grid-template-columns:repeat(2,10px);gap:2px;margin-bottom:8px}.mini-grid.six{grid-template-rows:repeat(3,9px)}.mini-grid i{width:10px;height:9px;background:var(--red);opacity:.55}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{cursor:pointer}.chip input{position:absolute;opacity:0}.chip span{display:inline-block;padding:6px 11px;border:1px solid var(--line);border-radius:20px;background:var(--paper)}.chip input:checked+span{background:var(--red);color:white;border-color:var(--red)}.preview-blank{text-align:center;padding:60px 15px;color:var(--muted)}.preview-blank i{display:block;font-size:62px;color:var(--red)}.skeleton{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px 0}.skeleton div{height:110px;background:linear-gradient(100deg,var(--paper2) 20%,var(--card) 45%,var(--paper2) 70%);background-size:200% 100%;animation:shine 1.4s infinite;border:1px solid var(--line);border-radius:7px}@keyframes shine{to{background-position-x:-200%}}.reader{width:100%;height:min(78vh,850px);border:1px solid var(--line);border-radius:8px;background:white}.filters{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:9px;margin:16px 0 24px}.status{color:var(--muted);font-size:13px}.error{color:var(--red);font-weight:700}.notice{padding:10px 14px;border-radius:8px;background:var(--paper2);margin:10px 0}.markdown-body{background:var(--card)!important;color:var(--ink)!important;padding:15px;border-radius:9px;overflow:auto}
+.overlay{position:fixed;inset:0;background:#0009;z-index:2000;display:none;align-items:center;justify-content:center;padding:22px}.overlay.open{display:flex}.dialog{width:min(100%,900px);max-height:calc(100dvh - 44px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:17px;box-shadow:0 25px 65px #0006;padding:22px}#detailOverlay .dialog{width:calc(100vw - 44px);max-width:none}.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:12px}.dialog-head h2{font:700 28px Georgia,"KaiTi",serif;margin:0}.dialog-head .btn-row{margin-left:auto}.detail-text{white-space:pre-wrap;word-break:break-word;background:var(--paper);padding:16px;border-radius:9px}.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.icon-btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:7px 12px}.dialog-reader{width:100%;height:70vh;border:0;background:white}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);z-index:3000;background:#2c1810;color:#fff;padding:10px 18px;border-radius:8px;display:none;max-width:90vw}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.studio-grid{grid-template-columns:1fr}.filters{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.tabs,.nav-actions>.lang{display:none}.menu-toggle{display:block}}@media(max-width:650px){main{padding:17px 14px 170px}.nav-inner{padding:0 14px}.brand{font-size:19px}.hero{padding:37px 23px}.hero p{font-size:15px}.stats,.cards{grid-template-columns:1fr}.stat{padding:16px}.stat strong{font-size:30px}.page-title{align-items:start;flex-direction:column}.filters{grid-template-columns:1fr}.choices{grid-template-columns:1fr}.panel{padding:18px}.overlay{padding:0}.dialog,#detailOverlay .dialog{width:100vw;max-height:100dvh;height:100dvh;border-radius:0;padding:18px 14px 180px}.dialog-reader{height:65dvh}.dialog-head h2{font-size:22px}.dialog-head .btn-row{gap:3px}.dialog-head .icon-btn{padding:5px 9px}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav"><div class="nav-inner"><button class="brand" id="brand" type="button"><i class="fa-solid fa-table-cells-large"></i><span data-i="app">故事连环画</span></button><div class="nav-actions"><div class="tabs" id="desktopTabs"><button class="tab active" type="button" data-page="home" data-i="home">首页</button><button class="tab" type="button" data-page="studio" data-i="studio">创作工坊</button><button class="tab" type="button" data-page="gallery" data-i="gallery">作品集</button></div><button class="lang" id="desktopLang" type="button">EN</button><button class="menu-toggle" id="menuToggle" type="button" aria-label="Menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div></div><div class="mobile-menu" id="mobileMenu"><button class="tab" type="button" data-page="home" data-i="home">首页</button><button class="tab" type="button" data-page="studio" data-i="studio">创作工坊</button><button class="tab" type="button" data-page="gallery" data-i="gallery">作品集</button><button class="lang" id="mobileLang" type="button">English</button></div></nav>
+<main>
+<section class="page active" id="page-home"><div class="hero"><div class="eyebrow"> THE PAPER STORY STUDIO</div><h1 data-i="app">故事连环画</h1><p data-i="hero">把一段故事交给画师智能体，生成分集、分镜、对白与成品文件。支持宫格布局、画风与文字元素，绘成可离线翻页的连环画。</p><div class="btn-row"><button class="btn red" type="button" data-go="studio"><i class="fa-solid fa-pen-nib"></i><span data-i="start">开始创作</span></button><button class="btn secondary" type="button" data-go="gallery" data-i="browse">浏览作品集</button></div></div><div class="stats"><div class="frame stat"><i class="fa-solid fa-book-open"></i><strong id="statTotal">—</strong><span data-i="total">作品总数</span></div><div class="frame stat"><i class="fa-solid fa-palette"></i><strong id="statWater">—</strong><span data-i="water">水彩与国风作品</span></div><div class="frame stat"><i class="fa-solid fa-file-lines"></i><strong id="statOnline">—</strong><span data-i="online">可在线翻页</span></div></div><div class="section-head"><div><h2 data-i="styles">画风速览</h2></div></div><div class="styles" id="styleStats"></div><div class="section-head"><div><h2 data-i="recent">灯下近作</h2><p data-i="recentHint">点击卡片查看详情与成品</p></div></div><div class="cards" id="recentCards"></div></section>
+<section class="page" id="page-studio"><div class="page-title"><div><div class="eyebrow"> WORKSHOP</div><h1 data-i="studio">创作工坊</h1><p data-i="studioHint">填写故事与画格设定，智能体将完成剧本、角色锚定、画格绘制与成品打包</p></div><button class="btn secondary" type="button" data-go="gallery" data-i="seeGallery">查看作品集</button></div><div class="studio-grid"><form class="frame panel" id="creationForm"><h2 data-i="creation">连环画创作</h2><div class="field"><label for="creationForm_story" data-i="story">故事内容</label><textarea id="creationForm_story" name="故事内容" data-placeholder="storyPlaceholder" placeholder="把小说、故事或一段回忆贴在这里……"></textarea></div><div class="field"><label for="creationForm_episodes" data-i="episodes">总集数</label><input id="creationForm_episodes" name="总集数" type="number" min="1" value="10"><small data-i="episodeHint">建议6至12集</small></div><div class="field"><label data-i="layout">宫格布局</label><div class="choices" id="creationForm_layout"><label class="choice"><input type="radio" name="宫格布局" value="2×2（每集4格）"><span><span class="mini-grid"><i></i><i></i><i></i><i></i></span><b data-i="grid4">2×2（每集4格）</b></span></label><label class="choice"><input type="radio" name="宫格布局" value="2×3（每集6格）"><span><span class="mini-grid six"><i></i><i></i><i></i><i></i><i></i><i></i></span><b data-i="grid6">2×3（每集6格）</b></span></label><label class="choice"><input type="radio" name="宫格布局" value="2×2与2×3交替" checked><span><span class="mini-grid"><i></i><i></i><i></i><i></i></span><b data-i="gridAlt">2×2与2×3交替</b></span></label></div></div><div class="field"><label for="creationForm_style" data-i="style">画风</label><select id="creationForm_style" name="画风"><option value="写实水彩风" data-i="style1">写实水彩风</option><option value="日系水彩治愈风" data-i="style2">日系水彩治愈风</option><option value="国风水墨" data-i="style3">国风水墨</option><option value="美式漫画" data-i="style4">美式漫画</option><option value="像素风" data-i="style5">像素风</option></select></div><div class="field"><label data-i="textElements">文字元素</label><div class="chips" id="creationForm_elements"><label class="chip"><input type="checkbox" name="文字元素" value="气泡对白"><span data-i="element1">气泡对白</span></label><label class="chip"><input type="checkbox" name="文字元素" value="心理活动"><span data-i="element2">心理活动</span></label><label class="chip"><input type="checkbox" name="文字元素" value="旁白框"><span data-i="element3">旁白框</span></label><label class="chip"><input type="checkbox" name="文字元素" value="音效字"><span data-i="element4">音效字</span></label></div></div><div class="field"><label for="creationForm_maxMb" data-i="maxMb">文件大小上限MB</label><input id="creationForm_maxMb" name="文件大小上限MB" type="number" min="1" value="20"></div><div class="field"><label for="creationForm_format" data-i="format">发布格式</label><select id="creationForm_format" name="发布格式"><option value="ZIP压缩包" data-i="zip">ZIP压缩包</option><option value="单文件HTML" data-i="html">单文件HTML</option><option value="PDF">PDF</option></select><small data-i="formatHint">ZIP含可离线HTML与图片；单文件HTML内嵌图片可直接翻页；PDF为完整连环画。</small></div><div class="btn-row"><button class="btn red" id="submitCreation" type="submit" disabled><i class="fa-solid fa-wand-magic-sparkles"></i><span id="submitLabel" data-i="draw">开始绘制</span></button><button class="btn secondary" id="resetCreation" type="button" data-i="reset">重置</button></div><p class="status" id="formStatus" role="status"></p></form><div class="frame panel" id="previewPanel"><h2 data-i="preview">生成预览台</h2><div id="previewContent"></div></div></div></section>
+<section class="page" id="page-gallery"><div class="page-title"><div><div class="eyebrow"> THE SHELF</div><h1 data-i="gallery">作品集</h1><p data-i="galleryHint">所有已提交的连环画创作，卡片陈列，可预览、编辑设定或删除</p></div><button class="btn red" id="newCreation" type="button"><i class="fa-solid fa-plus"></i><span data-i="new">新建连环画</span></button></div><div class="filters"><input id="searchInput" type="search" data-placeholder="search" placeholder="搜索故事、画风或发布格式"><select id="styleFilter" aria-label="Style"></select><select id="layoutFilter" aria-label="Layout"></select><select id="formatFilter" aria-label="Format"></select></div><p class="status" id="galleryStatus"></p><div class="cards" id="galleryCards"></div><div class="btn-row" id="moreWrap" style="justify-content:center;margin-top:24px"><button class="btn secondary" id="showMore" type="button" data-i="more">查看更多</button></div></section>
+</main>
+<div class="overlay" id="detailOverlay"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="dialog-head"><h2 id="detailTitle" data-i="detail">连环画详情</h2><div class="btn-row"><button class="icon-btn" id="prevDetail" type="button" aria-label="Previous">&lt;</button><button class="icon-btn" id="nextDetail" type="button" aria-label="Next">&gt;</button><button class="icon-btn" id="closeDetail" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div></div><div id="detailContent"></div></div></div><div class="overlay" id="readerOverlay"><div class="dialog" role="dialog" aria-modal="true"><div class="dialog-head"><h2 data-i="reader">在线翻页</h2><button class="icon-btn" id="closeReader" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><iframe id="readerFrame" class="dialog-reader" title="Reader" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe></div></div><div class="toast" id="toast" role="status"></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("dd3ed8ad8ef6775d_故事连环画")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const TABLE='连环画创作/默认表格', BASE='连环画创作';
+const FIELDS=['故事内容','总集数','宫格布局','画风','文字元素','文件大小上限MB','发布格式','连环画文件'];
+const EDIT_FIELDS=FIELDS.slice(0,7);
+const STYLES=['写实水彩风','日系水彩治愈风','国风水墨','美式漫画','像素风'];
+const LAYOUTS=['2×2（每集4格）','2×3（每集6格）','2×2与2×3交替'];
+const FORMATS=['ZIP压缩包','单文件HTML','PDF'];
+const TEXT_ELEMENTS=['气泡对白','心理活动','旁白框','音效字'];
+const translations={cn:{app:'故事连环画',home:'首页',studio:'创作工坊',gallery:'作品集',hero:'把一段故事交给画师智能体，生成分集、分镜、对白与成品文件。支持宫格布局、画风与文字元素，绘成可离线翻页的连环画。',start:'开始创作',browse:'浏览作品集',total:'作品总数',water:'水彩与国风作品',online:'可在线翻页',styles:'画风速览',recent:'灯下近作',recentHint:'点击卡片查看详情与成品',studioHint:'填写故事与画格设定，智能体将完成剧本、角色锚定、画格绘制与成品打包',seeGallery:'查看作品集',creation:'连环画创作',story:'故事内容',storyPlaceholder:'把小说、故事或一段回忆贴在这里……',episodes:'总集数',episodeHint:'建议6至12集',layout:'宫格布局',grid4:'2×2（每集4格）',grid6:'2×3（每集6格）',gridAlt:'2×2与2×3交替',style:'画风',style1:'写实水彩风',style2:'日系水彩治愈风',style3:'国风水墨',style4:'美式漫画',style5:'像素风',textElements:'文字元素',element1:'气泡对白',element2:'心理活动',element3:'旁白框',element4:'音效字',maxMb:'文件大小上限MB',format:'发布格式',zip:'ZIP压缩包',html:'单文件HTML',formatHint:'ZIP含可离线HTML与图片；单文件HTML内嵌图片可直接翻页；PDF为完整连环画。',draw:'开始绘制',save:'保存修改',reset:'重置',preview:'生成预览台',galleryHint:'所有已提交的连环画创作，卡片陈列，可预览、编辑设定或删除',new:'新建连环画',search:'搜索故事、画风或发布格式',more:'查看更多',detail:'连环画详情',reader:'在线翻页',download:'下载成品',edit:'编辑',delete:'删除',close:'关闭',ready:'已成册',pending:'绘制中/待生成',notReady:'未生成',waiting:'画师正在分镜、起稿、上色与装订，请稍候（通常需要较长时间，请勿关闭页面）',blankPreview:'故事还在墨边，提交后将在这里翻页成册',noWorks:'还没有一本连环画，去创作工坊写下第一格故事',emptyShelf:'书架还空着',first:'去画第一本',confirmDelete:'确定删除这本连环画？',error:'操作失败',timeout:'等待已超过1800秒，请稍后到作品集查看。',saved:'修改已保存',deleted:'作品已删除',submitted:'创作已提交',noResults:'没有匹配的作品',allStyles:'全部画风',allLayouts:'全部布局',allFormats:'全部格式',zipInfo:'包内为可离线HTML及引用图片。',noFile:'成品尚未生成或仍在绘制',redraw:'去工坊重绘',current:'当前设定',noText:'无',loading:'正在读取…',view:'查看详情'},en:{app:'Story Comics',home:'Home',studio:'Workshop',gallery:'Gallery',hero:'Give your story to the artist agent. Create episodes, panels, dialogue and an offline comic in your chosen layout and style.',start:'Start creating',browse:'Browse gallery',total:'Total works',water:'Watercolor & ink',online:'Online reading',styles:'Style overview',recent:'Recent works',recentHint:'Open a card to see details and the finished book',studioHint:'Set up your story and panels; the agent creates the script, characters, art and final file.',seeGallery:'View gallery',creation:'Create a comic',story:'Story',storyPlaceholder:'Paste a novel, story or memory here…',episodes:'Episodes',episodeHint:'6 to 12 recommended',layout:'Panel layout',grid4:'2×2 (4 panels)',grid6:'2×3 (6 panels)',gridAlt:'Alternate 2×2 and 2×3',style:'Art style',style1:'Realistic watercolor',style2:'Japanese soft watercolor',style3:'Chinese ink',style4:'American comic',style5:'Pixel art',textElements:'Text elements',element1:'Speech bubbles',element2:'Thoughts',element3:'Narration',element4:'Sound effects',maxMb:'Max file size (MB)',format:'Publish format',zip:'ZIP archive',html:'Single HTML file',formatHint:'ZIP has offline HTML and images; single HTML embeds images; PDF contains the full comic.',draw:'Start drawing',save:'Save changes',reset:'Reset',preview:'Preview',galleryHint:'All submitted comics, ready to preview, edit or delete.',new:'New comic',search:'Search story, style or format',more:'Show more',detail:'Comic details',reader:'Read online',download:'Download',edit:'Edit',delete:'Delete',close:'Close',ready:'Complete',pending:'Drawing / pending',notReady:'Not generated',waiting:'The artist is planning, sketching, coloring and binding. Please wait; this can take some time.',blankPreview:'Your story will appear here after submission.',noWorks:'No comics yet. Write the first panel in the workshop.',emptyShelf:'The shelf is empty',first:'Create the first',confirmDelete:'Delete this comic?',error:'Operation failed',timeout:'Waited 1800 seconds. Check the gallery later.',saved:'Changes saved',deleted:'Comic deleted',submitted:'Creation submitted',noResults:'No matching works',allStyles:'All styles',allLayouts:'All layouts',allFormats:'All formats',zipInfo:'The archive includes offline HTML and image files.',noFile:'The finished file is pending or still drawing',redraw:'Go to workshop',current:'Current settings',noText:'None',loading:'Loading…',view:'Details'}};
+const state={lang:'cn',page:'home',rows:[],count:0,currentRow:0,detailRow:0,visible:9,polling:false,pollToken:0,history:[],loadingDetail:0};
+const $=id=>document.getElementById(id), t=k=>translations[state.lang][k]||k;
+function esc(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function urlFor(file,kind){return 'https://www.ithinkair.com:3031/'+kind+'/'+encodeURIComponent(String(file));}
+function toast(message){const el=$('toast');el.textContent=message;el.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.style.display='none',4000);}
+function error(err){console.error(err);toast(t('error')+': '+String(err?.message||err));}
+function getLanguage(){const saved=localStorage.getItem('iThinkAir_UiLanguage');if(saved)return saved==='en'?'en':'cn';const param=new URLSearchParams(location.search).get('lang');if(param==='en'||param==='cn')return param;const langs=navigator.languages;return !langs||!langs.length||langs.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en';}
+function setLanguage(lang){state.lang=lang;document.documentElement.lang=lang==='cn'?'zh-CN':'en';localStorage.setItem('iThinkAir_UiLanguage',lang);document.querySelectorAll('[data-i]').forEach(el=>{el.textContent=t(el.dataset.i)});document.querySelectorAll('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));$('desktopLang').textContent=lang==='cn'?'EN':'中文';$('mobileLang').textContent=lang==='cn'?'English':'中文';renderFilters();renderHome();renderGallery();renderPreview();if($('detailOverlay').classList.contains('open'))openDetail(state.detailRow);}
+function closeMenu(){$('mobileMenu').classList.remove('open');$('menuToggle').setAttribute('aria-expanded','false');}
+function pageTo(page,record=true){if(!['home','studio','gallery'].includes(page))return;if(page!==state.page){if(record)state.history.push({page:state.page,y:scrollY});state.page=page;document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id==='page-'+page));document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.page===page));scrollTo(0,0)}closeMenu();if(page==='gallery')refreshData().catch(error);if(page==='home')refreshData().catch(error);}
+function closeTop(){if($('readerOverlay').classList.contains('open')){closeReader();return true}if($('detailOverlay').classList.contains('open')){closeDetail();return true}if($('mobileMenu').classList.contains('open')){closeMenu();return true}return false;}
+function airBack(){if(closeTop())return 'false';const prev=state.history.pop();if(!prev)return 'true';pageTo(prev.page,false);requestAnimationFrame(()=>scrollTo(0,prev.y));return 'false'}
+window.airBack=airBack;
+async function api(type,data,payload){const req={type};if(data!==undefined)req.data=data;if(payload!==undefined)req.payload=payload;return await callAppBridge(req);}
+async function refreshData(){const [csv,countText]=await Promise.all([api('GetTableCSV',TABLE,FIELDS.join(',')),api('GetRecordCount',TABLE)]);state.rows=parseCSV(String(csv||'')).filter(row=>row.some(cell=>cell!=='')).map((row,index)=>Object.fromEntries(FIELDS.map((field,i)=>[field,row[i]??'']).concat([['row',index+1]])));state.count=Number.parseInt(countText,10)||state.rows.length;renderHome();renderGallery();}
+function colorClass(style){return ({'写实水彩风':'','日系水彩治愈风':'water2','国风水墨':'ink','美式漫画':'comic','像素风':'pixel'})[style]||'';}
+function meta(record){return ['总集数','宫格布局','画风','文字元素','文件大小上限MB','发布格式'].map(k=>record[k]?`<span>${esc(record[k])}${k==='总集数'&&state.lang==='en'?' episodes':''}</span>`:'').join('');}
+function card(record,recent=false){const file=record['连环画文件'],online=file&&['单文件HTML','PDF'].includes(record['发布格式']);return `<article class="frame work-card" data-row="${record.row}" tabindex="0" role="button"><div class="cover ${colorClass(record['画风'])}"><span>${esc(state.lang==='cn'?'画格剧场':'PANEL STORY')}</span><span class="stamp">${t(file?'ready':recent?'pending':'notReady')}</span></div><div class="card-body"><div class="excerpt">${esc((record['故事内容']||'').slice(0,recent?80:100))}</div><div class="meta">${meta(record)}</div>${recent?'':`<div class="card-actions"><button class="btn small ghost" data-act="detail" data-row="${record.row}">${t('view')}</button><button class="btn small ghost" data-act="read" data-row="${record.row}" ${online?'':'disabled'}>${t('reader')}</button><button class="btn small ghost" data-act="download" data-row="${record.row}" ${file?'':'disabled'}>${t('download')}</button><button class="btn small ghost" data-act="edit" data-row="${record.row}">${t('edit')}</button><button class="btn small ghost" data-act="delete" data-row="${record.row}">${t('delete')}</button></div>`}</div></article>`;}
+function emptyHtml(home){return `<div class="empty"><i class="fa-regular fa-image"></i><h3>${t(home?'noWorks':'emptyShelf')}</h3><button class="btn red" type="button" data-go="studio">${t(home?'start':'first')}</button></div>`;}
+function renderHome(){$('statTotal').textContent=state.count;const watercolor=state.rows.filter(r=>STYLES.slice(0,3).includes(r['画风'])).length;const online=state.rows.filter(r=>['单文件HTML','PDF'].includes(r['发布格式'])).length;$('statWater').textContent=watercolor;$('statOnline').textContent=online;const colors=['#a87960','#b8c8a8','#31595a','#d99531','#8f8370'];$('styleStats').innerHTML=STYLES.map((s,i)=>`<span class="style-pill"><i class="swatch" style="background:${colors[i]}"></i>${esc(state.lang==='cn'?s:t('style'+(i+1)))} <b>${state.rows.filter(r=>r['画风']===s).length}</b></span>`).join('');$('recentCards').innerHTML=state.rows.length?state.rows.slice(0,6).map(r=>card(r,true)).join(''):emptyHtml(true);}
+function renderFilters(){const configs=[['styleFilter',STYLES,'allStyles','style'],['layoutFilter',LAYOUTS,'allLayouts','grid'],['formatFilter',FORMATS,'allFormats','format']];for(const [id,values,all,key] of configs){const el=$(id),old=el.value;el.innerHTML=`<option value="">${t(all)}</option>`+values.map((v,i)=>`<option value="${esc(v)}">${esc(state.lang==='cn'?v:key==='style'?t('style'+(i+1)):key==='grid'?t(['grid4','grid6','gridAlt'][i]):i===0?t('zip'):i===1?t('html'):v)}</option>`).join('');el.value=old;}}
+function filteredRows(){const q=$('searchInput').value.trim().toLocaleLowerCase();const style=$('styleFilter').value,layout=$('layoutFilter').value,format=$('formatFilter').value;return state.rows.filter(r=>(!q||['故事内容','画风','发布格式'].some(k=>r[k].toLocaleLowerCase().includes(q)))&&(!style||r['画风']===style)&&(!layout||r['宫格布局']===layout)&&(!format||r['发布格式']===format));}
+function renderGallery(){const rows=filteredRows();$('galleryStatus').textContent=rows.length?`${rows.length} / ${state.count}`:'';$('galleryCards').innerHTML=rows.length?rows.slice(0,state.visible).map(r=>card(r)).join(''):state.rows.length?`<div class="empty">${t('noResults')}</div>`:emptyHtml(false);$('moreWrap').style.display=rows.length>state.visible?'flex':'none';}
+function formValues(){const form=$('creationForm');const selected=form.querySelector('input[name="宫格布局"]:checked');return {'故事内容':$('creationForm_story').value.trim(),'总集数':$('creationForm_episodes').value||'10','宫格布局':selected?.value||LAYOUTS[2],'画风':$('creationForm_style').value||STYLES[0],'文字元素':Array.from(form.querySelectorAll('input[name="文字元素"]:checked'),x=>x.value).join(','),'文件大小上限MB':$('creationForm_maxMb').value||'20','发布格式':$('creationForm_format').value||FORMATS[0]};}
+function setForm(record){$('creationForm_story').value=record['故事内容']||'';$('creationForm_episodes').value=record['总集数']||'10';const choice=$(`creationForm_layout`).querySelector(`input[value="${CSS.escape(record['宫格布局']||LAYOUTS[2])}"]`);if(choice)choice.checked=true;$('creationForm_style').value=record['画风']||STYLES[0];$('creationForm_maxMb').value=record['文件大小上限MB']||'20';$('creationForm_format').value=record['发布格式']||FORMATS[0];const selected=(record['文字元素']||'').split(',');document.querySelectorAll('#creationForm_elements input').forEach(el=>el.checked=selected.includes(el.value));updateSubmit();}
+function updateSubmit(){$('submitCreation').disabled=state.polling||!$('creationForm_story').value.trim();$('submitLabel').textContent=t(state.currentRow?'save':'draw');}
+function resetForm(){if(state.polling){state.pollToken++;state.polling=false}state.currentRow=0;$('creationForm').reset();setForm({'故事内容':'','总集数':'10','宫格布局':LAYOUTS[2],'画风':STYLES[0],'文字元素':'','文件大小上限MB':'20','发布格式':FORMATS[0]});$('formStatus').textContent='';renderPreview();}
+async function editRecord(row){closeDetail();const record=await loadRecord(row);state.currentRow=row;setForm(record);renderPreview();pageTo('studio');}
+async function loadRecord(row){const record={row};for(const field of FIELDS){record[field]=String(await api('GetCellValue',TABLE,`${field}/${row}`)||'')}return record;}
+async function submitForm(event){event.preventDefault();if(state.polling)return;const values=formValues();if(!values['故事内容'])return;const btn=$('submitCreation');btn.disabled=true;$('formStatus').textContent=t('loading');try{if(state.currentRow){for(const field of EDIT_FIELDS)await api('SetCellValue',TABLE,`${field}/${state.currentRow}/${values[field]}`);toast(t('saved'));$('formStatus').textContent=t('saved');await refreshData();renderPreview();}else{await api('SubmitRecord',BASE,JSON.stringify(values));state.currentRow=1;toast(t('submitted'));$('formStatus').textContent=t('waiting');await refreshData();startPolling(values);}}catch(err){error(err);$('formStatus').textContent=String(err)}finally{updateSubmit()}}
+function renderPreview(record){const root=$('previewContent');if(state.polling){const v=record||formValues();root.innerHTML=`<div class="notice">${t('waiting')}</div><div class="skeleton"><div></div><div></div><div></div><div></div></div><h3>${t('current')}</h3><div class="meta">${meta(v)}</div>`;return}if(!state.currentRow){root.innerHTML=`<div class="preview-blank"><i class="fa-regular fa-image"></i><p>${t('blankPreview')}</p></div>`;return}const r=record||state.rows.find(x=>x.row===state.currentRow);if(!r){root.innerHTML=`<p>${t('loading')}</p>`;return}const file=r['连环画文件'];if(!file){root.innerHTML=`<div class="preview-blank"><i class="fa-regular fa-clock"></i><p>${t('noFile')}</p></div>`;return}const format=r['发布格式'];root.innerHTML=`<h3>${t('ready')}</h3>${format==='ZIP压缩包'?`<div class="notice"><i class="fa-solid fa-book"></i> ${t('zipInfo')}</div>`:`<iframe class="reader" title="Comic preview" src="${esc(urlFor(file,'private'))}" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>`}<div class="btn-row" style="margin-top:12px"><a class="btn red" href="${esc(urlFor(file,'download'))}" target="_blank" rel="noopener">${t('download')}</a></div>`;}
+function startPolling(values){state.polling=true;const token=++state.pollToken;const started=Date.now();updateSubmit();renderPreview(values);async function tick(){if(token!==state.pollToken)return;if(Date.now()-started>=1800000){state.polling=false;$('formStatus').textContent=t('timeout');toast(t('timeout'));updateSubmit();renderPreview();return}try{const file=String(await api('GetCellValue',TABLE,`连环画文件/${state.currentRow}`)||'').trim();if(token!==state.pollToken)return;if(file){const format=String(await api('GetCellValue',TABLE,`发布格式/${state.currentRow}`)||'');state.polling=false;$('formStatus').textContent=t('ready');updateSubmit();await refreshData();renderPreview({...values,row:state.currentRow,'连环画文件':file,'发布格式':format});return}}catch(err){console.error(err)}if(token===state.pollToken)setTimeout(tick,1000)}tick();}
+function openReader(file){if(!file)return;$('readerFrame').src=urlFor(file,'private');$('readerOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeReader(){$('readerOverlay').classList.remove('open');$('readerFrame').src='about:blank';if(!$('detailOverlay').classList.contains('open'))document.body.style.overflow='';}
+function closeDetail(){$('detailOverlay').classList.remove('open');state.loadingDetail++;if(!$('readerOverlay').classList.contains('open'))document.body.style.overflow='';}
+function markdownHtml(text){if(!text)return '';if(!window.marked||!window.DOMPurify)return `<pre>${esc(text)}</pre>`;return DOMPurify.sanitize(marked.parse(text));}
+function detailMarkup(r){const file=r['连环画文件'],online=file&&['单文件HTML','PDF'].includes(r['发布格式']);return `<div class="detail-actions"><button class="btn small" data-act="read" data-row="${r.row}" ${online?'':'disabled'}>${t('reader')}</button><button class="btn small" data-act="download" data-row="${r.row}" ${file?'':'disabled'}>${t('download')}</button><button class="btn small secondary" data-act="edit" data-row="${r.row}">${t('edit')}</button><button class="btn small ghost" data-act="delete" data-row="${r.row}">${t('delete')}</button><button class="btn small ghost" data-act="close">${t('close')}</button></div><h3>${t('story')}</h3><div class="detail-text">${esc(r['故事内容'])}</div><div class="meta">${meta(r)}</div><h3>${t('preview')}</h3>${file?online?`<iframe class="reader" title="Comic" src="${esc(urlFor(file,'private'))}" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>`:`<div class="notice">${t('zipInfo')}</div>`:`<div class="notice">${t('noFile')}</div><button class="btn secondary" data-act="edit" data-row="${r.row}">${t('redraw')}</button>`}${file?`<p><a class="btn red" href="${esc(urlFor(file,'download'))}" target="_blank" rel="noopener">${t('download')}</a></p>`:''}`;}
+async function openDetail(row){if(!row||row<1||row>state.count)return;state.detailRow=row;const token=++state.loadingDetail;$('detailOverlay').classList.add('open');document.body.style.overflow='hidden';$('detailContent').innerHTML=`<p>${t('loading')}</p>`;$('prevDetail').disabled=row<=1;$('nextDetail').disabled=row>=state.count;try{const record=await loadRecord(row);if(token!==state.loadingDetail)return;$('detailContent').innerHTML=detailMarkup(record)}catch(err){if(token===state.loadingDetail)$('detailContent').innerHTML=`<p class="error">${esc(String(err))}</p>`;error(err)}}
+async function deleteRecord(row){if(!confirm(t('confirmDelete')))return;try{await api('DeleteRecord',TABLE,row.toString());if(state.currentRow===row)resetForm();closeDetail();await refreshData();toast(t('deleted'))}catch(err){error(err)}}
+async function action(act,row){const r=state.rows.find(x=>x.row===row);if(act==='detail')return openDetail(row);if(act==='close')return closeDetail();if(act==='edit')return editRecord(row);if(act==='delete')return deleteRecord(row);if(act==='read'&&r?.['连环画文件']&&['单文件HTML','PDF'].includes(r['发布格式']))return openReader(r['连环画文件']);if(act==='download'&&r?.['连环画文件']){window.open(urlFor(r['连环画文件'],'download'),'_blank','noopener')}}
+function ensureInputVisible(target){if(!/^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))return;setTimeout(()=>target.scrollIntoView({block:'center',behavior:'smooth'}),250);}
+async function initialize(){state.lang=getLanguage();try{const mode=await api('模式');document.body.classList.toggle('dark',String(mode).trim()==='暗色')}catch(err){console.warn(err)}renderFilters();setLanguage(state.lang);resetForm();document.querySelectorAll('[data-page]').forEach(el=>el.addEventListener('click',()=>pageTo(el.dataset.page)));document.addEventListener('click',event=>{const go=event.target.closest('[data-go]');if(go){pageTo(go.dataset.go);return}const button=event.target.closest('[data-act]');if(button){event.stopPropagation();action(button.dataset.act,Number(button.dataset.row)).catch(error);return}const cardEl=event.target.closest('.work-card');if(cardEl)openDetail(Number(cardEl.dataset.row));if($('mobileMenu').classList.contains('open')&&!event.target.closest('#nav'))closeMenu()});document.addEventListener('keydown',event=>{if(event.key==='Escape')closeTop();if((event.key==='Enter'||event.key===' ')&&event.target.classList.contains('work-card')){event.preventDefault();openDetail(Number(event.target.dataset.row))}});$('brand').onclick=()=>{try{parent.closeFullHtml(false)}catch(err){console.warn(err)}};$('menuToggle').onclick=()=>{const open=$('mobileMenu').classList.toggle('open');$('menuToggle').setAttribute('aria-expanded',String(open))};$('desktopLang').onclick=$('mobileLang').onclick=()=>{setLanguage(state.lang==='cn'?'en':'cn');closeMenu()};$('creationForm_story').addEventListener('input',updateSubmit);$('creationForm').addEventListener('submit',submitForm);$('resetCreation').onclick=resetForm;$('newCreation').onclick=()=>{resetForm();pageTo('studio')};['searchInput','styleFilter','layoutFilter','formatFilter'].forEach(id=>$(id).addEventListener(id==='searchInput'?'input':'change',()=>{state.visible=9;renderGallery()}));$('showMore').onclick=()=>{state.visible+=9;renderGallery()};$('prevDetail').onclick=()=>openDetail(state.detailRow-1);$('nextDetail').onclick=()=>openDetail(state.detailRow+1);$('closeDetail').onclick=closeDetail;$('closeReader').onclick=closeReader;for(const id of ['detailOverlay','readerOverlay'])$(id).addEventListener('click',event=>{if(event.target===$(id)){id==='detailOverlay'?closeDetail():closeReader()}});document.addEventListener('focusin',event=>ensureInputVisible(event.target));if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>{const input=document.activeElement;ensureInputVisible(input)});await refreshData();}
+document.addEventListener('DOMContentLoaded',async () => { await initialize(); });
+</script>
+</body>
+</html>

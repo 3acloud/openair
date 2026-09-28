@@ -1,0 +1,28 @@
+{
+  "name": "bento-slides",
+  "private": true,
+  "version": "1.2.1",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:single": "tsc -b && SINGLEFILE=1 vite build --outDir dist-single && mv dist-single/index.html dist-single/Bento_Slides.bento.html && node ../scripts/postbuild-compress.mjs dist-single/Bento_Slides.bento.html",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "moveable": "^0.53.0",
+    "reveal.js": "^5.2.1",
+    "selecto": "^1.26.3"
+  },
+  "devDependencies": {
+    "@gfx/zopfli": "^1.0.15",
+    "@types/node": "^24.13.2",
+    "@types/reveal.js": "^5.2.1",
+    "fake-indexeddb": "^6.2.5",
+    "qrcode": "^1.5.4",
+    "typescript": "~5.8.3",
+    "vite": "^7.1.1",
+    "vite-plugin-singlefile": "^2.3.3"
+  }
+}

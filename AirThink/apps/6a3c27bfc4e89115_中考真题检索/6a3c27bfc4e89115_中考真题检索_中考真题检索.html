@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>中考真题检索</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.5/dist/purify.min.js"></script>
+<style>
+:root{--ink:#152b43;--ink2:#24435e;--paper:#f7f2e8;--card:#fffdf8;--text:#24354a;--muted:#667687;--line:#ded6c8;--red:#ae4b42;--gold:#c59a57;--shade:0 10px 28px rgba(27,42,54,.09)}
+body.dark{--ink:#0e1b2a;--ink2:#263b50;--paper:#151d26;--card:#202c38;--text:#e6edf3;--muted:#b0bdc8;--line:#405061;--red:#e58b7f;--gold:#dbb776;--shade:0 10px 28px rgba(0,0,0,.25)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);background:radial-gradient(circle at 8% 8%,rgba(197,154,87,.11),transparent 27%),repeating-linear-gradient(0deg,transparent 0 31px,rgba(116,96,64,.025) 32px),var(--paper);font-family:system-ui,-apple-system,"Noto Sans SC",sans-serif;min-height:100vh}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}button:disabled{opacity:.46;cursor:not-allowed}a{color:inherit}.serif,h1,h2,h3{font-family:Georgia,"Noto Serif SC","Songti SC",serif}.topbar{position:relative;z-index:1001;position:sticky;top:0;background:var(--ink);color:#fff;box-shadow:0 4px 16px #07152138}.nav-inner{max-width:1200px;margin:auto;min-height:70px;padding:0 24px;display:flex;align-items:center;gap:18px}.brand{display:flex;align-items:center;gap:12px;border:0;background:none;color:#fff;font-size:19px;font-weight:700;white-space:nowrap;padding:0}.brand i{color:#e9c88c;font-size:25px}.nav-spacer{flex:1}.nav-links{display:flex;align-items:center;gap:6px;white-space:nowrap}.nav-links button,.lang-btn,.hamburger{border:0;background:transparent;color:#e9edf2;padding:10px 14px;border-radius:8px;white-space:nowrap}.nav-links button.active,.nav-links button:hover,.lang-btn:hover,.hamburger:hover{background:#ffffff21;color:#fff}.hamburger{display:none;font-size:21px;margin-left:auto}.mobile-menu{display:none;position:absolute;top:100%;right:14px;left:14px;background:var(--ink2);padding:10px;border-radius:0 0 12px 12px;box-shadow:var(--shade)}.mobile-menu.open{display:grid}.mobile-menu button{text-align:left;color:#fff;background:transparent;border:0;padding:13px;border-radius:6px}.mobile-menu button:hover{background:#ffffff20}.container{max-width:1200px;margin:auto;padding:38px 24px 110px}.page{display:none}.page.active{display:block}.hero{padding:55px 32px 48px;text-align:center;position:relative;background:linear-gradient(135deg,var(--card),var(--paper));border:1px solid var(--line);border-radius:18px;box-shadow:var(--shade);overflow:hidden}.hero:before,.paper-card:before{content:"";position:absolute;left:14px;top:0;bottom:0;border-left:1px dashed rgba(174,75,66,.25)}.eyebrow{color:var(--red);letter-spacing:.22em;font-weight:700;font-size:12px}.hero h1{font-size:clamp(34px,5vw,58px);margin:12px 0}.hero p{max-width:690px;margin:0 auto 25px;color:var(--muted);line-height:1.85}.btn{border:1px solid var(--line);border-radius:9px;padding:11px 17px;background:var(--card);color:var(--text);font-weight:650;transition:transform .2s,box-shadow .2s,background .2s}.btn:hover:not(:disabled),.paper-card:hover{transform:translateY(-3px);box-shadow:0 14px 26px rgba(27,42,54,.13)}.btn.primary{background:var(--red);border-color:var(--red);color:#fff}.btn.ink{background:var(--ink2);border-color:var(--ink2);color:#fff}.btn.small{padding:7px 10px;font-size:13px}.btn.icon{min-width:36px;padding:7px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:24px 0 40px}.stat,.panel,.paper-card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shade)}.stat{padding:24px;border-radius:12px}.stat i{color:var(--red);margin-bottom:16px}.stat strong{display:block;font:700 31px Georgia,serif}.stat span{color:var(--muted);font-size:13px}.section-head,.page-head,.result-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.section-head h2,.page-head h1{margin:0}.page-head{margin:0 0 28px}.page-head h1{font-size:36px}.page-head p{margin:8px 0 0;color:var(--muted);line-height:1.6}.panel{border-radius:14px;padding:24px;margin-bottom:26px}.panel h2{margin:0 0 20px;font-size:23px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.field{display:grid;gap:8px}.field label{font-weight:700;font-size:14px}.field input,.field select,.search-filters input,.search-filters select{width:100%;min-width:0;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:9px;padding:12px 13px;outline:none}.field input:focus,.field select:focus,.search-filters input:focus,.search-filters select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(174,75,66,.13)}.form-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px}.hint{font-size:13px;color:var(--muted)}.status{padding:13px 16px;border-radius:9px;margin:14px 0;background:rgba(197,154,87,.15);color:var(--text)}.status.error{background:rgba(174,75,66,.14);color:var(--red)}.hidden{display:none!important}.paper-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}.paper-card{position:relative;border-radius:12px;padding:22px 20px 18px 30px;transition:transform .2s,box-shadow .2s;min-height:193px;overflow:hidden}.subject-bar{position:absolute;top:0;left:0;bottom:0;width:6px;background:var(--subject,#ae4b42)}.card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.subject{color:var(--subject,#ae4b42);font-weight:800;font-size:13px}.year{color:var(--muted);font:700 20px Georgia,serif}.city{font:700 23px Georgia,"Noto Serif SC",serif;margin:18px 0 22px;overflow-wrap:anywhere}.badges{display:flex;gap:7px;flex-wrap:wrap}.badge{padding:5px 9px;border-radius:100px;background:rgba(174,75,66,.11);font-size:12px;color:var(--red)}.badge.ready{background:rgba(56,128,96,.13);color:#398363}.actions{display:flex;gap:7px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:14px;margin-top:16px}.actions .btn{flex:1}.search-filters{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:12px;margin-bottom:20px}.empty{text-align:center;padding:45px 20px;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.result-paper{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:24px;box-shadow:var(--shade)}.result-title{font:700 24px Georgia,"Noto Serif SC",serif;margin:0 0 18px}.result-tools,.pager{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.file-actions{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}.markdown-body{background:transparent!important;color:var(--text)!important;max-width:100%;overflow-wrap:anywhere}.markdown-body img{max-width:100%}.html-frame{width:100%;height:min(72vh,750px);border:1px solid var(--line);border-radius:8px;background:#fff}.modal-backdrop{position:fixed;inset:0;z-index:1200;background:rgba(4,15,28,.66);display:flex;align-items:center;justify-content:center;padding:24px}.modal{width:min(850px,100%);max-height:calc(100dvh - 48px);background:var(--card);color:var(--text);border-radius:14px;box-shadow:0 30px 70px #0006;display:flex;flex-direction:column;overflow:hidden}.modal-header{display:flex;align-items:center;justify-content:space-between;padding:17px 22px;border-bottom:1px solid var(--line)}.modal-header h2{margin:0;font-size:23px}.modal-body{overflow:auto;padding:22px 22px 80px}.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}.detail-item{padding:12px;background:var(--paper);border-radius:8px}.detail-item small{display:block;color:var(--muted);margin-bottom:5px}.detail-item strong{overflow-wrap:anywhere}.loading{display:inline-flex;gap:8px;align-items:center}.loading i{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:750px){.container{padding:22px 16px 160px}.nav-inner{padding:0 16px;min-height:62px}.brand{font-size:16px}.stats{grid-template-columns:1fr;gap:10px}.stat{padding:15px}.stat i{margin:0 13px 0 0}.stat strong{display:inline;font-size:25px}.stat span{display:block;margin-top:5px}.page-head{align-items:flex-start}.page-head h1{font-size:29px}.form-grid,.detail-grid{grid-template-columns:1fr}.search-filters{grid-template-columns:1fr 1fr}.search-filters input{grid-column:1/-1}.hero{padding:38px 22px}.modal-backdrop{padding:12px}.modal-body{padding-bottom:220px}.form-footer{align-items:stretch;flex-direction:column}.form-footer .btn{width:100%}}
+@media(max-width:480px){.search-filters{grid-template-columns:1fr}.search-filters input{grid-column:auto}.modal-backdrop.full-mobile{padding:0}.full-mobile .modal{width:100%;height:100dvh;max-height:100dvh;border-radius:0}.full-mobile .modal-body{padding-bottom:260px}}
+</style>
+</head>
+<body>
+<nav class="topbar" id="topbar"><div class="nav-inner"><button class="brand" id="brand" type="button"><i class="fa-solid fa-book-open-reader"></i><span data-i18n="appTitle">中考真题检索</span></button><div class="nav-spacer"></div><div class="nav-links" id="navLinks"><button type="button" data-page="home" data-i18n="home">首页</button><button type="button" data-page="search" data-i18n="search">检索真题</button><button type="button" data-page="records" data-i18n="records">检索记录</button></div><button class="lang-btn" id="langButton" type="button">EN</button><button class="hamburger" id="hamburger" type="button" aria-label="Menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div><div class="mobile-menu" id="mobileMenu"><button type="button" data-page="home" data-i18n="home">首页</button><button type="button" data-page="search" data-i18n="search">检索真题</button><button type="button" data-page="records" data-i18n="records">检索记录</button><button type="button" id="mobileLang">English</button></div></nav>
+<main class="container">
+<section class="page active" id="page-home"><div class="hero"><div class="eyebrow">EXAM PAPER ARCHIVE · 中考</div><h1 data-i18n="appTitle">中考真题检索</h1><p data-i18n="heroText">按省份城市、科目和年份检索下载各地中考真题，可选原卷或含答案版本，助力学生家长高效备考</p><button class="btn primary" type="button" id="heroSearch"><i class="fa-solid fa-magnifying-glass"></i> <span data-i18n="startNow">立即检索真题</span></button></div><div class="stats"><div class="stat"><i class="fa-solid fa-file-lines"></i><strong id="totalCount">—</strong><span data-i18n="total">已检索试卷</span></div><div class="stat"><i class="fa-solid fa-circle-check"></i><strong id="answerCount">—</strong><span data-i18n="answered">含答案试卷</span></div><div class="stat"><i class="fa-solid fa-layer-group"></i><strong id="subjectCount">—</strong><span data-i18n="subjectsCovered">覆盖科目</span></div></div><div class="section-head"><h2 data-i18n="recent">最近检索</h2><button class="btn small" type="button" id="allRecords" data-i18n="viewAll">查看全部</button></div><div id="recentList" class="paper-grid"></div></section>
+<section class="page" id="page-search"><div class="page-head"><div><h1 data-i18n="search">检索真题</h1><p data-i18n="searchDesc">填写省份城市、科目、年份与试卷版本，智能搜索并下载对应中考真题</p></div><button class="btn" id="goRecords" type="button" data-i18n="viewRecords">查看检索记录</button></div><div class="panel"><h2 data-i18n="search">检索真题</h2><form id="searchForm"><div class="form-grid"><div class="field"><label for="searchForm_city" data-i18n="city">省份城市</label><input id="searchForm_city" name="省份城市" type="text" autocomplete="address-level2" required></div><div class="field"><label for="searchForm_subject" data-i18n="subject">科目</label><select id="searchForm_subject" name="科目" required></select></div><div class="field"><label for="searchForm_year" data-i18n="year">年份</label><input id="searchForm_year" name="年份" type="number" min="1900" max="2100" step="1" required></div><div class="field"><label for="searchForm_version" data-i18n="version">是否含答案</label><select id="searchForm_version" name="是否含答案" required></select></div></div><div class="form-footer"><span class="hint" id="formHint" data-i18n="formHint">请填写所有检索条件</span><button class="btn primary" id="submitSearch" type="submit" disabled data-i18n="submit">开始检索</button></div></form><div class="hidden" id="editFileArea"></div></div><section id="resultSection" class="hidden"><div class="result-head"><h2 data-i18n="result">真题试卷</h2><div class="result-tools"><button class="btn small" id="newSearch" type="button" data-i18n="newSearch">+ 新检索</button><div class="pager"><button class="btn icon" id="previousRecord" type="button" aria-label="Previous">&lt;</button><span id="recordPosition" class="hint"></span><button class="btn icon" id="nextRecord" type="button" aria-label="Next">&gt;</button></div></div></div><div id="resultContent"></div></section></section>
+<section class="page" id="page-records"><div class="page-head"><div><h1 data-i18n="records">检索记录</h1><p data-i18n="recordsDesc">浏览、下载和管理全部中考真题检索历史</p></div><button class="btn primary" id="recordsNew" type="button" data-i18n="newSearch">+ 新检索</button></div><div class="search-filters"><input id="recordQuery" type="search" aria-label="Search"><select id="filterSubject" aria-label="Subject"></select><select id="filterYear" aria-label="Year"></select><select id="filterVersion" aria-label="Version"></select></div><div id="recordsList" class="paper-grid"></div></section>
+</main>
+<div id="modalLayer"></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("6a3c27bfc4e89115_中考真题检索")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const SOURCE='真题检索/默认表格', TABLE='真题检索';
+const FIELDS=['省份城市','科目','年份','是否含答案','真题文件'];
+const SUBJECTS=['语文','数学','英语','物理','化学','道德与法治','历史','地理','生物'];
+const COLORS={'语文':'#b04f4b','数学':'#3f719d','英语':'#8063a9','物理':'#478f9a','化学':'#578a68','道德与法治':'#af7545','历史':'#9c6753','地理':'#708953','生物':'#789451'};
+const LANG={cn:{appTitle:'中考真题检索',home:'首页',search:'检索真题',records:'检索记录',heroText:'按省份城市、科目和年份检索下载各地中考真题，可选原卷或含答案版本，助力学生家长高效备考',startNow:'立即检索真题',total:'已检索试卷',answered:'含答案试卷',subjectsCovered:'覆盖科目',recent:'最近检索',viewAll:'查看全部',searchDesc:'填写省份城市、科目、年份与试卷版本，智能搜索并下载对应中考真题',viewRecords:'查看检索记录',city:'省份城市',subject:'科目',year:'年份',version:'是否含答案',formHint:'请填写所有检索条件',submit:'开始检索',save:'保存修改',result:'真题试卷',newSearch:'+ 新检索',recordsDesc:'浏览、下载和管理全部中考真题检索历史',query:'搜索省份城市或科目',allSubjects:'全部科目',allYears:'全部年份',allVersions:'全部版本',hasAnswer:'含答案',original:'原卷版',ready:'可下载',detail:'查看详情',download:'下载试卷',open:'在线打开',edit:'编辑',delete:'删除',empty:'暂无检索记录',noMatch:'没有符合条件的记录',waiting:'正在为您搜索下载中考真题试卷，请稍候…',noFile:'文件尚未生成，请查看详情等待生成或重新检索',timeout:'等待超时，请稍后在检索记录中查看',confirmDelete:'确定删除这条检索记录？',cancel:'取消',close:'关闭',file:'真题文件',fileContent:'试卷内容',loading:'正在读取…',error:'操作失败',saved:'修改已保存',required:'请填写所有检索条件',missingLibrary:'Markdown 渲染组件加载失败',readError:'暂时无法读取文件内容',record:'第 {row} / {total} 条',saveError:'保存失败，请重试'},en:{appTitle:'Exam Paper Search',home:'Home',search:'Find Papers',records:'Search History',heroText:'Find and download past entrance exam papers by city, subject and year. Choose original papers or versions with answers.',startNow:'Find a Paper',total:'Papers Searched',answered:'With Answers',subjectsCovered:'Subjects Covered',recent:'Recent Searches',viewAll:'View All',searchDesc:'Enter a city, subject, year and paper version to find a past exam paper.',viewRecords:'View History',city:'Province / City',subject:'Subject',year:'Year',version:'Paper Version',formHint:'Complete all search fields',submit:'Start Search',save:'Save Changes',result:'Exam Paper',newSearch:'+ New Search',recordsDesc:'Browse, download and manage your exam paper history.',query:'Search city or subject',allSubjects:'All Subjects',allYears:'All Years',allVersions:'All Versions',hasAnswer:'With Answers',original:'Original',ready:'Download Ready',detail:'Details',download:'Download',open:'Open Online',edit:'Edit',delete:'Delete',empty:'No searches yet',noMatch:'No matching records',waiting:'Searching and downloading your exam paper, please wait…',noFile:'The file is not ready. Open details to wait or start a new search.',timeout:'Timed out. Check Search History later.',confirmDelete:'Delete this search record?',cancel:'Cancel',close:'Close',file:'Paper File',fileContent:'Paper Content',loading:'Loading…',error:'Operation failed',saved:'Changes saved',required:'Complete all search fields',missingLibrary:'Markdown renderer failed to load',readError:'File content could not be read',record:'Record {row} / {total}',saveError:'Save failed. Please try again.'}};
+const SUBJECT_EN={'语文':'Chinese','数学':'Math','英语':'English','物理':'Physics','化学':'Chemistry','道德与法治':'Civics','历史':'History','地理':'Geography','生物':'Biology'};
+let language='cn', page='home', historyStack=[], records=[], currentRow=0, recordCount=0, editMode=false, polling=false, pollToken=0, modalOpen=false, lastFocus=null, searchReady=false;
+const $=id=>document.getElementById(id), t=key=>LANG[language][key]||key;
+const safe=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function subjectName(s){return language==='en'?(SUBJECT_EN[s]||s):s}
+function versionName(s){return s==='含答案'?t('hasAnswer'):s==='原卷版'?t('original'):s}
+function bridge(req){return callAppBridge(req)}
+function rows(text){return parseCSV(String(text||''))}
+function filenameUrl(name,kind){return 'https://www.ithinkair.com:3031/'+kind+'/'+encodeURIComponent(String(name)).replace(/%2F/gi,'/')}
+function isHtml(name){return /\.html?(?:$|[?#])/i.test(name)}
+function setLanguage(lang){language=lang==='en'?'en':'cn';document.documentElement.lang=language==='en'?'en':'zh-CN';localStorage.setItem('iThinkAir_UiLanguage',language);document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));$('langButton').textContent=language==='cn'?'EN':'中文';$('mobileLang').textContent=language==='cn'?'English':'中文';$('searchForm_city').placeholder=language==='cn'?'例如：北京市、杭州市、成都市':'e.g. Beijing, Hangzhou';$('searchForm_year').placeholder=language==='cn'?'例如：2024':'e.g. 2024';$('recordQuery').placeholder=t('query');fillSelects();renderRecent();renderRecords();if(currentRow>0)renderCurrentRecord();updateSubmit();fitNavigation()}
+function fillSelects(){const subject=$('searchForm_subject').value,version=$('searchForm_version').value,filterS=$('filterSubject').value,filterY=$('filterYear').value,filterV=$('filterVersion').value;const option=(v,label)=>`<option value="${safe(v)}">${safe(label)}</option>`;$('searchForm_subject').innerHTML=option('',t('allSubjects'))+SUBJECTS.map(s=>option(s,subjectName(s))).join('');$('searchForm_version').innerHTML=option('',t('allVersions'))+['含答案','原卷版'].map(s=>option(s,versionName(s))).join('');$('filterSubject').innerHTML=option('',t('allSubjects'))+SUBJECTS.map(s=>option(s,subjectName(s))).join('');$('filterYear').innerHTML=option('',t('allYears'))+[...new Set(records.map(r=>r.year).filter(Boolean))].sort((a,b)=>Number(b)-Number(a)).map(y=>option(y,y)).join('');$('filterVersion').innerHTML=option('',t('allVersions'))+['含答案','原卷版'].map(s=>option(s,versionName(s))).join('');$('searchForm_subject').value=subject;$('searchForm_version').value=version;$('filterSubject').value=filterS;$('filterYear').value=filterY;$('filterVersion').value=filterV}
+function fitNavigation(){const nav=$('topbar').querySelector('.nav-inner'),links=$('navLinks'),lang=$('langButton'),hamb=$('hamburger');links.style.display='flex';lang.style.display='block';hamb.style.display='none';const over=nav.scrollWidth>nav.clientWidth+1;if(over){links.style.display='none';lang.style.display='none';hamb.style.display='block'}else closeMenu()}
+function closeMenu(){$('mobileMenu').classList.remove('open');$('hamburger').setAttribute('aria-expanded','false')}
+function showPage(next,remember=true){if(next===page){closeMenu();return}if(remember)historyStack.push({page,scroll:window.scrollY});document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id==='page-'+next));document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===next));page=next;closeMenu();window.scrollTo(0,0);if(next==='home')refreshHome();if(next==='records')refreshRecords()}
+function airBack(){if(modalOpen){closeModal();return 'false'}if($('mobileMenu').classList.contains('open')){closeMenu();return 'false'}if(historyStack.length){const prev=historyStack.pop();showPage(prev.page,false);requestAnimationFrame(()=>window.scrollTo(0,prev.scroll));return 'false'}return 'true'}window.airBack=airBack;
+function cardHTML(r,actions=false){const color=COLORS[r.subject]||'#ae4b42';return `<article class="paper-card" style="--subject:${color}" data-row="${r.row}" ${actions?'tabindex="0" role="button"':''}><span class="subject-bar"></span><div class="card-top"><span class="subject">${safe(subjectName(r.subject))}</span><span class="year">${safe(r.year)}</span></div><div class="city">${safe(r.city)}</div><div class="badges"><span class="badge">${safe(versionName(r.version))}</span>${r.file?`<span class="badge ready">${safe(t('ready'))}</span>`:''}</div>${actions?`<div class="actions"><button class="btn small" data-action="detail" type="button">${safe(t('detail'))}</button><button class="btn small" data-action="download" type="button">${safe(t('download'))}</button><button class="btn small" data-action="edit" type="button">${safe(t('edit'))}</button><button class="btn small" data-action="delete" type="button">${safe(t('delete'))}</button></div>`:''}</article>`}
+function renderRecent(){$('recentList').innerHTML=records.length?records.slice(0,5).map(r=>cardHTML(r)).join(''):`<div class="empty">${safe(t('empty'))}</div>`}
+function renderRecords(){const q=$('recordQuery').value.trim().toLocaleLowerCase(),s=$('filterSubject').value,y=$('filterYear').value,v=$('filterVersion').value;const list=records.filter(r=>(!q||(r.city+' '+r.subject+' '+subjectName(r.subject)).toLocaleLowerCase().includes(q))&&(!s||r.subject===s)&&(!y||r.year===y)&&(!v||r.version===v));$('recordsList').innerHTML=list.length?list.map(r=>cardHTML(r,true)).join(''):`<div class="empty">${safe(records.length?t('noMatch'):t('empty'))}</div>`}
+async function loadRecords(){const csv=await bridge({type:'GetTableCSV',data:SOURCE,payload:FIELDS.join(',')});records=rows(csv).filter(r=>r.length>=2).map((r,i)=>({row:i+1,city:r[0]||'',subject:r[1]||'',year:r[2]||'',version:r[3]||'',file:r[4]||''}));fillSelects();renderRecent();renderRecords()}
+async function refreshHome(){try{const [count,answerCsv,subjectCsv,recentCsv]=await Promise.all([bridge({type:'GetRecordCount',data:SOURCE}),bridge({type:'GetTableCSV',data:SOURCE,payload:'是否含答案'}),bridge({type:'GetTableCSV',data:SOURCE,payload:'科目'}),bridge({type:'GetTableCSV',data:SOURCE,payload:FIELDS.join(',')})]);recordCount=Number(count)||0;$('totalCount').textContent=recordCount;$('answerCount').textContent=rows(answerCsv).filter(r=>r[0]==='含答案').length;$('subjectCount').textContent=new Set(rows(subjectCsv).map(r=>r[0]).filter(Boolean)).size;records=rows(recentCsv).filter(r=>r.length>=2).map((r,i)=>({row:i+1,city:r[0]||'',subject:r[1]||'',year:r[2]||'',version:r[3]||'',file:r[4]||''}));renderRecent();fillSelects()}catch(e){$('recentList').innerHTML=`<div class="empty">${safe(t('error'))}: ${safe(e.message||e)}</div>`}}
+async function refreshRecords(){try{await loadRecords();recordCount=Number(await bridge({type:'GetRecordCount',data:SOURCE}))||records.length}catch(e){$('recordsList').innerHTML=`<div class="empty">${safe(t('error'))}: ${safe(e.message||e)}</div>`}}
+function formValues(){return {'省份城市':$('searchForm_city').value.trim(),'科目':$('searchForm_subject').value,'年份':$('searchForm_year').value.trim(),'是否含答案':$('searchForm_version').value}}
+function validValues(v){return v['省份城市']&&v['科目']&&v['年份']&&v['是否含答案']&&Number.isInteger(Number(v['年份']))&&Number(v['年份'])>=1900&&Number(v['年份'])<=2100}
+function updateSubmit(){const valid=!!validValues(formValues());$('submitSearch').disabled=!valid||polling;$('submitSearch').textContent=editMode?t('save'):t('submit');$('formHint').textContent=editMode?'':t('formHint')}
+function clearSearch(){pollToken++;polling=false;editMode=false;currentRow=0;$('searchForm').reset();$('resultSection').classList.add('hidden');$('resultContent').innerHTML='';$('editFileArea').classList.add('hidden');$('editFileArea').innerHTML='';updatePager();updateSubmit()}
+function statusHTML(message,error=false){return `<div class="status ${error?'error':''}">${error?'':`<span class="loading"><i class="fa-solid fa-spinner"></i></span> `}${safe(message)}</div>`}
+function updatePager(){$('recordPosition').textContent=currentRow?t('record').replace('{row}',currentRow).replace('{total}',recordCount):'';$('previousRecord').disabled=polling||currentRow<=1;$('nextRecord').disabled=polling||currentRow>=recordCount}
+async function getDetails(row){const values={row};for(const field of FIELDS){values[field]=await bridge({type:'GetCellValue',data:SOURCE,payload:field+'/'+row})}return {row,city:values['省份城市']||'',subject:values['科目']||'',year:values['年份']||'',version:values['是否含答案']||'',file:values['真题文件']||''}}
+function populateForm(r){$('searchForm_city').value=r.city;$('searchForm_subject').value=r.subject;$('searchForm_year').value=r.year;$('searchForm_version').value=r.version;updateSubmit()}
+async function readPaper(name){if(!name)return '';return await bridge({type:'ReadFile',data:name})}
+function markdownHTML(text){if(!window.marked||!window.DOMPurify)return `<p>${safe(t('missingLibrary'))}</p>`;const renderer=new marked.Renderer();renderer.image=function(token){const href=typeof token==='object'?token.href:token,alt=typeof token==='object'?token.text:'';let src=String(href||'');if(!/^(https?:|data:|blob:)/i.test(src))src=filenameUrl(src,'download');const clean=DOMPurify.sanitize(src,{ALLOWED_TAGS:[],ALLOWED_ATTR:[]});return `<a href="${safe(clean)}" download target="_blank" rel="noopener"><img src="${safe(clean)}" alt="${safe(alt)}"></a>`};const html=marked.parse(String(text||''),{gfm:true,breaks:true,renderer});return DOMPurify.sanitize(html,{ADD_ATTR:['download','target','rel']})}
+function fileButtons(name){if(!name)return '';return `<div class="file-actions"><a class="btn primary" href="${safe(filenameUrl(name,'download'))}" download target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> ${safe(t('download'))}</a><a class="btn ink" href="${safe(filenameUrl(name,'private'))}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${safe(t('open'))}</a></div>`}
+async function contentHTML(name){if(!name)return `<div class="status">${safe(t('noFile'))}</div>`;if(isHtml(name))return `<iframe class="html-frame" title="${safe(t('fileContent'))}" src="${safe(filenameUrl(name,'private'))}" loading="lazy"></iframe>`;try{const content=await readPaper(name);return `<div class="markdown-body">${markdownHTML(content)}</div>`}catch(e){return `<div class="status error">${safe(t('readError'))}</div>`}}
+async function renderCurrentRecord(r){if(!r){r=await getDetails(currentRow)}$('resultSection').classList.remove('hidden');updatePager();const target=$('resultContent');target.innerHTML=`<div class="result-paper"><h3 class="result-title">${safe(r.city)} · ${safe(r.year)} · ${safe(subjectName(r.subject))} · ${safe(versionName(r.version))}</h3>${fileButtons(r.file)}<div id="resultFileContent">${r.file?statusHTML(t('loading')):`<div class="status">${safe(t('noFile'))}</div>`}</div></div>`;if(r.file)$('resultFileContent').innerHTML=await contentHTML(r.file)}
+async function navigateRecord(direction){const next=currentRow+direction;if(next<1||next>recordCount||polling)return;currentRow=next;editMode=false;updateSubmit();$('resultContent').innerHTML=statusHTML(t('loading'));try{const r=await getDetails(next);populateForm(r);await renderCurrentRecord(r)}catch(e){$('resultContent').innerHTML=statusHTML(String(e.message||e),true)}}
+async function pollFile(row,token){const deadline=Date.now()+1800000;while(token===pollToken&&Date.now()<deadline){await new Promise(resolve=>setTimeout(resolve,1000));if(token!==pollToken)break;try{const name=String(await bridge({type:'GetCellValue',data:SOURCE,payload:'真题文件/'+row})||'').trim();if(name){polling=false;const r=await getDetails(row);updatePager();updateSubmit();if(currentRow===row)await renderCurrentRecord(r);await refreshHome();return}}catch(e){if(token===pollToken)$('resultContent').innerHTML=statusHTML(String(e.message||e),true)}}if(token===pollToken){polling=false;updatePager();updateSubmit();$('resultContent').innerHTML=statusHTML(t('timeout'),true)}}
+async function submitForm(event){event.preventDefault();if(polling)return;const values=formValues();if(!validValues(values)){alert(t('required'));return}const button=$('submitSearch');button.disabled=true;try{if(editMode&&currentRow>0){for(const field of FIELDS.slice(0,4)){await bridge({type:'SetCellValue',data:SOURCE,payload:field+'/'+currentRow+'/'+values[field]})}editMode=false;await refreshHome();const r=await getDetails(currentRow);await renderCurrentRecord(r);$('formHint').textContent=t('saved')}else{await bridge({type:'SubmitRecord',data:TABLE,payload:JSON.stringify(values)});currentRow=1;polling=true;const token=++pollToken;$('resultSection').classList.remove('hidden');$('resultContent').innerHTML=statusHTML(t('waiting'));recordCount=Number(await bridge({type:'GetRecordCount',data:SOURCE}))||1;updatePager();updateSubmit();pollFile(1,token)}}catch(e){$('formHint').textContent=t('saveError')+' '+String(e.message||e);$('resultContent').innerHTML=statusHTML(String(e.message||e),true);polling=false}finally{updateSubmit()}}
+async function openDetail(row){currentRow=row;lastFocus=document.activeElement;const layer=$('modalLayer');layer.innerHTML=`<div class="modal-backdrop full-mobile" id="detailBackdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal-header"><h2 id="detailTitle">${safe(t('detail'))}</h2><button class="btn icon" id="closeDetail" type="button" aria-label="${safe(t('close'))}"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body" id="detailBody">${statusHTML(t('loading'))}</div></div></div>`;modalOpen=true;updatePager();$('closeDetail').onclick=closeModal;$('detailBackdrop').onclick=e=>{if(e.target.id==='detailBackdrop')closeModal()};try{const r=await getDetails(row);if(!modalOpen)return;const pairs=[['city',r.city],['subject',subjectName(r.subject)],['year',r.year],['version',versionName(r.version)],['file',r.file]];let html=`<div class="detail-grid">${pairs.map(([key,value])=>`<div class="detail-item"><small>${safe(t(key))}</small><strong>${safe(value||'—')}</strong></div>`).join('')}</div>${fileButtons(r.file)}<h3>${safe(t('fileContent'))}</h3><div id="detailFileContent">${r.file?statusHTML(t('loading')):`<div class="status">${safe(t('noFile'))}</div>`}</div>`;$('detailBody').innerHTML=html;if(r.file)$('detailFileContent').innerHTML=await contentHTML(r.file)}catch(e){if(modalOpen)$('detailBody').innerHTML=statusHTML(String(e.message||e),true)}}
+function closeModal(){modalOpen=false;$('modalLayer').innerHTML='';if(lastFocus&&lastFocus.isConnected)lastFocus.focus()}
+async function editRecord(row){currentRow=row;editMode=true;showPage('search');$('resultSection').classList.remove('hidden');$('resultContent').innerHTML=statusHTML(t('loading'));try{const r=await getDetails(row);populateForm(r);$('editFileArea').classList.remove('hidden');$('editFileArea').innerHTML=r.file?fileButtons(r.file):`<div class="status">${safe(t('noFile'))}</div>`;await renderCurrentRecord(r)}catch(e){$('resultContent').innerHTML=statusHTML(String(e.message||e),true)}}
+async function deleteRecord(row){if(!confirm(t('confirmDelete')))return;try{await bridge({type:'DeleteRecord',data:SOURCE,payload:row.toString()});if(currentRow===row)clearSearch();await refreshHome();await refreshRecords()}catch(e){alert(t('error')+': '+String(e.message||e))}}
+function downloadRecord(row){const r=records.find(x=>x.row===row);if(r&&r.file)window.open(filenameUrl(r.file,'download'),'_blank','noopener');else alert(t('noFile'))}
+function determineLanguage(){try{const saved=localStorage.getItem('iThinkAir_UiLanguage');if(saved)return saved==='en'?'en':'cn'}catch(e){}const query=new URLSearchParams(location.search).get('lang');if(query==='cn'||query==='en')return query;const languages=navigator.languages;if(!languages||!languages.length)return 'cn';return languages.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en'}
+async function getMode(){try{const mode=await bridge({type:'模式'});document.body.classList.toggle('dark',String(mode).trim()==='暗色')}catch(e){document.body.classList.toggle('dark',matchMedia('(prefers-color-scheme: dark)').matches)}}
+function keepInputVisible(){const active=document.activeElement;if(!active||!active.matches('input,select,textarea'))return;setTimeout(()=>active.scrollIntoView({block:'center',behavior:'smooth'}),180)}
+async function initialize(){setLanguage(determineLanguage());document.querySelectorAll('[data-page]').forEach(button=>button.addEventListener('click',()=>showPage(button.dataset.page)));$('brand').onclick=()=>{if(parent&&typeof parent.closeFullHtml==='function')parent.closeFullHtml(false)};$('hamburger').onclick=()=>{const open=$('mobileMenu').classList.toggle('open');$('hamburger').setAttribute('aria-expanded',String(open))};document.addEventListener('click',e=>{if(!$('topbar').contains(e.target))closeMenu()});$('langButton').onclick=()=>setLanguage(language==='cn'?'en':'cn');$('mobileLang').onclick=()=>{setLanguage(language==='cn'?'en':'cn');closeMenu()};$('heroSearch').onclick=()=>showPage('search');$('allRecords').onclick=()=>showPage('records');$('goRecords').onclick=()=>showPage('records');$('recordsNew').onclick=()=>{clearSearch();showPage('search')};$('newSearch').onclick=()=>clearSearch();$('previousRecord').onclick=()=>navigateRecord(-1);$('nextRecord').onclick=()=>navigateRecord(1);$('searchForm').addEventListener('input',updateSubmit);$('searchForm').addEventListener('change',updateSubmit);$('searchForm').addEventListener('submit',submitForm);['recordQuery','filterSubject','filterYear','filterVersion'].forEach(id=>$(id).addEventListener(id==='recordQuery'?'input':'change',renderRecords));$('recentList').addEventListener('click',e=>{const card=e.target.closest('[data-row]');if(card)openDetail(Number(card.dataset.row))});$('recordsList').addEventListener('click',e=>{const card=e.target.closest('[data-row]');if(!card)return;const row=Number(card.dataset.row),action=e.target.closest('[data-action]')?.dataset.action;if(action==='detail')openDetail(row);else if(action==='download')downloadRecord(row);else if(action==='delete')deleteRecord(row);else editRecord(row)});$('recordsList').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.paper-card')){e.preventDefault();editRecord(Number(e.target.dataset.row))}});document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(modalOpen)closeModal();else closeMenu()}});document.addEventListener('focusin',e=>{if(e.target.matches('input,select,textarea'))keepInputVisible()});if(window.visualViewport)visualViewport.addEventListener('resize',keepInputVisible);window.addEventListener('resize',fitNavigation);if(window.ResizeObserver)new ResizeObserver(fitNavigation).observe($('topbar'));fitNavigation();getMode();await refreshHome()}
+document.addEventListener('DOMContentLoaded', () => { (async () => { await initialize(); })(); });
+</script>
+</body>
+</html>

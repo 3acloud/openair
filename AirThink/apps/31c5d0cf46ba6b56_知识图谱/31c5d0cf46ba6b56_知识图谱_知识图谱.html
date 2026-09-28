@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>知识星图工坊</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+:root{--bg:#0b1025;--bg2:#20132f;--panel:rgba(25,30,53,.83);--solid:#171c32;--text:#eeeaf5;--muted:#a5aac1;--gold:#e4bc74;--line:rgba(226,184,107,.23);--input:#10162c;--shadow:0 18px 60px #0003;--nav:rgba(13,18,39,.94)}
+:root[data-theme=light]{--bg:#f5f2eb;--bg2:#e8e6f4;--panel:rgba(255,255,255,.84);--solid:#faf8f3;--text:#272640;--muted:#68677a;--gold:#90651e;--line:rgba(139,99,33,.27);--input:#fff;--shadow:0 18px 60px #42335b13;--nav:rgba(248,246,241,.96)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:110px}body{margin:0;color:var(--text);font:15px/1.65 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse at 80% 5%,var(--bg2),transparent 65%),var(--bg);min-height:100vh}body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle,#d7b76b55 1px,transparent 1.5px),radial-gradient(circle,#a89ddc30 1px,transparent 1.5px);background-size:103px 113px,173px 157px;z-index:-1}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box;background:var(--input);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px;width:100%;min-width:0}textarea{min-height:130px;resize:vertical}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}button:focus-visible,a:focus-visible,[tabindex]:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:4px}a{color:var(--gold)}[hidden]{display:none!important}.fixed-header{position:fixed;inset:0 0 auto;z-index:1001}.navbar{position:relative;z-index:1001;background:var(--nav);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}.nav-inner{max-width:1280px;margin:auto;display:flex;align-items:center;gap:28px;padding:17px 28px}.brand{border:0;background:none;color:var(--gold);display:flex;align-items:center;gap:12px;white-space:nowrap;padding:0;font-family:Georgia,"Songti SC",serif;font-size:22px}.brand i{font-size:29px}.nav-links{display:flex;align-items:center;gap:8px;margin-left:auto;white-space:nowrap}.nav-tab,.lang,.icon-btn{border:0;background:none;color:var(--muted);border-radius:24px;padding:9px 16px;white-space:nowrap}.nav-tab.active{background:#d6ae6a17;color:var(--gold)}.lang{border:1px solid var(--line)}.hamburger{display:none;margin-left:auto}.navbar.compact .nav-links{display:none}.navbar.compact .hamburger{display:block}.mobile-menu{position:absolute;top:100%;left:0;right:0;padding:14px 22px;background:var(--solid);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}.mobile-menu button{display:block;width:100%;text-align:left;margin:4px 0}.container{max-width:1220px;margin:auto;padding:115px 28px 100px;min-width:0}.eyebrow{letter-spacing:.22em;color:var(--gold);font-size:11px;font-weight:600;text-transform:uppercase}h1,h2,h3{font-family:Georgia,"Songti SC","Noto Serif SC",serif;line-height:1.35;font-weight:500;margin:0}h1{font-size:clamp(32px,4.6vw,56px)}h2{font-size:25px}h3{font-size:20px}p{color:var(--muted)}.hero{text-align:center;padding:45px 0 54px;position:relative}.orbit{width:102px;height:102px;margin:0 auto 24px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;box-shadow:0 0 70px #e4bc7410;position:relative;color:var(--gold);font-size:38px}.orbit:before{content:"";position:absolute;inset:15px -23px;border:1px solid var(--line);border-radius:50%;transform:rotate(-30deg)}.hero h1{margin:12px 0}.hero p{max-width:700px;margin:18px auto 26px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:11px 21px;border:1px solid var(--line);border-radius:28px;color:var(--gold);background:transparent;text-decoration:none;line-height:1.5}.btn.primary{background:linear-gradient(110deg,#ecd094,#c99a51);color:#20182b;border-color:transparent;font-weight:650;box-shadow:0 5px 25px #c99a5115}.btn.danger{color:#e88e95}.btn.small{padding:6px 12px;font-size:12px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.stat{padding:23px 26px;display:flex;align-items:center;gap:18px}.stat i{color:var(--gold);font-size:22px;width:34px}.stat strong{display:block;font:36px Georgia,serif;color:var(--gold)}.stat span{font-size:13px;color:var(--muted)}.section-head,.page-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:35px 0 18px}.page-head{margin:8px 0 28px}.page-head p{margin-bottom:0;max-width:750px}.chips-scroll{display:flex;gap:10px;overflow-x:auto;padding:5px 2px 16px;scrollbar-width:thin}.chip{white-space:nowrap;display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:24px;padding:10px 16px;background:var(--panel);color:var(--text)}.chip small{color:var(--gold);font-size:11px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.record{padding:23px;min-width:0;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}.record:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 0 24px #dcac6020}.record .record-icon{width:39px;height:39px;display:grid;place-items:center;background:#c9a86b12;color:var(--gold);border:1px solid var(--line);border-radius:12px;margin-bottom:18px}.record h3{overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:54px}.badges{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}.badge{font-size:11px;border:1px solid var(--line);border-radius:5px;padding:3px 8px;color:var(--muted)}.record-foot{font-size:12px;color:var(--muted);min-height:23px}.actions{display:flex;flex-wrap:wrap;gap:7px}.record .actions{margin-top:18px;padding-top:15px;border-top:1px solid var(--line)}.empty{text-align:center;padding:55px 20px;grid-column:1/-1}.empty i{font-size:44px;color:var(--gold);margin-bottom:12px}.forge-panel{padding:30px}.form-field{margin:0 0 28px;min-width:0}.form-field>label,.field-title{display:block;margin-bottom:10px;font-weight:600}.required{color:var(--gold)}.hint{font-size:12px;color:var(--muted);margin:8px 0}.file-line{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.file-line input{flex:1;min-width:180px}.template-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.choice{position:relative;display:block;cursor:pointer;min-width:0}.choice input{position:absolute;opacity:0;width:1px;height:1px}.choice .choice-body{display:block;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:var(--input);height:100%;transition:border-color .15s}.choice input:checked+.choice-body{border-color:var(--gold);background:#d3aa6614;box-shadow:inset 0 0 0 1px var(--gold)}.choice input:focus-visible+.choice-body{outline:2px solid var(--gold);outline-offset:2px}.choice strong{font-size:14px;font-weight:500}.choice small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.choice i{color:var(--gold);margin-right:8px}.sizes{display:grid;grid-template-columns:1fr 1fr;gap:14px}.sizes .choice-body{display:flex;gap:17px;align-items:center;padding:20px}.device{width:33px;height:51px;border:2px solid var(--gold);border-radius:7px;flex-shrink:0;position:relative}.device.desktop{width:65px;height:40px;border-radius:5px}.device:after{content:"";position:absolute;inset:7px;background:repeating-linear-gradient(0deg,#ceaa6c22 0 3px,transparent 3px 8px)}.form-footer{display:flex;justify-content:space-between;align-items:center;gap:18px;border-top:1px solid var(--line);padding-top:22px}.form-footer .hint{max-width:650px}fieldset{border:0;margin:0;padding:0;min-width:0}.stage{padding:24px}.stage-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}.canvas{border:1px solid var(--line);border-radius:14px;background:#080d1d;overflow:hidden;min-width:0}.canvas.mobile{width:min(100%,414px);padding:10px;border:2px solid #5c5470;border-radius:30px;margin:auto;background:#111324}.canvas iframe{display:block;width:100%;height:720px;min-height:720px;border:0;background:white}.canvas.mobile iframe{height:844px;min-height:0;border-radius:19px}.waiting{text-align:center;padding:75px 20px;color:var(--muted)}.waiting i{display:block;font-size:36px;color:var(--gold);margin-bottom:20px}.summary{display:grid;grid-template-columns:110px minmax(0,1fr);gap:9px 15px;font-size:14px;overflow-wrap:anywhere;margin:25px 0}.summary dt{color:var(--muted)}.summary dd{margin:0}.stage-bottom,.pager{display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-top:22px;flex-wrap:wrap}.pager span{font-size:12px;color:var(--muted)}.filters{display:flex;gap:12px;align-items:center;padding:16px;margin-bottom:23px;flex-wrap:wrap}.search{flex:2;min-width:190px}.filters select{flex:1;min-width:160px}.view-switch{display:flex;gap:5px}.view-switch .active{background:#d4ac6b22;color:var(--gold)}.table-wrap{overflow-x:auto;max-width:100%;border-radius:18px;border:1px solid var(--line)}table{width:100%;min-width:790px;border-collapse:collapse;background:var(--panel);text-align:left}th,td{padding:17px 19px;border-bottom:1px solid var(--line)}th{font-size:12px;color:var(--muted);font-weight:500}td{font-size:14px;max-width:300px;overflow-wrap:anywhere}tbody tr{cursor:pointer}tbody tr:hover{background:#d8b3710c}.results-label{font-size:12px;color:var(--muted);margin:12px 0}.overlay{position:fixed;inset:0;z-index:2100;background:#030712b8;backdrop-filter:blur(8px);display:grid;place-items:center;padding:26px}.dialog{width:min(1100px,100%);max-height:calc(100dvh - 52px);background:var(--solid);border:1px solid var(--line);border-radius:22px;overflow:auto;box-shadow:0 30px 100px #0007;overscroll-behavior:contain;scroll-padding-bottom:100px}.dialog-header{position:sticky;top:0;z-index:2;background:var(--solid);border-bottom:1px solid var(--line);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px}.dialog-header h2{font-size:22px;overflow-wrap:anywhere}.dialog-content{padding:24px}.dialog.narrow{width:min(620px,100%)}.dialog-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:24px;flex-wrap:wrap}.notice{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:5000;background:var(--solid);color:var(--text);border:1px solid var(--gold);border-radius:14px;padding:14px 23px;max-width:calc(100% - 32px);box-shadow:var(--shadow);overflow-wrap:anywhere}.error-banner{border:1px solid #d88484;padding:15px;border-radius:12px;margin:0 0 20px;color:var(--text)}.footer{text-align:center;color:var(--muted);font-size:11px;letter-spacing:.14em;margin-top:50px}.loading{color:var(--muted);padding:35px;text-align:center}.more{display:flex;justify-content:center;margin-top:25px}body.modal-open{overflow:hidden}@media(max-width:900px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.template-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nav-inner{gap:10px}.brand{font-size:19px}.nav-tab{padding:9px 11px}}@media(max-width:600px){.container{padding:99px 16px 180px}.nav-inner{padding:15px 17px}.hero{padding:22px 0 36px}.hero h1{font-size:35px}.stats{gap:8px}.stat{padding:15px 9px;display:block;text-align:center}.stat i{font-size:17px}.stat strong{font-size:29px;margin:6px 0}.stat span{font-size:10px}.cards{grid-template-columns:1fr}.page-head{align-items:flex-start;flex-direction:column}.page-head h1{font-size:33px}.forge-panel,.stage{padding:18px}.template-grid{gap:8px}.choice .choice-body{padding:12px 10px}.choice strong{font-size:12px}.sizes .choice-body{flex-direction:column;align-items:flex-start;padding:15px}.form-footer{align-items:stretch;flex-direction:column}.form-footer .btn{width:100%}.stage-head{align-items:flex-start;flex-direction:column}.overlay{padding:14px}.dialog{max-height:calc(100dvh - 28px);border-radius:17px}.overlay.preview{padding:0}.preview .dialog{width:100%;height:100dvh;max-height:100dvh;border-radius:0}.dialog-content{padding:17px 17px 180px}.dialog-header{padding:16px}.summary{grid-template-columns:80px minmax(0,1fr)}.filters{padding:12px}.filters select{min-width:130px}.section-head h2{font-size:21px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="fixed-header"><nav id="navbar" class="navbar"><div id="nav-inner" class="nav-inner"><button id="brand" class="brand"><i class="fa-solid fa-star-of-david" aria-hidden="true"></i><span data-zh="知识星图工坊" data-en="Knowledge Atlas">知识星图工坊</span></button><div id="nav-links" class="nav-links"></div><button id="menu-toggle" class="icon-btn hamburger" aria-controls="mobile-menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div><div id="mobile-menu" class="mobile-menu" hidden></div></nav></div>
+<main class="container">
+<div id="load-error" class="error-banner" role="alert" hidden></div>
+<section id="page-home" aria-labelledby="home-title"><div class="hero"><div class="orbit" aria-hidden="true"><i class="fa-solid fa-star-of-david"></i></div><div class="eyebrow">THE KNOWLEDGE ATELIER</div><h1 id="home-title" data-zh="把任何主题，锻造成一张星图" data-en="Turn any subject into a constellation."></h1><p data-zh="检索、整合并生成精美 HTML 知识卡片与知识图谱，十七种版面，手机一屏与桌面默认两种尺寸" data-en="Explore, connect and craft beautiful HTML knowledge cards and maps. Seventeen layouts, for mobile and desktop."></p><button class="btn primary" data-page="forge"><i class="fa-solid fa-wand-magic-sparkles"></i><span data-zh="开始锻造图谱" data-en="Create your atlas"></span><i class="fa-solid fa-arrow-right"></i></button></div>
+<div class="stats"><div class="panel stat"><i class="fa-solid fa-diagram-project"></i><div><strong id="count-total">—</strong><span data-zh="图谱总数" data-en="Total atlases"></span></div></div><div class="panel stat"><i class="fa-solid fa-mobile-screen"></i><div><strong id="count-mobile">—</strong><span data-zh="手机一屏" data-en="Mobile screen"></span></div></div><div class="panel stat"><i class="fa-solid fa-desktop"></i><div><strong id="count-desktop">—</strong><span data-zh="默认版" data-en="Desktop"></span></div></div></div>
+<div class="section-head"><h2 data-zh="版面星谱" data-en="A constellation of layouts"></h2><span class="eyebrow">EXPLORE THE PATTERNS</span></div><div id="layout-chips" class="chips-scroll"></div>
+<div class="section-head"><h2 data-zh="最近星图" data-en="Recent constellations"></h2><button class="btn small" data-page="archive"><span data-zh="查看全部" data-en="View all"></span><i class="fa-solid fa-arrow-right"></i></button></div><div id="recent" class="cards"></div></section>
+<section id="page-forge" hidden aria-labelledby="forge-title"><div class="page-head"><div><div class="eyebrow">CREATE & CONNECT</div><h1 id="forge-title" data-zh="锻造图谱" data-en="Forge an atlas"></h1><p data-zh="填写主题、可选上传资料，选择版面与尺寸，提交后由知识图谱技能异步生成精美 HTML" data-en="Add a subject and optional source file, choose a layout and size, then let the knowledge graph skill craft your HTML atlas."></p></div><button class="btn" data-page="archive"><span data-zh="查看典藏" data-en="View collection"></span></button></div>
+<div id="forge-form-wrap" class="panel forge-panel"><form id="forge-form"><fieldset id="forge-fields"></fieldset><div class="form-footer"><p class="hint" data-zh="从一个问题出发，让知识彼此连接。" data-en="Start with a question. Discover how knowledge connects."></p><button id="forge-submit" class="btn primary" type="submit" disabled><i class="fa-solid fa-fire-flame-curved"></i><span data-zh="点燃星图" data-en="Ignite the atlas"></span></button></div></form></div>
+<div id="generation-stage" class="panel stage" hidden><div class="stage-head"><h2 data-zh="星图画布" data-en="Atlas canvas"></h2><div id="stage-tools" class="actions"></div></div><div id="stage-content" aria-live="polite"></div><div id="stage-summary"></div><div class="stage-bottom"><button id="forge-again" class="btn"><i class="fa-solid fa-plus"></i><span data-zh="再锻一张" data-en="Forge another"></span></button></div></div>
+<div id="history-pager" class="pager" hidden><button id="history-prev" class="btn small"><span data-zh="〈 上一张" data-en="〈 Previous"></span></button><span id="history-position"></span><button id="history-next" class="btn small"><span data-zh="下一张 〉" data-en="Next 〉"></span></button></div></section>
+<section id="page-archive" hidden aria-labelledby="archive-title"><div class="page-head"><div><div class="eyebrow">YOUR GROWING UNIVERSE</div><h1 id="archive-title" data-zh="图谱典藏" data-en="Atlas collection"></h1><p data-zh="浏览、预览与管理已锻造的知识星图" data-en="Browse, preview and manage your knowledge constellations."></p></div><button class="btn primary" data-page="forge"><i class="fa-solid fa-plus"></i><span data-zh="锻造新星图" data-en="Forge a new atlas"></span></button></div>
+<div class="panel filters"><input id="archive-search" class="search" type="search" data-placeholder-zh="搜索主题…" data-placeholder-en="Search subjects…"><select id="filter-layout"></select><select id="filter-size"></select><div class="view-switch"><button id="view-cards" class="icon-btn active" aria-pressed="true"><i class="fa-solid fa-grip"></i></button><button id="view-table" class="icon-btn" aria-pressed="false"><i class="fa-solid fa-list"></i></button></div><button id="refresh" class="icon-btn"><i class="fa-solid fa-rotate-right"></i></button></div><div id="results-label" class="results-label" aria-live="polite"></div><div id="archive-content"></div><div id="archive-more" class="more" hidden><button id="show-more" class="btn"><span data-zh="查看更多" data-en="Show more"></span></button></div></section>
+<div class="footer"> &nbsp; <span data-zh="知识星图工坊 · 让好奇心成为坐标" data-en="KNOWLEDGE ATLAS · LET CURIOSITY BE YOUR COMPASS"></span> &nbsp; </div>
+</main>
+<div id="modal-root"></div><div id="notice" class="notice" role="status" hidden></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("31c5d0cf46ba6b56_知识图谱")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const SOURCE='知识图谱/默认表格';
+const FIELDS=['主题','资料文件','版面模板','画面尺寸'];
+const layouts=[
+['自动推荐','Automatic','智能匹配主题','Let the subject choose','wand-magic-sparkles'],
+['经典卡片','Classic cards','重点一目了然','Key ideas at a glance','id-card'],
+['列表清单','Checklist','要点逐条展开','Ideas in a clear sequence','list-check'],
+['左右双栏','Two columns','双线并行阅读','Two parallel perspectives','columns'],
+['信息图','Infographic','让数据成为图像','Make information visual','chart-pie'],
+['时间线','Timeline','按年代铺陈','Follow the chronology','timeline'],
+['对比表','Comparison','差异并排呈现','Compare side by side','table-columns'],
+['多分类网格卡片','Category grid','分门别类归纳','Group ideas by category','grip'],
+['综合知识海报','Knowledge poster','全景浓缩知识','The big picture in one place','newspaper'],
+['中心辐射','Radial map','核心概念向外扩散','Expand from a central idea','sun'],
+['层级树','Hierarchy','从主干走向分支','From roots to branches','sitemap'],
+['环形轨道','Orbital map','概念环绕中心','Ideas orbit a shared center','circle-nodes'],
+['流程链','Process chain','循序展示步骤','Trace every step','diagram-next'],
+['左右汇聚','Convergence','多路知识汇成一点','Bring perspectives together','code-merge'],
+['网状矩阵','Network matrix','洞察交叉连接','Explore cross-connections','table-cells'],
+['思维导图','Mind map','沿着思路生长','Grow a branching thought','brain'],
+['混合/组合图','Hybrid map','多种结构融为一体','Combine complementary structures','shapes'],
+['地铁图','Metro map','线路换乘式知识','Knowledge as connecting routes','train-subway']
+];
+let lang='cn',page='home',historyStack=[],records=[],recordCount=0,loaded=false,view='cards',limit=12,currentRow=0;
+let stageRecord=null,generating=false,mutation=false,historyBusy=false,pollToken=0,stageStatus='idle',stageError='',modalStack=[],modalSerial=0,refreshSerial=0;
+let distribution={},sizeCounts={mobile:0,desktop:0},noticeTimer,menuFrame;
+const $=id=>document.getElementById(id);
+const t=(zh,en)=>lang==='cn'?zh:en;
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const txt=(zh,en)=>'<span data-zh="'+esc(zh)+'" data-en="'+esc(en)+'">'+esc(t(zh,en))+'</span>';
+const labelFor=v=>{const item=layouts.find(x=>x[0]===v);return item?t(item[0],item[1]):v==='手机一屏'?t(v,'Mobile screen'):v==='默认版'?t(v,'Desktop'):v;};
+const fieldLabel=v=>t(v,({'主题':'Subject','资料文件':'Source file','版面模板':'Layout','画面尺寸':'Canvas size'})[v]||v);
+const fileURL=(file,download=false)=>'https://www.ithinkair.com:3031/'+(download?'download/':'private/')+encodeURIComponent(file);
+function notify(message){clearTimeout(noticeTimer);$('notice').textContent=message;$('notice').hidden=false;noticeTimer=setTimeout(()=>$('notice').hidden=true,6500);}
+function errorText(error){return t('操作失败：','Operation failed: ')+(error?.message||String(error));}
+async function api(type,payload,data=SOURCE){const req={type,data};if(payload!==undefined)req.payload=String(payload);return await callAppBridge(req);}
+function detectLanguage(){
+ let stored;try{stored=localStorage.getItem('iThinkAir_UiLanguage');}catch(e){}
+ if(stored)return stored==='en'?'en':'cn';
+ const query=new URLSearchParams(location.search).get('lang');if(query==='cn'||query==='en')return query;
+ try{const ls=navigator.languages;if(!ls||!ls.length)return 'cn';return Array.from(ls).some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en';}catch(e){return 'cn';}
+}
+function translate(root=document){
+ root.querySelectorAll('[data-zh]').forEach(el=>el.textContent=el.dataset[lang==='cn'?'zh':'en']);
+ root.querySelectorAll('[data-placeholder-zh]').forEach(el=>el.placeholder=el.dataset[lang==='cn'?'placeholderZh':'placeholderEn']);
+}
+function renderNav(){
+ const html=['home','forge','archive'].map((key,i)=>'<button class="nav-tab '+(page===key?'active':'')+'" data-page="'+key+'" '+(page===key?'aria-current="page"':'')+'>'+[t('首页','Home'),t('锻造图谱','Forge atlas'),t('图谱典藏','Collection')][i]+'</button>').join('')+'<button class="lang" data-action="language"><i class="fa-solid fa-language"></i> '+t('English','中文')+'</button>';
+ $('nav-links').innerHTML=html;$('mobile-menu').innerHTML=html;$('menu-toggle').setAttribute('aria-label',t('打开导航菜单','Open navigation menu'));
+ fitNav();
+}
+function fitNav(){
+ cancelAnimationFrame(menuFrame);menuFrame=requestAnimationFrame(()=>{
+ const nav=$('navbar'),links=$('nav-links');nav.classList.remove('compact');
+ const needed=$('brand').getBoundingClientRect().width+links.scrollWidth+84;
+ nav.classList.toggle('compact',needed>$('nav-inner').clientWidth);
+ if(!nav.classList.contains('compact'))closeMenu();
+ });
+}
+function closeMenu(){$('mobile-menu').hidden=true;$('menu-toggle').setAttribute('aria-expanded','false');}
+function navigate(next,remember=true){
+ closeMenu();if(next===page)return;
+ if(remember)historyStack.push({page,scroll:window.scrollY});
+ $('page-'+page).hidden=true;page=next;$('page-'+page).hidden=false;renderNav();window.scrollTo(0,0);
+}
+window.airBack=function(){
+ if(modalStack.length){closeModal(modalStack[modalStack.length-1],true);return 'false';}
+ if(!$('mobile-menu').hidden){closeMenu();return 'false';}
+ if(historyStack.length){const previous=historyStack.pop();navigate(previous.page,false);requestAnimationFrame(()=>window.scrollTo(0,previous.scroll));return 'false';}
+ return 'true';
+};
+function forms(prefix){
+ return '<div class="form-field"><label for="'+prefix+'-subject">'+txt('主题','Subject')+' <span class="required">*</span></label><textarea id="'+prefix+'-subject" name="主题" required data-placeholder-zh="例如：量子纠缠、唐代茶文化、强化学习从入门到直觉…" data-placeholder-en="For example: quantum entanglement, Tang dynasty tea culture, an intuitive guide to reinforcement learning…"></textarea></div>'+
+ '<div class="form-field"><label for="'+prefix+'-file">'+txt('资料文件','Source file')+'</label><div class="file-line"><input id="'+prefix+'-file" name="资料文件" readonly data-placeholder-zh="未选择资料（可选）" data-placeholder-en="No file selected (optional)"><button type="button" class="btn small" data-action="select-file" data-form="'+prefix+'"><i class="fa-solid fa-paperclip"></i>'+txt('选择资料','Choose file')+'</button><button type="button" class="btn small" data-action="clear-file" data-form="'+prefix+'">'+txt('清除资料','Clear')+'</button></div></div>'+
+ '<div class="form-field"><div class="field-title" id="'+prefix+'-layout-label">'+txt('版面模板','Layout')+'</div><div class="template-grid" role="radiogroup" aria-labelledby="'+prefix+'-layout-label">'+layouts.map((x,i)=>'<label class="choice" for="'+prefix+'-layout-'+i+'"><input id="'+prefix+'-layout-'+i+'" name="版面模板" type="radio" value="'+esc(x[0])+'" '+(i===0?'checked':'')+'><span class="choice-body"><strong><i class="fa-solid fa-'+x[4]+'"></i>'+txt(x[0],x[1])+'</strong><small data-zh="'+esc(x[2])+'" data-en="'+esc(x[3])+'">'+esc(t(x[2],x[3]))+'</small></span></label>').join('')+'</div></div>'+
+ '<div class="form-field"><div class="field-title" id="'+prefix+'-size-label">'+txt('画面尺寸','Canvas size')+'</div><div class="sizes" role="radiogroup" aria-labelledby="'+prefix+'-size-label">'+[['手机一屏','Mobile screen','窄屏紧凑','Compact & focused'],['默认版','Desktop','桌面宽幅','Room to explore']].map((x,i)=>'<label class="choice" for="'+prefix+'-size-'+i+'"><input id="'+prefix+'-size-'+i+'" type="radio" name="画面尺寸" value="'+x[0]+'" '+(i===1?'checked':'')+'><span class="choice-body"><span class="device '+(i?'desktop':'')+'"></span><span><strong>'+txt(x[0],x[1])+'</strong><small>'+txt(x[2],x[3])+'</small></span></span></label>').join('')+'</div></div>';
+}
+function formValues(id){const form=$(id),fd=new FormData(form),obj={};for(const field of FIELDS)obj[field]=String(fd.get(field)||'');obj['主题']=obj['主题'].trim();return obj;}
+function fillForm(id,record){const form=$(id);for(const field of FIELDS){const inputs=Array.from(form.elements).filter(x=>x.name===field);for(const input of inputs){if(input.type==='radio')input.checked=input.value===record[field];else input.value=record[field]||'';}}}
+function emptyHTML(filtered=false){return '<div class="panel empty"><i class="fa-solid fa-star-of-david"></i><h3>'+t(filtered?'没有匹配的星图':'你的星空，等待第一束光',filtered?'No matching atlases':'Your first constellation awaits')+'</h3><p>'+t(filtered?'试试其他主题或筛选条件。':'把好奇的主题，变成值得收藏的知识。',filtered?'Try another subject or filter.':'Turn curiosity into knowledge worth keeping.')+'</p><button class="btn primary" '+(filtered?'data-action="reset-filters"':'data-page="forge"')+'>'+t(filtered?'清除筛选':'锻造第一张星图',filtered?'Clear filters':'Forge your first atlas')+'</button></div>';}
+function rowActions(row){return '<div class="actions">'+[['preview','eye',t('预览','Preview')],['edit','pen',t('编辑','Edit')],['delete','trash-can',t('删除','Delete')]].map(x=>'<button class="btn small" data-action="'+x[0]+'" data-row="'+row+'"><i class="fa-solid fa-'+x[1]+'"></i>'+x[2]+'</button>').join('')+'</div>';}
+function cardHTML(r,actions=true){return '<article class="panel record" tabindex="0" role="button" data-action="preview" data-row="'+r.row+'" aria-label="'+esc(t('预览：','Preview: ')+r['主题'])+'"><div class="record-icon"><i class="fa-solid fa-diagram-project"></i></div><h3>'+esc(r['主题']||t('未命名星图','Untitled atlas'))+'</h3><div class="badges"><span class="badge">'+esc(labelFor(r['版面模板']))+'</span><span class="badge">'+esc(labelFor(r['画面尺寸']))+'</span></div><div class="record-foot">'+(r['资料文件']?'<i class="fa-solid fa-paperclip"></i> '+t('含资料','Source included'):'')+'</div>'+(actions?rowActions(r.row):'')+'</article>';}
+function renderHome(){
+ $('count-total').textContent=loaded?recordCount:'—';$('count-mobile').textContent=loaded?sizeCounts.mobile:'—';$('count-desktop').textContent=loaded?sizeCounts.desktop:'—';
+ $('layout-chips').innerHTML=layouts.map(x=>'<button class="chip" data-action="layout-filter" data-value="'+esc(x[0])+'">'+esc(labelFor(x[0]))+'<small>'+ (loaded?(distribution[x[0]]||0):'—')+'</small></button>').join('');
+ $('recent').innerHTML=loaded?(records.length?records.slice(0,6).map(r=>cardHTML(r,false)).join(''):emptyHTML()):'<div class="loading">'+t('正在读取星图…','Loading atlases…')+'</div>';
+}
+function renderFilters(){
+ const layout=$('filter-layout').value,size=$('filter-size').value;
+ $('filter-layout').innerHTML='<option value="">'+t('所有版面','All layouts')+'</option>'+layouts.map(x=>'<option value="'+esc(x[0])+'">'+esc(labelFor(x[0]))+'</option>').join('');
+ $('filter-size').innerHTML='<option value="">'+t('所有尺寸','All sizes')+'</option><option value="手机一屏">'+t('手机一屏','Mobile screen')+'</option><option value="默认版">'+t('默认版','Desktop')+'</option>';
+ $('filter-layout').value=layout;$('filter-size').value=size;
+ for(const [id,zh,en] of [['archive-search','搜索主题','Search subjects'],['filter-layout','筛选版面','Filter by layout'],['filter-size','筛选尺寸','Filter by size'],['view-cards','卡片视图','Card view'],['view-table','表格视图','Table view'],['refresh','刷新数据','Refresh data']]){$(id).setAttribute('aria-label',t(zh,en));$(id).title=t(zh,en);}
+}
+function renderArchive(){
+ const search=$('archive-search').value.trim().toLocaleLowerCase(),layout=$('filter-layout').value,size=$('filter-size').value;
+ const filtered=records.filter(r=>(!search||r['主题'].toLocaleLowerCase().includes(search))&&(!layout||r['版面模板']===layout)&&(!size||r['画面尺寸']===size));
+ const shown=filtered.slice(0,limit);$('results-label').textContent=loaded?t('共 '+filtered.length+' 张星图 · 已显示 '+shown.length+' 张',filtered.length+' atlases · '+shown.length+' shown'):'';
+ $('archive-more').hidden=!loaded||filtered.length<=limit;
+ $('view-cards').classList.toggle('active',view==='cards');$('view-table').classList.toggle('active',view==='table');
+ $('view-cards').setAttribute('aria-pressed',String(view==='cards'));$('view-table').setAttribute('aria-pressed',String(view==='table'));
+ if(!loaded){$('archive-content').innerHTML='<div class="loading">'+t('正在读取典藏…','Loading collection…')+'</div>';return;}
+ if(!shown.length){$('archive-content').innerHTML=emptyHTML(records.length>0);return;}
+ if(view==='cards')$('archive-content').innerHTML='<div class="cards">'+shown.map(r=>cardHTML(r)).join('')+'</div>';
+ else $('archive-content').innerHTML='<div class="table-wrap"><table><thead><tr>'+FIELDS.map(f=>'<th scope="col">'+fieldLabel(f)+'</th>').join('')+'<th scope="col">'+t('操作','Actions')+'</th></tr></thead><tbody>'+shown.map(r=>'<tr tabindex="0" data-action="preview" data-row="'+r.row+'">'+FIELDS.map(f=>'<td>'+esc(f==='版面模板'||f==='画面尺寸'?labelFor(r[f]):r[f]||'—')+'</td>').join('')+'<td>'+rowActions(r.row)+'</td></tr>').join('')+'</tbody></table></div>';
+}
+async function refreshData(){
+ const serial=++refreshSerial;$('refresh').disabled=true;
+ try{
+ const result=await Promise.all([api('GetRecordCount'),api('GetTableCSV','画面尺寸'),api('GetTableCSV','版面模板'),api('GetTableCSV',FIELDS.join(','))]);
+ if(serial!==refreshSerial)return;
+ const count=Number(String(result[0]).trim());if(!Number.isInteger(count)||count<0)throw Error(t('记录数格式无效','Invalid record count'));
+ const nextRecords=parseCSV(String(result[3]||'')).map((values,index)=>{const r={row:index+1};FIELDS.forEach((f,i)=>r[f]=values[i]||'');return r;});
+ recordCount=count;records=nextRecords;sizeCounts={mobile:0,desktop:0};distribution={};
+ for(const row of parseCSV(String(result[1]||''))){if(row[0]==='手机一屏')sizeCounts.mobile++;if(row[0]==='默认版')sizeCounts.desktop++;}
+ for(const row of parseCSV(String(result[2]||'')))distribution[row[0]]=(distribution[row[0]]||0)+1;
+ loaded=true;$('load-error').hidden=true;renderHome();renderArchive();renderPager();
+ }catch(error){if(serial!==refreshSerial)return;$('load-error').hidden=false;$('load-error').textContent=t('数据加载失败，请点击典藏页刷新按钮重试。','Data could not be loaded. Use Refresh in the collection to retry.')+' '+errorText(error);notify(errorText(error));}
+ finally{if(serial===refreshSerial)$('refresh').disabled=false;}
+}
+async function readRecord(row,includeGraph=true){const r={row};for(const field of includeGraph?[...FIELDS,'图谱文件']:FIELDS)r[field]=String(await api('GetCellValue',field+'/'+row)||'');return r;}
+function summaryHTML(r){return '<dl class="summary">'+FIELDS.filter(f=>f!=='资料文件'||r[f]).map(f=>'<dt>'+fieldLabel(f)+'</dt><dd>'+esc(f==='版面模板'||f==='画面尺寸'?labelFor(r[f]):r[f]||'—')+'</dd>').join('')+'</dl>';}
+function canvasHTML(r){return '<div class="canvas '+(r['画面尺寸']==='手机一屏'?'mobile':'')+'"><iframe title="'+esc(t('星图预览','Atlas preview'))+'" src="'+esc(fileURL(r['图谱文件']))+'" sandbox="allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer"></iframe></div>';}
+function fileActions(r){let s='';if(r['图谱文件'])s+='<a class="btn small" target="_blank" rel="noopener noreferrer" href="'+esc(fileURL(r['图谱文件']))+'"><i class="fa-solid fa-up-right-from-square"></i>'+t('新窗口打开','Open in new window')+'</a><a class="btn small" target="_blank" rel="noopener noreferrer" href="'+esc(fileURL(r['图谱文件'],true))+'"><i class="fa-solid fa-download"></i>'+t('下载星图','Download atlas')+'</a>';if(r['资料文件'])s+='<a class="btn small" target="_blank" rel="noopener noreferrer" href="'+esc(fileURL(r['资料文件'],true))+'"><i class="fa-solid fa-paperclip"></i>'+t('下载资料','Download source')+'</a>';return s;}
+function renderStage(){
+ if(!stageRecord)return;$('forge-form-wrap').hidden=true;$('generation-stage').hidden=false;
+ $('stage-tools').innerHTML=fileActions(stageRecord);$('stage-summary').innerHTML=summaryHTML(stageRecord);
+ if(stageRecord['图谱文件'])$('stage-content').innerHTML=canvasHTML(stageRecord);
+ else $('stage-content').innerHTML='<div class="waiting"><i class="fa-solid '+(generating?'fa-circle-notch fa-spin':'fa-star-of-david')+'"></i>'+esc(generating?t('星图正在连线，知识节点生长中…','Connecting constellations. Knowledge nodes are growing…'):stageStatus==='timeout'?t('等待已超过 30 分钟。请稍后在典藏中查看生成结果。','The 30-minute wait has ended. Check the collection later for the result.'):stageStatus==='error'?t('生成状态读取失败，请稍后在典藏中查看。','Could not read generation status. Check the collection later.'):t('此记录尚无图谱文件。','This record has no atlas file yet.'))+(stageError?'<p>'+esc(stageError)+'</p>':'')+'</div>';
+ $('forge-again').disabled=generating||mutation;renderPager();
+}
+function renderPager(){
+ $('history-pager').hidden=recordCount<=0;$('history-position').textContent=t('当前 ','Current ')+currentRow+' / '+recordCount;
+ $('history-prev').disabled=generating||mutation||historyBusy||currentRow<=1;
+ $('history-next').disabled=generating||mutation||historyBusy||currentRow>=recordCount;
+}
+function syncSubmit(){$('forge-submit').disabled=generating||mutation||!$('forge-form-subject').value.trim();$('forge-fields').disabled=generating||mutation;renderPager();}
+async function pollGraph(){
+ const token=++pollToken,deadline=Date.now()+1800000;stageStatus='waiting';stageError='';
+ try{
+ while(token===pollToken&&Date.now()<deadline){
+ const start=Date.now();let timeout;
+ const file=await Promise.race([api('GetCellValue','图谱文件/1'),new Promise((_,reject)=>timeout=setTimeout(()=>reject(new Error('POLL_TIMEOUT')),Math.max(1,deadline-Date.now())))]).finally(()=>clearTimeout(timeout));
+ if(token!==pollToken)return;
+ if(String(file||'').trim()){stageRecord['图谱文件']=String(file).trim();stageStatus='complete';break;}
+ await new Promise(resolve=>setTimeout(resolve,Math.min(Math.max(0,1000-(Date.now()-start)),Math.max(0,deadline-Date.now()))));
+ }
+ if(stageStatus==='waiting')stageStatus='timeout';
+ }catch(error){stageStatus=error.message==='POLL_TIMEOUT'?'timeout':'error';if(stageStatus==='error')stageError=errorText(error);}
+ finally{if(token===pollToken){generating=false;syncSubmit();renderStage();await refreshData();}}
+}
+async function submitForge(event){
+ event.preventDefault();if(generating||mutation)return;const values=formValues('forge-form');if(!values['主题'])return;
+ mutation=true;syncSubmit();
+ try{await api('SubmitRecord',JSON.stringify(values),'知识图谱');currentRow=1;stageRecord={...values,row:1,'图谱文件':''};generating=true;stageStatus='waiting';mutation=false;syncSubmit();renderStage();void refreshData();void pollGraph();}
+ catch(error){notify(errorText(error));}
+ finally{mutation=false;syncSubmit();}
+}
+function resetForge(){if(generating||mutation)return;pollToken++;currentRow=0;stageRecord=null;stageStatus='idle';stageError='';$('forge-form').reset();$('forge-form-file').value='';$('generation-stage').hidden=true;$('stage-content').replaceChildren();$('stage-tools').replaceChildren();$('stage-summary').replaceChildren();$('forge-form-wrap').hidden=false;syncSubmit();window.scrollTo(0,0);}
+async function historyStep(delta){
+ if(generating||mutation||historyBusy)return;const row=currentRow+delta;if(row<1||row>recordCount)return;
+ historyBusy=true;renderPager();
+ try{const r=await readRecord(row);currentRow=row;stageRecord=r;stageStatus='idle';stageError='';renderStage();}
+ catch(error){notify(errorText(error));}finally{historyBusy=false;renderPager();}
+}
+function openModal(kind,title,narrow=false){
+ const prior=document.activeElement,el=document.createElement('div');el.className='overlay '+kind;el.style.zIndex=String(2100+modalStack.length*10);const id='dialog-'+(++modalSerial);
+ el.innerHTML='<div class="dialog '+(narrow?'narrow':'')+'" role="dialog" aria-modal="true" aria-labelledby="'+id+'-title" tabindex="-1"><div class="dialog-header"><h2 id="'+id+'-title">'+esc(title)+'</h2><button class="icon-btn" data-action="close-modal" aria-label="'+t('关闭','Close')+'"><i class="fa-solid fa-xmark"></i></button></div><div class="dialog-content"></div></div>';
+ const modal={el,id,kind,prior,busy:false,record:null};if(modalStack.length)modalStack[modalStack.length-1].el.inert=true;
+ modalStack.push(modal);$('modal-root').append(el);document.body.classList.add('modal-open');
+ el.addEventListener('click',e=>{if(e.target===el&&!modal.busy)closeModal(modal);});
+ requestAnimationFrame(()=>el.querySelector('[role="dialog"]').focus());return modal;
+}
+function closeModal(modal,force=false){
+ if(modal.busy&&!force)return;const index=modalStack.indexOf(modal);if(index<0)return;
+ for(const item of modalStack.splice(index))item.el.remove();
+ const top=modalStack[modalStack.length-1];if(top)top.el.inert=false;else document.body.classList.remove('modal-open');
+ if(modal.prior?.isConnected)modal.prior.focus({preventScroll:true});
+}
+function setModalBusy(modal,value){modal.busy=value;modal.el.querySelectorAll('button,input,textarea,select,fieldset').forEach(el=>el.disabled=value);}
+function previewBody(modal){
+ const r=modal.record;modal.el.querySelector('h2').textContent=r['主题']||t('未命名星图','Untitled atlas');
+ modal.el.querySelector('.dialog-content').innerHTML='<div class="actions">'+fileActions(r)+'</div>'+summaryHTML(r)+(r['图谱文件']?canvasHTML(r):'<div class="panel empty">'+t('此记录尚无图谱文件，请稍后重新打开预览。','No atlas file yet. Reopen this preview later.')+'</div>')+'<div class="dialog-footer">'+rowActions(r.row)+'<button class="btn" data-action="close-modal">'+t('关闭','Close')+'</button></div>';
+ const redundant=modal.el.querySelector('.dialog-footer [data-action="preview"]');if(redundant)redundant.remove();
+}
+async function preview(row){
+ const modal=openModal('preview',t('正在读取星图…','Loading atlas…'));modal.el.querySelector('.dialog-content').innerHTML='<div class="loading"><i class="fa-solid fa-circle-notch fa-spin"></i></div>';
+ try{modal.record=await readRecord(row);if(modal.el.isConnected)previewBody(modal);}
+ catch(error){if(modal.el.isConnected)modal.el.querySelector('.dialog-content').textContent=errorText(error);}
+}
+async function editRecord(row){
+ if(generating||mutation){notify(t('请等待当前锻造或保存完成。','Wait for the current generation or save to finish.'));return;}
+ const modal=openModal('edit',t('编辑知识图谱','Edit knowledge atlas'));modal.row=row;modal.el.querySelector('.dialog-content').innerHTML='<div class="loading">'+t('正在读取字段…','Loading fields…')+'</div>';
+ try{
+ const r=await readRecord(row,false);if(!modal.el.isConnected)return;modal.record=r;currentRow=row;renderPager();
+ const id=modal.id+'-form';modal.formId=id;modal.el.querySelector('.dialog-content').innerHTML='<form id="'+id+'">'+forms(id)+'<p class="hint">'+txt('保存只更新记录，不会重新生成星图。如需重新生成，可用相同主题再锻造一份。','Saving updates the record without regenerating the atlas. To regenerate, forge a new copy with this subject.')+'</p><div class="dialog-footer"><button type="button" class="btn" data-action="reforge" data-form="'+id+'">'+txt('用此主题重新锻造','Forge a new copy')+'</button><button type="button" class="btn" data-action="close-modal">'+txt('取消','Cancel')+'</button><button class="btn primary" type="submit">'+txt('保存修改','Save changes')+'</button></div></form>';
+ translate(modal.el);fillForm(id,r);$(id).addEventListener('submit',async event=>{
+ event.preventDefault();if(mutation||generating||modal.busy)return;const values=formValues(id);if(!values['主题'])return;
+ mutation=true;setModalBusy(modal,true);syncSubmit();let complete=false;
+ try{for(const field of FIELDS)await api('SetCellValue',field+'/'+row+'/'+values[field]);complete=true;notify(t('已保存修改','Changes saved'));}
+ catch(error){notify(t('保存未完成，部分字段可能已更新；请核对后重试。','Save incomplete; some fields may have changed. Review and retry.')+' '+errorText(error));}
+ finally{mutation=false;setModalBusy(modal,false);syncSubmit();await refreshData();}
+ if(complete){closeModal(modal);const parent=modalStack[modalStack.length-1];if(parent?.kind==='preview'&&parent.record?.row===row){try{parent.record=await readRecord(row);if(parent.el.isConnected)previewBody(parent);}catch(error){notify(errorText(error));}}if(stageRecord?.row===row){stageRecord={...stageRecord,...values};renderStage();}}
+ });
+ }catch(error){if(modal.el.isConnected)modal.el.querySelector('.dialog-content').textContent=errorText(error);}
+}
+function deleteRecord(row){
+ if(generating||mutation){notify(t('请等待当前锻造或保存完成。','Wait for the current generation or save to finish.'));return;}
+ const modal=openModal('confirm',t('移除星图','Remove atlas'),true);
+ modal.el.querySelector('.dialog-content').innerHTML='<p>'+t('将这张星图从典藏中移除？','Remove this atlas from the collection?')+'</p><div class="dialog-footer"><button class="btn" data-action="close-modal">'+t('取消','Cancel')+'</button><button class="btn danger" id="'+modal.id+'-confirm">'+t('确认删除','Delete atlas')+'</button></div>';
+ $(modal.id+'-confirm').addEventListener('click',async()=>{
+ if(mutation||generating)return;mutation=true;setModalBusy(modal,true);syncSubmit();
+ try{await api('DeleteRecord',row.toString());setModalBusy(modal,false);while(modalStack.length)closeModal(modalStack[modalStack.length-1]);mutation=false;resetForge();await refreshData();notify(t('星图已移除','Atlas removed'));}
+ catch(error){notify(errorText(error));}finally{mutation=false;setModalBusy(modal,false);syncSubmit();}
+ });
+}
+async function chooseFile(button){
+ const input=$(button.dataset.form+'-file');button.disabled=true;
+ try{const filename=await callAppBridge({type:'SelectFile'});if(filename&&input.isConnected)input.value=String(filename);}
+ catch(error){notify(errorText(error));}finally{button.disabled=false;}
+}
+function changeLanguage(){
+ lang=lang==='cn'?'en':'cn';try{localStorage.setItem('iThinkAir_UiLanguage',lang);}catch(e){}
+ document.documentElement.lang=lang==='cn'?'zh-CN':'en';document.title=t('知识星图工坊','Knowledge Atlas');
+ translate();renderNav();renderFilters();renderHome();renderArchive();renderStage();renderPager();
+ for(const modal of modalStack){if(modal.kind==='preview'&&modal.record)previewBody(modal);}
+ closeMenu();
+}
+async function handleClick(event){
+ const button=event.target.closest('[data-action],[data-page]');if(!button)return;if(button.disabled)return;
+ const action=button.dataset.action;
+ try{
+ if(button.dataset.page){navigate(button.dataset.page);return;}
+ if(action==='language'){changeLanguage();return;}
+ if(action==='preview'){await preview(Number(button.dataset.row));return;}
+ if(action==='edit'){await editRecord(Number(button.dataset.row));return;}
+ if(action==='delete'){deleteRecord(Number(button.dataset.row));return;}
+ if(action==='select-file'){await chooseFile(button);return;}
+ if(action==='clear-file'){$(button.dataset.form+'-file').value='';return;}
+ if(action==='close-modal'){const top=modalStack[modalStack.length-1];if(top&&!top.busy)closeModal(top);return;}
+ if(action==='layout-filter'){$('filter-layout').value=button.dataset.value;limit=12;renderArchive();navigate('archive');return;}
+ if(action==='reset-filters'){$('archive-search').value='';$('filter-layout').value='';$('filter-size').value='';limit=12;renderArchive();return;}
+ if(action==='reforge'){
+ if(generating||mutation)return;const values=formValues(button.dataset.form);
+ while(modalStack.length)closeModal(modalStack[modalStack.length-1]);resetForge();fillForm('forge-form',values);syncSubmit();navigate('forge');
+ }
+ }catch(error){notify(errorText(error));}
+}
+function keyboardSupport(event){
+ if(event.key==='Escape'){if(modalStack.length){const top=modalStack[modalStack.length-1];if(!top.busy)closeModal(top);}else closeMenu();return;}
+ if(event.key==='Tab'&&modalStack.length){
+ const top=modalStack[modalStack.length-1],els=Array.from(top.el.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),textarea:not(:disabled),select:not(:disabled),iframe,[tabindex="0"]')).filter(el=>el.getClientRects().length);
+ if(!els.length){event.preventDefault();return;}const first=els[0],last=els[els.length-1];
+ if(event.shiftKey&&(document.activeElement===first||!els.includes(document.activeElement))){last.focus();event.preventDefault();}
+ else if(!event.shiftKey&&(document.activeElement===last||!els.includes(document.activeElement))){first.focus();event.preventDefault();}
+ }
+ if((event.key==='Enter'||event.key===' ')&&event.target.matches('article[data-action],tr[data-action]')){event.preventDefault();event.target.click();}
+}
+function keepInputVisible(){
+ const active=document.activeElement;if(!active||!active.matches('input:not([type=radio]),textarea,select'))return;
+ const viewport=window.visualViewport;const keyboard=Math.max(0,window.innerHeight-(viewport?viewport.height:window.innerHeight));
+ const content=active.closest('.dialog-content');if(content)content.style.paddingBottom=Math.max(180,keyboard+100)+'px';
+ else $('page-forge').style.paddingBottom=Math.max(0,keyboard+80)+'px';
+ setTimeout(()=>active.scrollIntoView({block:'center',behavior:'smooth'}),150);
+}
+async function initialize(){
+ lang=detectLanguage();document.documentElement.lang=lang==='cn'?'zh-CN':'en';document.title=t('知识星图工坊','Knowledge Atlas');
+ $('forge-fields').innerHTML=forms('forge-form');translate();renderNav();renderFilters();renderHome();renderArchive();syncSubmit();
+ document.addEventListener('click',handleClick);document.addEventListener('keydown',keyboardSupport);
+ document.addEventListener('click',event=>{if(!$('navbar').contains(event.target))closeMenu();});
+ $('menu-toggle').addEventListener('click',()=>{$('mobile-menu').hidden=!$('mobile-menu').hidden;$('menu-toggle').setAttribute('aria-expanded',String(!$('mobile-menu').hidden));});
+ $('brand').addEventListener('click',()=>{try{parent.closeFullHtml(false);}catch(error){notify(errorText(error));}});
+ $('forge-form').addEventListener('submit',submitForge);$('forge-form-subject').addEventListener('input',syncSubmit);
+ $('forge-again').addEventListener('click',resetForge);$('history-prev').addEventListener('click',()=>historyStep(-1));$('history-next').addEventListener('click',()=>historyStep(1));
+ for(const id of ['archive-search','filter-layout','filter-size'])$(id).addEventListener(id==='archive-search'?'input':'change',()=>{limit=12;renderArchive();});
+ $('view-cards').addEventListener('click',()=>{view='cards';renderArchive();});$('view-table').addEventListener('click',()=>{view='table';renderArchive();});
+ $('show-more').addEventListener('click',()=>{limit+=12;renderArchive();});$('refresh').addEventListener('click',refreshData);
+ window.addEventListener('resize',fitNav);if(window.ResizeObserver)new ResizeObserver(fitNav).observe($('brand'));
+ document.addEventListener('focusin',event=>{if(event.target.matches('input,textarea,select'))keepInputVisible();});
+ if(window.visualViewport)window.visualViewport.addEventListener('resize',keepInputVisible);
+ await Promise.allSettled([refreshData(),(async()=>{try{const mode=String(await callAppBridge({type:'模式'})).trim();document.documentElement.dataset.theme=mode==='亮色'?'light':'dark';}catch(error){notify(t('未能获取外观模式，已使用深空主题。','Could not read appearance mode. Using the deep-space theme.'));}})()]);
+}
+(async () => { await initialize(); })();
+</script>
+</body>
+</html>

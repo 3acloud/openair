@@ -1,0 +1,28 @@
+# bento-sync relay — Cloudflare Worker + one Durable Object room per docId.
+# Deploy:  npx wrangler deploy          (needs `npx wrangler login` once)
+# Dev:     npx wrangler dev --port 8787 (fully local, no account needed)
+# Then point sync.bento.page at the worker (Custom Domain below, or a route).
+name = "bento-sync"
+main = "src/worker.js"
+compatibility_date = "2026-07-01"
+
+# workers.dev URL is fine to start; add the custom domain when ready:
+routes = [
+  { pattern = "sync.bento.page", custom_domain = true }
+]
+
+# Encrypted asset blobs (docs/blob-offload.md). The relay pipes ciphertext
+# straight through — it never buffers a blob and cannot read one. OPTIONAL: if
+# the binding is absent the /b/ routes answer 501 and clients fall back to
+# inlining small assets, so a self-hoster without R2 still works.
+[[r2_buckets]]
+binding = "BLOBS"
+bucket_name = "bento-blobs"
+
+[[durable_objects.bindings]]
+name = "ROOM"
+class_name = "Room"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room"]

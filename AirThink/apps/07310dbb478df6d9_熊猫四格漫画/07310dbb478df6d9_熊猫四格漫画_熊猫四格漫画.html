@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>熊猫四格漫画</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{color-scheme:light;--paper:#f4f3ed;--surface:#fffefa;--ink:#171c19;--muted:#68716b;--line:#222923;--green:#598468;--wash:#e7ede5;--shadow:5px 6px 0 #212a23;--header:#171c19;--header-ink:#fffefa}
+html[data-mode="dark"]{color-scheme:dark;--paper:#171c19;--surface:#242b25;--ink:#f0f2e9;--muted:#b8c2b8;--line:#a8b5a9;--green:#9cccaa;--wash:#34453a;--shadow:5px 6px 0 #0d120e;--header:#0b100d;--header-ink:#f0f2e9}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:"Trebuchet MS","Comic Sans MS","Microsoft YaHei",sans-serif;background:radial-gradient(circle at 15% 8%,rgba(105,145,105,.12),transparent 32%),radial-gradient(circle at 88% 58%,rgba(0,0,0,.045),transparent 35%),var(--paper);min-height:100vh}button,input,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}a{color:inherit}.topbar{position:relative;z-index:1001;position:sticky;top:0;background:var(--header);color:var(--header-ink);border-bottom:3px solid var(--green);box-shadow:0 4px 12px #0002}.nav-inner{max-width:1180px;min-height:68px;margin:auto;padding:0 24px;display:flex;align-items:center;gap:24px}.brand{display:flex;align-items:center;gap:12px;border:0;background:none;color:inherit;font-size:1.14rem;font-weight:900;white-space:nowrap;padding:0}.panda-logo{width:43px;height:39px;position:relative;border:2px solid var(--header-ink);border-radius:45% 45% 48% 48%;background:var(--header-ink);color:var(--header);display:grid;place-items:center;font-size:25px;box-shadow:0 0 0 2px var(--green)}.desktop-nav{display:flex;margin-left:auto;align-items:center;gap:7px;white-space:nowrap}.nav-link,.lang-button,.menu-button{border:1px solid transparent;background:transparent;color:var(--header-ink);border-radius:12px;padding:9px 13px;white-space:nowrap}.nav-link:hover,.nav-link.active,.lang-button:hover,.menu-button:hover{border-color:var(--green);background:#ffffff18}.lang-button{font-size:.83rem}.menu-button{display:none;margin-left:auto;font-size:1.25rem}.mobile-menu{display:none;position:absolute;top:100%;right:12px;left:12px;background:var(--header);border:2px solid var(--green);border-radius:0 0 16px 16px;padding:8px;box-shadow:0 14px 30px #0005}.mobile-menu.open{display:grid}.mobile-menu .nav-link{text-align:left}.mobile-menu .language-row{display:flex;gap:8px;padding:6px}.mobile-menu .language-row button{flex:1}main{max-width:1180px;margin:auto;padding:46px 24px 130px}.page{display:none}.page.active{display:block}.hero{text-align:center;padding:45px 10px 38px}.eyebrow{display:inline-block;color:var(--green);font-weight:900;letter-spacing:.12em;text-transform:uppercase}.hero h1{font-size:clamp(2.7rem,8vw,5.4rem);line-height:1.06;letter-spacing:-.055em;margin:16px 0 18px}.hero p{max-width:670px;margin:0 auto 28px;color:var(--muted);line-height:1.85;font-size:1.06rem}.panda-mark{font-size:3.2rem;color:var(--ink)}.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:2px solid var(--line);border-radius:15px;background:var(--surface);color:var(--ink);font-weight:800;padding:12px 18px;box-shadow:3px 4px 0 var(--line);transition:transform .17s,box-shadow .17s;text-decoration:none}.button:hover:not(:disabled){transform:translate(-2px,-3px) scale(1.02);box-shadow:5px 7px 0 var(--line)}.button.primary{background:var(--ink);color:var(--surface)}.button.green{border-color:var(--green);background:var(--green);color:#09120c;box-shadow:3px 4px 0 var(--line)}.button.small{font-size:.85rem;padding:8px 11px;border-radius:10px}.button.danger{color:#ab3f36;border-color:#ab3f36;box-shadow:2px 3px 0 #ab3f36}.card{background:var(--surface);border:2px solid var(--line);border-radius:19px;box-shadow:var(--shadow)}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:23px;margin:12px 0 54px}.stat{padding:23px 27px;position:relative;overflow:hidden}.stat:after{content:"";position:absolute;right:18px;top:12px;opacity:.12;font-size:3.2rem}.stat-label{color:var(--muted);font-weight:700}.stat-value{font-size:2.7rem;font-weight:900;margin:8px 0 0}.section-head,.page-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:25px}.section-head h2,.page-head h1{font-size:clamp(1.8rem,4vw,2.7rem);margin:0 0 5px;letter-spacing:-.03em}.page-head p{margin:6px 0 0;color:var(--muted);line-height:1.6}.comic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}.comic-card{overflow:hidden;transition:transform .18s,box-shadow .18s;cursor:pointer}.comic-card:hover{transform:translateY(-5px) rotate(-.4deg);box-shadow:7px 10px 0 var(--line)}.comic-image{aspect-ratio:1.15;background:var(--wash);display:grid;place-items:center;overflow:hidden;border-bottom:2px solid var(--line)}.comic-image img{height:100%;width:100%;object-fit:contain;background:white}.comic-placeholder{text-align:center;color:var(--muted);font-weight:800;padding:18px}.comic-placeholder i{display:block;font-size:2.4rem;margin-bottom:9px;color:var(--green)}.comic-body{padding:17px 18px 18px}.comic-summary{font-weight:800;line-height:1.5;min-height:3em;overflow-wrap:anywhere}.comic-meta{font-size:.82rem;color:var(--muted);margin-top:13px}.comic-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.tagline{text-align:center;color:var(--muted);font-size:.95rem;margin:58px 0 0}.creation-card{max-width:850px;margin:32px auto 0;padding:30px}.creation-card h2{margin:0 0 18px}.field-label{display:block;font-weight:800;margin-bottom:10px}.creation-card textarea{width:100%;min-height:230px;resize:vertical;padding:16px;background:var(--paper);border:2px solid var(--line);border-radius:14px;color:var(--ink);line-height:1.7;outline:none}.creation-card textarea:focus,.search-input:focus{border-color:var(--green);box-shadow:0 0 0 3px #7daa8560}.form-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:17px;flex-wrap:wrap;color:var(--muted);font-size:.86rem}.result{max-width:850px;margin:32px auto 0;padding:25px}.result[hidden],.waiting[hidden],.modal-layer[hidden]{display:none!important}.result h2{margin:0 0 16px}.result-image{width:100%;max-height:75vh;object-fit:contain;background:white;border:2px solid var(--line);border-radius:10px}.result details{margin:17px 0;line-height:1.7;overflow-wrap:anywhere}.result-buttons{display:flex;gap:12px;flex-wrap:wrap}.waiting{display:flex;align-items:center;gap:15px;margin-top:17px;padding:16px;background:var(--wash);border-radius:12px;font-weight:800}.ink{height:24px;width:24px;border:4px solid var(--line);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.search-wrap{display:flex;align-items:center;gap:10px;max-width:500px;margin:24px 0 28px;padding:0 14px;border:2px solid var(--line);border-radius:13px;background:var(--surface)}.search-wrap i{color:var(--green)}.search-input{width:100%;height:48px;background:transparent;border:0;outline:none;color:var(--ink)}.status,.empty{text-align:center;color:var(--muted);padding:34px 20px}.empty i{display:block;font-size:2.6rem;color:var(--green);margin-bottom:14px}.empty p{margin-bottom:20px}.more-row{text-align:center;margin:35px auto}.modal-layer{position:fixed;inset:0;z-index:2000;background:#0009;display:grid;place-items:center;padding:22px}.modal{width:min(860px,100%);max-height:calc(100dvh - 44px);overflow:auto;background:var(--surface);border:3px solid var(--line);border-radius:20px;box-shadow:10px 12px 0 #0008;padding:24px}.modal-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}.modal-top h2{margin:0}.icon-button{border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:50%;height:38px;width:38px}.detail-image{display:block;width:100%;max-height:65vh;object-fit:contain;background:white;border:2px solid var(--line);border-radius:10px}.detail-content{margin:20px 0;padding:19px;background:var(--paper);border-radius:12px;overflow-wrap:anywhere}.markdown-body{background:transparent!important;color:var(--ink)!important}.markdown-body img{max-width:100%;height:auto;cursor:pointer}.modal-controls{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.toast{position:fixed;z-index:3000;bottom:22px;left:50%;transform:translateX(-50%);max-width:min(90vw,550px);background:var(--ink);color:var(--surface);padding:11px 17px;border-radius:12px;box-shadow:0 6px 25px #0005}.toast[hidden]{display:none}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(max-width:850px){.comic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.nav-inner{padding:0 14px;min-height:62px}.brand{font-size:1rem}main{padding:29px 15px 170px}.hero{padding:27px 3px 29px}.stats{gap:13px;margin-bottom:40px}.stat{padding:17px}.stat-value{font-size:2.2rem}.comic-grid{grid-template-columns:1fr;gap:19px}.page-head{align-items:start}.page-head .button{font-size:.8rem;padding:9px}.creation-card{padding:20px}.modal-layer{padding:12px}.modal{max-height:calc(100dvh - 24px);padding:17px}.modal.markdown-modal{width:100vw;max-height:100dvh;height:100dvh;border-radius:0;border:0;padding:18px 15px 45vh}.modal-layer:has(.markdown-modal){padding:0}.result{padding:17px}.section-head h2{font-size:1.6rem}}
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar"><div class="nav-inner">
+<button class="brand" id="brandButton" type="button" aria-label="Close"><span class="panda-logo"><i class="fa-solid fa-paw"></i></span><span data-i18n="appName">熊猫四格漫画</span></button>
+<nav class="desktop-nav" id="desktopNav" aria-label="Main"><button class="nav-link active" data-page="home" data-i18n="home">首页</button><button class="nav-link" data-page="create" data-i18n="create">创作漫画</button><button class="nav-link" data-page="gallery" data-i18n="gallery">漫画馆</button><button class="lang-button" id="desktopLanguage" type="button">EN</button></nav>
+<button class="menu-button" id="menuButton" type="button" aria-label="Menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+</div><nav class="mobile-menu" id="mobileMenu" aria-label="Mobile"><button class="nav-link" data-page="home" data-i18n="home">首页</button><button class="nav-link" data-page="create" data-i18n="create">创作漫画</button><button class="nav-link" data-page="gallery" data-i18n="gallery">漫画馆</button><div class="language-row"><button class="lang-button" data-language="cn">中文</button><button class="lang-button" data-language="en">English</button></div></nav></header>
+<main>
+<section class="page active" id="homePage"><div class="hero"><div class="panda-mark"><i class="fa-solid fa-paw"></i></div><span class="eyebrow">PANDA · FOUR PANELS</span><h1 data-i18n="appName">熊猫四格漫画</h1><p data-i18n="heroText">把长文、笔记、链接或一句话主题，变成一张2×2黑白手绘熊猫四格漫画——夸张表情 + 冷幽默，一眼看懂核心观点</p><button class="button primary" id="heroCreate" type="button"><i class="fa-solid fa-pen-nib"></i><span data-i18n="startCreate">开始创作漫画</span></button></div>
+<div class="stats"><div class="card stat"><div class="stat-label" data-i18n="totalCount">总创作数</div><div class="stat-value" id="totalCount">—</div></div><div class="card stat"><div class="stat-label" data-i18n="weekCount">本周创作动态</div><div class="stat-value" id="weekCount">—</div></div></div>
+<div class="section-head"><h2 data-i18n="recentTitle">最近出炉的熊猫四格</h2></div><div class="comic-grid" id="recentGrid"></div><p class="tagline" data-i18n="tagline">四格说完，熊猫比你还懂</p></section>
+<section class="page" id="createPage"><div class="page-head"><div><h1 data-i18n="create">创作漫画</h1><p data-i18n="createIntro">粘贴文章、笔记、链接或输入一个主题，熊猫画师为你提炼成2×2黑白四格</p></div><button class="button small" id="createToGallery" type="button"><i class="fa-solid fa-images"></i><span data-i18n="gallery">漫画馆</span></button></div>
+<form class="card creation-card" id="creationForm"><h2 data-i18n="creationFormTitle">漫画创作</h2><label class="field-label" for="creationForm_content" data-i18n="contentLabel">创作内容</label><textarea id="creationForm_content" name="创作内容" required data-placeholder="contentPlaceholder" placeholder="例如：今天又加班到半夜，明天还要开早会……"></textarea><div class="form-foot"><span data-i18n="creationHint">长文、链接或一个念头，都交给熊猫。</span><button class="button primary" id="generateButton" type="submit" disabled><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="generate">生成四格漫画</span></button></div><div class="waiting" id="waiting" hidden><span class="ink"></span><span data-i18n="waiting">熊猫正在握笔冷笑绘制中…</span></div></form>
+<div class="card result" id="result" hidden><h2 id="resultTitle"></h2><div id="resultMedia"></div><details id="resultDetails"><summary data-i18n="showContent">查看本次创作内容</summary><div id="resultContent"></div></details><div class="result-buttons" id="resultButtons"><button class="button small" id="drawAgain" type="button" data-i18n="drawAgain">再画一张</button><button class="button small" id="viewLarge" type="button" data-i18n="viewLarge">查看大图</button><button class="button small" id="resultToGallery" type="button" data-i18n="goGallery">去漫画馆</button></div></div></section>
+<section class="page" id="galleryPage"><div class="page-head"><div><h1 data-i18n="gallery">漫画馆</h1><p data-i18n="galleryIntro">浏览、回味每一张熊猫四格的冷幽默</p></div><button class="button small" id="galleryToCreate" type="button"><i class="fa-solid fa-plus"></i><span data-i18n="newCreate">新创作</span></button></div><label class="search-wrap" for="gallerySearch"><i class="fa-solid fa-magnifying-glass"></i><span class="sr-only" data-i18n="search">搜索创作内容</span><input class="search-input" id="gallerySearch" type="search" data-placeholder="search" placeholder="搜索创作内容"></label><div class="comic-grid" id="galleryGrid"></div><div class="more-row" id="moreRow" hidden><button class="button" id="loadMore" type="button" data-i18n="loadMore">查看更多</button></div><div class="empty" id="galleryEmpty" hidden><i class="fa-solid fa-paw"></i><p id="emptyText"></p><button class="button primary" id="emptyCreate" type="button" data-i18n="startCreate">开始创作漫画</button></div></section>
+</main>
+<div class="modal-layer" id="detailLayer" hidden><div class="modal markdown-modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailHeading"><div class="modal-top"><h2 id="detailHeading" data-i18n="detail">漫画详情</h2><button class="icon-button" id="closeDetail" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div id="detailMedia"></div><article class="detail-content markdown-body" id="detailContent"></article><div class="modal-controls"><button class="button small" id="previousComic" type="button"><i class="fa-solid fa-arrow-left"></i><span data-i18n="previous">上一条</span></button><button class="button small" id="nextComic" type="button"><span data-i18n="next">下一条</span><i class="fa-solid fa-arrow-right"></i></button></div></div></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("07310dbb478df6d9_熊猫四格漫画")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const TABLE='漫画创作/默认表格';
+const DOWNLOAD='http://' + window.location.hostname + ':3130/download/';
+const dict={cn:{appName:'熊猫四格漫画',home:'首页',create:'创作漫画',gallery:'漫画馆',heroText:'把长文、笔记、链接或一句话主题，变成一张2×2黑白手绘熊猫四格漫画——夸张表情 + 冷幽默，一眼看懂核心观点',startCreate:'开始创作漫画',totalCount:'总创作数',weekCount:'本周创作数',recentTitle:'最近出炉的熊猫四格',tagline:'四格说完，熊猫比你还懂',createIntro:'粘贴文章、笔记、链接或输入一个主题，熊猫画师为你提炼成2×2黑白四格',creationFormTitle:'漫画创作',contentLabel:'创作内容',contentPlaceholder:'例如：今天又加班到半夜，明天还要开早会……',creationHint:'长文、链接或一个念头，都交给熊猫。',generate:'生成四格漫画',waiting:'熊猫正在握笔冷笑绘制中…',showContent:'查看本次创作内容',drawAgain:'再画一张',viewLarge:'查看大图',goGallery:'去漫画馆',galleryIntro:'浏览、回味每一张熊猫四格的冷幽默',newCreate:'新创作',search:'搜索创作内容',loadMore:'查看更多',detail:'漫画详情',previous:'上一条',next:'下一条',loading:'熊猫绘制中…',tapLarge:'点击查看大图',viewDetail:'查看详情',delete:'删除',empty:'馆里还没有漫画，去让熊猫画一张吧',noMatch:'没有找到符合关键词的漫画',failed:'熊猫把笔叼走了，请改写内容再试',ready:'四格出炉！',working:'四格生成中',deleteConfirm:'确定删除这张漫画吗？',loadError:'读取漫画失败，请稍后重试',submitError:'提交失败，请稍后重试',deleteError:'删除失败，请稍后重试',noImage:'暂无漫画图片',countNote:'最近创作动态',timedOut:'等待超时，熊猫把笔叼走了，请改写内容再试'},en:{appName:'Panda Four-Panel Comics',home:'Home',create:'Create',gallery:'Gallery',heroText:'Turn an article, note, link or idea into a hand-drawn black-and-white 2×2 panda comic. Big expressions, dry humor, one clear point.',startCreate:'Create a comic',totalCount:'Total comics',weekCount:'This week’s activity',recentTitle:'Fresh from the panda',tagline:'Four panels. The panda gets it before you do.',createIntro:'Paste an article, note, link or idea. The panda will turn its point into four panels.',creationFormTitle:'Create a comic',contentLabel:'Your content',contentPlaceholder:'For example: I worked late again, and the morning meeting starts at eight…',creationHint:'Long reads, links and stray thoughts are welcome.',generate:'Generate four panels',waiting:'The panda is drawing with a dry smile…',showContent:'Show the original content',drawAgain:'Draw another',viewLarge:'View full size',goGallery:'Go to gallery',galleryIntro:'Browse every dry little panda observation.',newCreate:'New comic',search:'Search content',loadMore:'Show more',detail:'Comic details',previous:'Previous',next:'Next',loading:'Panda is drawing…',tapLarge:'Tap to view full size',viewDetail:'View details',delete:'Delete',empty:'No comics yet. Let the panda draw one.',noMatch:'No comics match your search.',failed:'The panda ran off with the pen. Rewrite your idea and try again.',ready:'Four panels are ready!',working:'Drawing four panels',deleteConfirm:'Delete this comic?',loadError:'Could not load comics. Please retry.',submitError:'Could not submit. Please retry.',deleteError:'Could not delete. Please retry.',noImage:'No comic image yet',countNote:'Recent activity',timedOut:'The drawing timed out. Rewrite your idea and try again.'}};
+let language='cn',currentPage='home',pageHistory=[],records=[],visibleCount=12,detailRow=0,currentRow=0,currentImage='',submitting=false,pollCancel=false,toastTimer=0,keyboardBase=0;
+const $=id=>document.getElementById(id);
+const t=key=>dict[language][key]||key;
+function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fileUrl(name){return DOWNLOAD+encodeURIComponent(String(name||'').trim());}
+function short(text,n){const s=String(text||'').trim();return s.length>n?s.slice(0,n)+'…':s;}
+function toast(message){const box=$('toast');box.textContent=message;box.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>box.hidden=true,3800);}
+function getLanguage(){let saved='';try{saved=localStorage.getItem('iThinkAir_UiLanguage')||'';}catch(e){}if(saved)return saved==='en'?'en':'cn';const param=new URLSearchParams(location.search).get('lang');if(param==='cn'||param==='en')return param;const langs=navigator.languages;if(!langs||!langs.length)return 'cn';return langs.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en';}
+function setLanguage(next){language=next;document.documentElement.lang=next==='cn'?'zh-CN':'en';document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));document.querySelectorAll('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));$('desktopLanguage').textContent=next==='cn'?'EN':'中文';try{localStorage.setItem('iThinkAir_UiLanguage',next);}catch(e){}renderRecent();renderGallery();if(detailRow)refreshDetailText();}
+function closeMenu(){$('mobileMenu').classList.remove('open');$('menuButton').setAttribute('aria-expanded','false');}
+function checkNavFit(){const nav=$('desktopNav'),menu=$('menuButton');nav.style.display='flex';menu.style.display='none';const inner=nav.parentElement;const needs=inner.scrollWidth>inner.clientWidth||window.innerWidth<620;if(needs){nav.style.display='none';menu.style.display='block';}else closeMenu();}
+function showPage(page,push=true){if(!['home','create','gallery'].includes(page))return;if(page!==currentPage){if(push)pageHistory.push({page:currentPage,y:window.scrollY});currentPage=page;document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id===page+'Page'));document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===page));window.scrollTo(0,0);}closeMenu();if(page==='home')loadHome();if(page==='gallery')loadGallery();}
+function closeDetail(){detailRow=0;$('detailLayer').hidden=true;document.body.style.overflow='';}
+function airBack(){if(!$('detailLayer').hidden){closeDetail();return 'false';}if($('mobileMenu').classList.contains('open')){closeMenu();return 'false';}if(pageHistory.length){const prev=pageHistory.pop();showPage(prev.page,false);requestAnimationFrame(()=>window.scrollTo(0,prev.y));return 'false';}return 'true';}
+window.airBack=airBack;
+async function getCell(field,row){return await callAppBridge({type:'GetCellValue',data:TABLE,payload:field+'/'+row});}
+async function getRows(fields){const raw=await callAppBridge({type:'GetTableCSV',data:TABLE,payload:fields});return parseCSV(String(raw||''));}
+async function loadHome(){try{const count=await callAppBridge({type:'GetRecordCount',data:TABLE});$('totalCount').textContent=Number(count)||0;const activity=await getRows('创作内容');$('weekCount').textContent=activity.length;const rows=await getRows('创作内容,漫画图片');const recent=[];for(let i=0;i<Math.min(rows.length,6);i++){const content=await getCell('创作内容',i+1);const image=await getCell('漫画图片',i+1);recent.push({row:i+1,content:String(content||''),image:String(image||'')});}renderRecent(recent);}catch(e){$('totalCount').textContent='—';$('weekCount').textContent='—';$('recentGrid').innerHTML='<p class="status">'+escapeHtml(t('loadError'))+'</p>';}}
+let recentRecords=[];
+function renderRecent(items){if(items)recentRecords=items;const grid=$('recentGrid');grid.replaceChildren();for(const item of recentRecords)grid.appendChild(makeCard(item,true));}
+async function loadGallery(){try{const rows=await getRows('创作内容,漫画图片');records=[];for(let i=0;i<rows.length;i++)records.push({row:i+1,content:String(rows[i][0]||''),image:String(rows[i][1]||'')});renderGallery();if(detailRow)refreshDetailNav();}catch(e){$('galleryGrid').innerHTML='<p class="status">'+escapeHtml(t('loadError'))+'</p>';toast(t('loadError'));}}
+function imageNode(name,alt){const frame=document.createElement('div');frame.className='comic-image';if(name){const img=document.createElement('img');img.src=fileUrl(name);img.alt=alt;img.loading='lazy';img.onerror=()=>{frame.replaceChildren(makePlaceholder());};frame.appendChild(img);}else frame.appendChild(makePlaceholder());return frame;}
+function makePlaceholder(){const div=document.createElement('div');div.className='comic-placeholder';div.innerHTML='<i class="fa-solid fa-paw"></i>'+escapeHtml(t('loading'));return div;}
+function makeCard(item,isRecent){const card=document.createElement('article');card.className='card comic-card';card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label',t('viewDetail')+': '+short(item.content,60));const frame=imageNode(isRecent?item.image:'',short(item.content,60));card.appendChild(frame);if(!isRecent)getCell('漫画图片',item.row).then(image=>{if(card.isConnected&&String(image||'').trim())frame.replaceWith(imageNode(image,short(item.content,60)));}).catch(()=>{});const body=document.createElement('div');body.className='comic-body';const summary=document.createElement('div');summary.className='comic-summary';summary.textContent=short(item.content,isRecent?40:60);body.appendChild(summary);if(isRecent){const meta=document.createElement('div');meta.className='comic-meta';meta.textContent=t('tapLarge');body.appendChild(meta);}else{const actions=document.createElement('div');actions.className='comic-actions';const view=document.createElement('button');view.className='button small';view.textContent=t('viewDetail');view.type='button';view.addEventListener('click',e=>{e.stopPropagation();openDetail(item.row);});const del=document.createElement('button');del.className='button small danger';del.textContent=t('delete');del.type='button';del.addEventListener('click',e=>{e.stopPropagation();deleteComic(item.row);});actions.append(view,del);body.appendChild(actions);}card.appendChild(body);card.addEventListener('click',()=>{if(isRecent)showPage('gallery');openDetail(item.row);});card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(isRecent)showPage('gallery');openDetail(item.row);}});return card;}
+function renderGallery(){const query=$('gallerySearch').value.trim().toLocaleLowerCase();const filtered=records.filter(item=>item.content.toLocaleLowerCase().includes(query));const grid=$('galleryGrid');grid.replaceChildren();for(const item of filtered.slice(0,visibleCount))grid.appendChild(makeCard(item,false));$('moreRow').hidden=filtered.length<=visibleCount;$('galleryEmpty').hidden=filtered.length>0;$('emptyText').textContent=query?t('noMatch'):t('empty');$('emptyCreate').hidden=Boolean(query);}
+async function openDetail(row){detailRow=row;$('detailLayer').hidden=false;document.body.style.overflow='hidden';$('detailMedia').innerHTML='<div class="status">'+escapeHtml(t('loading'))+'</div>';$('detailContent').textContent='';refreshDetailNav();try{const content=await getCell('创作内容',row);const image=await getCell('漫画图片',row);if(detailRow!==row)return;const media=$('detailMedia');media.replaceChildren();if(String(image||'').trim()){const img=document.createElement('img');img.className='detail-image';img.src=fileUrl(image);img.alt=t('detail');media.appendChild(img);}else media.appendChild(makePlaceholder());renderMarkdown(String(content||''));}catch(e){if(detailRow===row)toast(t('loadError'));}}
+function renderMarkdown(content){const target=$('detailContent');if(window.marked&&window.DOMPurify){const html=marked.parse(content,{gfm:true,breaks:true});target.innerHTML=DOMPurify.sanitize(html);target.querySelectorAll('img').forEach(img=>{const raw=img.getAttribute('src')||'';const src=/^https?:\/\//i.test(raw)?raw:fileUrl(raw);img.src=src;const a=document.createElement('a');a.href=src;a.download='';a.target='_blank';img.replaceWith(a);a.appendChild(img);});}else target.textContent=content;}
+function refreshDetailText(){if(!detailRow)return;getCell('创作内容',detailRow).then(v=>{if(detailRow)renderMarkdown(String(v||''));});refreshDetailNav();}
+function refreshDetailNav(){$('previousComic').disabled=detailRow<=1;$('nextComic').disabled=detailRow>=records.length;}
+async function deleteComic(row){if(!window.confirm(t('deleteConfirm')))return;try{await callAppBridge({type:'DeleteRecord',data:TABLE,payload:row.toString()});if(detailRow)closeDetail();visibleCount=12;await Promise.all([loadGallery(),loadHome()]);}catch(e){toast(t('deleteError'));}}
+function setSubmitting(value){submitting=value;$('generateButton').disabled=value||!$('creationForm_content').value.trim();$('creationForm_content').disabled=value;$('waiting').hidden=!value;}
+function showFailure(key){$('result').hidden=false;$('resultTitle').textContent=t(key);$('resultMedia').replaceChildren();$('resultDetails').hidden=true;$('viewLarge').hidden=true;$('result').scrollIntoView({behavior:'smooth',block:'start'});}
+function showResult(content,image){currentImage=image;$('result').hidden=false;$('resultTitle').textContent=t('ready');const img=document.createElement('img');img.className='result-image';img.src=fileUrl(image);img.alt=t('detail');$('resultMedia').replaceChildren(img);$('resultContent').textContent=content;$('resultDetails').hidden=false;$('viewLarge').hidden=false;$('result').scrollIntoView({behavior:'smooth',block:'start'});}
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function submitCreation(event){event.preventDefault();const content=$('creationForm_content').value.trim();if(!content||submitting)return;currentRow=0;currentImage='';$('result').hidden=true;setSubmitting(true);pollCancel=false;try{await callAppBridge({type:'SubmitRecord',data:'漫画创作',payload:JSON.stringify({'创作内容':content})});currentRow=1;const started=Date.now();let image='';while(!pollCancel&&Date.now()-started<1800000){await delay(1000);image=String(await callAppBridge({type:'轮询',data:'漫画创作',payload:'漫画图片'})||'').trim();if(image)break;}if(pollCancel)return;if(!image){showFailure('timedOut');return;}const actual=String(await getCell('漫画图片',currentRow)||'').trim();if(!actual){showFailure('failed');return;}showResult(content,actual);await Promise.all([loadHome(),loadGallery()]);}catch(e){showFailure(currentRow?'failed':'submitError');}finally{setSubmitting(false);}}
+function resetCreation(){pollCancel=true;currentRow=0;currentImage='';$('creationForm_content').value='';$('result').hidden=true;$('resultDetails').open=false;setSubmitting(false);$('creationForm_content').focus();}
+function monitorKeyboard(){const visual=window.visualViewport;if(!visual)return;keyboardBase=Math.max(keyboardBase,visual.height);visual.addEventListener('resize',()=>{const keyboard=Math.max(0,keyboardBase-visual.height);document.querySelectorAll('.modal').forEach(el=>el.style.paddingBottom=keyboard>100?keyboard+80+'px':'');const active=document.activeElement;if(keyboard>100&&active&&/^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName))setTimeout(()=>active.scrollIntoView({block:'center',behavior:'smooth'}),120);});document.addEventListener('focusin',e=>{if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))setTimeout(()=>e.target.scrollIntoView({block:'center',behavior:'smooth'}),260);});}
+async function initialize(){language=getLanguage();setLanguage(language);try{const mode=await callAppBridge({type:'模式'});document.documentElement.dataset.mode=String(mode).trim()==='暗色'?'dark':'light';}catch(e){document.documentElement.dataset.mode=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';}document.querySelectorAll('[data-page]').forEach(el=>el.addEventListener('click',()=>showPage(el.dataset.page)));$('brandButton').addEventListener('click',()=>{if(window.parent&&typeof window.parent.closeFullHtml==='function')window.parent.closeFullHtml(false);});$('menuButton').addEventListener('click',()=>{const open=$('mobileMenu').classList.toggle('open');$('menuButton').setAttribute('aria-expanded',String(open));});document.addEventListener('click',e=>{if(!$('topbar').contains(e.target))closeMenu();});$('desktopLanguage').addEventListener('click',()=>setLanguage(language==='cn'?'en':'cn'));document.querySelectorAll('[data-language]').forEach(el=>el.addEventListener('click',()=>{setLanguage(el.dataset.language);closeMenu();}));window.addEventListener('resize',checkNavFit);checkNavFit();$('heroCreate').addEventListener('click',()=>showPage('create'));$('createToGallery').addEventListener('click',()=>showPage('gallery'));$('galleryToCreate').addEventListener('click',()=>showPage('create'));$('resultToGallery').addEventListener('click',()=>showPage('gallery'));$('emptyCreate').addEventListener('click',()=>showPage('create'));$('creationForm_content').addEventListener('input',()=>{$('generateButton').disabled=submitting||!$('creationForm_content').value.trim();});$('creationForm').addEventListener('submit',submitCreation);$('drawAgain').addEventListener('click',resetCreation);$('viewLarge').addEventListener('click',()=>{if(currentImage)window.open(fileUrl(currentImage),'_blank','noopener');});$('gallerySearch').addEventListener('input',()=>{visibleCount=12;renderGallery();});$('loadMore').addEventListener('click',()=>{visibleCount+=12;renderGallery();});$('closeDetail').addEventListener('click',closeDetail);$('detailLayer').addEventListener('click',e=>{if(e.target===$('detailLayer'))closeDetail();});$('previousComic').addEventListener('click',()=>{if(detailRow>1)openDetail(detailRow-1);});$('nextComic').addEventListener('click',()=>{if(detailRow<records.length)openDetail(detailRow+1);});document.addEventListener('keydown',e=>{if(e.key==='Escape')airBack();});monitorKeyboard();await loadHome();}
+document.addEventListener('DOMContentLoaded',async()=>{await initialize();});
+</script>
+</body>
+</html>

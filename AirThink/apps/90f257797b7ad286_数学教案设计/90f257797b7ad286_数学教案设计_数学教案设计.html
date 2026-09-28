@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>数学教案设计</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+  :root {
+    --primary: #1e40af;
+    --primary-light: #3b82f6;
+    --primary-dark: #1e3a8a;
+    --accent: #0ea5e9;
+    --bg: #f0f7ff;
+    --bg2: #e0f2fe;
+    --bg3: #f8fafc;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --card-bg: #ffffff;
+    --card-border: rgba(30, 64, 175, 0.06);
+    --card-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+    --input-bg: #ffffff;
+    --input-border: #cbd5e1;
+    --nav-grad: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+    --modal-bg: #ffffff;
+    --overlay: rgba(15, 23, 42, 0.45);
+    --md-code-bg: #eff6ff;
+    --md-pre-bg: #f8fafc;
+    --md-quote-bg: #f0f7ff;
+    --chip-bg: #ffffff;
+    --ghost-hover: #f1f5f9;
+    --danger-bg: #fef2f2;
+    --stat-icon-bg: #eff6ff;
+  }
+  body.dark-mode {
+    --bg: #0f172a;
+    --bg2: #1e293b;
+    --bg3: #0f172a;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --card-bg: #1e293b;
+    --card-border: rgba(148, 163, 184, 0.12);
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    --input-bg: #0f172a;
+    --input-border: #334155;
+    --nav-grad: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1e40af 100%);
+    --modal-bg: #1e293b;
+    --overlay: rgba(0, 0, 0, 0.65);
+    --md-code-bg: #0f172a;
+    --md-pre-bg: #0f172a;
+    --md-quote-bg: #1e3a5f;
+    --chip-bg: #0f172a;
+    --ghost-hover: #334155;
+    --danger-bg: #450a0a;
+    --stat-icon-bg: #1e3a5f;
+  }
+  * { font-family: 'Noto Sans SC', system-ui, sans-serif; box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: linear-gradient(160deg, var(--bg) 0%, var(--bg2) 40%, var(--bg3) 100%);
+    min-height: 100vh; color: var(--text);
+    padding-top: 60px;
+  }
+  input, select, textarea { box-sizing: border-box !important; }
+  .nav-bar {
+    background: var(--nav-grad);
+    box-shadow: 0 4px 24px rgba(30, 58, 138, 0.25);
+    position: fixed !important; top: 0 !important; left: 0; right: 0;
+    z-index: 1001 !important;
+  }
+  .nav-bar-inner { position: relative; z-index: 1001; }
+  .nav-link {
+    transition: all 0.25s ease; border-radius: 8px; white-space: nowrap;
+    background: transparent; border: none; color: white; cursor: pointer;
+  }
+  .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.18); }
+  .nav-tabs-desktop { display: flex; align-items: center; gap: 4px; }
+  .nav-hamburger {
+    display: none; background: rgba(255,255,255,0.15); border: none;
+    color: white; width: 40px; height: 40px; border-radius: 10px;
+    cursor: pointer; font-size: 18px; align-items: center; justify-content: center;
+  }
+  .nav-mobile-menu {
+    display: none; position: absolute; left: 0; right: 0; top: 100%;
+    background: linear-gradient(180deg, #1e3a8a, #1e40af);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    padding: 8px; z-index: 1002; flex-direction: column; gap: 4px;
+  }
+  .nav-mobile-menu.open { display: flex; }
+  .nav-mobile-menu .nav-link {
+    width: 100%; text-align: left; padding: 12px 16px; font-size: 15px;
+  }
+  @media (max-width: 768px) {
+    .nav-tabs-desktop.collapse-needed { display: none !important; }
+    .nav-hamburger.show-needed { display: flex !important; }
+  }
+  .card {
+    background: var(--card-bg); border-radius: 16px;
+    box-shadow: var(--card-shadow); border: 1px solid var(--card-border);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(30, 64, 175, 0.12); }
+  .btn-primary {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white; border: none; border-radius: 10px;
+    padding: 10px 20px; font-weight: 500; cursor: pointer;
+    transition: all 0.2s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4); }
+  .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    background: var(--card-bg); color: #1e40af; border: 1.5px solid #93c5fd;
+    border-radius: 10px; padding: 9px 18px; font-weight: 500; cursor: pointer; transition: all 0.2s;
+  }
+  body.dark-mode .btn-secondary { color: #93c5fd; border-color: #3b82f6; }
+  .btn-secondary:hover { background: #eff6ff; border-color: #3b82f6; }
+  body.dark-mode .btn-secondary:hover { background: #1e3a5f; }
+  .btn-danger {
+    background: var(--danger-bg); color: #dc2626; border: 1.5px solid #fecaca;
+    border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; transition: all 0.2s;
+  }
+  .btn-danger:hover { background: #fee2e2; }
+  .btn-ghost {
+    background: transparent; color: var(--text-muted); border: none; cursor: pointer;
+    padding: 6px 10px; border-radius: 8px; transition: all 0.2s;
+  }
+  .btn-ghost:hover { background: var(--ghost-hover); color: #3b82f6; }
+  .stat-card {
+    background: var(--card-bg); border-radius: 16px; padding: 22px;
+    box-shadow: var(--card-shadow); border-left: 4px solid;
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: scale(1.02); }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; border: 1.5px solid var(--input-border); border-radius: 10px;
+    padding: 10px 14px; font-size: 14px; transition: border-color 0.2s, box-shadow 0.2s;
+    background: var(--input-bg); color: var(--text); box-sizing: border-box;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  }
+  .form-label { display: block; font-weight: 500; color: var(--text); margin-bottom: 6px; font-size: 14px; opacity: 0.9; }
+  .markdown-body { line-height: 1.75; color: var(--text); font-size: 15px; word-break: break-word; }
+  .markdown-body h1, .markdown-body h2, .markdown-body h3 {
+    color: #1e3a8a; margin-top: 1.4em; margin-bottom: 0.5em; font-weight: 600;
+  }
+  body.dark-mode .markdown-body h1, body.dark-mode .markdown-body h2 { color: #93c5fd; }
+  body.dark-mode .markdown-body h3 { color: #60a5fa; }
+  .markdown-body h1 { font-size: 1.5em; border-bottom: 2px solid #dbeafe; padding-bottom: 8px; }
+  .markdown-body h2 { font-size: 1.25em; }
+  .markdown-body h3 { font-size: 1.1em; color: #1d4ed8; }
+  .markdown-body ul, .markdown-body ol { padding-left: 1.5em; margin: 0.6em 0; }
+  .markdown-body li { margin: 0.3em 0; }
+  .markdown-body code { background: var(--md-code-bg); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #3b82f6; }
+  .markdown-body pre { background: var(--md-pre-bg); border: 1px solid var(--input-border); border-radius: 10px; padding: 14px; overflow-x: auto; }
+  .markdown-body blockquote { border-left: 4px solid #3b82f6; padding-left: 14px; color: var(--text-muted); margin: 1em 0; background: var(--md-quote-bg); border-radius: 0 8px 8px 0; padding: 10px 14px; }
+  .markdown-body table { border-collapse: collapse; width: 100%; margin: 1em 0; display: block; overflow-x: auto; }
+  .markdown-body th, .markdown-body td { border: 1px solid var(--input-border); padding: 8px 12px; text-align: left; }
+  .markdown-body th { background: var(--md-code-bg); color: #3b82f6; }
+  .markdown-body img { max-width: 100%; border-radius: 8px; cursor: pointer; transition: opacity 0.2s; }
+  .markdown-body img:hover { opacity: 0.85; }
+  .markdown-body a { color: #2563eb; text-decoration: underline; }
+  .modal-overlay {
+    position: fixed; inset: 0; background: var(--overlay); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; z-index: 2000;
+    padding: 20px; box-sizing: border-box;
+  }
+  .modal-box {
+    background: var(--modal-bg); border-radius: 20px; max-width: 720px; width: 100%;
+    max-height: calc(100vh - 40px); overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    margin: auto;
+  }
+  @media (max-width: 640px) {
+    .modal-overlay.mobile-flush { padding: 0; }
+    .modal-overlay.mobile-flush .modal-box {
+      max-width: 100%; max-height: 100vh; border-radius: 0; height: 100%;
+    }
+  }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+  .badge-grade { background: #dbeafe; color: #1e40af; }
+  .badge-hours { background: #fef3c7; color: #b45309; }
+  body.dark-mode .badge-grade { background: #1e3a5f; color: #93c5fd; }
+  body.dark-mode .badge-hours { background: #422006; color: #fbbf24; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { animation: spin 0.8s linear infinite; }
+  .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); }
+  .page { display: none; animation: fadeIn 0.3s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .search-box { position: relative; }
+  .search-box input { padding-left: 38px; }
+  .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+  .filter-chip {
+    padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--input-border);
+    background: var(--chip-bg); cursor: pointer; font-size: 13px; transition: all 0.2s; color: var(--text-muted);
+  }
+  .filter-chip:hover, .filter-chip.active {
+    border-color: #3b82f6; background: #eff6ff; color: #1e40af;
+  }
+  body.dark-mode .filter-chip:hover, body.dark-mode .filter-chip.active {
+    background: #1e3a5f; color: #93c5fd;
+  }
+  .lesson-card-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    display: flex; align-items: center; justify-content: center;
+    color: #1e40af; font-size: 20px; flex-shrink: 0;
+  }
+  body.dark-mode .lesson-card-icon { background: linear-gradient(135deg, #1e3a5f, #1e40af); color: #93c5fd; }
+  .poll-progress { height: 4px; background: var(--input-border); border-radius: 2px; overflow: hidden; }
+  .poll-progress-bar {
+    height: 100%; background: linear-gradient(90deg, #3b82f6, #0ea5e9);
+    border-radius: 2px; transition: width 0.4s ease;
+    animation: progressPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes progressPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+  .text-muted { color: var(--text-muted); }
+  .text-main { color: var(--text); }
+  .icon-box { background: var(--stat-icon-bg); }
+  #toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: #1e293b; color: white; padding: 12px 20px; border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25); font-size: 14px; z-index: 3000;
+    max-width: 90vw; text-align: center;
+  }
+  .form-bottom-pad { padding-bottom: 0; transition: padding-bottom 0.2s; }
+  .form-bottom-pad.keyboard-open { padding-bottom: 320px; }
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
+  .hidden { display: none !important; }
+  .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+</style>
+</head>
+<body>
+<nav id="main-nav" class="nav-bar" style="position: relative; z-index: 1001;">
+  <div class="nav-bar-inner max-w-6xl mx-auto px-4 py-3 flex items-center justify-between" style="position: relative; z-index: 1001;">
+    <div class="flex items-center gap-3 text-white" onclick="parent.closeFullHtml(false)">
+      <div class="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center">
+        <i class="fas fa-square-root-variable text-lg"></i>
+      </div>
+      <span class="font-semibold text-lg tracking-wide">数学教案设计</span>
+    </div>
+    <div class="flex items-center gap-1">
+      <div id="nav-tabs" class="nav-tabs-desktop">
+        <button type="button" class="nav-link active px-4 py-2 text-sm font-medium" id="nav-home" data-page="home" onclick="switchPage('home')">
+          <i class="fas fa-home mr-1.5"></i>首页
+        </button>
+        <button type="button" class="nav-link px-4 py-2 text-sm font-medium" id="nav-library" data-page="library" onclick="switchPage('library')">
+          <i class="fas fa-book-open mr-1.5"></i>教案库
+        </button>
+        <button type="button" class="nav-link px-4 py-2 text-sm font-medium" id="nav-create" data-page="create" onclick="switchPage('create')">
+          <i class="fas fa-magic mr-1.5"></i>设计教案
+        </button>
+      </div>
+      <button type="button" id="nav-hamburger" class="nav-hamburger" onclick="toggleMobileMenu(event)" aria-label="菜单">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div id="nav-mobile-menu" class="nav-mobile-menu">
+      <button type="button" class="nav-link" data-page="home" onclick="switchPage('home'); closeMobileMenu();">
+        <i class="fas fa-home mr-2"></i>首页
+      </button>
+      <button type="button" class="nav-link" data-page="library" onclick="switchPage('library'); closeMobileMenu();">
+        <i class="fas fa-book-open mr-2"></i>教案库
+      </button>
+      <button type="button" class="nav-link" data-page="create" onclick="switchPage('create'); closeMobileMenu();">
+        <i class="fas fa-magic mr-2"></i>设计教案
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="max-w-6xl mx-auto px-4 py-6">
+  <div id="page-home" class="page active">
+    <div class="text-center mb-10 pt-4">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 text-white text-2xl mb-4 shadow-lg shadow-blue-500/30">
+        <i class="fas fa-chalkboard-teacher"></i>
+      </div>
+      <h1 class="text-3xl font-bold text-main mb-2">数学教案设计助手</h1>
+      <p class="text-muted max-w-xl mx-auto">面向数学教师，围绕概念建构、例题示范、变式训练与课堂小结，一键生成系统化数学教案框架</p>
+      <button type="button" class="btn-primary mt-6 text-base px-8 py-3" onclick="switchPage('create')">
+        <i class="fas fa-plus mr-2"></i>新建数学教案
+      </button>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8" id="home-stats">
+      <div class="stat-card" style="border-color:#2563eb">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-muted mb-1">教案总数</p>
+            <p class="text-3xl font-bold text-blue-700" id="stat-total">-</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl icon-box flex items-center justify-center text-blue-600 text-xl">
+            <i class="fas fa-folder-open"></i>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card" style="border-color:#0ea5e9">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-muted mb-1">小学阶段</p>
+            <p class="text-3xl font-bold text-sky-600" id="stat-primary">-</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl icon-box flex items-center justify-center text-sky-600 text-xl">
+            <i class="fas fa-child"></i>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card" style="border-color:#8b5cf6">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-muted mb-1">中学阶段</p>
+            <p class="text-3xl font-bold text-violet-600" id="stat-secondary">-</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl icon-box flex items-center justify-center text-violet-600 text-xl">
+            <i class="fas fa-user-graduate"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-4 flex items-center justify-between">
+      <h2 class="text-lg font-semibold text-main"><i class="fas fa-clock-rotate-left mr-2 text-blue-500"></i>最近教案</h2>
+      <button type="button" class="btn-ghost text-sm" style="color:#2563eb" onclick="switchPage('library')">查看全部 <i class="fas fa-arrow-right ml-1"></i></button>
+    </div>
+    <div id="home-recent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+
+  <div id="page-library" class="page">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-main">教案库</h1>
+        <p class="text-muted text-sm mt-1">管理、检索与复用所有数学教案</p>
+      </div>
+      <button type="button" class="btn-primary" onclick="switchPage('create'); resetForm();">
+        <i class="fas fa-plus mr-2"></i>添加教案
+      </button>
+    </div>
+    <div class="card p-4 mb-6">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <div class="search-box flex-1">
+          <i class="fas fa-search"></i>
+          <input type="text" id="search-input" name="search" class="form-input" placeholder="搜索课题、教学目标..." oninput="filterLibrary()">
+        </div>
+        <select id="filter-grade" name="filter-grade" class="form-select sm:w-40" onchange="filterLibrary()">
+          <option value="">全部年级</option>
+          <option value="一年级">一年级</option>
+          <option value="二年级">二年级</option>
+          <option value="三年级">三年级</option>
+          <option value="四年级">四年级</option>
+          <option value="五年级">五年级</option>
+          <option value="六年级">六年级</option>
+          <option value="七年级">七年级</option>
+          <option value="八年级">八年级</option>
+          <option value="九年级">九年级</option>
+          <option value="高一">高一</option>
+          <option value="高二">高二</option>
+          <option value="高三">高三</option>
+        </select>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-3" id="grade-chips">
+        <span class="filter-chip active" data-grade="" onclick="setGradeFilter(this,'')">全部</span>
+        <span class="filter-chip" data-grade="primary" onclick="setGradeFilter(this,'primary')">小学</span>
+        <span class="filter-chip" data-grade="junior" onclick="setGradeFilter(this,'junior')">初中</span>
+        <span class="filter-chip" data-grade="senior" onclick="setGradeFilter(this,'senior')">高中</span>
+      </div>
+    </div>
+    <div id="library-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    <div id="library-empty" class="empty-state hidden">
+      <i class="fas fa-inbox text-5xl mb-4" style="color:#cbd5e1"></i>
+      <p class="text-lg">暂无教案</p>
+      <p class="text-sm mt-1">点击「添加教案」开始设计第一份数学教案</p>
+    </div>
+  </div>
+
+  <div id="page-create" class="page">
+    <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+      <div>
+        <h1 class="text-2xl font-bold text-main" id="create-title">设计数学教案</h1>
+        <p class="text-muted text-sm mt-1">填写课题信息，AI 自动生成系统化教案框架</p>
+      </div>
+      <button type="button" class="btn-secondary" onclick="switchPage('library')">
+        <i class="fas fa-arrow-left mr-1"></i>返回教案库
+      </button>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <div class="lg:col-span-2">
+        <div class="card p-6 form-bottom-pad" id="form-card">
+          <h3 class="font-semibold text-main mb-4 flex items-center gap-2">
+            <i class="fas fa-pen-to-square text-blue-500"></i>教案基本信息
+          </h3>
+          <form id="lesson-form" onsubmit="return false;">
+            <div class="mb-4">
+              <label class="form-label" for="lesson-form-课题">课题 <span style="color:#ef4444">*</span></label>
+              <input type="text" id="lesson-form-课题" name="课题" class="form-input" placeholder="例如：分数的加减法" required>
+            </div>
+            <div class="mb-4">
+              <label class="form-label" for="lesson-form-年级">年级 <span style="color:#ef4444">*</span></label>
+              <select id="lesson-form-年级" name="年级" class="form-select" required>
+                <option value="">请选择年级</option>
+                <option value="一年级">一年级</option>
+                <option value="二年级">二年级</option>
+                <option value="三年级">三年级</option>
+                <option value="四年级">四年级</option>
+                <option value="五年级">五年级</option>
+                <option value="六年级">六年级</option>
+                <option value="七年级">七年级</option>
+                <option value="八年级">八年级</option>
+                <option value="九年级">九年级</option>
+                <option value="高一">高一</option>
+                <option value="高二">高二</option>
+                <option value="高三">高三</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="form-label" for="lesson-form-课时">课时 <span style="color:#ef4444">*</span></label>
+              <input type="number" id="lesson-form-课时" name="课时" class="form-input" placeholder="例如：1" min="1" max="20" required>
+            </div>
+            <div class="mb-4">
+              <label class="form-label" for="lesson-form-教学目标">教学目标</label>
+              <textarea id="lesson-form-教学目标" name="教学目标" class="form-textarea" rows="3" placeholder="知识与技能、过程与方法、情感态度与价值观..."></textarea>
+            </div>
+            <div class="mb-4">
+              <label class="form-label" for="lesson-form-重点难点">重点难点</label>
+              <textarea id="lesson-form-重点难点" name="重点难点" class="form-textarea" rows="2" placeholder="教学重点与难点..."></textarea>
+            </div>
+            <div class="mb-5">
+              <label class="form-label" for="lesson-form-学情说明">学情说明</label>
+              <textarea id="lesson-form-学情说明" name="学情说明" class="form-textarea" rows="2" placeholder="学生已有知识基础、学习特点..."></textarea>
+            </div>
+            <div class="flex gap-2">
+              <button type="button" id="btn-submit" class="btn-primary flex-1" onclick="submitLesson()">
+                <i class="fas fa-wand-magic-sparkles mr-2"></i>生成教案
+              </button>
+              <button type="button" id="btn-update" class="btn-primary flex-1 hidden" onclick="updateLesson()">
+                <i class="fas fa-save mr-2"></i>保存修改
+              </button>
+              <button type="button" class="btn-secondary" onclick="resetForm()" title="清空">
+                <i class="fas fa-eraser"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="lg:col-span-3">
+        <div class="card p-6" style="min-height:480px">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-main flex items-center gap-2">
+              <i class="fas fa-file-lines text-blue-500"></i>教案内容
+            </h3>
+            <div id="result-actions" class="hidden" style="display:none; gap:8px">
+              <button type="button" class="btn-ghost text-sm" onclick="copyResult()" title="复制"><i class="fas fa-copy"></i></button>
+              <button type="button" class="btn-ghost text-sm" onclick="printResult()" title="打印"><i class="fas fa-print"></i></button>
+            </div>
+          </div>
+          <div id="generating-state" class="hidden text-center py-16">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full icon-box mb-4">
+              <i class="fas fa-spinner spinner text-2xl text-blue-600"></i>
+            </div>
+            <p class="text-main font-medium mb-2">AI 正在生成教案框架...</p>
+            <p class="text-muted text-sm mb-4">概念建构 · 例题示范 · 变式训练 · 课堂小结</p>
+            <div class="poll-progress max-w-xs mx-auto">
+              <div class="poll-progress-bar" id="poll-bar" style="width:15%"></div>
+            </div>
+            <p class="text-xs text-muted mt-3" id="poll-msg">正在构建概念引入情境...</p>
+          </div>
+          <div id="result-empty" class="empty-state py-16">
+            <i class="fas fa-lightbulb text-5xl mb-4" style="color:#fcd34d"></i>
+            <p class="text-lg text-muted">填写左侧信息后点击「生成教案」</p>
+            <p class="text-sm mt-2 text-muted">将自动包含：概念建构、例题示范、变式训练、课堂小结及错因预防</p>
+          </div>
+          <div id="result-content" class="markdown-body hidden"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="page-detail" class="page">
+    <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+      <div>
+        <h1 class="text-2xl font-bold text-main" id="detail-title">教案详情</h1>
+        <div class="flex items-center gap-2 mt-2 flex-wrap" id="detail-meta"></div>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" class="btn-secondary" onclick="editFromDetail()"><i class="fas fa-edit mr-1"></i>编辑</button>
+        <button type="button" class="btn-secondary" onclick="goBackPage()"><i class="fas fa-arrow-left mr-1"></i>返回</button>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-1 space-y-4">
+        <div class="card p-5">
+          <h3 class="font-semibold text-main mb-3 text-sm uppercase tracking-wide">基本信息</h3>
+          <div class="space-y-3 text-sm" id="detail-info"></div>
+        </div>
+        <div class="card p-5">
+          <h3 class="font-semibold text-main mb-3 text-sm uppercase tracking-wide">教学目标</h3>
+          <p class="text-sm text-muted whitespace-pre-wrap" id="detail-goals">—</p>
+        </div>
+        <div class="card p-5">
+          <h3 class="font-semibold text-main mb-3 text-sm uppercase tracking-wide">重点难点</h3>
+          <p class="text-sm text-muted whitespace-pre-wrap" id="detail-points">—</p>
+        </div>
+        <div class="card p-5">
+          <h3 class="font-semibold text-main mb-3 text-sm uppercase tracking-wide">学情说明</h3>
+          <p class="text-sm text-muted whitespace-pre-wrap" id="detail-situation">—</p>
+        </div>
+      </div>
+      <div class="lg:col-span-2">
+        <div class="card p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-main flex items-center gap-2">
+              <i class="fas fa-file-lines text-blue-500"></i>完整教案
+            </h3>
+            <div class="flex gap-2">
+              <button type="button" class="btn-ghost text-sm" onclick="copyDetailContent()"><i class="fas fa-copy"></i></button>
+              <button type="button" class="btn-ghost text-sm" onclick="printDetail()"><i class="fas fa-print"></i></button>
+            </div>
+          </div>
+          <div id="detail-content" class="markdown-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="delete-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeDeleteModal()">
+  <div class="modal-box p-6" style="max-width:384px">
+    <div class="text-center">
+      <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-red-500 text-xl" style="background:#fef2f2">
+        <i class="fas fa-trash-alt"></i>
+      </div>
+      <h3 class="text-lg font-semibold text-main mb-2">确认删除</h3>
+      <p class="text-muted text-sm mb-6">删除后不可恢复，确定要删除这份教案吗？</p>
+      <div class="flex gap-3 justify-center">
+        <button type="button" class="btn-secondary" onclick="closeDeleteModal()">取消</button>
+        <button type="button" class="btn-danger px-5 py-2" id="confirm-delete-btn" onclick="confirmDelete()">删除</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="md-modal" class="modal-overlay hidden mobile-flush" onclick="if(event.target===this)closeMdModal()">
+  <div class="modal-box p-6" style="max-width:800px">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-semibold text-main" id="md-modal-title">详情</h3>
+      <button type="button" class="btn-ghost" onclick="closeMdModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="md-modal-body" class="markdown-body"></div>
+  </div>
+</div>
+
+<div id="toast" class="hidden"></div>
+
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("90f257797b7ad286_数学教案设计")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+// ==================== 全局状态 ====================
+const TABLE = '数学教案';
+const DATA_SOURCE = '数学教案/默认表格';
+const FIELDS = ['课题','年级','课时','教学目标','重点难点','学情说明','教案内容'];
+const PRIMARY_GRADES = ['一年级','二年级','三年级','四年级','五年级','六年级'];
+const JUNIOR_GRADES = ['七年级','八年级','九年级'];
+const SENIOR_GRADES = ['高一','高二','高三'];
+const POLL_TIMEOUT_SEC = 1800;
+const POLL_MSGS = [
+  '正在构建概念引入情境...',
+  '抽象核心概念并命名...',
+  '设计例题示范思路与步骤...',
+  '编排变式训练题组...',
+  '提炼课堂小结与口诀...',
+  '补充常见错因预防要点...',
+  '整理教案结构，即将完成...'
+];
+
+let currentRow = 0;
+let editMode = false;
+let allRecords = [];
+let deleteTargetRow = null;
+let pollTimer = null;
+let pollTicks = 0;
+let isPolling = false;
+let pageHistory = [];
+let currentPageName = 'home';
+let modalStack = [];
+
+function formatDateTime(d) {
+  const pad = n => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' +
+    pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+}
+function formatDate(d) {
+  const pad = n => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+}
+
+function showToast(msg, duration) {
+  duration = duration || 2200;
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(function() { el.classList.add('hidden'); }, duration);
+}
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function isPrimary(g) { return PRIMARY_GRADES.indexOf(g) >= 0; }
+function isJunior(g) { return JUNIOR_GRADES.indexOf(g) >= 0; }
+function isSenior(g) { return SENIOR_GRADES.indexOf(g) >= 0; }
+
+async function applyTheme() {
+  try {
+    const mode = await callAppBridge({ type: '模式' });
+    const m = String(mode || '').trim();
+    if (m === '暗色') {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  } catch (e) {
+    document.body.classList.remove('dark-mode');
+  }
+}
+
+function checkNavOverflow() {
+  const tabs = document.getElementById('nav-tabs');
+  const hamburger = document.getElementById('nav-hamburger');
+  if (!tabs || !hamburger) return;
+  const needHamburger = window.innerWidth < 768;
+  if (needHamburger) {
+    tabs.classList.add('collapse-needed');
+    hamburger.classList.add('show-needed');
+  } else {
+    tabs.classList.remove('collapse-needed');
+    hamburger.classList.remove('show-needed');
+    closeMobileMenu();
+  }
+}
+
+function toggleMobileMenu(e) {
+  if (e) e.stopPropagation();
+  const menu = document.getElementById('nav-mobile-menu');
+  if (menu.classList.contains('open')) {
+    closeMobileMenu();
+  } else {
+    menu.classList.add('open');
+  }
+}
+
+function closeMobileMenu() {
+  const menu = document.getElementById('nav-mobile-menu');
+  if (menu) menu.classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('nav-mobile-menu');
+  const nav = document.getElementById('main-nav');
+  const hamburger = document.getElementById('nav-hamburger');
+  if (!menu || !menu.classList.contains('open')) return;
+  if (hamburger && (hamburger === e.target || hamburger.contains(e.target))) return;
+  if (menu.contains(e.target)) return;
+  closeMobileMenu();
+});
+
+function switchPage(name, skipHistory) {
+  closeMobileMenu();
+  const pages = document.querySelectorAll('.page');
+  const oldPage = currentPageName;
+  if (!skipHistory && oldPage && oldPage !== name) {
+    pageHistory.push({ page: oldPage, scroll: window.scrollY || 0 });
+  }
+  for (let i = 0; i < pages.length; i++) {
+    pages[i].classList.remove('active');
+  }
+  const page = document.getElementById('page-' + name);
+  if (page) page.classList.add('active');
+  currentPageName = name;
+
+  const links = document.querySelectorAll('.nav-link');
+  for (let i = 0; i < links.length; i++) {
+    links[i].classList.remove('active');
+    if (links[i].getAttribute('data-page') === name) {
+      links[i].classList.add('active');
+    }
+  }
+
+  if (name === 'home') loadHome();
+  if (name === 'library') loadLibrary();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goBackPage() {
+  if (pageHistory.length > 0) {
+    const prev = pageHistory.pop();
+    switchPage(prev.page, true);
+    setTimeout(function() { window.scrollTo(0, prev.scroll || 0); }, 50);
+    return false;
+  }
+  switchPage('library', true);
+  return false;
+}
+
+function airBack() {
+  if (modalStack.length > 0) {
+    const top = modalStack[modalStack.length - 1];
+    if (top === 'delete') closeDeleteModal();
+    else if (top === 'md') closeMdModal();
+    else {
+      const el = document.getElementById(top);
+      if (el) el.classList.add('hidden');
+      modalStack.pop();
+    }
+    return 'false';
+  }
+  const menu = document.getElementById('nav-mobile-menu');
+  if (menu && menu.classList.contains('open')) {
+    closeMobileMenu();
+    return 'false';
+  }
+  if (pageHistory.length > 0) {
+    const prev = pageHistory.pop();
+    switchPage(prev.page, true);
+    setTimeout(function() { window.scrollTo(0, prev.scroll || 0); }, 50);
+    return 'false';
+  }
+  return 'true';
+}
+window.airBack = airBack;
+
+function setupMarked() {
+  if (typeof marked !== 'undefined') {
+    marked.setOptions({ breaks: true, gfm: true });
+  }
+}
+
+function renderMarkdown(md) {
+  if (!md) return '';
+  let html = '';
+  try {
+    html = marked.parse(String(md));
+  } catch (e) {
+    html = '<pre>' + escapeHtml(md) + '</pre>';
+  }
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  const imgs = tmp.querySelectorAll('img');
+  for (let i = 0; i < imgs.length; i++) {
+    const img = imgs[i];
+    let src = img.getAttribute('src') || '';
+    if (src && !/^https?:\/\//i.test(src) && src.indexOf('data:') !== 0) {
+      src = 'http://' + window.location.hostname + ':3130/download/' + src;
+      img.setAttribute('src', src);
+    }
+    img.style.cursor = 'pointer';
+    img.setAttribute('title', '点击下载图片');
+    img.setAttribute('onclick', 'downloadMdImage(this)');
+  }
+  return tmp.innerHTML;
+}
+
+function downloadMdImage(imgEl) {
+  let src = imgEl.getAttribute('src') || '';
+  if (!src) return;
+  const dlPrefix = 'http://' + window.location.hostname + ':3130/download/';
+  if (src.indexOf(dlPrefix) === 0) {
+    window.open(src, '_blank');
+    return;
+  }
+  if (!/^https?:\/\//i.test(src)) {
+    window.open(dlPrefix + src, '_blank');
+    return;
+  }
+  const a = document.createElement('a');
+  a.href = src;
+  a.target = '_blank';
+  a.download = '';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+async function loadAllRecords() {
+  try {
+    const csv = await callAppBridge({
+      type: 'GetTableCSV',
+      data: DATA_SOURCE,
+      payload: FIELDS.join(',')
+    });
+    const rows = parseCSV(csv || '');
+    allRecords = [];
+    for (let idx = 0; idx < rows.length; idx++) {
+      const cols = rows[idx];
+      if (!cols || (cols.length === 1 && cols[0] === '')) continue;
+      const obj = { row: idx + 1 };
+      for (let i = 0; i < FIELDS.length; i++) {
+        obj[FIELDS[i]] = cols[i] !== undefined ? cols[i] : '';
+      }
+      allRecords.push(obj);
+    }
+    return allRecords;
+  } catch (e) {
+    console.error(e);
+    allRecords = [];
+    return [];
+  }
+}
+
+async function loadHome() {
+  await loadAllRecords();
+  const total = allRecords.length;
+  document.getElementById('stat-total').textContent = total;
+  let pCount = 0, sCount = 0;
+  for (let i = 0; i < allRecords.length; i++) {
+    if (isPrimary(allRecords[i]['年级'])) pCount++;
+    if (isJunior(allRecords[i]['年级']) || isSenior(allRecords[i]['年级'])) sCount++;
+  }
+  document.getElementById('stat-primary').textContent = pCount;
+  document.getElementById('stat-secondary').textContent = sCount;
+
+  const recent = allRecords.slice(0, 6);
+  const box = document.getElementById('home-recent');
+  if (recent.length === 0) {
+    box.innerHTML = '<div class="col-span-full empty-state card"><i class="fas fa-seedling text-4xl mb-3" style="color:#6ee7b7"></i><p>还没有教案，快去设计第一份吧</p><button type="button" class="btn-primary mt-4" onclick="switchPage(\'create\')">开始设计</button></div>';
+    return;
+  }
+  let html = '';
+  for (let i = 0; i < recent.length; i++) {
+    html += lessonCardHTML(recent[i], true);
+  }
+  box.innerHTML = html;
+}
+
+async function loadLibrary() {
+  await loadAllRecords();
+  filterLibrary();
+}
+
+function filterLibrary() {
+  const qEl = document.getElementById('search-input');
+  const gEl = document.getElementById('filter-grade');
+  const q = (qEl && qEl.value || '').trim().toLowerCase();
+  const gradeSel = gEl && gEl.value || '';
+  const chip = document.querySelector('#grade-chips .filter-chip.active');
+  const stage = chip ? chip.getAttribute('data-grade') : '';
+
+  let list = allRecords.slice();
+  if (gradeSel) {
+    list = list.filter(function(r) { return r['年级'] === gradeSel; });
+  }
+  if (stage === 'primary') list = list.filter(function(r) { return isPrimary(r['年级']); });
+  if (stage === 'junior') list = list.filter(function(r) { return isJunior(r['年级']); });
+  if (stage === 'senior') list = list.filter(function(r) { return isSenior(r['年级']); });
+  if (q) {
+    list = list.filter(function(r) {
+      return (r['课题'] || '').toLowerCase().indexOf(q) >= 0 ||
+        (r['教学目标'] || '').toLowerCase().indexOf(q) >= 0 ||
+        (r['重点难点'] || '').toLowerCase().indexOf(q) >= 0 ||
+        (r['学情说明'] || '').toLowerCase().indexOf(q) >= 0;
+    });
+  }
+
+  const box = document.getElementById('library-list');
+  const empty = document.getElementById('library-empty');
+  if (list.length === 0) {
+    box.innerHTML = '';
+    empty.classList.remove('hidden');
+  } else {
+    empty.classList.add('hidden');
+    let html = '';
+    for (let i = 0; i < list.length; i++) {
+      html += lessonCardHTML(list[i], false);
+    }
+    box.innerHTML = html;
+  }
+}
+
+function setGradeFilter(el, stage) {
+  const chips = document.querySelectorAll('#grade-chips .filter-chip');
+  for (let i = 0; i < chips.length; i++) chips[i].classList.remove('active');
+  el.classList.add('active');
+  if (stage) {
+    const fg = document.getElementById('filter-grade');
+    if (fg) fg.value = '';
+  }
+  filterLibrary();
+}
+
+function lessonCardHTML(r, compact) {
+  const topic = escapeHtml(r['课题'] || '未命名课题');
+  const grade = escapeHtml(r['年级'] || '');
+  const hours = r['课时'] || '';
+  const goalsRaw = r['教学目标'] || '';
+  const goals = escapeHtml(goalsRaw.slice(0, 80));
+  const hasContent = !!(r['教案内容'] && String(r['教案内容']).trim());
+  let actions = '';
+  if (!compact) {
+    actions = '<div class="flex items-center justify-end gap-1 mt-4 pt-3" style="border-top:1px solid var(--card-border)" onclick="event.stopPropagation()">' +
+      '<button type="button" class="btn-ghost text-sm" onclick="viewDetail(' + r.row + ')" title="查看"><i class="fas fa-eye"></i></button>' +
+      '<button type="button" class="btn-ghost text-sm" onclick="editLesson(' + r.row + ')" title="编辑"><i class="fas fa-edit"></i></button>' +
+      '<button type="button" class="btn-ghost text-sm" style="color:#ef4444" onclick="askDelete(' + r.row + ')" title="删除"><i class="fas fa-trash"></i></button>' +
+      '</div>';
+  }
+  let goalsHtml = '';
+  if (!compact && goals) {
+    goalsHtml = '<p class="text-sm text-muted mt-2 line-clamp-2">' + goals + (goalsRaw.length > 80 ? '…' : '') + '</p>';
+  }
+  return '<div class="card p-5 cursor-pointer group" onclick="viewDetail(' + r.row + ')">' +
+    '<div class="flex gap-4">' +
+    '<div class="lesson-card-icon"><i class="fas fa-calculator"></i></div>' +
+    '<div class="flex-1 min-w-0">' +
+    '<h3 class="font-semibold text-main truncate">' + topic + '</h3>' +
+    '<div class="flex flex-wrap gap-2 mt-2">' +
+    (grade ? '<span class="badge badge-grade">' + grade + '</span>' : '') +
+    (hours ? '<span class="badge badge-hours">' + escapeHtml(String(hours)) + ' 课时</span>' : '') +
+    (hasContent ? '<span class="badge" style="background:#d1fae5;color:#047857">已生成</span>' : '<span class="badge" style="background:#fef3c7;color:#b45309">生成中</span>') +
+    '</div>' + goalsHtml +
+    '</div></div>' + actions + '</div>';
+}
+
+async function viewDetail(row) {
+  currentRow = row;
+  const values = {};
+  for (let i = 0; i < FIELDS.length; i++) {
+    const f = FIELDS[i];
+    try {
+      values[f] = await callAppBridge({
+        type: 'GetCellValue',
+        data: DATA_SOURCE,
+        payload: f + '/' + row
+      }) || '';
+    } catch (e) { values[f] = ''; }
+  }
+  const idx = allRecords.findIndex(function(r) { return r.row === row; });
+  if (idx >= 0) {
+    for (const k in values) { if (Object.prototype.hasOwnProperty.call(values, k)) allRecords[idx][k] = values[k]; }
+  }
+
+  document.getElementById('detail-title').textContent = values['课题'] || '教案详情';
+  document.getElementById('detail-meta').innerHTML =
+    (values['年级'] ? '<span class="badge badge-grade">' + escapeHtml(values['年级']) + '</span>' : '') +
+    (values['课时'] ? '<span class="badge badge-hours">' + escapeHtml(String(values['课时'])) + ' 课时</span>' : '');
+  document.getElementById('detail-info').innerHTML =
+    '<div class="flex justify-between"><span class="text-muted">课题</span><span class="font-medium text-right ml-4">' + (escapeHtml(values['课题']) || '—') + '</span></div>' +
+    '<div class="flex justify-between"><span class="text-muted">年级</span><span class="font-medium">' + (escapeHtml(values['年级']) || '—') + '</span></div>' +
+    '<div class="flex justify-between"><span class="text-muted">课时</span><span class="font-medium">' + (escapeHtml(String(values['课时'] || '')) || '—') + '</span></div>';
+  document.getElementById('detail-goals').textContent = values['教学目标'] || '—';
+  document.getElementById('detail-points').textContent = values['重点难点'] || '—';
+  document.getElementById('detail-situation').textContent = values['学情说明'] || '—';
+
+  const contentEl = document.getElementById('detail-content');
+  if (values['教案内容'] && String(values['教案内容']).trim()) {
+    contentEl.innerHTML = renderMarkdown(values['教案内容']);
+  } else {
+    contentEl.innerHTML = '<div class="empty-state py-10"><i class="fas fa-spinner spinner text-2xl text-blue-400 mb-3"></i><p>教案内容生成中，请稍后刷新查看</p>' +
+      '<button type="button" class="btn-secondary mt-3" onclick="viewDetail(' + row + ')">刷新</button></div>';
+  }
+  switchPage('detail');
+  const links = document.querySelectorAll('.nav-link');
+  for (let i = 0; i < links.length; i++) links[i].classList.remove('active');
+}
+
+function editFromDetail() {
+  if (currentRow > 0) editLesson(currentRow);
+}
+
+function copyDetailContent() {
+  let rec = null;
+  for (let i = 0; i < allRecords.length; i++) {
+    if (allRecords[i].row === currentRow) { rec = allRecords[i]; break; }
+  }
+  const text = (rec && rec['教案内容']) || document.getElementById('detail-content').innerText;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() { showToast('已复制教案内容'); }).catch(function() { showToast('复制失败'); });
+  } else {
+    showToast('复制失败');
+  }
+}
+
+function printDetail() {
+  const title = document.getElementById('detail-title').textContent;
+  const content = document.getElementById('detail-content').innerHTML;
+  const w = window.open('', '_blank');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + escapeHtml(title) + '</title>' +
+    '<style>body{font-family:sans-serif;max-width:800px;margin:40px auto;line-height:1.7;padding:0 20px}' +
+    'h1,h2,h3{color:#1e3a8a} blockquote{border-left:4px solid #3b82f6;padding:8px 14px;background:#f0f7ff}</style>' +
+    '</head><body><h1>' + escapeHtml(title) + '</h1>' + content + '</body></html>');
+  w.document.close();
+  w.print();
+}
+
+function resetForm() {
+  editMode = false;
+  currentRow = 0;
+  stopPolling();
+  isPolling = false;
+  document.getElementById('lesson-form').reset();
+  document.getElementById('create-title').textContent = '设计数学教案';
+  document.getElementById('btn-submit').classList.remove('hidden');
+  document.getElementById('btn-submit').disabled = false;
+  document.getElementById('btn-update').classList.add('hidden');
+  document.getElementById('generating-state').classList.add('hidden');
+  document.getElementById('result-content').classList.add('hidden');
+  document.getElementById('result-content').innerHTML = '';
+  document.getElementById('result-empty').classList.remove('hidden');
+  const ra = document.getElementById('result-actions');
+  ra.classList.add('hidden');
+  ra.style.display = 'none';
+}
+
+async function editLesson(row) {
+  currentRow = row;
+  editMode = true;
+  stopPolling();
+  const values = {};
+  const editFields = ['课题','年级','课时','教学目标','重点难点','学情说明','教案内容'];
+  for (let i = 0; i < editFields.length; i++) {
+    const f = editFields[i];
+    try {
+      values[f] = await callAppBridge({
+        type: 'GetCellValue',
+        data: DATA_SOURCE,
+        payload: f + '/' + row
+      }) || '';
+    } catch (e) { values[f] = ''; }
+  }
+  document.getElementById('lesson-form-课题').value = values['课题'] || '';
+  document.getElementById('lesson-form-年级').value = values['年级'] || '';
+  document.getElementById('lesson-form-课时').value = values['课时'] || '';
+  document.getElementById('lesson-form-教学目标').value = values['教学目标'] || '';
+  document.getElementById('lesson-form-重点难点').value = values['重点难点'] || '';
+  document.getElementById('lesson-form-学情说明').value = values['学情说明'] || '';
+
+  document.getElementById('create-title').textContent = '编辑数学教案';
+  document.getElementById('btn-submit').classList.add('hidden');
+  document.getElementById('btn-update').classList.remove('hidden');
+  document.getElementById('result-empty').classList.add('hidden');
+  document.getElementById('generating-state').classList.add('hidden');
+  const ra = document.getElementById('result-actions');
+  if (values['教案内容'] && String(values['教案内容']).trim()) {
+    document.getElementById('result-content').innerHTML = renderMarkdown(values['教案内容']);
+    document.getElementById('result-content').classList.remove('hidden');
+    ra.classList.remove('hidden');
+    ra.style.display = 'flex';
+  } else {
+    document.getElementById('result-content').classList.add('hidden');
+    document.getElementById('result-empty').classList.remove('hidden');
+    ra.classList.add('hidden');
+    ra.style.display = 'none';
+  }
+  switchPage('create');
+}
+
+function collectFormData() {
+  return {
+    '课题': document.getElementById('lesson-form-课题').value.trim(),
+    '年级': document.getElementById('lesson-form-年级').value,
+    '课时': document.getElementById('lesson-form-课时').value.trim(),
+    '教学目标': document.getElementById('lesson-form-教学目标').value.trim(),
+    '重点难点': document.getElementById('lesson-form-重点难点').value.trim(),
+    '学情说明': document.getElementById('lesson-form-学情说明').value.trim()
+  };
+}
+
+function validateForm(data) {
+  if (!data['课题']) { showToast('请填写课题'); return false; }
+  if (!data['年级']) { showToast('请选择年级'); return false; }
+  if (!data['课时'] || Number(data['课时']) < 1) { showToast('请填写有效课时'); return false; }
+  return true;
+}
+
+async function submitLesson() {
+  if (isPolling) { showToast('正在生成中，请稍候'); return; }
+  const data = collectFormData();
+  if (!validateForm(data)) return;
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner spinner mr-2"></i>提交中...';
+
+  try {
+    await callAppBridge({
+      type: 'SubmitRecord',
+      data: TABLE,
+      payload: JSON.stringify(data)
+    });
+    currentRow = 1;
+    editMode = false;
+
+    document.getElementById('result-empty').classList.add('hidden');
+    document.getElementById('result-content').classList.add('hidden');
+    const ra = document.getElementById('result-actions');
+    ra.classList.add('hidden');
+    ra.style.display = 'none';
+    document.getElementById('generating-state').classList.remove('hidden');
+    document.getElementById('poll-bar').style.width = '15%';
+    startPolling();
+    showToast('已提交，正在生成教案…');
+  } catch (e) {
+    console.error(e);
+    showToast('提交失败，请重试');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-wand-magic-sparkles mr-2"></i>生成教案';
+  }
+}
+
+async function updateLesson() {
+  if (!currentRow || currentRow < 1) return;
+  const data = collectFormData();
+  if (!validateForm(data)) return;
+
+  const btn = document.getElementById('btn-update');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner spinner mr-2"></i>保存中...';
+
+  try {
+    const fields = ['课题','年级','课时','教学目标','重点难点','学情说明'];
+    for (let i = 0; i < fields.length; i++) {
+      const f = fields[i];
+      await callAppBridge({
+        type: 'SetCellValue',
+        data: DATA_SOURCE,
+        payload: f + '/' + currentRow + '/' + data[f]
+      });
+    }
+    showToast('基本信息已保存');
+    const content = await callAppBridge({
+      type: 'GetCellValue',
+      data: DATA_SOURCE,
+      payload: '教案内容/' + currentRow
+    });
+    if (content && String(content).trim()) {
+      document.getElementById('result-content').innerHTML = renderMarkdown(content);
+      document.getElementById('result-content').classList.remove('hidden');
+      document.getElementById('result-empty').classList.add('hidden');
+      const ra = document.getElementById('result-actions');
+      ra.classList.remove('hidden');
+      ra.style.display = 'flex';
+    }
+    await loadAllRecords();
+  } catch (e) {
+    console.error(e);
+    showToast('保存失败');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save mr-2"></i>保存修改';
+  }
+}
+
+function startPolling() {
+  stopPolling();
+  isPolling = true;
+  pollTicks = 0;
+  const btn = document.getElementById('btn-submit');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner spinner mr-2"></i>生成中...';
+  }
+  pollTimer = setInterval(function() {
+    doPollTick();
+  }, 1000);
+}
+
+async function doPollTick() {
+  if (!isPolling) return;
+  pollTicks++;
+  const progress = Math.min(92, 15 + Math.floor(pollTicks / POLL_TIMEOUT_SEC * 77));
+  const bar = document.getElementById('poll-bar');
+  if (bar) bar.style.width = progress + '%';
+  const msgEl = document.getElementById('poll-msg');
+  if (msgEl) msgEl.textContent = POLL_MSGS[Math.min(Math.floor(pollTicks / 8), POLL_MSGS.length - 1)];
+
+  try {
+    let content = await callAppBridge({
+      type: '轮询',
+      data: TABLE,
+      payload: '教案内容'
+    });
+    if (!content || !String(content).trim()) {
+      content = await callAppBridge({
+        type: 'GetCellValue',
+        data: DATA_SOURCE,
+        payload: '教案内容/' + currentRow
+      });
+    }
+    if (content && String(content).trim().length > 0) {
+      stopPolling();
+      if (bar) bar.style.width = '100%';
+      setTimeout(function() {
+        document.getElementById('generating-state').classList.add('hidden');
+        document.getElementById('result-content').innerHTML = renderMarkdown(content);
+        document.getElementById('result-content').classList.remove('hidden');
+        const ra = document.getElementById('result-actions');
+        ra.classList.remove('hidden');
+        ra.style.display = 'flex';
+        showToast('教案生成完成！');
+        loadAllRecords();
+      }, 300);
+      return;
+    }
+  } catch (e) {
+    console.error('poll error', e);
+  }
+
+  if (pollTicks >= POLL_TIMEOUT_SEC) {
+    stopPolling();
+    document.getElementById('generating-state').classList.add('hidden');
+    const empty = document.getElementById('result-empty');
+    empty.classList.remove('hidden');
+    empty.innerHTML = '<i class="fas fa-hourglass-half text-4xl mb-3" style="color:#fbbf24"></i>' +
+      '<p>生成时间较长，请稍后在教案库中查看</p>' +
+      '<button type="button" class="btn-secondary mt-3" onclick="switchPage(\'library\')">前往教案库</button>';
+  }
+}
+
+function stopPolling() {
+  if (pollTimer) {
+    clearInterval(pollTimer);
+    pollTimer = null;
+  }
+  isPolling = false;
+  const btn = document.getElementById('btn-submit');
+  if (btn && !editMode) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-wand-magic-sparkles mr-2"></i>生成教案';
+  }
+}
+
+function copyResult() {
+  let rec = null;
+  for (let i = 0; i < allRecords.length; i++) {
+    if (allRecords[i].row === currentRow) { rec = allRecords[i]; break; }
+  }
+  const text = (rec && rec['教案内容']) || document.getElementById('result-content').innerText;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() { showToast('已复制'); }).catch(function() { showToast('复制失败'); });
+  } else {
+    showToast('复制失败');
+  }
+}
+
+function printResult() {
+  const title = document.getElementById('lesson-form-课题').value || '数学教案';
+  const content = document.getElementById('result-content').innerHTML;
+  const w = window.open('', '_blank');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + escapeHtml(title) + '</title>' +
+    '<style>body{font-family:sans-serif;max-width:800px;margin:40px auto;line-height:1.7;padding:0 20px}' +
+    'h1,h2,h3{color:#1e3a8a}</style></head><body><h1>' + escapeHtml(title) + '</h1>' + content + '</body></html>');
+  w.document.close();
+  w.print();
+}
+
+function askDelete(row) {
+  deleteTargetRow = row;
+  document.getElementById('delete-modal').classList.remove('hidden');
+  if (modalStack.indexOf('delete') < 0) modalStack.push('delete');
+}
+function closeDeleteModal() {
+  deleteTargetRow = null;
+  document.getElementById('delete-modal').classList.add('hidden');
+  const i = modalStack.indexOf('delete');
+  if (i >= 0) modalStack.splice(i, 1);
+}
+function closeMdModal() {
+  document.getElementById('md-modal').classList.add('hidden');
+  const i = modalStack.indexOf('md');
+  if (i >= 0) modalStack.splice(i, 1);
+}
+
+async function confirmDelete() {
+  if (deleteTargetRow == null) return;
+  const rowToDelete = deleteTargetRow;
+  try {
+    await callAppBridge({
+      type: 'DeleteRecord',
+      data: DATA_SOURCE,
+      payload: String(rowToDelete)
+    });
+    showToast('已删除');
+    closeDeleteModal();
+    if (currentRow === rowToDelete) {
+      currentRow = 0;
+      resetForm();
+    }
+    await loadAllRecords();
+    if (document.getElementById('page-library').classList.contains('active')) filterLibrary();
+    else if (document.getElementById('page-home').classList.contains('active')) loadHome();
+    else if (document.getElementById('page-detail').classList.contains('active')) switchPage('library', true);
+  } catch (e) {
+    console.error(e);
+    showToast('删除失败');
+  }
+}
+
+function setupKeyboardHandling() {
+  document.addEventListener('focusin', function(e) {
+    const t = e.target;
+    if (!t || !t.matches) return;
+    if (!t.matches('input, select, textarea')) return;
+    const formCard = document.getElementById('form-card');
+    if (formCard) formCard.classList.add('keyboard-open');
+    setTimeout(function() {
+      try {
+        t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {
+        t.scrollIntoView(true);
+      }
+    }, 300);
+  });
+  document.addEventListener('focusout', function(e) {
+    setTimeout(function() {
+      const a = document.activeElement;
+      if (!a || !a.matches || !a.matches('input, select, textarea')) {
+        const formCard = document.getElementById('form-card');
+        if (formCard) formCard.classList.remove('keyboard-open');
+      }
+    }, 200);
+  });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', function() {
+      const a = document.activeElement;
+      if (a && a.matches && a.matches('input, select, textarea')) {
+        setTimeout(function() {
+          try { a.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) {}
+        }, 100);
+      }
+    });
+  }
+}
+
+async function initialize() {
+  setupMarked();
+  setupKeyboardHandling();
+  await applyTheme();
+  checkNavOverflow();
+  window.addEventListener('resize', checkNavOverflow);
+  await loadHome();
+}
+
+(async () => {
+  await initialize();
+})();
+</script>
+</body>
+</html>

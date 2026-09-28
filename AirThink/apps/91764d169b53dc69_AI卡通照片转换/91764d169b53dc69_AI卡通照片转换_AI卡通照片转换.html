@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AI卡通照片转换</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+:root{color-scheme:light;--ink:#292244;--muted:#716b89;--surface:#fffefa;--soft:#fff3fc;--line:#eec9ff;--shadow:0 14px 40px #8361ad26;--bg:linear-gradient(135deg,#fff0fa 0%,#f2eaff 48%,#dbf5ff 100%);--nav:linear-gradient(100deg,#f58bc4,#a58aff 55%,#79cafa)}
+body.dark{color-scheme:dark;--ink:#f8efff;--muted:#c8bdd9;--surface:#251d36;--soft:#322544;--line:#705589;--shadow:0 14px 40px #08040d77;--bg:linear-gradient(135deg,#251529,#211a3c 55%,#163749);--nav:linear-gradient(100deg,#73326b,#57418f 55%,#286b90)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:ui-rounded,"Arial Rounded MT Bold","Nunito",system-ui,sans-serif}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}a{color:inherit}img{max-width:100%}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #ffae38;outline-offset:2px}
+.topbar{position:relative;z-index:1001;position:fixed;top:0;left:0;right:0;background:var(--nav);box-shadow:0 7px 22px #6c368532}.nav-inner{max-width:1200px;margin:auto;min-height:72px;display:flex;align-items:center;gap:20px;padding:10px 24px}.brand{border:0;background:none;display:flex;align-items:center;gap:10px;color:white;font-size:1.12rem;font-weight:900;white-space:nowrap}.brand i{font-size:1.7rem;text-shadow:2px 3px 0 #8f4f99}.nav-links{display:flex;align-items:center;gap:8px;margin-left:auto;white-space:nowrap}.nav-link,.lang-button,.menu-button{border:1px solid #ffffff70;background:#ffffff24;color:white;border-radius:16px;padding:9px 15px;font-weight:800;white-space:nowrap}.nav-link.active,.nav-link:hover,.lang-button:hover{background:white;color:#824caf}.menu-button{display:none;margin-left:auto;font-size:1.1rem}.mobile-menu{display:none;position:absolute;right:12px;top:100%;width:min(290px,calc(100vw - 24px));padding:12px;background:var(--surface);border:2px solid var(--line);border-radius:0 0 20px 20px;box-shadow:var(--shadow)}.mobile-menu.open{display:grid;gap:8px}.mobile-menu button{color:var(--ink);background:var(--soft);text-align:left}.mobile-menu button.active{color:#ba4eab;background:#fce8f7}
+main{max-width:1200px;margin:0 auto;padding:112px 24px 100px}.page{display:none}.page.active{display:block}.hero{text-align:center;padding:55px 18px 38px}.hero-icon{font-size:4.2rem;color:#ed72b2;filter:drop-shadow(3px 4px 0 #ffffff)}h1{font-size:clamp(2rem,5vw,3.7rem);line-height:1.1;margin:14px 0;background:linear-gradient(90deg,#df5aab,#8568eb,#35a8d7);background-clip:text;color:transparent}h2{margin:0 0 10px;font-size:1.55rem}.subtitle{color:var(--muted);line-height:1.6;margin:0}.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:28px}.page-head h1{margin:0 0 10px}.page-head .button{flex:none}.button{border:2px solid #ffffff99;border-bottom:4px solid #904b9866;background:linear-gradient(120deg,#ff80bc,#ffb26c);color:#372446;border-radius:18px;padding:12px 20px;font-weight:900;box-shadow:0 8px 18px #a2539d30;display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;transition:transform .2s,box-shadow .2s}.button:hover:not(:disabled){transform:scale(1.045) translateY(-2px);box-shadow:0 12px 22px #a2539d45;animation:bob .35s ease}.button:disabled{opacity:.55;cursor:not-allowed}.button.blue{background:linear-gradient(120deg,#76dbff,#a890ff)}.button.soft{background:var(--soft);color:var(--ink);border-color:var(--line)}.button.danger{background:linear-gradient(120deg,#ffbdc0,#ff7a9c)}.button.small{padding:8px 12px;border-radius:12px;font-size:.87rem}.hero .button{font-size:1.16rem;padding:17px 30px;margin-top:25px}@keyframes bob{50%{transform:scale(1.055) translateY(-5px)}}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:16px 0 36px}.card{background:var(--surface);border:2px solid var(--line);border-radius:25px;box-shadow:var(--shadow);padding:22px;min-width:0}.hover-card{transition:transform .2s,box-shadow .2s}.hover-card:hover{transform:translateY(-4px) scale(1.015);box-shadow:0 18px 35px #a35aaf44}.stat{display:flex;align-items:center;gap:18px}.stat i{font-size:1.8rem;background:var(--soft);border-radius:17px;padding:16px;color:#cb6fb6}.stat strong{font-size:2rem;display:block}.stat span{color:var(--muted)}.section-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.section-heading h2{margin:0}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}.record-card{cursor:pointer}.record-visual{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px}.thumb,.preview-image{display:grid;place-items:center;background:var(--soft);border:2px dashed var(--line);border-radius:16px;overflow:hidden;color:#bc89ca}.thumb{aspect-ratio:4/3}.thumb img,.preview-image img{width:100%;height:100%;object-fit:cover}.thumb i,.preview-image i{font-size:2.5rem}.record-label{display:flex;align-items:center;justify-content:space-between;gap:8px}.pill{border-radius:999px;padding:5px 10px;background:linear-gradient(90deg,#ffdcf0,#d7e6ff);color:#6f438e;font-size:.8rem;font-weight:900}.date{font-size:.81rem;color:var(--muted)}.card-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}.empty{text-align:center;color:var(--muted);padding:40px 15px}.empty i{display:block;font-size:2.5rem;margin-bottom:12px;color:#d290c9}.message{color:var(--muted);line-height:1.6}
+.convert-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(310px,.95fr);gap:22px}.preview-image{aspect-ratio:4/3;max-height:430px}.picker-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.style-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0}.style-option{position:relative}.style-option input{position:absolute;opacity:0}.style-option span{display:block;padding:13px;border:2px solid var(--line);border-radius:15px;background:var(--soft);font-weight:800;text-align:center;cursor:pointer}.style-option input:checked+span{border-color:#eb72bb;background:linear-gradient(100deg,#ffe4f4,#dceeff);color:#764197;box-shadow:0 3px 0 #d88ac8}.style-option input:focus-visible+span{outline:3px solid orange}.result{margin-top:22px}.result[hidden]{display:none}.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px}.compare figcaption{text-align:center;font-weight:800;margin-top:8px}.compare figure{margin:0;min-width:0}.compare .preview-image{aspect-ratio:1}.loading{display:flex;align-items:center;gap:12px;font-weight:800;color:#ad61a6}.loading i{font-size:1.7rem;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.toolbar{display:grid;grid-template-columns:minmax(180px,1fr) minmax(150px,220px) auto auto;gap:10px;margin:20px 0}.toolbar input,.toolbar select,.form-row input,.form-row select{width:100%;padding:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:13px}.toolbar label{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.9rem}.toolbar label input{min-width:125px}.load-more{display:block;margin:25px auto 0}.status{min-height:24px;color:#b7437f;margin:10px 0}
+.overlay{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;padding:24px;background:#1d1531ad}.overlay.open{display:flex}.modal{width:min(680px,100%);max-height:calc(100dvh - 48px);overflow:auto;background:var(--surface);color:var(--ink);border:2px solid var(--line);border-radius:24px;box-shadow:0 28px 90px #100a2080;padding:23px}.modal.wide{width:min(850px,100%)}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.modal-head h2{margin:0}.icon-button{border:0;background:var(--soft);color:var(--ink);border-radius:10px;width:38px;height:38px}.form-row{margin-bottom:16px}.form-row label{display:block;font-weight:800;margin-bottom:7px}.modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.markdown-body{background:transparent!important;color:var(--ink)!important}.markdown-body a{color:#bc64bb}.detail-images{display:grid;grid-template-columns:1fr 1fr;gap:15px}.detail-images .preview-image{aspect-ratio:1}.detail-meta{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.toast{position:fixed;z-index:3000;bottom:24px;left:50%;transform:translateX(-50%);max-width:min(90vw,600px);padding:12px 20px;border-radius:12px;background:#332449;color:white;box-shadow:var(--shadow);display:none}.toast.show{display:block}
+@media(max-width:760px){.nav-links{display:none}.menu-button{display:block}.nav-inner{padding:8px 16px;min-height:64px}.brand{font-size:1rem}main{padding:88px 16px 150px}.convert-grid{grid-template-columns:1fr}.page-head{flex-wrap:wrap}.toolbar{grid-template-columns:1fr 1fr}.toolbar>input,.toolbar>select{grid-column:span 2}.modal{max-height:100dvh;padding-bottom:160px}.overlay{padding:14px}.hero{padding-top:35px}}
+@media(max-width:520px){.stats{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.style-list{grid-template-columns:1fr 1fr}.overlay.detail-overlay{padding:0}.detail-overlay .modal{width:100%;height:100dvh;max-height:100dvh;border-radius:0;border:0}.detail-images{grid-template-columns:1fr 1fr}.detail-images .preview-image{aspect-ratio:1}}
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar"><div class="nav-inner">
+ <button type="button" class="brand" id="brand"><i class="fa-solid fa-face-laugh-wink" aria-hidden="true"></i><span data-i18n="appName">AI卡通照片转换</span></button>
+ <nav class="nav-links" id="navLinks" aria-label="Pages"><button class="nav-link active" data-page="home" data-i18n="home">首页</button><button class="nav-link" data-page="convert" data-i18n="start">开始转换</button><button class="nav-link" data-page="records" data-i18n="records">转换记录</button><button class="lang-button" id="languageButton" type="button">EN</button></nav>
+ <button class="menu-button" id="menuButton" type="button" aria-label="Menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+ </div><div class="mobile-menu" id="mobileMenu"><button class="nav-link active" data-page="home" data-i18n="home">首页</button><button class="nav-link" data-page="convert" data-i18n="start">开始转换</button><button class="nav-link" data-page="records" data-i18n="records">转换记录</button><button class="lang-button" id="mobileLanguageButton" type="button">English</button></div></header>
+<main id="main">
+ <section class="page active" id="page-home"><div class="hero"><i class="fa-solid fa-wand-magic-sparkles hero-icon"></i><h1 data-i18n="appName">AI卡通照片转换</h1><p class="subtitle" data-i18n="heroText">上传照片一键转换为多种卡通风格，支持预览下载，轻松制作社交头像</p><button class="button" data-page="convert"><i class="fa-solid fa-sparkles"></i><span data-i18n="beginNow">立即开始转换</span></button></div><div class="stats"><div class="card stat"><i class="fa-solid fa-images"></i><div><strong id="totalCount">—</strong><span data-i18n="totalCount">总转换记录数</span></div></div><div class="card stat"><i class="fa-solid fa-calendar-days"></i><div><strong id="monthCount">—</strong><span data-i18n="monthCount">本月转换数</span></div></div></div><div class="section-heading"><h2 data-i18n="recent">最近转换</h2><button class="button soft small" data-page="records" data-i18n="viewAll">查看全部</button></div><div class="grid" id="recentGrid"></div></section>
+ <section class="page" id="page-convert"><div class="page-head"><div><h1 data-i18n="start">开始转换</h1><p class="subtitle" data-i18n="convertText">选择风格、上传或拍摄照片，AI自动生成卡通效果</p></div><button class="button blue" data-page="records"><i class="fa-solid fa-clock-rotate-left"></i><span data-i18n="history">查看历史记录</span></button></div><div class="convert-grid"><div class="card"><h2 data-i18n="yourPhoto">你的照片</h2><div class="preview-image" id="sourcePreview"><i class="fa-solid fa-image"></i></div><div class="picker-row"><button class="button soft" id="captureButton"><i class="fa-solid fa-camera"></i><span data-i18n="capture">拍摄照片</span></button><button class="button soft" id="selectButton"><i class="fa-solid fa-image"></i><span data-i18n="selectImage">选择图片</span></button></div></div><div class="card"><h2 data-i18n="chooseStyle">选择卡通风格</h2><p class="subtitle" data-i18n="styleHint">挑选喜欢的画风，开始你的卡通冒险。</p><div class="style-list" id="styleList"></div><button class="button" id="generateButton" disabled><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="generate">生成卡通</span></button><p class="status" id="convertStatus" role="status"></p></div></div><div class="card result" id="resultPanel" hidden><h2 data-i18n="resultTitle">卡通效果预览</h2><div id="resultContent"></div></div></section>
+ <section class="page" id="page-records"><div class="page-head"><div><h1 data-i18n="records">转换记录</h1><p class="subtitle" data-i18n="recordsText">浏览、预览、下载和管理所有卡通转换历史</p></div><button class="button" data-page="convert"><i class="fa-solid fa-plus"></i><span data-i18n="newConvert">新建转换</span></button></div><div class="toolbar"><input id="searchInput" type="search" data-placeholder="search" aria-label="Search"><select id="styleFilter" aria-label="Style filter"></select><label><span data-i18n="from">从</span><input id="dateFrom" type="date"></label><label><span data-i18n="to">至</span><input id="dateTo" type="date"></label></div><p class="status" id="recordsStatus" role="status"></p><div class="grid" id="recordsGrid"></div><button class="button soft load-more" id="loadMoreButton" hidden data-i18n="loadMore">查看更多</button></section>
+</main>
+<div class="overlay detail-overlay" id="detailOverlay" aria-hidden="true"><div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal-head"><h2 id="detailTitle" data-i18n="detail">转换详情</h2><button class="icon-button" data-close="detailOverlay" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div id="detailContent"></div></div></div>
+<div class="overlay" id="editOverlay" aria-hidden="true"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle"><div class="modal-head"><h2 id="editTitle" data-i18n="editTitle">编辑卡通转换</h2><button class="icon-button" data-close="editOverlay" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><form id="editForm"><div class="form-row"><label for="editForm_source" data-i18n="original">原始图片</label><input id="editForm_source" name="原始图片" readonly required><div class="picker-row"><button type="button" class="button soft small" id="editSelectButton" data-i18n="selectImage">选择图片</button><button type="button" class="button soft small" id="editCaptureButton" data-i18n="capture">拍摄照片</button></div></div><div class="form-row"><label for="editForm_style" data-i18n="chooseStyle">选择卡通风格</label><select id="editForm_style" name="风格选择"></select></div><input type="hidden" id="editForm_created" name="创建时间"><input type="hidden" id="editForm_cartoon" name="卡通图片"><p class="status" id="editStatus" role="status"></p><div class="modal-actions"><button type="submit" class="button" id="editSaveButton" data-i18n="save">保存修改</button><button type="button" class="button soft" data-close="editOverlay" data-i18n="cancel">取消</button></div></form></div></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("91764d169b53dc69_AI卡通照片转换")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+</script>
+<script>
+const SOURCE='卡通转换记录/默认表格';
+const STYLES=['日系动漫','美式卡通','Q版可爱','写实卡通','简约线条'];
+const I18N={cn:{appName:'AI卡通照片转换',home:'首页',start:'开始转换',records:'转换记录',heroText:'上传照片一键转换为多种卡通风格，支持预览下载，轻松制作社交头像',beginNow:'立即开始转换',totalCount:'总转换记录数',monthCount:'本月转换数',recent:'最近转换',viewAll:'查看全部',convertText:'选择风格、上传或拍摄照片，AI自动生成卡通效果',history:'查看历史记录',yourPhoto:'你的照片',capture:'拍摄照片',selectImage:'选择图片',chooseStyle:'选择卡通风格',styleHint:'挑选喜欢的画风，开始你的卡通冒险。',generate:'生成卡通',resultTitle:'卡通效果预览',recordsText:'浏览、预览、下载和管理所有卡通转换历史',newConvert:'新建转换',search:'搜索风格',from:'从',to:'至',allStyles:'所有风格',loadMore:'查看更多',detail:'转换详情',editTitle:'编辑卡通转换',original:'原始图片',cartoon:'卡通图片',save:'保存修改',cancel:'取消',viewDetail:'查看详情',edit:'编辑',delete:'删除',download:'下载卡通图',open:'浏览器打开',share:'分享预览',noRecords:'暂无转换记录',loading:'正在加载记录…',generating:'AI生成中...请稍候',generateTimeout:'生成超时，请稍后在转换记录中查看。',generateFailed:'生成失败',needImage:'请先选择图片',confirmDelete:'确定删除这条记录吗？',saved:'修改已保存',deleted:'记录已删除',changed:'图片或风格已更改。如需重新生成，请新建转换。',source:'原始照片',result:'卡通效果',failed:'操作失败',month:'本月',description:'将照片转换为卡通风格，保持主体特征清晰，色彩鲜明生动，适合社交平台分享和制作个人头像。'},en:{appName:'AI Cartoon Photo Converter',home:'Home',start:'Create',records:'History',heroText:'Turn photos into vibrant cartoon styles in one tap. Preview, download, and share your new avatar.',beginNow:'Start creating',totalCount:'Total conversions',monthCount:'This month',recent:'Recent conversions',viewAll:'View all',convertText:'Choose a style, upload or capture a photo, and let AI create your cartoon.',history:'View history',yourPhoto:'Your photo',capture:'Take photo',selectImage:'Choose image',chooseStyle:'Choose a style',styleHint:'Pick a look for your cartoon adventure.',generate:'Generate cartoon',resultTitle:'Cartoon preview',recordsText:'Browse, preview, download, and manage your conversions',newConvert:'New conversion',search:'Search styles',from:'From',to:'To',allStyles:'All styles',loadMore:'Load more',detail:'Conversion details',editTitle:'Edit conversion',original:'Original image',cartoon:'Cartoon image',save:'Save changes',cancel:'Cancel',viewDetail:'Details',edit:'Edit',delete:'Delete',download:'Download cartoon',open:'Open in browser',share:'Share preview',noRecords:'No conversions yet',loading:'Loading records…',generating:'AI is creating your cartoon...',generateTimeout:'Generation timed out. Check History later.',generateFailed:'Generation failed',needImage:'Choose an image first',confirmDelete:'Delete this conversion?',saved:'Changes saved',deleted:'Record deleted',changed:'The image or style changed. Create a new conversion to regenerate.',source:'Original photo',result:'Cartoon result',failed:'Operation failed',month:'This month',description:'A vivid cartoon conversion that keeps the subject clear, ready to share or use as an avatar.'}};
+const STYLE_EN={'日系动漫':'Japanese anime','美式卡通':'American cartoon','Q版可爱':'Cute chibi','写实卡通':'Realistic cartoon','简约线条':'Minimal line art'};
+let language='cn',page='home',historyStack=[],records=[],visibleCount=12,sourceFile='',chosenStyle=STYLES[0],currentRow=0,editRow=0,submitting=false,pollToken=0,toastTimer;
+const $=id=>document.getElementById(id);
+function t(key){return I18N[language][key]||key}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fileUrl(file,kind='download'){return 'https://www.ithinkair.com:3031/'+kind+'/'+encodeURIComponent(String(file||'').trim())}
+function dateTime(d){const pad=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`}
+function toast(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),4200)}
+function imageBox(file,alt,cls='thumb'){const div=document.createElement('div');div.className=cls;if(file){const img=document.createElement('img');img.src=fileUrl(file);img.alt=alt;img.loading='lazy';div.append(img)}else{const i=document.createElement('i');i.className='fa-solid fa-image';div.append(i)}return div}
+function setImage(id,file,alt){const el=$(id);el.replaceChildren();el.append(imageBox(file,alt,'preview-image').firstChild||document.createElement('span'))}
+function translate(){document.documentElement.lang=language==='cn'?'zh-CN':'en';document.title=t('appName');document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));document.querySelectorAll('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));$('languageButton').textContent=language==='cn'?'EN':'中文';$('mobileLanguageButton').textContent=language==='cn'?'English':'中文';renderStyles();renderFilters();renderRecent();renderRecords()}
+function chooseLanguage(){const query=new URLSearchParams(location.search).get('lang');if(query==='cn'||query==='en')return query;const stored=localStorage.getItem('iThinkAir_UiLanguage');if(stored)return stored==='en'?'en':'cn';const langs=navigator.languages;if(!langs||!langs.length)return 'cn';return langs.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en'}
+function toggleLanguage(){language=language==='cn'?'en':'cn';localStorage.setItem('iThinkAir_UiLanguage',language);const url=new URL(location.href);url.searchParams.set('lang',language);history.replaceState(null,'',url);translate();closeMenu()}
+function renderStyles(){const host=$('styleList');host.replaceChildren();for(const style of STYLES){const label=document.createElement('label');label.className='style-option';const input=document.createElement('input');input.type='radio';input.name='cartoonStyle';input.value=style;input.checked=style===chosenStyle;input.addEventListener('change',()=>{chosenStyle=style});const span=document.createElement('span');span.textContent=language==='cn'?style:STYLE_EN[style];label.append(input,span);host.append(label)}const select=$('editForm_style');select.replaceChildren();for(const style of STYLES){const option=document.createElement('option');option.value=style;option.textContent=language==='cn'?style:STYLE_EN[style];select.append(option)}}
+function renderFilters(){const select=$('styleFilter'),value=select.value;select.replaceChildren();const all=document.createElement('option');all.value='';all.textContent=t('allStyles');select.append(all);for(const style of STYLES){const option=document.createElement('option');option.value=style;option.textContent=language==='cn'?style:STYLE_EN[style];select.append(option)}select.value=value}
+function goPage(next,remember=true){if(!['home','convert','records'].includes(next))return;if(remember&&next!==page)historyStack.push({page,scroll:window.scrollY});page=next;document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id==='page-'+page));document.querySelectorAll('.nav-link[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===page));window.scrollTo(0,0);closeMenu();if(next==='records')loadRecords();if(next==='home')loadDashboard()}
+function closeMenu(){$('mobileMenu').classList.remove('open');$('menuButton').setAttribute('aria-expanded','false')}
+function openOverlay(id){const el=$(id);el.classList.add('open');el.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+function closeOverlay(id){const el=$(id);el.classList.remove('open');el.setAttribute('aria-hidden','true');if(!document.querySelector('.overlay.open'))document.body.style.overflow=''}
+function airBack(){const open=Array.from(document.querySelectorAll('.overlay.open')).pop();if(open){closeOverlay(open.id);return 'false'}if($('mobileMenu').classList.contains('open')){closeMenu();return 'false'}if(historyStack.length){const state=historyStack.pop();goPage(state.page,false);requestAnimationFrame(()=>window.scrollTo(0,state.scroll));return 'false'}return 'true'}
+window.airBack=airBack;
+async function cell(field,row){return String(await callAppBridge({type:'GetCellValue',data:SOURCE,payload:`${field}/${row}`})).trim()}
+async function loadRecords(){const status=$('recordsStatus');status.textContent=t('loading');try{const csv=await callAppBridge({type:'GetTableCSV',data:SOURCE,payload:'原始图片,风格选择,创建时间,卡通图片'});records=parseCSV(String(csv||'')).filter(r=>r.length&&r.some(v=>String(v).trim())).map((r,i)=>({row:i+1,source:r[0]||'',style:r[1]||'',created:r[2]||'',cartoon:r[3]||''}));records.sort((a,b)=>b.created.localeCompare(a.created)||a.row-b.row);visibleCount=12;renderRecords();renderRecent();status.textContent='';}catch(e){status.textContent=t('failed')+': '+e.message}}
+async function loadDashboard(){try{const count=await callAppBridge({type:'GetRecordCount',data:SOURCE});$('totalCount').textContent=String(count).trim()||'0';const csv=await callAppBridge({type:'GetTableCSV',data:SOURCE,payload:'创建时间'});const month=dateTime(new Date()).slice(0,7);$('monthCount').textContent=parseCSV(String(csv||'')).filter(r=>r[0]&&r[0].startsWith(month)).length;await loadRecords()}catch(e){toast(t('failed')+': '+e.message)}}
+function filteredRecords(){const q=$('searchInput').value.trim().toLocaleLowerCase(),style=$('styleFilter').value,from=$('dateFrom').value,to=$('dateTo').value;return records.filter(r=>(!q||r.style.toLocaleLowerCase().includes(q)||((STYLE_EN[r.style]||'').toLocaleLowerCase().includes(q)))&&(!style||r.style===style)&&(!from||r.created.slice(0,10)>=from)&&(!to||r.created.slice(0,10)<=to))}
+function recordCard(r,recent=false){const card=document.createElement('article');card.className='card hover-card record-card';card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label',t('viewDetail')+' '+r.style);const visuals=document.createElement('div');visuals.className='record-visual';visuals.append(imageBox(r.source,t('source')),imageBox(r.cartoon,t('result')));const label=document.createElement('div');label.className='record-label';label.innerHTML=`<span class="pill">${esc(language==='cn'?r.style:STYLE_EN[r.style]||r.style)}</span><span class="date">${esc(r.created)}</span>`;card.append(visuals,label);card.addEventListener('click',()=>showDetail(r.row));card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showDetail(r.row)}});if(!recent){const actions=document.createElement('div');actions.className='card-actions';for(const [key,icon,fn] of [['viewDetail','fa-eye',()=>showDetail(r.row)],['edit','fa-pen',()=>openEdit(r.row)],['delete','fa-trash',()=>removeRecord(r.row)],['download','fa-download',()=>downloadFile(r.cartoon)]]){const b=document.createElement('button');b.type='button';b.className='button soft small';b.innerHTML=`<i class="fa-solid ${icon}"></i><span>${esc(t(key))}</span>`;b.addEventListener('click',e=>{e.stopPropagation();fn()});if(key==='download'&&!r.cartoon)b.disabled=true;actions.append(b)}card.append(actions)}return card}
+function renderRecent(){const host=$('recentGrid');host.replaceChildren();if(!records.length){host.innerHTML=`<div class="card empty"><i class="fa-solid fa-image"></i>${esc(t('noRecords'))}</div>`;return}for(const r of records.slice(0,4))host.append(recordCard(r,true));hydrateImages(host)}
+function renderRecords(){const host=$('recordsGrid');host.replaceChildren();const list=filteredRecords();if(!list.length){host.innerHTML=`<div class="card empty"><i class="fa-solid fa-image"></i>${esc(t('noRecords'))}</div>`}else for(const r of list.slice(0,visibleCount))host.append(recordCard(r));$('loadMoreButton').hidden=list.length<=visibleCount;hydrateImages(host)}
+async function hydrateImages(host){const cards=Array.from(host.querySelectorAll('.record-card'));for(const card of cards){const index=cards.indexOf(card);const r=host.id==='recentGrid'?records[index]:filteredRecords()[index];if(!r)continue;try{const original=await cell('原始图片',r.row);const cartoon=await cell('卡通图片',r.row);r.source=original;r.cartoon=cartoon;const visuals=card.querySelectorAll('.thumb');if(visuals[0])visuals[0].replaceWith(imageBox(original,t('source')));if(visuals[1])visuals[1].replaceWith(imageBox(cartoon,t('result')))}catch(e){console.error(e)}}}
+async function pickImage(type,target){try{const file=String(await callAppBridge({type})).trim();if(!file)return;if(target==='edit'){$('editForm_source').value=file}else{sourceFile=file;setImage('sourcePreview',file,t('source'));$('generateButton').disabled=submitting===true;$('resultPanel').hidden=true}}catch(e){toast(t('failed')+': '+e.message)}}
+function downloadFile(file){if(!file)return;const a=document.createElement('a');a.href=fileUrl(file);a.download=String(file).split('/').pop();a.target='_blank';a.rel='noopener';document.body.append(a);a.click();a.remove()}
+async function generate(){if(submitting)return;if(!sourceFile){toast(t('needImage'));return}submitting=true;$('generateButton').disabled=true;$('convertStatus').textContent='';$('resultPanel').hidden=false;$('resultContent').innerHTML=`<div class="loading"><i class="fa-solid fa-spinner"></i>${esc(t('generating'))}</div>`;try{const payload={'原始图片':sourceFile,'风格选择':chosenStyle,'创建时间':dateTime(new Date()),'卡通图片':''};await callAppBridge({type:'SubmitRecord',data:'卡通转换记录',payload:JSON.stringify(payload)});currentRow=1;await pollResult(1,sourceFile)}catch(e){$('convertStatus').textContent=t('generateFailed')+': '+e.message;$('resultPanel').hidden=true}finally{submitting=false;$('generateButton').disabled=!sourceFile;loadDashboard()}}
+async function pollResult(row,original){const token=++pollToken,start=Date.now();while(token===pollToken&&Date.now()-start<1800000){try{const cartoon=await cell('卡通图片',row);if(cartoon){showResult(original,cartoon);return}}catch(e){$('convertStatus').textContent=t('failed')+': '+e.message}await new Promise(resolve=>setTimeout(resolve,1000))}if(token===pollToken){$('resultContent').textContent=t('generateTimeout')}}
+function showResult(original,cartoon){const host=$('resultContent');host.replaceChildren();const compare=document.createElement('div');compare.className='compare';for(const [file,label] of [[original,t('source')],[cartoon,t('result')]]){const figure=document.createElement('figure');figure.append(imageBox(file,label,'preview-image'));const caption=document.createElement('figcaption');caption.textContent=label;figure.append(caption);compare.append(figure)}host.append(compare);const actions=document.createElement('div');actions.className='modal-actions';const download=document.createElement('button');download.className='button';download.innerHTML=`<i class="fa-solid fa-download"></i>${esc(t('download'))}`;download.onclick=()=>downloadFile(cartoon);const share=document.createElement('button');share.className='button blue';share.innerHTML=`<i class="fa-solid fa-arrow-up-right-from-square"></i>${esc(t('share'))}`;share.onclick=()=>window.open(fileUrl(cartoon,'private'),'_blank','noopener');actions.append(download,share);host.append(actions)}
+async function showDetail(row){try{const original=await cell('原始图片',row),style=await cell('风格选择',row),created=await cell('创建时间',row),cartoon=await cell('卡通图片',row);const host=$('detailContent');host.replaceChildren();const images=document.createElement('div');images.className='detail-images';for(const [file,label] of [[original,t('source')],[cartoon,t('result')]]){const figure=document.createElement('figure');figure.style.margin='0';figure.append(imageBox(file,label,'preview-image'));const cap=document.createElement('figcaption');cap.textContent=label;cap.style.textAlign='center';cap.style.fontWeight='800';figure.append(cap);images.append(figure)}host.append(images);const meta=document.createElement('div');meta.className='detail-meta';meta.innerHTML=`<span class="pill">${esc(language==='cn'?style:STYLE_EN[style]||style)}</span><span class="date">${esc(created)}</span>`;host.append(meta);const md=document.createElement('div');md.className='markdown-body';const markdown=`### ${t('detail')}\n\n${t('description')}`;if(window.marked)md.innerHTML=marked.parse(markdown);else md.textContent=markdown;md.querySelectorAll('img').forEach(img=>{if(img.src.includes('/download/')){const a=document.createElement('a');a.href=img.src;a.download='';img.replaceWith(a);a.append(img)}});host.append(md);const actions=document.createElement('div');actions.className='modal-actions';for(const [key,icon,fn,enabled] of [['download','fa-download',()=>downloadFile(cartoon),!!cartoon],['open','fa-arrow-up-right-from-square',()=>window.open(fileUrl(cartoon,'private'),'_blank','noopener'),!!cartoon],['edit','fa-pen',()=>{closeOverlay('detailOverlay');openEdit(row)},true]]){const b=document.createElement('button');b.className='button small';b.innerHTML=`<i class="fa-solid ${icon}"></i>${esc(t(key))}`;b.disabled=!enabled;b.onclick=fn;actions.append(b)}host.append(actions);openOverlay('detailOverlay')}catch(e){toast(t('failed')+': '+e.message)}}
+async function openEdit(row){try{editRow=row;$('editStatus').textContent='';$('editForm_source').value=await cell('原始图片',row);$('editForm_style').value=await cell('风格选择',row);$('editForm_created').value=await cell('创建时间',row);$('editForm_cartoon').value=await cell('卡通图片',row);openOverlay('editOverlay')}catch(e){toast(t('failed')+': '+e.message)}}
+async function saveEdit(event){event.preventDefault();if(!editRow)return;const b=$('editSaveButton');b.disabled=true;try{const oldSource=await cell('原始图片',editRow),oldStyle=await cell('风格选择',editRow);const fields=['原始图片','风格选择','创建时间','卡通图片'];for(const name of fields){const input=Array.from($('editForm').elements).find(el=>el.name===name);await callAppBridge({type:'SetCellValue',data:SOURCE,payload:`${name}/${editRow}/${input.value}`})}const newSource=$('editForm_source').value,newStyle=$('editForm_style').value;const changed=oldSource!==newSource||oldStyle!==newStyle;closeOverlay('editOverlay');toast(changed?t('changed'):t('saved'));await loadDashboard();if(changed&&confirm(language==='cn'?'图片或风格已更改。是否以新记录重新生成卡通图？':'Image or style changed. Generate a new cartoon as a new record?')){sourceFile=newSource;chosenStyle=newStyle;setImage('sourcePreview',sourceFile,t('source'));renderStyles();$('generateButton').disabled=false;goPage('convert');await generate()}}catch(e){$('editStatus').textContent=t('failed')+': '+e.message}finally{b.disabled=false}}
+async function removeRecord(row){if(!confirm(t('confirmDelete')))return;try{await callAppBridge({type:'DeleteRecord',data:SOURCE,payload:row.toString()});toast(t('deleted'));await loadRecords();await loadDashboard()}catch(e){toast(t('failed')+': '+e.message)}}
+function bindEvents(){document.querySelectorAll('[data-page]').forEach(el=>el.addEventListener('click',()=>goPage(el.dataset.page)));$('brand').addEventListener('click',()=>{if(parent&&typeof parent.closeFullHtml==='function')parent.closeFullHtml(false)});$('menuButton').addEventListener('click',e=>{e.stopPropagation();const open=$('mobileMenu').classList.toggle('open');$('menuButton').setAttribute('aria-expanded',String(open))});document.addEventListener('click',e=>{if(!e.target.closest('#topbar'))closeMenu()});$('languageButton').addEventListener('click',toggleLanguage);$('mobileLanguageButton').addEventListener('click',toggleLanguage);$('selectButton').addEventListener('click',()=>pickImage('SelectImage'));$('captureButton').addEventListener('click',()=>pickImage('CapturePhoto'));$('editSelectButton').addEventListener('click',()=>pickImage('SelectImage','edit'));$('editCaptureButton').addEventListener('click',()=>pickImage('CapturePhoto','edit'));$('generateButton').addEventListener('click',generate);$('editForm').addEventListener('submit',saveEdit);for(const id of ['searchInput','styleFilter','dateFrom','dateTo'])$(id).addEventListener('input',()=>{visibleCount=12;renderRecords()});$('loadMoreButton').addEventListener('click',()=>{visibleCount+=12;renderRecords()});document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeOverlay(b.dataset.close)));document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeOverlay(el.id)}));document.addEventListener('keydown',e=>{if(e.key==='Escape')airBack()});document.addEventListener('focusin',e=>{if(e.target.matches('input,textarea,select'))setTimeout(()=>e.target.scrollIntoView({block:'center',behavior:'smooth'}),350)});if(window.visualViewport)visualViewport.addEventListener('resize',()=>{const el=document.activeElement;if(el&&el.matches('input,textarea,select'))setTimeout(()=>el.scrollIntoView({block:'center',behavior:'smooth'}),100)})}
+async function initialize(){language=chooseLanguage();bindEvents();translate();try{const mode=await callAppBridge({type:'模式'});document.body.classList.toggle('dark',String(mode).trim()==='暗色')}catch(e){console.error(e)}await loadDashboard()}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',async()=>{await initialize()},{once:true})}else{(async () => {    await initialize();  })()}
+</script>
+</body>
+</html>

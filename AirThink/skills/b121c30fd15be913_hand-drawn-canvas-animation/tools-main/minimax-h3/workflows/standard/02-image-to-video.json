@@ -1,0 +1,1303 @@
+{
+  "id": "h3-i2v",
+  "revision": 0,
+  "last_node_id": 31,
+  "last_link_id": 30,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoaderDisTorch2MultiGPU",
+      "pos": [
+        40,
+        40
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            22
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoaderDisTorch2MultiGPU",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+        "default",
+        "cuda:0",
+        0.0,
+        "cpu",
+        "cuda:0,9gb;cuda:1,12gb",
+        true
+      ],
+      "title": "Diffusion H3 -> cuda:0+1",
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 2,
+      "type": "CLIPLoaderDisTorch2MultiGPU",
+      "pos": [
+        40,
+        290
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            3
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoaderDisTorch2MultiGPU",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+        "minimax",
+        "cuda:2",
+        0.0,
+        "cpu",
+        "cuda:2,14gb;cuda:3,13gb",
+        false
+      ],
+      "title": "Qwen3-VL-32B int8 -> cuda:2+3",
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 3,
+      "type": "VAELoaderMultiGPU",
+      "pos": [
+        40,
+        540
+      ],
+      "size": [
+        400,
+        90
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            4,
+            16
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoaderMultiGPU",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors",
+        "cuda:1"
+      ],
+      "title": "Video VAE -> cuda:1",
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 4,
+      "type": "VAELoaderMultiGPU",
+      "pos": [
+        40,
+        670
+      ],
+      "size": [
+        400,
+        90
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            18
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoaderMultiGPU",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "minimax_h3_audio_vae_fp32.safetensors",
+        "cuda:1"
+      ],
+      "title": "Audio VAE -> cuda:1",
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 6,
+      "type": "MiniMaxH3SigmaShift",
+      "pos": [
+        490,
+        180
+      ],
+      "size": [
+        330,
+        90
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 25
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            7,
+            9
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3SigmaShift",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        12.0,
+        3.0
+      ],
+      "title": "Sigma Shift (bypassed, for the 20-step mode)"
+    },
+    {
+      "id": 7,
+      "type": "MiniMaxH3ImageToVideo",
+      "pos": [
+        880,
+        40
+      ],
+      "size": [
+        430,
+        320
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 4
+        },
+        {
+          "name": "first_frame",
+          "type": "IMAGE",
+          "link": 5
+        },
+        {
+          "name": "last_frame",
+          "type": "IMAGE",
+          "link": 6
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "link": 27,
+          "widget": {
+            "name": "length"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            8
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            14
+          ],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3ImageToVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "Cinematic handheld shot, golden hour: a soldering iron touches a GPU riser, sparks flick across the frame, four graphics cards glow behind it, shallow depth of field, quiet workshop room tone and a low electrical hum.",
+        1344,
+        768,
+        124
+      ],
+      "title": "H3 conditioning + AV latent"
+    },
+    {
+      "id": 8,
+      "type": "LoadImage",
+      "pos": [
+        880,
+        420
+      ],
+      "size": [
+        330,
+        320
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            5
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "example.png",
+        "image"
+      ],
+      "title": "First frame"
+    },
+    {
+      "id": 9,
+      "type": "LoadImage",
+      "pos": [
+        880,
+        780
+      ],
+      "size": [
+        330,
+        320
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            6
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "example.png",
+        "image"
+      ],
+      "title": "Last frame (muted, Ctrl+M to enable)"
+    },
+    {
+      "id": 10,
+      "type": "BasicGuider",
+      "pos": [
+        1360,
+        40
+      ],
+      "size": [
+        300,
+        70
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 7
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            11
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicGuider",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [],
+      "title": "Guider (H3 has no CFG)",
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 11,
+      "type": "RandomNoise",
+      "pos": [
+        1360,
+        160
+      ],
+      "size": [
+        300,
+        90
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            10
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        0,
+        "randomize"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 12,
+      "type": "KSamplerSelect",
+      "pos": [
+        1360,
+        290
+      ],
+      "size": [
+        300,
+        70
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerSelect",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "res_multistep"
+      ],
+      "color": "#232",
+      "bgcolor": "#353",
+      "title": "KSamplerSelect (unplugged, for the 20-step mode)"
+    },
+    {
+      "id": 13,
+      "type": "BasicScheduler",
+      "pos": [
+        1360,
+        400
+      ],
+      "size": [
+        300,
+        130
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 9
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            13
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicScheduler",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "simple",
+        4,
+        1.0
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 14,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        1710,
+        40
+      ],
+      "size": [
+        300,
+        150
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 10
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 11
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 30
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 13
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            15,
+            17
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [],
+      "title": "Sampler",
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 15,
+      "type": "VAEDecode",
+      "pos": [
+        2060,
+        40
+      ],
+      "size": [
+        260,
+        70
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 15
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            19
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [],
+      "title": "Video latent"
+    },
+    {
+      "id": 16,
+      "type": "VAEDecodeAudio",
+      "pos": [
+        2060,
+        160
+      ],
+      "size": [
+        260,
+        70
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 17
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            20
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeAudio",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [],
+      "title": "Audio latent"
+    },
+    {
+      "id": 17,
+      "type": "CreateVideo",
+      "pos": [
+        2060,
+        280
+      ],
+      "size": [
+        260,
+        110
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 19
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            21
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        24.0,
+        8
+      ]
+    },
+    {
+      "id": 18,
+      "type": "SaveVideo",
+      "pos": [
+        2370,
+        40
+      ],
+      "size": [
+        400,
+        500
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 21
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "video/MiniMaxH3_i2v",
+        "auto",
+        "auto"
+      ],
+      "title": "Save video with audio"
+    },
+    {
+      "id": 20,
+      "type": "PathchSageAttentionKJ",
+      "pos": [
+        470,
+        40
+      ],
+      "size": [
+        330,
+        90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            28
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PathchSageAttentionKJ",
+        "cnr_id": "comfyui-kjnodes"
+      },
+      "widgets_values": [
+        "auto",
+        false
+      ],
+      "title": "1. SageAttention (Triton)"
+    },
+    {
+      "id": 22,
+      "type": "ModelPreviewOverrideKJ",
+      "pos": [
+        470,
+        510
+      ],
+      "size": [
+        330,
+        200
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 29
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            25
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelPreviewOverrideKJ",
+        "cnr_id": "comfyui-kjnodes"
+      },
+      "widgets_values": [
+        512,
+        80,
+        true,
+        8,
+        12,
+        "taeh3.safetensors"
+      ],
+      "title": "2. Live frame preview (TAE)"
+    },
+    {
+      "id": 23,
+      "type": "PrimitiveFloat",
+      "pos": [
+        470,
+        760
+      ],
+      "size": [
+        330,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            26
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveFloat",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        5.0
+      ],
+      "title": "DURATION, seconds",
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 24,
+      "type": "ComfyMathExpression",
+      "pos": [
+        470,
+        850
+      ],
+      "size": [
+        330,
+        130
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "a",
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 26
+        },
+        {
+          "label": "b",
+          "name": "values.b",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [],
+          "slot_index": 0
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            27
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "BOOLEAN",
+          "type": "BOOLEAN",
+          "links": [],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ComfyMathExpression",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      ],
+      "title": "-> frames (17k+5 grid, 362 max)"
+    },
+    {
+      "id": 27,
+      "type": "MiniMaxH3TurboLoRA",
+      "pos": [
+        840,
+        40
+      ],
+      "size": [
+        340,
+        130
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            29
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3TurboLoRA",
+        "cnr_id": "comfyui-minimax-h3-turbo"
+      },
+      "widgets_values": [
+        "minimax_h3_turbo_4step_ema_ckpt850.safetensors",
+        1.0,
+        true
+      ],
+      "title": "TURBO: 4 steps instead of 20",
+      "color": "#233",
+      "bgcolor": "#355"
+    },
+    {
+      "id": 28,
+      "type": "MiniMaxH3TurboSampler",
+      "pos": [
+        840,
+        210
+      ],
+      "size": [
+        340,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            30
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3TurboSampler",
+        "cnr_id": "comfyui-minimax-h3-turbo"
+      },
+      "widgets_values": [],
+      "title": "TURBO sampler (video and audio on separate clocks)",
+      "color": "#233",
+      "bgcolor": "#355"
+    },
+    {
+      "id": 29,
+      "type": "MarkdownNote",
+      "pos": [
+        -560,
+        40
+      ],
+      "size": [
+        520,
+        1230
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "color": "#432",
+      "bgcolor": "#653",
+      "widgets_values": [
+        "# MiniMax H3 — the knobs that matter\n\nThis workflow runs on **Turbo LoRA: 4 sampling steps instead of 20**. The\n20-step path is still in the graph, switched off. See the Turbo card below.\n\n## Start here\n\n**DURATION is set in seconds** by the green node on the left. Frames are\ncomputed for you, because the model only accepts lengths of the form 17k+5:\n5 seconds is 124 frames, 15 seconds is 362.\n\n**362 frames is the training ceiling.** You can ask for more, but past that\nthe model extrapolates: the scene drifts and characters lose themselves.\n20 seconds would need 481 frames, well outside what it learned.\n\n**RESOLUTION.** Short side 768, ceiling 768x1344, both sides multiples of 32.\nThe model cannot go higher, so 1080p only happens through the upscaler. Use\n768x1344 for a standing person, 1344x768 for scenes and action.\n\n## What it costs\n\nFull run, button to saved mp4, 1344x768 at 124 frames, one seed:\n\n| mode | steps | time |\n|---|---|---|\n| **turbo, low_vram on (default)** | 4 | 3:45 |\n| turbo, low_vram off | 4 | 7:07 |\n| base | 20 | 11:08 |\n\nOn a draft-size 608x352 at 39 frames the turbo run takes 25 seconds and the\nbase run takes 121 on the same graph. Measured on 4x RTX 3090 at 220 W.\n\nTime grows faster than length because attention is quadratic. At 362 frames a\nsingle step takes about three minutes, against three and a half seconds at 124\nframes in the small resolution.\n\n**So the working order is: draft at 608x352 and a short duration, hunt for the\nseed and the wording, and only then render full size.**\n\n## The nodes in the chain\n\n**1. SageAttention (Triton).** The `auto` mode picks the Triton path, which is\nwhat these workflows are tuned for. I also built the CUDA kernels from source\nand measured both: on sm_86 the kernels win 2% on the large shape and nothing\non the small one, because attention is only a quarter of the step. Not worth\nthe build.\n\n**2. Turbo LoRA.** The main node here, see the card below.\n\n**3. Frame preview through TAE.** Shows frames while sampling runs, so a bad\ntake is visible at step two instead of after the full wait. `preview_frames`\nis how many frames to show, 8 is fine. It costs about 0.14 s per step, so turn\nit off when you benchmark.\n\n## Prompting\n\nH3 generates audio in the same pass, so **describe the sound in the last\nsentence**. Skip it and you get silence or random noise.\n\nThe pattern that works: `[style and optics]: [scene and action], [light],\n[camera details]. [Sound].`\n\n    Realistic first person shooter gameplay, body camera realism: gloved hands\n    grip a scuffed assault rifle, muzzle flash and ejecting brass, the shooter\n    leans out from behind a concrete pillar in a bombed out parking garage,\n    dust and smoke hanging in the air, harsh daylight through broken walls,\n    handheld camera shake, shallow depth of field, film grain. Sharp rifle\n    cracks echoing off concrete, brass casings hitting the floor, heavy\n    breathing.\n\nFive seconds is **one continuous piece of motion**. You cannot fit a cut in\nthere, and \"then the camera pulls back\" will be ignored. One scene, one action.\n\n**There is no CFG.** H3 uses `BasicGuider` with no negative prompt: if you do\nnot want something, do not describe it. There is no reverse knob.\n\n## Recipes\n\n**Hunting ideas.** 608x352, 2 seconds, seed on randomize. Once a frame looks\nright, lock the seed.\n\n**Final render.** Same seed and prompt, 1344x768, the duration you want. Leave\n`low_vram` on, it is the default for a reason.\n\n**Maximum quality.** The final render plus the upscale workflow. H3 cannot go\nabove 768 at all, so 1080p is always the upscaler's job.\n"
+      ]
+    },
+    {
+      "id": 30,
+      "type": "MarkdownNote",
+      "pos": [
+        -560,
+        1300
+      ],
+      "size": [
+        520,
+        660
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "color": "#325",
+      "bgcolor": "#446",
+      "widgets_values": [
+        "# Turbo LoRA: 4 steps instead of 20\n\nA distill by larryvrh on top of the same base. Sampling gets almost four times\nfaster and the full run three times: 11:08 became 3:45 on the same clip and\nseed.\n\nWeights: `minimax_h3_turbo_4step_ema_ckpt850.safetensors`\nNodes: `Larryvrh/ComfyUI-MiniMax-H3-Turbo`\n\n## The two nodes that change everything\n\n`MiniMax H3 Turbo LoRA` applies the weights and repairs time conditioning on\nits own. Pruned bases collapse the time embedder into a small curve, and the\nnode detects that and re-injects 51 adaln modules at run time. One LoRA covers\nfull, int8 and pruned bases alike.\n\n`MiniMax H3 Turbo Sampler` runs video and audio on two different flow\nschedules (shift 12 and 3 are baked in). A stock sampler over-steps the audio\nat 4 steps and breaks it, so this replacement is not optional.\n\n## Knobs\n\n**LoRA strength** is the main dial, default 1.0. Blurry with motion smear, push\nit up to 1.05 or 1.2. Over-sharp grain and artifacts, pull it down to 0.8 or\n0.95.\n\n**Leave low_vram ON.** The name misleads: it is not a memory setting, it picks\nhow the LoRA reaches the model. Off, the LoRA runs as a hook on all 208 modules\nand its delta applies at full precision every pass. On, the delta folds into the\nweights once, and since this base is int8 part of it rounds away, so merged is a\nweaker LoRA in practice.\n\nThat is what you want here. One frame, one seed, close-up face at 1344x768:\n\n| config | steps | skin | detail energy | run |\n|---|---|---|---|---|\n| bypass, strength 1.0 | 4 | scaly | 3.38 | 3:56 |\n| bypass, strength 1.0 | 8 | still scaly | 3.38 | 6:41 |\n| bypass, strength 1.0 | 12 | worst of all | | 9:36 |\n| bypass, strength 0.85 | 4 | clean | | 3:51 |\n| **merged, strength 1.0** | **4** | **clean** | **2.57** | **3:46** |\n| no LoRA (reference) | 20 | clean | 2.46 | 14:36 |\n\nDetail energy is laplacian energy over the clip. Bypass lands 37% above the\nno-LoRA reference, merged lands within 4% of it, so the extra sharpness in\nbypass is the artefact rather than detail. On a close-up it turns skin into a\nregular lattice.\n\n**More steps make it worse.** 8 and 12 kept the lattice and hardened it. Step\ncount is not the dial.\n\nWhat merged costs: large-scale motion runs about 9% below the 20-step reference,\nso the action is slightly calmer. Nothing else measurable.\n\n**Steps.** Four is enough on ckpt850. More is allowed and helps a little. Keep\nthe scheduler on `simple`.\n\n**The author's own warning.** This is a preview, not a finished model. Training\nis paused because of plastic-looking skin and over-sharpened grain. Watch faces\nin close-ups.\n\n## Going back to 20 steps\n\nFour actions, all inside this graph:\n\n1. Ctrl+B on the `Turbo LoRA` node (it goes to bypass);\n2. Ctrl+B on `Sigma Shift` (it turns back on);\n3. set steps to 20 in `BasicScheduler`;\n4. drag the `sampler` input of `SamplerCustomAdvanced` from the turbo sampler\n   over to `KSamplerSelect`, which is right next to it.\n\nSame order in reverse to come back. I ran this switch end to end and the graph\nsamples 20 steps exactly as before. An untouched 20-step copy also ships as\n`06-text-to-video-base-20steps.json`.\n\nWorth doing when turbo gives you a plastic face or a over-sharpened texture and\nthe strength dial did not help.\n"
+      ]
+    },
+    {
+      "id": 31,
+      "type": "MarkdownNote",
+      "pos": [
+        -560,
+        2010
+      ],
+      "size": [
+        520,
+        580
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "color": "#432",
+      "bgcolor": "#653",
+      "widgets_values": [
+        "## I2V: bring a picture to life\n\n**first_frame** is a geometric anchor. It is stretched onto the canvas as is,\nwithout cropping, so match your image aspect to width/height beforehand or it\nwill distort.\n\n**last_frame** is optional. Connect it and the model builds a transition\nbetween the two frames, which is the most controllable mode there is: you set\nthe start and the end. It is center-cropped with the aspect preserved.\n\nYou still need a prompt: it describes WHAT happens between the frames and how\nit sounds.\n\n**Turbo verified here**: a 608x352 run finished in 31 seconds with audio intact.\n"
+      ]
+    }
+  ],
+  "links": [
+    [
+      3,
+      2,
+      0,
+      7,
+      0,
+      "CLIP"
+    ],
+    [
+      4,
+      3,
+      0,
+      7,
+      1,
+      "VAE"
+    ],
+    [
+      5,
+      8,
+      0,
+      7,
+      2,
+      "IMAGE"
+    ],
+    [
+      6,
+      9,
+      0,
+      7,
+      3,
+      "IMAGE"
+    ],
+    [
+      7,
+      6,
+      0,
+      10,
+      0,
+      "MODEL"
+    ],
+    [
+      8,
+      7,
+      0,
+      10,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      9,
+      6,
+      0,
+      13,
+      0,
+      "MODEL"
+    ],
+    [
+      10,
+      11,
+      0,
+      14,
+      0,
+      "NOISE"
+    ],
+    [
+      11,
+      10,
+      0,
+      14,
+      1,
+      "GUIDER"
+    ],
+    [
+      13,
+      13,
+      0,
+      14,
+      3,
+      "SIGMAS"
+    ],
+    [
+      14,
+      7,
+      1,
+      14,
+      4,
+      "LATENT"
+    ],
+    [
+      15,
+      14,
+      0,
+      15,
+      0,
+      "LATENT"
+    ],
+    [
+      16,
+      3,
+      0,
+      15,
+      1,
+      "VAE"
+    ],
+    [
+      17,
+      14,
+      0,
+      16,
+      0,
+      "LATENT"
+    ],
+    [
+      18,
+      4,
+      0,
+      16,
+      1,
+      "VAE"
+    ],
+    [
+      19,
+      15,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ],
+    [
+      20,
+      16,
+      0,
+      17,
+      1,
+      "AUDIO"
+    ],
+    [
+      21,
+      17,
+      0,
+      18,
+      0,
+      "VIDEO"
+    ],
+    [
+      22,
+      1,
+      0,
+      20,
+      0,
+      "MODEL"
+    ],
+    [
+      25,
+      22,
+      0,
+      6,
+      0,
+      "MODEL"
+    ],
+    [
+      26,
+      23,
+      0,
+      24,
+      0,
+      "FLOAT,INT,BOOLEAN"
+    ],
+    [
+      27,
+      24,
+      1,
+      7,
+      4,
+      "INT"
+    ],
+    [
+      28,
+      20,
+      0,
+      27,
+      0,
+      "MODEL"
+    ],
+    [
+      29,
+      27,
+      0,
+      22,
+      0,
+      "MODEL"
+    ],
+    [
+      30,
+      28,
+      0,
+      14,
+      2,
+      "SAMPLER"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.65,
+      "offset": [
+        100,
+        100
+      ]
+    }
+  },
+  "version": 0.4
+}

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Bento 演示工坊</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script><script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{--bg:#F6F0E6;--bg2:#EFE6D9;--card:#FFFBF5;--ink:#1F3A3A;--muted:#717971;--line:#dfd8ca;--red:#D85A30;--green:#3A8F7B;--gold:#C9A227;--soft:#f8e4d9;--shadow:0 10px 32px #44331a08;color-scheme:light}*{box-sizing:border-box}body{margin:0;background:linear-gradient(125deg,var(--bg),var(--bg2));color:var(--ink);font:15px/1.7 system-ui,-apple-system,"Microsoft YaHei",sans-serif;min-height:100vh}body.dark{--bg:#152222;--bg2:#1e302c;--card:#243532;--ink:#f2eadc;--muted:#b3c0b6;--line:#40534b;--soft:#49372c;--shadow:0 10px 32px #0002;color-scheme:dark}button,input,textarea,select{font:inherit}input,select,textarea{box-sizing:border-box;max-width:100%}button,a{touch-action:manipulation}button{cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 17px;transition:transform 120ms,background 150ms}button:active{transform:scale(.97)}button:disabled{cursor:not-allowed;opacity:.45}a{color:var(--red);overflow-wrap:anywhere}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.primary{background:var(--red);border-color:var(--red);color:#fff}.outline{border-color:var(--ink)}.header-wrap{position:fixed;top:0;left:0;right:0;z-index:1001}nav{position:relative;z-index:1001;background:linear-gradient(100deg,#1F3A3A,#163e30);border-bottom:1px solid var(--gold);color:#fff}.nav-inner{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;gap:24px}.brand{display:flex;align-items:center;gap:12px;color:#fff;background:none;border:0;padding:0;font-family:"Noto Serif SC",serif;font-size:20px;white-space:nowrap}.brand i{padding:10px;background:#ffffff12;color:#eac782;border-radius:10px}.links{display:flex;gap:8px;align-items:center;white-space:nowrap}.links button{border:0;background:none;color:#eceadf;border-radius:0;padding:12px 15px}.links button.active{box-shadow:inset 0 -3px var(--red);color:#fff}.menu-toggle{display:none;background:transparent;color:#fff}.mobile-menu{position:absolute;top:100%;left:0;right:0;padding:14px 24px;background:#1f3a3a;border-bottom:1px solid var(--gold);box-shadow:0 12px 20px #0002}.mobile-menu button{display:block;width:100%;text-align:left;background:transparent;color:#fff;border:0}.compact .links{display:none}.compact .menu-toggle{display:block}[hidden]{display:none!important}main{max-width:1220px;margin:0 auto;padding:122px 28px 100px}h1,h2,h3{font-family:"Noto Serif SC",Georgia,serif;line-height:1.3}h1{font-size:clamp(32px,4.5vw,54px);font-weight:600;letter-spacing:-1px;margin:12px 0 20px}h2{font-size:24px;margin:0}h3{font-size:19px}.muted{color:var(--muted)}.eyebrow{color:var(--red);font-size:12px;letter-spacing:3px;font-weight:700}.hero{padding:22px 0 44px;display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:center}.hero p{max-width:700px;font-size:17px}.hero .primary{margin-top:18px;padding:15px 24px}.bento-art{display:grid;grid-template-columns:1.2fr 1fr;gap:13px;transform:rotate(-5deg);padding:25px;border:1px solid var(--line);border-radius:35px;background:var(--card);box-shadow:var(--shadow)}.bento-art div{min-height:96px;border-radius:20px;display:grid;place-items:center;font-size:32px;background:var(--soft);color:var(--red)}.bento-art div:first-child{grid-row:span 2;background:#1f3a3a;color:#d7c78e}.bento-art div:last-child{background:#dbe9df;color:#3a8f7b}.stats,.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.stat{border:1px solid var(--line);border-radius:22px;padding:25px;background:var(--soft)}.stat:nth-child(2){background:color-mix(in srgb,var(--card) 82%,#3A8F7B)}.stat:nth-child(3){background:color-mix(in srgb,var(--card) 82%,#C9A227)}.stat strong{font:40px/1.5 Georgia,serif;display:block}.stat .icon{float:right;opacity:.65;font-size:21px}.section-head,.page-head,.row{display:flex;gap:16px;align-items:center;justify-content:space-between}.section-head{margin:38px 0 20px}.page-head{align-items:flex-start;margin-bottom:28px}.page-head h1{font-size:36px;margin-top:0}.page-head p{max-width:660px;margin-bottom:0}.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.card,.panel{border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:var(--shadow);min-width:0}.card{padding:24px;transition:transform .2s,border-color .2s;cursor:pointer;display:flex;flex-direction:column;gap:18px}.card:hover,.preview:hover{transform:translateY(-3px);border-color:var(--red)}.card p{white-space:pre-wrap;overflow-wrap:anywhere;margin:0;min-height:80px}.card .actions{margin-top:auto}.badges{display:flex;flex-wrap:wrap;gap:7px}.badge{font-size:12px;border-radius:20px;padding:4px 10px;background:var(--bg);color:var(--muted)}.badge.ready{background:#3a8f7b20;color:var(--green)}.card-top{display:flex;justify-content:space-between;align-items:center;color:var(--red)}.card-top span{font-size:11px;letter-spacing:2px;color:var(--muted)}.work-grid{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(0,1.15fr);gap:24px;align-items:start}.panel{padding:26px}.panel h2{font-size:22px;margin-bottom:24px}label{display:block;font-weight:600;margin:18px 0 9px}textarea,input,select{border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);padding:12px;width:100%}textarea{min-height:240px;resize:vertical;line-height:1.8}small{display:block;font-size:12px;color:var(--muted);margin:10px 0}.file-box{border:1px dashed var(--line);padding:17px;border-radius:15px}.filename{display:block;overflow-wrap:anywhere;margin-bottom:12px}.form-actions{display:grid;gap:10px;margin-top:24px}.preview{transition:transform .2s,border-color .2s}.preview-head{align-items:flex-start;margin-bottom:18px}.preview-head h2{margin:0}.preview-head .actions button{padding:7px 10px;font-size:12px}.placeholder{min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted);padding:28px;border:1px dashed var(--line);border-radius:16px}.bento-mark{display:grid;grid-template-columns:28px 22px;gap:5px;margin-bottom:24px;transform:rotate(-6deg)}.bento-mark i{background:var(--red);width:100%;height:22px;border-radius:6px}.bento-mark i:first-child{grid-row:span 2;height:49px;background:var(--green)}.waiting .bento-mark{animation:pulse 2.2s infinite}@keyframes pulse{50%{opacity:.35;transform:rotate(3deg) scale(.93)}}iframe{width:100%;height:70vh;display:block;border:0;border-radius:15px;background:#fff}.metadata{margin-top:22px;border-top:1px solid var(--line);padding-top:16px}.full-text{white-space:pre-wrap;overflow-wrap:anywhere}.pager{display:flex;justify-content:center;align-items:center;gap:20px;margin:24px 0}.search-bar{display:flex;gap:12px;margin-bottom:25px}.search-bar input{flex:1;min-width:0}.search-bar select{width:160px}.empty{grid-column:1/-1;text-align:center;padding:65px 25px;border:1px dashed var(--line);border-radius:22px}.empty .bento-mark{width:55px;margin:0 auto 24px}.overlay{position:fixed;inset:0;z-index:2001;background:#10211eaa;display:flex;align-items:center;justify-content:center;padding:26px}.dialog{background:var(--card);border:1px solid var(--line);border-radius:24px;width:min(1160px,100%);max-height:calc(100dvh - 52px);overflow:auto;padding:26px;box-shadow:0 30px 100px #0005}.dialog.small{width:min(460px,100%)}.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px}.markdown{line-height:1.85;overflow-wrap:anywhere}.markdown h1{font-size:30px}.markdown h2{margin:24px 0 12px}.markdown pre{overflow:auto;background:var(--bg);padding:18px;border-radius:12px}.markdown code{background:var(--bg);padding:2px 5px}.markdown blockquote{border-left:3px solid var(--red);margin:16px 0;padding:6px 18px;color:var(--muted)}.markdown img{max-width:100%;height:auto}.markdown table{display:block;overflow:auto;border-collapse:collapse}.markdown td,.markdown th{border:1px solid var(--line);padding:8px 14px}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:3000;background:var(--ink);color:var(--card);padding:14px 22px;border-radius:14px;max-width:calc(100% - 32px);box-shadow:var(--shadow)}.error-strip{padding:14px 18px;background:var(--soft);border-radius:14px;margin-bottom:18px}.status{font-size:12px;letter-spacing:1px}.footer{text-align:center;margin-top:50px;color:var(--muted);font-size:12px}body.modal-open{overflow:hidden}@media(max-width:950px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.work-grid{grid-template-columns:1fr}.hero{grid-template-columns:1.5fr .8fr}.bento-art{padding:15px;gap:8px}.page-head{flex-wrap:wrap}}@media(max-width:600px){main{padding:100px 18px 150px}.nav-inner{padding:14px 18px}.brand{font-size:17px}.hero{grid-template-columns:1fr;gap:20px;padding-top:0}.hero .bento-art{display:none}.hero h1{font-size:38px}.stats{gap:9px}.stat{padding:17px 10px;font-size:12px;border-radius:17px}.stat strong{font-size:30px}.stat .icon{display:none}.grid{grid-template-columns:1fr}.section-head{align-items:flex-start;gap:8px}.section-head span{font-size:11px}.panel{padding:20px}.page-head h1{font-size:30px}.search-bar select{width:125px}.overlay{padding:16px}.dialog{padding:20px;max-height:calc(100dvh - 32px);padding-bottom:100px}.overlay.viewer{padding:0}.viewer .dialog{width:100%;height:100dvh;max-height:100dvh;border-radius:0;border:0}.preview-head{flex-wrap:wrap}.dialog-head{flex-wrap:wrap}.keyboard{padding-bottom:var(--keyboard-space,340px)!important}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style></head><body>
+<div class="header-wrap"><nav id="navigation"><div class="nav-inner"><button class="brand" id="brand"><i class="fa-solid fa-table-cells-large" aria-hidden="true"></i><span data-i18n="app"></span></button><div class="links" id="desktop-nav"><button data-page="home" data-i18n="home"></button><button data-page="studio" data-i18n="studio"></button><button data-page="library" data-i18n="library"></button><button class="language">中 / EN</button></div><button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu"><i class="fa-solid fa-bars"></i></button></div><div id="mobile-menu" class="mobile-menu" hidden><button data-page="home" data-i18n="home"></button><button data-page="studio" data-i18n="studio"></button><button data-page="library" data-i18n="library"></button><button class="language">中文 / English</button></div></nav></div>
+<main><div id="error-strip" class="error-strip" hidden><span id="error-message"></span> <button id="retry" data-i18n="retry"></button></div>
+<section id="page-home"><div class="hero"><div><div class="eyebrow">BENTO · PRESENTATION ATELIER</div><h1 data-i18n="app"></h1><p class="muted" data-i18n="intro"></p><button class="primary" data-new><i class="fa-solid fa-plus"></i> <span data-i18n="start"></span> <i class="fa-solid fa-arrow-right"></i></button></div><div class="bento-art" aria-hidden="true"><div><i class="fa-solid fa-layer-group"></i></div><div><i class="fa-solid fa-chart-simple"></i></div><div><i class="fa-solid fa-wand-magic-sparkles"></i></div></div></div>
+<div class="stats"><div class="stat"><i class="fa-regular fa-folder-open icon"></i><span data-i18n="total"></span><strong id="stat-total">—</strong><span class="muted" data-i18n="collected"></span></div><div class="stat"><i class="fa-solid fa-seedling icon"></i><span data-i18n="all"></span><strong id="stat-all">—</strong><span class="muted" data-i18n="noDates"></span></div><div class="stat"><i class="fa-regular fa-circle-play icon"></i><span data-i18n="readyCount"></span><strong id="stat-ready">—</strong><span class="muted" data-i18n="readyHint"></span></div></div>
+<div class="section-head"><h2 data-i18n="recent"></h2><span class="muted" data-i18n="clickDetails"></span></div><div id="recent-grid" class="grid" aria-live="polite"></div></section>
+<section id="page-studio" hidden><div class="page-head"><div><div class="eyebrow">THE CREATIVE WORKBENCH</div><h1 data-i18n="studio"></h1><p class="muted" data-i18n="studioIntro"></p></div><div class="actions"><button data-page="library" data-i18n="viewLibrary"></button><button data-new class="outline" data-i18n="blank"></button></div></div><div class="work-grid"><form id="bento-form" class="panel"><h2 data-i18n="formTitle"></h2><label for="bento-form-request" data-i18n="request"></label><textarea id="bento-form-request" name="演示需求" required></textarea><label data-i18n="material"></label><div class="file-box"><span id="material-name" class="filename"></span><input type="hidden" id="bento-form-material" name="素材文件"><div class="actions"><button type="button" id="select-material"><i class="fa-solid fa-paperclip"></i> <span data-i18n="select"></span></button><button type="button" id="clear-material" data-i18n="clear"></button></div></div><small data-i18n="materialHint"></small><small data-i18n="revisionHint"></small><div class="form-actions"><button type="submit" id="generate" class="primary" disabled><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="generate"></span></button><button type="button" id="save" class="outline" data-i18n="save" disabled></button></div></form><div class="panel preview"><div class="row preview-head"><h2 data-i18n="preview"></h2><div class="actions"><button id="studio-open" data-i18n="open" disabled></button><button id="studio-download" data-i18n="download" disabled></button></div></div><div id="studio-output"></div><div id="studio-metadata" class="metadata" hidden></div></div></div><div class="pager"><button id="studio-prev" aria-label="Previous">&lt;</button><span id="studio-position"></span><button id="studio-next" aria-label="Next">&gt;</button></div></section>
+<section id="page-library" hidden><div class="page-head"><div><div class="eyebrow">YOUR PRESENTATION SHELF</div><h1 data-i18n="library"></h1><p class="muted" data-i18n="libraryIntro"></p></div><button class="primary" data-new><i class="fa-solid fa-plus"></i> <span data-i18n="new"></span></button></div><div class="search-bar"><input id="library-search" type="search"><select id="library-filter"><option value="all" data-i18n="filterAll"></option><option value="ready" data-i18n="ready"></option><option value="pending" data-i18n="pending"></option></select></div><div id="library-grid" class="grid" aria-live="polite"></div></section><div class="footer">BENTO ATELIER <span aria-hidden="true"> · </span><span data-i18n="footer"></span></div></main>
+<div id="detail-overlay" class="overlay viewer" hidden><section id="detail-dialog" class="dialog" role="dialog" aria-modal="true" aria-labelledby="detail-title" tabindex="-1"><div class="dialog-head"><h2 id="detail-title" data-i18n="details"></h2><div class="actions"><button id="detail-prev">&lt;</button><span id="detail-position"></span><button id="detail-next">&gt;</button><button id="detail-edit" data-i18n="revise"></button><button id="detail-close"><i class="fa-solid fa-xmark"></i></button></div></div><div id="detail-body"></div></section></div>
+<div id="confirm-overlay" class="overlay" hidden><section id="confirm-dialog" class="dialog small" role="dialog" aria-modal="true" aria-labelledby="confirm-title" tabindex="-1"><h2 id="confirm-title" data-i18n="deleteTitle"></h2><p data-i18n="deleteHint"></p><div class="actions"><button id="delete-cancel" data-i18n="cancel"></button><button id="delete-confirm" class="primary" data-i18n="delete"></button></div></section></div><div id="toast" class="toast" role="status" hidden></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("fbf22ab37061190e_Bento演示文稿")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+</script>
+<script>
+const SOURCE='演示文稿/默认表格', FIELDS=['演示需求','素材文件','演示文件'];
+const $=id=>document.getElementById(id), state={lang:'cn',page:'home',row:0,count:0,records:[],record:['','',''],history:[],busy:false,polling:false,loaded:false,deleteRow:0,focus:[]};
+const messages={cn:{app:'Bento 演示工坊',home:'首页',studio:'创作工坊',library:'文稿库',intro:'用一段需求，可选地附上素材，智能生成结构清晰、风格统一、带逐页讲稿的 Bento 演示；也可在已有文稿上按新需求改版。',start:'开始创作演示',total:'文稿总数',collected:'灵感，已妥善收藏',all:'全部文稿',noDates:'暂无日期信息，展示全部',readyCount:'可预览成片',readyHint:'打开，让故事开始',recent:'最近文稿',clickDetails:'点击卡片查看详情',studioIntro:'描述你要讲的故事、受众与风格；有素材就带上，有旧文稿就把旧文件当作素材以便改版。',viewLibrary:'查看文稿库',blank:'新建空白',formTitle:'Bento演示文稿',request:'演示需求',material:'素材文件',select:'选择素材',clear:'清除素材',materialHint:'可上传参考图片、文档或已有 .bento.html，技能会据其组织或改版。',revisionHint:'若要在旧成片上修改，请先把旧 .bento.html 当作素材选入。',generate:'生成 / 改版演示',save:'保存需求到当前行',preview:'成片预览',open:'在新标签打开',download:'下载成片',placeholder:'生成后将在此嵌入预览',waiting:'正在为你编排图表、转场与逐页讲稿，请稍候…',libraryIntro:'所有已提交的 Bento 演示，卡片浏览、预览、改版或删除。',new:'新的演示',filterAll:'全部',ready:'已成片',pending:'未成片',footer:'把灵感，装进每一格',details:'文稿详情',revise:'改版',delete:'删除',deleteTitle:'删除这份文稿？',deleteHint:'删除后无法恢复，请确认要删除这条记录。',cancel:'取消',retry:'重新加载',search:'搜索演示需求关键词…',prompt:'为新产品发布会做 10 页 Bento 演示，面向投资人，强调增长、差异化与路线图，视觉偏深色科技，每页要有讲稿',noMaterial:'无素材',hasMaterial:'已附素材',canPreview:'可预览',unfinished:'生成中 / 未生成',untitled:'未填写需求',empty:'便当盒里，还没有故事',first:'创作第一份演示',noMatches:'没有匹配的文稿',loading:'正在读取文稿…',error:'读取或操作失败，请稍后重试。',saved:'需求已保存',deleted:'文稿已删除',generated:'演示已生成',timeout:'等待超过 30 分钟，请稍后在文稿库查看成片。',missing:'尚未生成，去创作工坊重新提交',working:'正在处理，请稍候…',materialDownload:'下载素材',newRecord:'新文稿',partial:'部分内容读取失败，请重新加载。',close:'关闭',menu:'展开导航菜单',filter:'按成片状态筛选'},en:{app:'Bento Atelier',home:'Home',studio:'Studio',library:'Library',intro:'Turn a brief and optional source material into a cohesive Bento presentation with speaker notes for every slide. Reimagine an existing deck with a fresh direction.',start:'Create a presentation',total:'Presentations',collected:'Ideas, thoughtfully collected',all:'All presentations',noDates:'No date information; all records shown',readyCount:'Ready to preview',readyHint:'Open a deck. Start your story.',recent:'Recent presentations',clickDetails:'Select a card to view details',studioIntro:'Describe your story, audience and style. Bring references, or attach an existing deck to rework it.',viewLibrary:'View library',blank:'Start blank',formTitle:'Bento presentation',request:'Presentation brief',material:'Source material',select:'Choose material',clear:'Clear',materialHint:'Attach reference images, documents or an existing .bento.html deck to guide the result.',revisionHint:'To revise an existing deck, select the old .bento.html as source material first.',generate:'Generate / rework',save:'Save brief to current record',preview:'Presentation preview',open:'Open in new tab',download:'Download deck',placeholder:'Your generated presentation will appear here',waiting:'Arranging your charts, transitions and slide notes. Please wait…',libraryIntro:'Browse, preview, rework and manage every submitted Bento presentation.',new:'New presentation',filterAll:'All',ready:'Ready',pending:'Not ready',footer:'A place for every idea',details:'Presentation details',revise:'Rework',delete:'Delete',deleteTitle:'Delete this presentation?',deleteHint:'This record will be permanently removed. Please confirm.',cancel:'Cancel',retry:'Reload',search:'Search presentation briefs…',prompt:'Create a 10-slide Bento deck for a new product launch, aimed at investors. Emphasize growth, differentiation and the roadmap, with a dark technology theme and speaker notes on every slide.',noMaterial:'No material',hasMaterial:'Material attached',canPreview:'Preview available',unfinished:'Generating / not generated',untitled:'No brief provided',empty:'Your next story starts here',first:'Create your first presentation',noMatches:'No matching presentations',loading:'Loading presentations…',error:'Unable to read or complete the operation. Please try again.',saved:'Brief saved',deleted:'Presentation deleted',generated:'Presentation is ready',timeout:'The 30-minute wait has ended. Check the library later for your deck.',missing:'Not generated yet. Resubmit from the studio.',working:'An operation is in progress. Please wait…',materialDownload:'Download material',newRecord:'New presentation',partial:'Some content could not be loaded. Please reload.',close:'Close',menu:'Toggle navigation',filter:'Filter by presentation status'}};
+const t=k=>messages[state.lang][k]||k, esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function notify(key){$('toast').textContent=t(key);$('toast').hidden=false;clearTimeout(notify.timer);notify.timer=setTimeout(()=>$('toast').hidden=true,6000)}
+function fail(e){console.error(e);notify('error')}
+async function api(type,payload,data=SOURCE){return await callAppBridge({type,data,...(payload===undefined?{}:{payload})})}
+function fileURL(file,download=false){return 'https://www.ithinkair.com:3031/'+(download?'download/':'private/')+encodeURIComponent(file.trim())}
+function isFile(value){const s=String(value||'').trim();return !!s&&!/[\r\n<>]/.test(s)&&(/\.(?:bento\.)?html?$/i.test(s)||/^\{?[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}\}?(?:\.[a-z0-9._-]+)?$/i.test(s)||/^[^\s/\\:*?"|]+\.[a-z0-9]{1,12}$/i.test(s))}
+function markdown(node,text){if(window.marked&&window.DOMPurify){node.innerHTML=DOMPurify.sanitize(marked.parse(String(text||''),{gfm:true,breaks:true}));node.querySelectorAll('img').forEach(img=>{const raw=img.getAttribute('src')||'';let filename=raw;try{if(/^https?:/i.test(raw))filename=decodeURIComponent(new URL(raw).pathname.split('/').pop())}catch{}if(!/^(data:|blob:)/i.test(raw)){const a=document.createElement('a');a.href=fileURL(filename,true);a.target='_blank';a.rel='noopener noreferrer';if(!/^https?:/i.test(raw))img.src=fileURL(filename,true);img.replaceWith(a);a.append(img)}});node.querySelectorAll('a').forEach(a=>{a.target='_blank';a.rel='noopener noreferrer'})}else{node.textContent=text;node.classList.add('full-text')}}
+function mark(){return '<div class="bento-mark" aria-hidden="true"><i></i><i></i><i></i></div>'}
+function renderOutput(node,value,waiting=false){node.replaceChildren();if(waiting||!value){node.innerHTML='<div class="placeholder '+(waiting?'waiting':'')+'">'+mark()+'<p>'+esc(t(waiting?'waiting':'placeholder'))+'</p></div>';return}if(isFile(value)){const frame=document.createElement('iframe');frame.title=t('preview');frame.setAttribute('sandbox','allow-scripts allow-downloads allow-popups allow-presentation');frame.src=fileURL(value);node.append(frame)}else{const md=document.createElement('div');md.className='markdown';markdown(md,value);node.append(md)}}
+function renderMetadata(node,record){node.replaceChildren();const h=document.createElement('h3');h.textContent=t('request');const p=document.createElement('div');p.className='markdown';markdown(p,record[0]||t('untitled'));node.append(h,p);if(record[1]){const a=document.createElement('a');a.href=fileURL(record[1],true);a.target='_blank';a.rel='noopener noreferrer';a.textContent=t('materialDownload')+' · '+record[1];node.append(a)}}
+function updateControls(){const locked=state.busy||state.polling;$('generate').disabled=locked||!$('bento-form-request').value.trim();$('save').disabled=locked||state.row<1;for(const id of ['select-material','clear-material'])$(id).disabled=locked;$('bento-form-request').disabled=locked;document.querySelectorAll('[data-new]').forEach(b=>b.disabled=locked);for(const prefix of ['studio','detail']){$(prefix+'-prev').disabled=locked||state.row<=1;$(prefix+'-next').disabled=locked||state.row===0||state.row>=state.count;$(prefix+'-position').textContent=state.row?state.row+' / '+state.count:t('newRecord')}$('studio-open').disabled=$('studio-download').disabled=locked||!isFile(state.record[2]);$('detail-edit').disabled=locked;$('delete-confirm').disabled=locked;$('material-name').textContent=$('bento-form-material').value||t('noMaterial')}
+function renderStudio(){renderOutput($('studio-output'),state.record[2],state.polling);$('studio-metadata').hidden=!state.row;if(state.row)renderMetadata($('studio-metadata'),state.record);updateControls()}
+function setMenu(open){$('mobile-menu').hidden=!open;$('menu-toggle').setAttribute('aria-expanded',String(open))}
+function fitNav(){const nav=$('navigation');nav.classList.remove('compact');if($('brand').getBoundingClientRect().width+$('desktop-nav').scrollWidth+90>nav.clientWidth)nav.classList.add('compact');if(!nav.classList.contains('compact'))setMenu(false)}
+function showPage(page,remember=true){if(page===state.page){setMenu(false);return}if(remember)state.history.push({page:state.page,scroll:window.scrollY});state.page=page;for(const p of ['home','studio','library'])$('page-'+p).hidden=p!==page;document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));setMenu(false);window.scrollTo(0,0)}
+function openModal(id){state.focus.push({id,element:document.activeElement});$(id).hidden=false;document.body.classList.add('modal-open');$(id).querySelector('[role=dialog]').focus()}
+function closeModal(id){$(id).hidden=true;const i=state.focus.findIndex(f=>f.id===id);if(i>=0){const [f]=state.focus.splice(i,1);f.element?.focus()}if(!state.focus.length)document.body.classList.remove('modal-open')}
+window.airBack=function(){if(!$('confirm-overlay').hidden){if(!state.busy)closeModal('confirm-overlay');return 'false'}if(!$('detail-overlay').hidden){closeModal('detail-overlay');return 'false'}if(!$('mobile-menu').hidden){setMenu(false);return 'false'}const back=state.history.pop();if(back){showPage(back.page,false);requestAnimationFrame(()=>window.scrollTo(0,back.scroll));return 'false'}return 'true'};
+function newRecord(){if(state.busy||state.polling)return notify('working');state.row=0;state.record=['','',''];$('bento-form').reset();renderStudio();showPage('studio')}
+async function readRecord(row){const values=[];for(const field of FIELDS)values.push(String(await api('GetCellValue',field+'/'+row)||''));return values}
+async function loadRecord(row,detail=false){if(state.busy||state.polling)return notify('working');state.busy=true;updateControls();try{const values=await readRecord(row);state.row=row;state.record=values;$('bento-form-request').value=values[0];$('bento-form-material').value=values[1];renderStudio();if(detail){showPage('library');renderDetail();if($('detail-overlay').hidden)openModal('detail-overlay')}else showPage('studio')}catch(e){fail(e)}finally{state.busy=false;updateControls()}}
+function renderDetail(){const node=$('detail-body');node.replaceChildren();const meta=document.createElement('div');renderMetadata(meta,state.record);node.append(meta);const toolbar=document.createElement('div');toolbar.className='actions';toolbar.style.margin='24px 0';if(isFile(state.record[2]))for(const [key,download]of [['open',false],['download',true]]){const a=document.createElement('a');a.href=fileURL(state.record[2],download);a.target='_blank';a.rel='noopener noreferrer';a.textContent=t(key);toolbar.append(a)}node.append(toolbar);const output=document.createElement('div');renderOutput(output,state.record[2]);node.append(output);updateControls()}
+async function visit(row,mode){if(state.busy||state.polling)return notify('working');if(mode==='revise')return loadRecord(row);await loadRecord(row,true);if(mode==='preview'&&state.row===row&&!state.record[2]){closeModal('detail-overlay');showPage('studio');notify('missing')}}
+function card(record,recent){const node=document.createElement('article');node.className='card';node.tabIndex=0;node.setAttribute('role','group');node.innerHTML='<div class="card-top"><i class="fa-solid fa-table-cells-large"></i><span>BENTO PRESENTATION</span></div><p>'+esc(Array.from(record.brief||t('untitled')).slice(0,recent?80:60).join(''))+'</p><div class="badges"><span class="badge">'+esc(t(record.values[1]?'hasMaterial':'noMaterial'))+'</span><span class="badge '+(record.values[2]?'ready':'')+'">'+esc(t(record.values[2]?'canPreview':'unfinished'))+'</span></div>';node.addEventListener('click',()=>visit(record.row,recent?'preview':'detail'));node.addEventListener('keydown',e=>{if(e.target===node&&(e.key==='Enter'||e.key===' ')){e.preventDefault();visit(record.row,recent?'preview':'detail')}});if(!recent){const actions=document.createElement('div');actions.className='actions';for(const [key,mode]of [['preview','preview'],['revise','revise'],['delete','delete']]){const b=document.createElement('button');b.textContent=t(key);if(mode==='preview')b.className='primary';b.onclick=e=>{e.stopPropagation();if(state.busy||state.polling)return notify('working');if(mode==='delete'){state.deleteRow=record.row;openModal('confirm-overlay')}else visit(record.row,mode)};actions.append(b)}node.append(actions)}return node}
+function empty(node,noMatches=false){node.innerHTML='<div class="empty">'+mark()+'<h3>'+esc(t(noMatches?'noMatches':'empty'))+'</h3></div>';if(!noMatches){const b=document.createElement('button');b.className='primary';b.textContent=t('first');b.onclick=newRecord;node.firstChild.append(b)}}
+function renderLists(){const recent=$('recent-grid'),library=$('library-grid');recent.replaceChildren();library.replaceChildren();if(!state.loaded){recent.textContent=library.textContent=t('loading');return}for(const r of state.records.slice(0,6))recent.append(card(r,true));if(!state.records.length)empty(recent);const query=$('library-search').value.toLocaleLowerCase().trim(),filter=$('library-filter').value;const selected=state.records.filter(r=>r.values[0].toLocaleLowerCase().includes(query)&&(filter==='all'||(filter==='ready'?!!r.values[2].trim():!r.values[2].trim())));for(const r of selected)library.append(card(r,false));if(!selected.length)empty(library,!!state.records.length);$('stat-total').textContent=state.count;$('stat-all').textContent=state.records.length;$('stat-ready').textContent=state.records.filter(r=>r.values[2].trim()).length}
+async function refresh(){try{const [csv,count]=await Promise.all([api('GetTableCSV',FIELDS.join(',')),api('GetRecordCount')]);const n=Number(count);if(!Number.isInteger(n)||n<0)throw Error('Invalid record count');const records=parseCSV(String(csv||'')).map((values,i)=>({row:i+1,values:[values[0]||'',values[1]||'',values[2]||''],brief:''}));let partial=false;for(const r of records){try{r.brief=String(await api('GetCellValue','演示需求/'+r.row)||'')}catch(e){r.brief=r.values[0];partial=true}}state.records=records;state.count=n;state.loaded=true;$('error-strip').hidden=!partial;if(partial)$('error-message').textContent=t('partial');renderLists();updateControls()}catch(e){$('error-strip').hidden=false;$('error-message').textContent=t('error');if(!state.loaded){$('recent-grid').textContent=t('error');$('library-grid').textContent=t('error')}throw e}}
+function sleep(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
+async function poll(){const deadline=Date.now()+1800000;state.polling=true;renderStudio();try{while(Date.now()<deadline){await sleep(1000);const remaining=deadline-Date.now();if(remaining<=0)break;let timer;try{const result=await Promise.race([api('GetCellValue','演示文件/'+state.row),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('deadline')),remaining)})]);clearTimeout(timer);if(String(result||'').trim()){state.record[2]=String(result).trim();notify('generated');return}}catch(e){clearTimeout(timer);if(Date.now()>=deadline)break;throw e}}notify('timeout')}catch(e){fail(e)}finally{state.polling=false;renderStudio();await refresh().catch(fail)}}
+async function submit(e){e.preventDefault();if(state.busy||state.polling||!$('bento-form-request').value.trim())return;state.busy=true;updateControls();let submitted=false;try{const brief=$('bento-form-request').value,material=$('bento-form-material').value;await api('SubmitRecord',JSON.stringify({'演示需求':brief,'素材文件':material}));state.row=1;state.record=[brief,material,''];state.count++;submitted=true}catch(e){fail(e)}finally{state.busy=false;updateControls()}if(submitted)await poll()}
+async function save(){if(state.busy||state.polling||state.row<1)return;state.busy=true;updateControls();try{const brief=$('bento-form-request').value,material=$('bento-form-material').value;await api('SetCellValue','演示需求/'+state.row+'/'+brief);await api('SetCellValue','素材文件/'+state.row+'/'+material);state.record[0]=brief;state.record[1]=material;renderStudio();notify('saved');await refresh()}catch(e){fail(e)}finally{state.busy=false;updateControls()}}
+async function removeRecord(){if(state.busy||state.polling)return;state.busy=true;updateControls();try{const row=state.deleteRow;await api('DeleteRecord',row.toString());if(state.row===row){state.row=0;state.record=['','',''];$('bento-form').reset();renderStudio()}else if(state.row>row)state.row--;closeModal('confirm-overlay');notify('deleted');await refresh()}catch(e){fail(e)}finally{state.busy=false;updateControls()}}
+function localize(){document.documentElement.lang=state.lang==='cn'?'zh-CN':'en';document.title=t('app');document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));$('bento-form-request').placeholder=t('prompt');$('library-search').placeholder=t('search');$('library-search').setAttribute('aria-label',t('search'));$('library-filter').setAttribute('aria-label',t('filter'));$('menu-toggle').setAttribute('aria-label',t('menu'));$('detail-close').setAttribute('aria-label',t('close'));renderLists();renderStudio();if(!$('detail-overlay').hidden)renderDetail();fitNav()}
+async function initialize(){try{const langs=navigator.languages;state.lang=!langs||!langs.length||langs.some(v=>/^zh(?:-|$)/i.test(v))?'cn':'en';const param=new URLSearchParams(location.search).get('lang');if(param==='cn'||param==='en')state.lang=param;const stored=localStorage.getItem('iThinkAir_UiLanguage');if(stored)state.lang=stored==='en'?'en':'cn'}catch{}localize();document.querySelectorAll('[data-page]').forEach(b=>{b.classList.toggle('active',b.dataset.page===state.page);b.onclick=()=>showPage(b.dataset.page)});document.querySelectorAll('[data-new]').forEach(b=>b.onclick=newRecord);document.querySelectorAll('.language').forEach(b=>b.onclick=()=>{state.lang=state.lang==='cn'?'en':'cn';try{localStorage.setItem('iThinkAir_UiLanguage',state.lang)}catch{}setMenu(false);localize()});$('brand').onclick=()=>{try{parent.closeFullHtml(false)}catch(e){fail(e)}};$('menu-toggle').onclick=()=>setMenu($('mobile-menu').hidden);document.addEventListener('click',e=>{if(!$('navigation').contains(e.target))setMenu(false)});window.addEventListener('resize',fitNav);if(document.fonts)document.fonts.ready.then(fitNav);$('bento-form-request').addEventListener('input',updateControls);$('bento-form').addEventListener('submit',submit);$('save').onclick=save;$('select-material').onclick=async()=>{if(state.busy||state.polling)return;state.busy=true;updateControls();try{const file=await callAppBridge({type:'SelectFile'});if(file)$('bento-form-material').value=String(file)}catch(e){fail(e)}finally{state.busy=false;updateControls()}};$('clear-material').onclick=()=>{$('bento-form-material').value='';updateControls()};$('studio-open').onclick=()=>window.open(fileURL(state.record[2]),'_blank','noopener,noreferrer');$('studio-download').onclick=()=>window.open(fileURL(state.record[2],true),'_blank','noopener,noreferrer');for(const prefix of ['studio','detail']){for(const [suffix,delta]of [['prev',-1],['next',1]])$(prefix+'-'+suffix).onclick=()=>{const next=state.row+delta;if(state.row>0&&next>0&&next<=state.count)loadRecord(next,prefix==='detail')}}$('detail-close').onclick=()=>closeModal('detail-overlay');$('detail-edit').onclick=()=>{closeModal('detail-overlay');loadRecord(state.row)};$('delete-cancel').onclick=()=>{if(!state.busy)closeModal('confirm-overlay')};$('delete-confirm').onclick=removeRecord;for(const id of ['detail-overlay','confirm-overlay'])$(id).onclick=e=>{if(e.target===$(id)&&(id!=='confirm-overlay'||!state.busy))closeModal(id)};$('library-search').oninput=renderLists;$('library-filter').onchange=renderLists;$('retry').onclick=()=>refresh().catch(fail);document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(state.focus.length||!$('mobile-menu').hidden)window.airBack()}if(e.key==='Tab'&&state.focus.length){const modal=$(state.focus[state.focus.length-1].id);const items=Array.from(modal.querySelectorAll('button:not(:disabled),a[href],input,textarea,select,iframe,[tabindex="0"]')).filter(el=>el.getClientRects().length);if(!items.length){e.preventDefault();return}const first=items[0],last=items[items.length-1];if(e.shiftKey&&(document.activeElement===first||document.activeElement===modal.firstElementChild)){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});function keyboard(){const el=document.activeElement;const active=el&&/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);document.body.classList.toggle('keyboard',active&&window.innerWidth<601);if(active&&window.innerWidth<601){const gap=window.visualViewport?Math.max(300,window.innerHeight-window.visualViewport.height+120):340;document.body.style.setProperty('--keyboard-space',gap+'px');setTimeout(()=>el.scrollIntoView({block:'center',behavior:'smooth'}),180)}}document.addEventListener('focusin',keyboard);document.addEventListener('focusout',()=>setTimeout(keyboard,50));window.visualViewport?.addEventListener('resize',keyboard);await Promise.allSettled([callAppBridge({type:'模式'}).then(mode=>document.body.classList.toggle('dark',String(mode).trim()==='暗色')).catch(()=>document.body.classList.toggle('dark',matchMedia('(prefers-color-scheme: dark)').matches)),refresh().catch(fail)])}
+(async () => { await initialize(); })();
+</script></body></html>

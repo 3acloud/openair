@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>文案卡片工坊</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700;800&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it-footnote@4.0.0/dist/markdown-it-footnote.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it-task-lists@2.1.1/dist/markdown-it-task-lists.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it-deflist@3.0.0/dist/markdown-it-deflist.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{--paper:#fbf7f2;--paper-end:#f3ebe3;--card:#fffdf9;--text:#25241f;--muted:#7d776e;--line:#dfcfac;--gold:#c9a227;--red:#c23a2b;--green:#2d6a4f;--accent:#c23a2b;--soft:#f2e5dc;--shadow:0 10px 35px #4127100a;--nav-h:76px;--keyboard:0px}
+:root[data-theme=dark]{--paper:#191b19;--paper-end:#252622;--card:#252824;--text:#f3ede2;--muted:#b4b3a7;--line:#635a3d;--soft:#34372e;--shadow:0 10px 35px #0003}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;color:var(--text);font:14px/1.7 "Noto Sans SC",sans-serif;background:linear-gradient(120deg,var(--paper),var(--paper-end));min-width:300px;transition:background .2s,color .2s}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23777777' filter='url(%23n)' opacity='.3' d='M0 0h180v180H0z'/%3E%3C/svg%3E")}
+h1,h2,h3,p{margin:0}h1,h2,h3,.serif{font-family:"Noto Serif SC",serif}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box;max-width:100%;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:9px;padding:11px 13px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent)}textarea{resize:vertical;width:100%;min-height:180px}button,a{touch-action:manipulation}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--gold);outline-offset:4px}a{color:var(--accent)}[hidden]{display:none!important}.top{position:fixed;inset:0 0 auto;z-index:1001;background:#1a211d;border-bottom:1px solid var(--gold)}nav{position:relative;z-index:1001;max-width:1320px;margin:auto;min-height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 36px;color:#eee8da}.brand{border:0;background:none;display:flex;align-items:center;gap:12px;color:inherit;text-align:left;white-space:nowrap}.brand i{color:var(--gold);font-size:27px}.brand strong{font-family:"Noto Serif SC",serif;font-size:20px;font-weight:600;letter-spacing:1px}.brand small{display:block;color:#999c90;letter-spacing:3px;font-size:9px}.nav-links{display:flex;align-items:center;gap:30px;white-space:nowrap}.nav-links button,.language,.menu-toggle{border:0;background:transparent;color:#c1c4b9}.nav-links [data-page]{padding:25px 0 22px;border-bottom:3px solid transparent}.nav-links [data-page].active{color:#ebcc6e;border-color:var(--gold)}.language{border-left:1px solid #ffffff26!important;padding-left:20px;white-space:nowrap}.menu-toggle{font-size:22px;padding:12px;display:none}.mobile-language{display:none}.compact .menu-toggle{display:block}.compact .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;padding:12px 24px 20px;background:#1a211d;border-bottom:1px solid var(--gold);box-shadow:0 15px 24px #0003}.compact.menu-open .nav-links{display:flex}.compact .nav-links [data-page]{padding:12px;text-align:left;border-bottom-width:1px}.compact .language{display:none}.compact .mobile-language{display:flex;gap:12px;padding-top:14px}.mobile-language button{border:1px solid #686c55;border-radius:6px;padding:8px 16px}.mobile-language .selected{color:#ebcc6e;border-color:var(--gold)}
+main{max-width:1280px;margin:auto;padding:calc(var(--nav-h) + 30px) 36px 70px;position:relative}.eyebrow{font-size:11px;letter-spacing:3px;color:var(--accent);font-weight:600;text-transform:uppercase}.hero{padding:54px 0 45px;display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:center}.hero h1{font-size:clamp(32px,4vw,52px);line-height:1.5;font-weight:700;letter-spacing:1px;margin:15px 0 18px;max-width:740px}.hero h1 em{font-style:normal;color:var(--red)}.hero p{max-width:600px;color:var(--muted);font-size:15px}.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.hero .actions{margin-top:28px}.btn{border:1px solid var(--line);background:var(--card);color:var(--text);padding:10px 17px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:background .2s,transform .2s}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn:hover:not(:disabled){transform:translateY(-2px)}.btn.subtle{background:transparent}.btn.small{padding:7px 11px;font-size:12px}.btn.danger{color:var(--red)}.hero-art{height:270px;position:relative;display:grid;place-items:center}.paper-art{position:absolute;width:180px;height:235px;border:1px solid #c9a22788;box-shadow:0 18px 35px #36291514;background:var(--card);transform:rotate(-12deg) translateX(-34px)}.paper-art.second{transform:rotate(10deg) translateX(28px);background:var(--soft)}.paper-art.front{transform:rotate(-3deg);display:flex;align-items:center;justify-content:center;gap:22px;padding:20px}.paper-art .vertical{writing-mode:vertical-rl;font:30px/1.5 "Noto Serif SC",serif;letter-spacing:9px}.seal{font:17px "Noto Serif SC",serif;border:1px solid var(--red);color:var(--red);padding:6px;writing-mode:vertical-rl}.ornament{position:absolute;width:280px;height:280px;border:1px solid var(--line);border-radius:50%;opacity:.5}.art-caption{position:absolute;bottom:-8px;font-size:10px;letter-spacing:4px;color:var(--muted)}.style-grid,.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.panel,.work-card,.style-card,.stat{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:12px}.style-card{padding:21px 19px;display:flex;gap:14px;align-items:flex-start;transition:.2s}.style-card:hover,.work-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px #c9a22718;border-color:var(--gold)}.style-card i{color:var(--accent);font-size:21px;background:var(--soft);padding:12px;border-radius:9px}.style-card h3{font-size:15px}.style-card p{font-size:11px;color:var(--muted);margin-top:4px}.stats{margin-top:24px}.stat{padding:18px 22px;position:relative}.stat .number{display:block;font:31px/1.5 "Noto Serif SC",serif}.stat .label{color:var(--muted);font-size:12px}.stat i{position:absolute;right:20px;top:28px;color:var(--gold);opacity:.7}.section-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:34px 0 18px}.section-head h2{font-size:23px}.section-head p,.page-head p{color:var(--muted);margin-top:6px}.section-head .kicker{font-size:10px;letter-spacing:2px;color:var(--muted);margin-left:14px}.page-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin:20px 0 28px}.page-head h1{font-size:32px}.work-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.work-card{overflow:hidden;transition:.2s;cursor:pointer;min-width:0}.work-cover{height:210px;display:grid;place-items:center;background:var(--soft);overflow:hidden;border-bottom:1px solid var(--line)}.work-cover img{width:100%;height:100%;object-fit:contain}.placeholder{color:var(--muted);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}.placeholder i{font-size:38px;opacity:.35}.work-body{padding:18px}.badges{display:flex;gap:6px;flex-wrap:wrap}.badge{font-size:10px;border:1px solid var(--line);border-radius:4px;padding:2px 7px;color:var(--muted)}.badge.platform{color:var(--green);background:#2d6a4f0d}.badge.platform.red{color:var(--red);background:#c23a2b0d}.summary{font-size:14px;margin:12px 0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:48px;white-space:pre-wrap;overflow-wrap:anywhere}.metadata{display:flex;flex-wrap:wrap;gap:4px 10px;color:var(--muted);font-size:11px;overflow-wrap:anywhere}.work-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px;padding-top:13px;border-top:1px solid var(--line)}.work-actions .btn{flex:1;min-width:40px}.empty{grid-column:1/-1;padding:58px 24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.ink{width:110px;height:80px;margin:0 auto 18px;display:grid;place-items:center;border-radius:60% 35% 65% 45%;background:radial-gradient(ellipse,#747b6925,transparent 70%);font-size:40px;color:var(--muted)}.empty h3{font-size:18px;margin-bottom:8px}.empty .btn{margin-top:20px}.studio-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start}.panel-head{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.panel-head h2{font-size:19px}.panel-head i{color:var(--accent);margin-right:8px}.form-body{padding:24px}fieldset{border:0;margin:0;padding:0;min-width:0}.field{margin-bottom:22px}.field label,.field legend{display:flex;align-items:center;gap:8px;font-weight:500;margin-bottom:9px}.field input:not([type=radio]){width:100%}.required{color:var(--red);font-size:11px}.hint{color:var(--muted);font-size:11px;margin-top:7px}.field-foot{display:flex;gap:14px;justify-content:space-between}.type-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}.option{position:relative}.option input,.seg-option input{position:absolute;opacity:0;width:1px;height:1px}.option span{display:block;border:1px solid var(--line);border-radius:8px;padding:12px;cursor:pointer;font-size:13px;font-weight:500;transition:.2s}.option small{display:block;font-size:10px;color:var(--muted);margin-top:5px;font-weight:400}.option input:checked+span{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,var(--card));box-shadow:inset 0 0 0 1px var(--accent)}.option input:focus-visible+span,.seg-option input:focus-visible+span{outline:3px solid var(--gold)}.segment{display:flex;padding:4px;background:var(--soft);border:1px solid var(--line);border-radius:9px;gap:4px}.seg-option{position:relative;flex:1;margin:0!important;text-align:center}.seg-option span{width:100%;padding:9px;border-radius:6px;cursor:pointer;transition:.2s}.seg-option input:checked+span{background:var(--accent);color:#fff}.form-two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.form-footer{border-top:1px solid var(--line);padding-top:19px}.form-footer .primary{flex:1}.preview{position:sticky;top:calc(var(--nav-h) + 24px);overflow:hidden}.preview-strip{height:4px;background:var(--accent);transition:background .2s}.preview-body{min-height:440px;padding:24px;display:flex;align-items:center;justify-content:center;background:repeating-conic-gradient(var(--paper) 0% 25%,var(--card) 0% 50%) 0 / 20px 20px}.preview-body img{width:100%;max-height:680px;object-fit:contain}.preview-footer{padding:13px 24px;color:var(--muted);font-size:11px;border-top:1px solid var(--line)}.preview-tools{padding:12px 18px;border-bottom:1px solid var(--line)}.preview-wait{text-align:center;color:var(--muted)}.ripple{width:30px;height:30px;border-radius:50%;background:var(--accent);margin:22px auto 30px;animation:ripple 1.6s infinite}@keyframes ripple{0%{box-shadow:0 0 0 0 #82694c35;transform:scale(.6)}80%{box-shadow:0 0 0 25px #82694c00}100%{transform:scale(.6);box-shadow:0 0 0 0 transparent}}.filters{display:flex;gap:12px;align-items:center;padding:16px;margin-bottom:22px;flex-wrap:wrap}.search-wrap{position:relative;flex:1;min-width:180px}.search-wrap i{position:absolute;left:14px;top:16px;color:var(--muted)}.search-wrap input{width:100%;padding-left:39px}.filters select{min-width:150px}.gallery-count{color:var(--muted);font-size:12px;margin:0 0 15px}.more-wrap{text-align:center;margin:25px}.error-banner{padding:12px 18px;background:var(--card);border:1px solid var(--red);border-radius:9px;margin:0 0 20px;color:var(--red);display:flex;gap:12px;align-items:center;justify-content:space-between}.error-banner span{overflow-wrap:anywhere}.overlay{position:fixed;inset:0;z-index:2001;background:#111810a6;backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:24px}.dialog{width:min(940px,100%);max-height:calc(100dvh - 48px);background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;box-shadow:0 30px 90px #0005}.dialog-header{padding:17px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.dialog-header h2{font-size:21px}.dialog-body{overflow:auto;padding:24px;overscroll-behavior:contain}.dialog-footer{padding:16px 24px;border-top:1px solid var(--line)}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.detail-image{width:100%;max-height:650px;object-fit:contain;background:var(--soft);border-radius:8px}.detail-fields{display:grid;grid-template-columns:100px 1fr;font-size:12px;gap:8px;margin-top:20px;overflow-wrap:anywhere}.detail-fields dt{color:var(--muted)}.detail-fields dd{margin:0;white-space:pre-wrap}.markdown{line-height:1.85;overflow-wrap:anywhere;min-width:0}.markdown h1,.markdown h2,.markdown h3{margin:1em 0 .5em;line-height:1.5}.markdown h1{font-size:1.8em}.markdown h2{font-size:1.5em}.markdown p,.markdown ul,.markdown ol{margin:.75em 0}.markdown blockquote{border-left:3px solid var(--accent);margin:1em 0;padding:8px 16px;background:var(--soft);color:var(--muted)}.markdown pre{overflow:auto;padding:16px;background:var(--soft);border-radius:7px}.markdown code{font-family:Consolas,monospace;background:var(--soft)}.markdown img{max-width:100%;cursor:pointer}.markdown table{display:block;overflow:auto;border-collapse:collapse;max-width:100%}.markdown th,.markdown td{padding:8px 12px;border:1px solid var(--line)}.markdown hr{border:0;border-top:1px solid var(--line);margin:22px 0}.markdown .task-list-item{list-style:none}.markdown input{width:auto!important}.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);max-width:min(90%,650px);padding:13px 22px;border-radius:9px;background:#1a211d;color:#fff;border:1px solid var(--gold);box-shadow:0 10px 35px #0003;z-index:3000;white-space:pre-wrap;overflow-wrap:anywhere}.footer{border-top:1px solid var(--line);margin-top:50px;padding-top:20px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:10px;letter-spacing:1px}
+@media(max-width:1050px){.style-grid{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1.5fr 1fr}.hero-art{transform:scale(.9)}.work-grid{grid-template-columns:repeat(2,minmax(0,1fr))}nav{padding:0 24px;gap:16px}.nav-links{gap:20px}.brand strong{font-size:18px}}
+@media(max-width:760px){:root{--nav-h:68px}nav{padding:0 18px}main{padding:calc(var(--nav-h) + 20px) 18px calc(140px + var(--keyboard))}.brand strong{font-size:17px}.brand small{font-size:8px}.hero{padding:25px 0 35px;grid-template-columns:1fr;gap:10px}.hero h1{font-size:33px}.hero-art{height:235px;transform:scale(.85);margin:0}.style-grid{gap:10px}.style-card{padding:15px 12px;gap:10px}.style-card i{font-size:16px;padding:9px}.style-card h3{font-size:13px}.stats{grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px 18px}.studio-grid{grid-template-columns:1fr}.preview{position:static}.preview-body{min-height:330px}.page-head{align-items:flex-start}.page-head h1{font-size:26px}.page-head p{font-size:12px}.page-head .btn{font-size:11px;padding:9px;flex-shrink:0}.work-grid{gap:14px}.work-cover{height:175px}.work-body{padding:12px}.work-actions .btn{font-size:11px;padding:7px}.section-head h2{font-size:21px}.section-head .kicker{display:none}.form-body{padding:20px}.filters{gap:9px}.search-wrap{flex-basis:100%}.filters select{min-width:0;flex:1;width:40%}.dialog-body{padding:20px 18px calc(120px + var(--keyboard))}.detail-grid{grid-template-columns:1fr}.overlay.detail-overlay{padding:0}.detail-overlay .dialog{height:100dvh;max-height:100dvh;width:100%;border-radius:0}.dialog-header,.dialog-footer{padding:14px 18px}.footer{font-size:9px}.form-two{gap:12px}}
+@media(max-width:420px){.work-grid{grid-template-columns:1fr}.work-cover{height:260px}.hero h1{font-size:29px}.style-card{display:block}.style-card i{margin-bottom:10px}.form-two{grid-template-columns:1fr;gap:0}.page-head{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><nav id="navigation" aria-label="主导航">
+<button class="brand" id="brand"><i class="fa-solid fa-note-sticky" aria-hidden="true"></i><span><strong data-i18n="app"></strong><small>COPY · CARD · STUDIO</small></span></button>
+<div class="nav-links" id="nav-links">
+<button data-page="home" data-i18n="home" class="active"></button><button data-page="studio" data-i18n="studio"></button><button data-page="gallery" data-i18n="gallery"></button>
+<button id="language" class="language">中文 / EN</button>
+<div class="mobile-language"><button data-lang="cn">中文</button><button data-lang="en">English</button></div>
+</div>
+<button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav-links"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+</nav></header>
+<main id="main">
+<div class="error-banner" id="load-error" role="alert" hidden><span id="load-error-text"></span><button class="btn small" id="retry" data-i18n="retry"></button></div>
+<section id="page-home" data-view="home">
+<div class="hero"><div><span class="eyebrow" data-i18n="heroKicker"></span><h1 data-i18n="heroTitle"></h1><p data-i18n="heroText"></p><div class="actions"><button class="btn primary" data-page="studio"><span data-i18n="start"></span><i class="fa-solid fa-arrow-right"></i></button><button class="btn subtle" data-page="gallery" data-i18n="browse"></button></div></div>
+<div class="hero-art" aria-hidden="true"><div class="ornament"></div><div class="paper-art second"></div><div class="paper-art"></div><div class="paper-art front"><span class="vertical" data-i18n="artWords"></span><span class="seal" data-i18n="artSeal"></span></div><span class="art-caption" data-i18n="artCaption"></span></div></div>
+<div class="style-grid" id="styles"></div>
+<div class="stats">
+<div class="stat"><i class="fa-regular fa-folder-open"></i><span id="stat-total" class="number">—</span><span class="label" data-i18n="total"></span></div>
+<div class="stat"><i class="fa-regular fa-image"></i><span id="stat-poster" class="number">—</span><span class="label" data-i18n="posters"></span></div>
+<div class="stat"><i class="fa-regular fa-newspaper"></i><span id="stat-cover" class="number">—</span><span class="label" data-i18n="covers"></span></div>
+<div class="stat"><i class="fa-solid fa-palette"></i><span id="stat-red" class="number">—</span><span class="label" data-i18n="redCount"></span></div>
+</div>
+<div class="section-head"><div><h2><span data-i18n="recent"></span><span class="kicker">RECENT CREATIONS</span></h2></div><button class="btn subtle small" data-page="gallery"><span data-i18n="viewAll"></span><i class="fa-solid fa-arrow-right"></i></button></div>
+<div id="recent-grid" class="work-grid"></div>
+</section>
+<section id="page-studio" data-view="studio" hidden>
+<div class="page-head"><div><span class="eyebrow">THE CREATIVE DESK</span><h1 data-i18n="studio"></h1><p data-i18n="studioText"></p></div><button class="btn" data-page="gallery"><i class="fa-regular fa-images"></i><span data-i18n="gallery"></span></button></div>
+<div class="studio-grid">
+<form id="card-form" class="panel"><div class="panel-head"><h2><i class="fa-solid fa-pen-nib"></i><span data-i18n="formTitle"></span></h2><span class="badge" id="record-mode"></span></div>
+<div class="form-body"><fieldset id="card-form-fields">
+<div class="field"><label for="card-form-copy"><span data-i18n="copy"></span><span class="required">*</span></label><textarea id="card-form-copy" name="文案" required data-placeholder="copyPlaceholder"></textarea><div class="field-foot"><p class="hint" data-i18n="longHint"></p><p class="hint" id="char-count"></p></div></div>
+<fieldset class="field"><legend data-i18n="type"></legend><div class="type-options" id="type-options"></div></fieldset>
+<fieldset class="field"><legend data-i18n="platform"></legend><div class="segment" id="platform-options"></div></fieldset>
+<div class="field"><label for="card-form-signature" data-i18n="signature"></label><input id="card-form-signature" name="底部署名" type="text" data-placeholder="signaturePlaceholder"><p class="hint" data-i18n="signatureHint"></p></div>
+<div class="field"><label for="card-form-highlight"><span data-i18n="highlight"></span><span id="highlight-required" class="required" data-i18n="mustHighlight" hidden></span></label><input id="card-form-highlight" name="高亮词" type="text" data-placeholder="highlightPlaceholder"></div>
+<div class="form-two"><div class="field"><label for="card-form-author"><span data-i18n="author"></span><span class="required x-required" hidden>*</span></label><input id="card-form-author" name="作者" type="text" autocomplete="name"></div><div class="field"><label for="card-form-account"><span data-i18n="account"></span><span class="required x-required" hidden>*</span></label><input id="card-form-account" name="账号" type="text" autocomplete="off"></div></div>
+</fieldset>
+<div class="actions form-footer"><button id="submit-card" class="btn primary" type="submit"></button><button class="btn" id="rerender" type="button"><i class="fa-solid fa-arrows-rotate"></i><span data-i18n="rerender"></span></button></div><p id="save-hint" class="hint"></p>
+</div></form>
+<aside class="panel preview"><div class="preview-strip"></div><div class="panel-head"><h2 data-i18n="preview"></h2><div class="actions"><span id="row-label" class="hint"></span><button id="previous-record" class="btn small" type="button"><i class="fa-solid fa-chevron-left"></i></button><button id="next-record" class="btn small" type="button"><i class="fa-solid fa-chevron-right"></i></button></div></div>
+<div class="actions preview-tools" id="preview-tools" hidden><a class="btn small" id="preview-download" target="_blank" rel="noopener" data-i18n="downloadOriginal"></a><a class="btn small" id="preview-open" target="_blank" rel="noopener" data-i18n="openBrowser"></a><button class="btn small" id="new-card" data-i18n="another"></button></div>
+<div id="preview-body" class="preview-body" aria-live="polite"></div><div class="preview-footer"><i class="fa-solid fa-circle-info"></i> <span data-i18n="previewHint"></span></div></aside>
+</div></section>
+<section id="page-gallery" data-view="gallery" hidden><div class="page-head"><div><span class="eyebrow">THE COLLECTION</span><h1 data-i18n="gallery"></h1><p data-i18n="galleryText"></p></div><button class="btn primary" id="gallery-new"><i class="fa-solid fa-plus"></i><span data-i18n="start"></span></button></div>
+<div class="filters panel"><div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="search" id="gallery-search" name="search" data-placeholder="searchPlaceholder"></div><select id="gallery-type" name="type"></select><select id="gallery-platform" name="platform"></select><button class="btn" id="gallery-refresh"><i class="fa-solid fa-rotate-right"></i><span data-i18n="refresh"></span></button></div>
+<p class="gallery-count" id="gallery-count" aria-live="polite"></p><div id="gallery-grid" class="work-grid"></div><div class="more-wrap"><button id="load-more" class="btn" data-i18n="loadMore" hidden></button></div></section>
+<footer class="footer"><span data-i18n="footer"></span><span data-i18n="footerNote"></span></footer>
+</main>
+<div id="modal-root"></div><div class="toast" id="toast" role="status" hidden></div>
+<script>
+var url;
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("ab88fd504dfd9726_文案卡片图生成")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+
+const SOURCE='卡片生成/默认表格', TABLE='卡片生成';
+const FIELDS=['文案','卡片类型','平台','底部署名','高亮词','作者','账号','卡片图片'];
+const EDIT_FIELDS=FIELDS.slice(0,7);
+const TYPES=['文字海报','长文分页','X风格帖子','公众号封面'];
+const PLATFORMS=['公众号','小红书'];
+const templates=['poster-3-4','article-3-4','x-like-posts','wechat-cover-split'];
+const icons=['fa-quote-left','fa-align-left','fa-comment-dots','fa-newspaper'];
+const fieldIds={'文案':'copy','底部署名':'signature','高亮词':'highlight','作者':'author','账号':'account'};
+const words={
+app:['文案卡片工坊','Copy Card Studio'],home:['首页','Home'],studio:['创作工坊','Studio'],gallery:['作品画廊','Gallery'],
+heroKicker:['一字一句，皆可成笺','WORDS WORTH SHARING'],heroTitle:['把文案，折成一张可传播的笺','Fold your words into a card worth sharing.'],
+heroText:['一键将文案渲染为海报、长文分页、X风格帖子或公众号封面，套用公众号或小红书配色。','Turn your copy into a poster, paginated article, X-style post or WeChat cover, with WeChat or Xiaohongshu colors.'],
+start:['开始创作','Start creating'],browse:['浏览作品','Browse creations'],artWords:['字有温度','Words matter'],artSeal:['朱砂笺','INK'],artCaption:['一笺一意 · 以字传情','WORDS, BEAUTIFULLY FRAMED'],
+'文字海报':['文字海报','Text poster'],'长文分页':['长文分页','Paginated article'],'X风格帖子':['X风格帖子','X-style post'],'公众号封面':['公众号封面','WeChat cover'],
+'公众号':['公众号','WeChat'],'小红书':['小红书','Xiaohongshu'],
+style0:['3:4 竖版金句','3:4 portrait quotes'],style1:['长文拆页排版','Long-form page layout'],style2:['作者账号社交卡','Social cards with identity'],style3:['必填高亮封面','Covers with highlighted words'],
+total:['总作品数','Total creations'],posters:['海报作品数','Text posters'],covers:['封面作品数','WeChat covers'],redCount:['小红书配色数','Xiaohongshu palette'],
+recent:['案头近作','Fresh from the desk'],viewAll:['查看全部','View all'],studioText:['填写文案与版式，提交后由后台将文案渲染为单张 PNG 卡片。','Choose your copy and layout. The backend renders a single PNG card.'],
+formTitle:['生成文案卡片','Create a copy card'],copy:['文案','Copy'],copyPlaceholder:['在这里，写下想被看见的文字…','Write the words you want the world to see…'],
+longHint:['超长文案将自动拆分或缩写后再渲染。','Long copy may be paginated or shortened before rendering.'],type:['卡片类型','Card type'],platform:['平台','Platform'],
+signature:['底部署名','Footer signature'],signaturePlaceholder:['选填，留一笔你的名字','Optional — leave your signature'],signatureHint:['填写后将覆盖平台默认页脚。','Overrides the platform’s default footer.'],
+highlight:['高亮词','Highlight words'],mustHighlight:['必须高亮','Required for covers'],highlightPlaceholder:['填写希望强调的词','Words you want to emphasize'],author:['作者','Author'],account:['账号','Account'],
+rerender:['重新渲染','Render as new'],preview:['笺面预览','Card preview'],downloadOriginal:['下载原图','Download PNG'],openBrowser:['浏览器打开','Open in browser'],another:['再做一张','Create another'],
+previewHint:['预览展示后台生成的单张 PNG 原图。','Preview shows the single PNG returned by the backend.'],
+galleryText:['以卡片墙浏览、检索并管理全部文案卡片。','Browse, search and manage your copy card collection.'],
+searchPlaceholder:['搜索文案、高亮词、作者、账号、署名…','Search copy, highlights, author, account, signature…'],refresh:['刷新','Refresh'],loadMore:['查看更多','Load more'],
+footer:['文案卡片工坊 · 朱砂笺','Copy Card Studio · Cinnabar Paper'],footerNote:['把好文字，留在好看的笺上','Give good words a beautiful home'],
+retry:['重试','Retry'],allTypes:['全部卡片类型','All card types'],allPlatforms:['全部平台','All platforms'],chars:['字','characters'],
+generate:['生成卡片','Generate card'],save:['保存信息','Save information'],newRecord:['新建作品','New creation'],record:['记录','Record'],
+saveHint:['保存只更新文字信息；如需出新图，请点「重新渲染」。','Saving updates text only. Choose “Render as new” to generate a new image.'],
+newHint:['提交后开始生成，请耐心等待。','Generation starts after submission. Please allow time for rendering.'],
+blankPreview:['墨未落笺，填写左侧文案后生成','A blank canvas. Add your copy to generate a card.'],noImage:['暂无卡片图片','No card image yet'],
+waiting:['墨笺正在落成，正在把文案渲染成 PNG…','Ink is settling. Rendering your copy as a PNG…'],
+saving:['正在保存信息…','Saving information…'],loading:['正在取笺…','Loading creations…'],loadingDetails:['正在读取作品详情…','Loading creation details…'],
+empty:['画廊还是空白，去折第一张笺','Your gallery is a blank canvas. Create your first card.'],
+emptyHint:['好文字，值得一张好看的卡片。','Your words deserve a beautiful card.'],noMatches:['没有找到符合条件的作品','No creations match your filters'],
+clearFilters:['清除搜索与筛选','Clear search and filters'],details:['查看详情','Details'],edit:['编辑','Edit'],delete:['删除','Delete'],download:['下载','Download'],
+detailTitle:['作品详情','Creation details'],close:['关闭','Close'],goEdit:['去创作工坊编辑','Edit in studio'],image:['卡片图片','Card image'],
+previous:['上一行（较新作品）','Previous row (newer)'],next:['下一行（较早作品）','Next row (older)'],menu:['打开或关闭导航菜单','Toggle navigation'],
+copyRequired:['请填写文案。','Please enter your copy.'],highlightRequired:['公众号封面必须填写高亮词。','WeChat covers require highlight words.'],
+identityRequired:['X 风格帖子必须填写作者和账号。','X-style posts require an author and account.'],saved:['信息已保存，图片未重新生成。','Information saved. The image has not been regenerated.'],
+generated:['新笺已成，可以下载原图了。','Your card is ready to download.'],timeout:['生成等待已超过 30 分钟。记录已保存，可稍后刷新查看，或重新渲染新记录。','Generation timed out after 30 minutes. Your record is saved. Refresh later or render a new record.'],
+loadFailed:['数据读取失败：','Unable to load data: '],operationFailed:['操作失败：','Operation failed: '],deleted:['作品已删除。','Creation deleted.'],
+deleteTitle:['删除这张作品？','Delete this creation?'],deleteText:['删除后不可恢复，确认删除当前作品吗？','This cannot be undone. Delete this creation?'],cancel:['取消','Cancel'],
+busy:['请等待当前操作完成。','Please wait for the current operation.'],processing:['正在处理…','Processing…'],
+noHost:['当前环境不支持关闭应用。','This environment cannot close the app.'],markdownUnavailable:['Markdown 组件加载失败，暂以原文显示。','Markdown could not load. Showing the original text.'],
+imageFailed:['图片暂时无法显示，可尝试下载原图。','The image could not load. Try downloading the original.'],shown:['已显示','Showing'],of:[' / ',' of '],results:['条作品','creations'],
+loadFailureTitle:['暂时无法读取作品','Creations are temporarily unavailable'],pollFailed:['记录已保存，但生成状态读取失败。请稍后刷新查看。','The record is saved, but generation status could not be read. Refresh later.'],
+language:['切换中英文','Switch language'],noValue:['未填写','Not provided'],noRecords:['暂无历史作品','No saved creations']
+};
+const state={lang:'cn',page:'home',history:[],row:0,count:0,records:[],loaded:false,busy:false,waiting:false,file:'',limit:12,version:0,modalToken:0,detail:null,summaryCache:new Map()};
+const $=id=>document.getElementById(id);
+const t=key=>words[key]?words[key][state.lang==='en'?1:0]:key;
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fileURL=(name,privateFile=false)=>'https://www.ithinkair.com:3031/'+(privateFile?'private/':'download/')+encodeURIComponent(String(name).trim());
+function initialLanguage(){
+ let stored=null;try{stored=localStorage.getItem('iThinkAir_UiLanguage')}catch(e){}
+ if(stored)return stored==='en'?'en':'cn';
+ const p=new URLSearchParams(location.search).get('lang');if(p==='cn'||p==='en')return p;
+ try{const langs=navigator.languages;if(!langs||!langs.length)return 'cn';return Array.from(langs).some(v=>/^zh(?:-|$)/i.test(v))?'cn':'en'}catch(e){return 'cn'}
+}
+function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,6500)}
+function fault(error){return String(error?.message??error)}
+function checkMutation(value){
+ const raw=String(value??'').trim();
+ if(/^(error\b|失败|错误|false\b)/i.test(raw))throw new Error(raw);
+ if(raw.startsWith('{')){let data;try{data=JSON.parse(raw)}catch(e){}if(data&&(data.success===false||data.error))throw new Error(String(data.error||data.message||raw))}
+ return value;
+}
+function closeMenu(){$('navigation').classList.remove('menu-open');$('menu-toggle').setAttribute('aria-expanded','false')}
+function fitNavigation(){
+ const nav=$('navigation');if(!nav.clientWidth)return;
+ const probe=$('nav-links').cloneNode(true);probe.removeAttribute('id');
+ probe.style.cssText='position:fixed;left:-10000px;top:0;display:flex;flex-direction:row;width:max-content;white-space:nowrap;visibility:hidden;gap:30px';
+ probe.querySelector('.mobile-language').remove();document.body.append(probe);
+ const needed=$('brand').getBoundingClientRect().width+probe.getBoundingClientRect().width+110;probe.remove();
+ const compact=nav.clientWidth<needed||innerWidth<=760;nav.classList.toggle('compact',compact);if(!compact)closeMenu();
+}
+function navigate(page,recordHistory=true,scroll=0){
+ if(!['home','studio','gallery'].includes(page))return;
+ if(page!==state.page){if(recordHistory)state.history.push({page:state.page,scroll:window.scrollY});state.page=page}
+ document.querySelectorAll('[data-view]').forEach(el=>el.hidden=el.dataset.view!==page);
+ document.querySelectorAll('#nav-links [data-page]').forEach(el=>{el.classList.toggle('active',el.dataset.page===page);if(el.dataset.page===page)el.setAttribute('aria-current','page');else el.removeAttribute('aria-current')});
+ closeMenu();window.scrollTo({top:scroll,behavior:'instant'});
+ if(page==='gallery')renderGallery();fitNavigation();
+}
+window.airBack=function(){
+ if($('modal-root').lastElementChild){closeModal();return 'false'}
+ if($('navigation').classList.contains('menu-open')){closeMenu();return 'false'}
+ if(state.history.length){const prior=state.history.pop();navigate(prior.page,false,prior.scroll);return 'false'}
+ return 'true';
+};
+function controlValue(name){return $('card-form').elements.namedItem(name)?.value||''}
+function setControl(name,value){const control=$('card-form').elements.namedItem(name);if(control)control.value=value??''}
+function localize(){
+ document.documentElement.lang=state.lang==='en'?'en':'zh-CN';document.title=t('app');
+ document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));
+ document.querySelectorAll('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));
+ $('navigation').setAttribute('aria-label',t('menu'));$('menu-toggle').setAttribute('aria-label',t('menu'));$('language').setAttribute('aria-label',t('language'));
+ $('gallery-search').setAttribute('aria-label',t('searchPlaceholder'));
+ $('gallery-type').setAttribute('aria-label',t('type'));$('gallery-platform').setAttribute('aria-label',t('platform'));
+ $('previous-record').title=t('previous');$('previous-record').setAttribute('aria-label',t('previous'));$('next-record').title=t('next');$('next-record').setAttribute('aria-label',t('next'));
+ document.querySelectorAll('[data-lang]').forEach(el=>el.classList.toggle('selected',el.dataset.lang===state.lang));
+ const type=controlValue('卡片类型')||TYPES[0],platform=controlValue('平台')||'小红书';
+ $('styles').innerHTML=TYPES.map((v,i)=>'<article class="style-card"><i class="fa-solid '+icons[i]+'" aria-hidden="true"></i><div><h3>'+t(v)+'</h3><p>'+t('style'+i)+'</p></div></article>').join('');
+ $('type-options').innerHTML=TYPES.map((v,i)=>'<label class="option" for="card-form-type-'+i+'"><input type="radio" id="card-form-type-'+i+'" name="卡片类型" value="'+v+'" '+(v===type?'checked':'')+'><span>'+t(v)+'<small>'+templates[i]+'</small></span></label>').join('');
+ $('platform-options').innerHTML=PLATFORMS.map((v,i)=>'<label class="seg-option" for="card-form-platform-'+i+'"><input id="card-form-platform-'+i+'" type="radio" name="平台" value="'+v+'" '+(v===platform?'checked':'')+'><span>'+t(v)+'</span></label>').join('');
+ const filterType=$('gallery-type').value,filterPlatform=$('gallery-platform').value;
+ $('gallery-type').innerHTML='<option value="">'+t('allTypes')+'</option>'+TYPES.map(v=>'<option value="'+v+'">'+t(v)+'</option>').join('');
+ $('gallery-platform').innerHTML='<option value="">'+t('allPlatforms')+'</option>'+PLATFORMS.map(v=>'<option value="'+v+'">'+t(v)+'</option>').join('');
+ $('gallery-type').value=filterType;$('gallery-platform').value=filterPlatform;
+ updateForm();renderPreview();renderHome();renderGallery();updateLocks();fitNavigation();
+}
+function changeLanguage(lang){state.lang=lang;try{localStorage.setItem('iThinkAir_UiLanguage',lang)}catch(e){}closeMenu();localize()}
+function updateForm(){
+ const cover=controlValue('卡片类型')==='公众号封面',isX=controlValue('卡片类型')==='X风格帖子';
+ $('card-form-highlight').required=cover;$('highlight-required').hidden=!cover;
+ $('card-form-author').required=isX;$('card-form-account').required=isX;
+ document.querySelectorAll('.x-required').forEach(el=>el.hidden=!isX);
+ document.documentElement.style.setProperty('--accent',controlValue('平台')==='公众号'?'#2d6a4f':'#c23a2b');
+ $('char-count').textContent=Array.from(controlValue('文案')).length+' '+t('chars');
+ $('record-mode').textContent=state.row?t('record')+' '+state.row:t('newRecord');
+ $('submit-card').textContent=state.busy?t('processing'):t(state.row?'save':'generate');
+ $('save-hint').textContent=t(state.row?'saveHint':'newHint');
+ $('row-label').textContent=state.row?state.row+' / '+state.count:t('newRecord');
+ updateLocks();
+}
+function updateLocks(){
+ $('card-form-fields').disabled=state.busy;$('submit-card').disabled=state.busy;$('rerender').disabled=state.busy;
+ $('previous-record').disabled=state.busy||state.row<=1;
+ $('next-record').disabled=state.busy||state.row===0||state.row>=state.count;
+ for(const id of ['new-card','gallery-new','gallery-refresh','retry'])$(id).disabled=state.busy;
+ document.querySelectorAll('[data-action="edit"],[data-action="delete"],[data-new],#detail-edit,#delete-confirm').forEach(el=>el.disabled=state.busy);
+ $('submit-card').textContent=state.busy?t('processing'):t(state.row?'save':'generate');
+}
+function busy(value){state.busy=value;updateLocks()}
+function placeholder(label){return '<div class="placeholder"><i class="fa-regular fa-note-sticky" aria-hidden="true"></i><span>'+esc(label)+'</span></div>'}
+function renderPreview(){
+ $('preview-tools').hidden=!state.file||state.waiting;
+ if(state.waiting){$('preview-body').innerHTML='<div class="preview-wait" role="status"><div class="ripple"></div><p>'+t('waiting')+'</p></div>';return}
+ if(state.file){$('preview-body').innerHTML='<img src="'+esc(fileURL(state.file))+'" alt="'+esc(t('preview'))+'">';$('preview-download').href=fileURL(state.file);$('preview-open').href=fileURL(state.file,true)}
+ else $('preview-body').innerHTML=placeholder(t(state.row?'noImage':'blankPreview'));
+ updateForm();
+}
+function resetStudio(){
+ if(state.busy){toast(t('busy'));return}
+ state.row=0;state.file='';$('card-form').reset();
+ setControl('卡片类型',TYPES[0]);setControl('平台','小红书');
+ for(const field of Object.keys(fieldIds))setControl(field,'');
+ updateForm();renderPreview();
+}
+function loadingMarkup(){return '<div class="empty" role="status"><div class="ripple"></div><p>'+t('loading')+'</p></div>'}
+function emptyMarkup(filtered=false){return '<div class="empty"><div class="ink"><i class="fa-solid fa-feather-pointed" aria-hidden="true"></i></div><h3>'+t(filtered?'noMatches':'empty')+'</h3><p>'+t('emptyHint')+'</p><button class="btn primary" '+(filtered?'data-clear':'data-new')+'>'+t(filtered?'clearFilters':'start')+'</button></div>'}
+function cardMarkup(record,recent=false){
+ const d=record.values,file=d['卡片图片'],summary=state.summaryCache.get(record.row);
+ const snippet=summary===undefined?t('loading'):Array.from(summary).slice(0,recent?48:160).join('');
+ const tags=['高亮词','作者','账号','底部署名'].filter(k=>d[k]).map(k=>'<span>'+esc(t(({高亮词:'highlight',作者:'author',账号:'account',底部署名:'signature'})[k]))+' · '+esc(d[k])+'</span>').join('');
+ return '<article class="work-card" tabindex="0" role="button" aria-label="'+esc(t('details')+' · '+t(d['卡片类型']))+'" data-row="'+record.row+'"><div class="work-cover">'+(file?'<img loading="lazy" src="'+esc(fileURL(file))+'" alt="'+esc(t(d['卡片类型']))+'">':placeholder(t('noImage')))+'</div><div class="work-body"><div class="badges"><span class="badge">'+esc(t(d['卡片类型']))+'</span><span class="badge platform '+(d['平台']==='小红书'?'red':'')+'">'+esc(t(d['平台']))+'</span></div><p class="summary" data-summary="'+record.row+'" data-recent="'+recent+'">'+esc(snippet)+'</p><div class="metadata">'+tags+'</div>'+(recent?'':'<div class="work-actions"><button class="btn small" data-action="detail">'+t('details')+'</button><button class="btn small" data-action="edit">'+t('edit')+'</button><button class="btn small danger" data-action="delete">'+t('delete')+'</button><button class="btn small" data-action="download" '+(!file?'disabled':'')+'>'+t('download')+'</button></div>')+'</div></article>';
+}
+function renderHome(){
+ if(!state.loaded){$('recent-grid').innerHTML=loadingMarkup();return}
+ // The bridge returns newest records first: CSV index 0 is row 1. Preserve that order.
+ $('recent-grid').innerHTML=state.records.length?state.records.slice(0,6).map(r=>cardMarkup(r,true)).join(''):emptyMarkup();
+ requestSummaries(state.records.slice(0,6));updateLocks();
+}
+function filteredRecords(){
+ const query=$('gallery-search').value.trim().toLocaleLowerCase(),type=$('gallery-type').value,platform=$('gallery-platform').value;
+ return state.records.filter(r=>(!type||r.values['卡片类型']===type)&&(!platform||r.values['平台']===platform)&&(!query||['文案','高亮词','作者','账号','底部署名'].some(f=>r.values[f].toLocaleLowerCase().includes(query))));
+}
+function renderGallery(){
+ if(!state.loaded){$('gallery-grid').innerHTML=loadingMarkup();return}
+ const filtered=filteredRecords(),visible=filtered.slice(0,state.limit);
+ $('gallery-count').textContent=t('shown')+' '+visible.length+t('of')+filtered.length+' '+t('results');
+ $('gallery-grid').innerHTML=visible.length?visible.map(r=>cardMarkup(r)).join(''):emptyMarkup(state.records.length>0);
+ $('load-more').hidden=visible.length>=filtered.length;
+ requestSummaries(visible);updateLocks();
+}
+async function requestSummaries(records){
+ const version=state.version;
+ for(const record of records){
+  if(state.summaryCache.has(record.row))continue;
+  state.summaryCache.set(record.row,undefined);
+  try{
+   const value=String(await callAppBridge({type:'GetCellValue',data:SOURCE,payload:'文案/'+record.row}));
+   if(version!==state.version)return;
+   state.summaryCache.set(record.row,value);
+   document.querySelectorAll('[data-summary="'+record.row+'"]').forEach(el=>el.textContent=Array.from(value).slice(0,el.dataset.recent==='true'?48:160).join(''));
+  }catch(error){
+   if(version!==state.version)return;
+   state.summaryCache.delete(record.row);
+   document.querySelectorAll('[data-summary="'+record.row+'"]').forEach(el=>el.textContent=t('loadFailureTitle'));
+  }
+ }
+}
+async function refreshData(){
+ const version=++state.version;state.summaryCache.clear();
+ try{
+  const results=await Promise.all([
+   callAppBridge({type:'GetRecordCount',data:SOURCE}),
+   callAppBridge({type:'GetTableCSV',data:SOURCE,payload:'卡片类型'}),
+   callAppBridge({type:'GetTableCSV',data:SOURCE,payload:'平台'}),
+   callAppBridge({type:'GetTableCSV',data:SOURCE,payload:FIELDS.join(',')})
+  ]);
+  if(version!==state.version)return;
+  const count=Number(String(results[0]).trim());if(!Number.isInteger(count)||count<0||String(results[0]).trim()==='')throw new Error('GetRecordCount: '+results[0]);
+  state.count=count;
+  state.records=parseCSV(String(results[3])).map((row,index)=>({row:index+1,values:Object.fromEntries(FIELDS.map((field,i)=>[field,row[i]??'']))}));
+  state.loaded=true;
+  $('stat-total').textContent=count;
+  const types=parseCSV(String(results[1])),platforms=parseCSV(String(results[2]));
+  $('stat-poster').textContent=types.filter(r=>r[0]==='文字海报').length;
+  $('stat-cover').textContent=types.filter(r=>r[0]==='公众号封面').length;
+  $('stat-red').textContent=platforms.filter(r=>r[0]==='小红书').length;
+  $('load-error').hidden=true;renderHome();renderGallery();updateForm();
+ }catch(error){
+  if(version!==state.version)return;
+  $('load-error-text').textContent=t('loadFailed')+fault(error);$('load-error').hidden=false;
+  if(!state.loaded){for(const id of ['recent-grid','gallery-grid'])$(id).innerHTML='<div class="empty">'+t('loadFailureTitle')+'</div>'}
+ }
+}
+async function readRecord(row){
+ const data={};
+ for(const field of FIELDS)data[field]=String(await callAppBridge({type:'GetCellValue',data:SOURCE,payload:field+'/'+row}));
+ return data;
+}
+async function loadRecord(row){
+ if(state.busy){toast(t('busy'));return}
+ busy(true);
+ try{
+  const data=await readRecord(row);
+  const count=Number(await callAppBridge({type:'GetRecordCount',data:SOURCE}));
+  if(!Number.isInteger(count)||row<1||row>count)throw new Error(t('noRecords'));
+  state.count=count;state.row=row;state.file=data['卡片图片'].trim();
+  for(const field of EDIT_FIELDS)setControl(field,data[field]);
+  updateForm();renderPreview();closeModal();navigate('studio');
+ }catch(error){toast(t('operationFailed')+fault(error))}
+ finally{busy(false);updateForm()}
+}
+function formPayload(){
+ const values={};for(const field of EDIT_FIELDS)values[field]=controlValue(field);
+ if(!values['文案'].trim()){$('card-form-copy').focus();throw new Error(t('copyRequired'))}
+ if(values['卡片类型']==='公众号封面'&&!values['高亮词'].trim()){$('card-form-highlight').focus();throw new Error(t('highlightRequired'))}
+ if(values['卡片类型']==='X风格帖子'&&(!values['作者'].trim()||!values['账号'].trim())){$('card-form-'+(!values['作者'].trim()?'author':'account')).focus();throw new Error(t('identityRequired'))}
+ return values;
+}
+async function pollImage(row){
+ const deadline=Date.now()+1800*1000;
+ while(Date.now()<deadline){
+  await new Promise(resolve=>setTimeout(resolve,Math.min(1000,Math.max(0,deadline-Date.now()))));
+  const remaining=deadline-Date.now();if(remaining<=0)break;
+  let timer;
+  let result;
+  try{
+   result=await Promise.race([
+    callAppBridge({type:'GetCellValue',data:SOURCE,payload:'卡片图片/'+row}),
+    new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(new Error(t('timeout'))),remaining)})
+   ]);
+  }finally{clearTimeout(timer)}
+  const file=String(result??'').trim();
+  if(file){checkMutation(file);return file}
+ }
+ throw new Error(t('timeout'));
+}
+async function submitCard(forceNew=false){
+ if(state.busy)return;
+ let payload;try{payload=formPayload()}catch(error){toast(fault(error));return}
+ busy(true);let created=false;
+ try{
+  if(state.row>0&&!forceNew){
+   const row=state.row;
+   for(const field of EDIT_FIELDS)checkMutation(await callAppBridge({type:'SetCellValue',data:SOURCE,payload:field+'/'+row+'/'+payload[field]}));
+   toast(t('saved'));await refreshData();
+  }else{
+   checkMutation(await callAppBridge({type:'SubmitRecord',data:TABLE,payload:JSON.stringify(payload)}));
+   created=true;state.row=1;state.count++;state.file='';state.waiting=true;updateForm();renderPreview();
+   state.file=await pollImage(1);state.waiting=false;renderPreview();toast(t('generated'));await refreshData();
+  }
+ }catch(error){
+  toast((created?t('pollFailed')+'\n':t('operationFailed'))+fault(error));
+  if(created)await refreshData();
+ }finally{state.waiting=false;busy(false);updateForm();renderPreview()}
+}
+let lastFocus=null;
+function showModal(title,body,footer='',kind='detail'){
+ lastFocus=document.activeElement;state.modalToken++;
+ $('modal-root').innerHTML='<div class="overlay '+(kind==='detail'?'detail-overlay':'')+'"><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" tabindex="-1"><header class="dialog-header"><h2 id="dialog-title">'+esc(title)+'</h2><button id="dialog-close" class="btn small" aria-label="'+esc(t('close'))+'"><i class="fa-solid fa-xmark"></i></button></header><div id="dialog-body" class="dialog-body">'+body+'</div>'+(footer?'<footer class="dialog-footer actions">'+footer+'</footer>':'')+'</section></div>';
+ document.body.style.overflow='hidden';$('dialog-close').onclick=closeModal;
+ $('modal-root').firstElementChild.onclick=e=>{if(e.target===e.currentTarget)closeModal()};
+ $('dialog-close').focus();return state.modalToken;
+}
+function closeModal(){if(!$('modal-root').children.length)return;state.modalToken++;$('modal-root').replaceChildren();document.body.style.overflow='';state.detail=null;if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true})}
+function markdownHTML(text){
+ if(!window.markdownit||!window.DOMPurify)return '<p class="hint">'+t('markdownUnavailable')+'</p><pre>'+esc(text)+'</pre>';
+ const md=window.markdownit({html:true,linkify:true,typographer:true,breaks:false});
+ for(const plugin of [window.markdownitFootnote,window.markdownitTaskLists,window.markdownitDeflist])if(typeof plugin==='function')md.use(plugin);
+ return DOMPurify.sanitize(md.render(text),{USE_PROFILES:{html:true},ADD_ATTR:['target'],FORBID_TAGS:['style','form','iframe','input'],FORBID_ATTR:['style']});
+}
+function prepareMarkdown(container){
+ container.querySelectorAll('a').forEach(a=>{a.target='_blank';a.rel='noopener noreferrer'});
+ container.querySelectorAll('img').forEach(img=>{
+  const original=img.getAttribute('src')||'';let download;
+  if(!/^(https?:|data:|blob:)/i.test(original)){
+   download=fileURL(original);img.src=download;
+  }else{
+   try{const parsed=new URL(original,location.href);const match=parsed.pathname.match(/\/(?:private|download)\/([^/]+)$/);download=match?fileURL(decodeURIComponent(match[1])):parsed.href}catch(e){return}
+  }
+  img.tabIndex=0;img.setAttribute('role','button');img.setAttribute('aria-label',t('downloadOriginal'));
+  const open=e=>{e.preventDefault();e.stopPropagation();window.open(download,'_blank','noopener')};
+  img.addEventListener('click',open);img.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')open(e)});
+ });
+}
+async function showDetails(row){
+ const token=showModal(t('detailTitle'),'<div class="preview-wait"><div class="ripple"></div>'+t('loadingDetails')+'</div>');
+ try{
+  const data=await readRecord(row);if(token!==state.modalToken)return;
+  state.detail={row,data};const file=data['卡片图片'].trim();
+  const labels={'卡片类型':'type','平台':'platform','底部署名':'signature','高亮词':'highlight','作者':'author','账号':'account','卡片图片':'image'};
+  $('dialog-body').innerHTML='<div class="detail-grid"><div>'+(file?'<a href="'+esc(fileURL(file))+'" target="_blank" rel="noopener"><img class="detail-image" src="'+esc(fileURL(file))+'" alt="'+esc(t('preview'))+'"></a>':placeholder(t('noImage')))+'<dl class="detail-fields">'+FIELDS.slice(1).map(f=>'<dt>'+esc(t(labels[f]))+'</dt><dd>'+esc((f==='卡片类型'||f==='平台')?t(data[f]):data[f]||t('noValue'))+'</dd>').join('')+'</dl></div><div><h3>'+t('copy')+'</h3><div id="detail-markdown" class="markdown">'+markdownHTML(data['文案'])+'</div></div></div>';
+  const footer=document.createElement('footer');footer.className='dialog-footer actions';
+  footer.innerHTML='<button id="detail-edit" class="btn primary" '+(state.busy?'disabled':'')+'>'+t('goEdit')+'</button>'+(file?'<a class="btn" target="_blank" rel="noopener" href="'+esc(fileURL(file))+'">'+t('downloadOriginal')+'</a>':'');
+  $('modal-root').querySelector('.dialog').append(footer);$('detail-edit').onclick=()=>loadRecord(row);prepareMarkdown($('detail-markdown'));
+ }catch(error){if(token===state.modalToken)$('dialog-body').textContent=t('loadFailed')+fault(error)}
+}
+function confirmDelete(row){
+ if(state.busy){toast(t('busy'));return}
+ showModal(t('deleteTitle'),'<p>'+t('deleteText')+'</p>','<button id="delete-cancel" class="btn">'+t('cancel')+'</button><button id="delete-confirm" class="btn danger">'+t('delete')+'</button>','confirm');
+ $('delete-cancel').onclick=closeModal;
+ $('delete-confirm').onclick=async()=>{
+  if(state.busy)return;busy(true);
+  try{
+   checkMutation(await callAppBridge({type:'DeleteRecord',data:SOURCE,payload:row.toString()}));
+   if(state.row===row){state.row=0;state.file='';$('card-form').reset();for(const f of Object.keys(fieldIds))setControl(f,'');setControl('卡片类型',TYPES[0]);setControl('平台','小红书')}
+   else if(state.row>row)state.row--;
+   closeModal();await refreshData();renderPreview();toast(t('deleted'));
+  }catch(error){toast(t('operationFailed')+fault(error))}
+  finally{busy(false);updateForm()}
+ };
+}
+function clearFilters(){$('gallery-search').value='';$('gallery-type').value='';$('gallery-platform').value='';state.limit=12;renderGallery()}
+function bindEvents(){
+ document.addEventListener('click',event=>{
+  const page=event.target.closest('[data-page]');if(page){navigate(page.dataset.page);return}
+  const language=event.target.closest('[data-lang]');if(language){changeLanguage(language.dataset.lang);return}
+  const newButton=event.target.closest('[data-new]');if(newButton){if(state.busy)return;resetStudio();navigate('studio');return}
+  if(event.target.closest('[data-clear]')){clearFilters();return}
+  if(!$('navigation').contains(event.target))closeMenu();
+ });
+ $('menu-toggle').onclick=()=>{const open=$('navigation').classList.toggle('menu-open');$('menu-toggle').setAttribute('aria-expanded',String(open))};
+ $('language').onclick=()=>changeLanguage(state.lang==='en'?'cn':'en');
+ $('brand').onclick=()=>{try{if(typeof parent.closeFullHtml==='function')parent.closeFullHtml(false);else toast(t('noHost'))}catch(e){toast(t('noHost'))}};
+ $('card-form').onsubmit=e=>{e.preventDefault();submitCard(false)};
+ $('card-form').addEventListener('input',updateForm);$('card-form').addEventListener('change',updateForm);
+ $('rerender').onclick=()=>submitCard(true);$('new-card').onclick=resetStudio;
+ $('gallery-new').onclick=()=>{resetStudio();navigate('studio')};
+ $('previous-record').onclick=()=>{if(state.row>1)loadRecord(state.row-1)};
+ $('next-record').onclick=()=>{if(state.row>0&&state.row<state.count)loadRecord(state.row+1)};
+ $('gallery-search').oninput=()=>{state.limit=12;renderGallery()};
+ $('gallery-type').onchange=$('gallery-platform').onchange=()=>{state.limit=12;renderGallery()};
+ $('load-more').onclick=()=>{state.limit+=12;renderGallery()};
+ $('retry').onclick=$('gallery-refresh').onclick=()=>{if(!state.busy)refreshData()};
+ for(const id of ['recent-grid','gallery-grid']){
+  $(id).addEventListener('click',event=>{
+   const card=event.target.closest('[data-row]');if(!card)return;
+   const row=Number(card.dataset.row),action=event.target.closest('[data-action]')?.dataset.action||'detail';
+   if(action==='edit')loadRecord(row);
+   else if(action==='delete')confirmDelete(row);
+   else if(action==='download'){const record=state.records.find(r=>r.row===row);if(record?.values['卡片图片'])window.open(fileURL(record.values['卡片图片']),'_blank','noopener')}
+   else showDetails(row);
+  });
+  $(id).addEventListener('keydown',event=>{if(event.target.matches('.work-card')&&(event.key==='Enter'||event.key===' ')){event.preventDefault();showDetails(Number(event.target.dataset.row))}});
+ }
+ document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'){if($('modal-root').children.length)closeModal();else closeMenu()}
+  if(event.key==='Tab'&&$('modal-root').children.length){
+   const focusables=Array.from($('modal-root').querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),[tabindex="0"]')).filter(el=>el.getClientRects().length);
+   const first=focusables[0],last=focusables[focusables.length-1];
+   if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus()}
+   else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}
+  }
+ });
+ document.addEventListener('error',event=>{
+  if(event.target.tagName==='IMG'){
+   const img=event.target;if(img.dataset.failed)return;img.dataset.failed='true';
+   const replacement=document.createElement('div');replacement.className='placeholder';replacement.textContent=t('imageFailed');img.replaceWith(replacement);
+  }
+ },true);
+ const keyboardFocus=()=>{
+  const focused=document.activeElement;
+  if(focused?.matches('input,textarea,select')){
+   const inset=window.visualViewport?Math.max(0,innerHeight-visualViewport.height-visualViewport.offsetTop):0;
+   document.documentElement.style.setProperty('--keyboard',Math.max(inset,innerWidth<=760?260:0)+'px');
+   setTimeout(()=>{if(document.activeElement===focused)focused.scrollIntoView({block:'center',behavior:'smooth'})},180);
+  }else document.documentElement.style.setProperty('--keyboard','0px');
+ };
+ document.addEventListener('focusin',keyboardFocus);document.addEventListener('focusout',()=>setTimeout(keyboardFocus,100));
+ window.visualViewport?.addEventListener('resize',keyboardFocus);
+ window.addEventListener('resize',fitNavigation);if(window.ResizeObserver)new ResizeObserver(fitNavigation).observe($('navigation'));
+}
+async function initialize(){
+ state.lang=initialLanguage();
+ document.documentElement.dataset.theme=window.matchMedia?.('(prefers-color-scheme: dark)').matches?'dark':'light';
+ localize();bindEvents();
+ const modeTask=(async()=>{try{const mode=String(await callAppBridge({type:'模式'})).trim();if(mode==='暗色'||mode==='亮色')document.documentElement.dataset.theme=mode==='暗色'?'dark':'light'}catch(error){toast(t('loadFailed')+fault(error))}})();
+ await Promise.all([modeTask,refreshData()]);
+ if(document.fonts?.ready)document.fonts.ready.then(fitNavigation);
+}
+(async () => { await initialize(); })();
+</script>
+</body>
+</html>

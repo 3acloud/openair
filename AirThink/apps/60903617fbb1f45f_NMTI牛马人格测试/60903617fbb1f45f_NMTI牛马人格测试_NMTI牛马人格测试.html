@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NMTI牛马人格测试</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+<style>
+:root{color-scheme:light;--bg:#e5f0ec;--bg2:#dce8f4;--surface:#fff;--ink:#193044;--muted:#607487;--line:#d3e0e5;--brand:#247b72;--brand2:#1d5c64;--shadow:0 16px 44px #173a4a1a}body.dark{color-scheme:dark;--bg:#182b37;--bg2:#173c3a;--surface:#253a45;--ink:#eff7f5;--muted:#b1c5c8;--line:#39545c;--brand:#69c5a4;--brand2:#93d4c0;--shadow:0 16px 44px #0004}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(135deg,var(--bg2),var(--bg));color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Microsoft YaHei",sans-serif;min-height:100vh}button,input,textarea,select{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}a{color:inherit}.topbar{position:relative;z-index:1001;height:68px;background:#152d38;color:#f2faf7;display:flex;align-items:center;gap:20px;padding:0 max(18px,calc((100vw - 1160px)/2));box-shadow:0 4px 24px #0003}.topbar-wrap{position:fixed;inset:0 0 auto;z-index:1001}.brand{border:0;background:none;color:inherit;display:flex;align-items:center;gap:11px;font-weight:800;font-size:18px;white-space:nowrap;padding:0}.brand i{font-size:25px;color:#88d3b0}.desktop-nav{display:flex;align-items:center;gap:4px;margin-left:auto;white-space:nowrap}.nav-btn,.lang-btn,.menu-btn{border:0;background:transparent;color:#dbeae8;border-radius:9px;padding:10px 13px;white-space:nowrap}.nav-btn:hover,.nav-btn.active,.lang-btn:hover,.menu-btn:hover{background:#31535b;color:#fff}.lang-btn{margin-left:4px}.menu-btn{display:none;margin-left:auto;font-size:20px}.mobile-nav{display:none;position:absolute;top:68px;left:12px;right:12px;background:#203e48;border:1px solid #49626a;border-radius:0 0 16px 16px;padding:10px;box-shadow:var(--shadow)}.mobile-nav.open{display:grid}.mobile-nav .nav-btn,.mobile-nav .lang-btn{text-align:left;width:100%}main{max-width:1160px;margin:auto;padding:100px 20px 120px}.page{display:none}.page.active{display:block}.hero{text-align:center;padding:68px 20px 45px}.hero-icon{font-size:48px;color:var(--brand)}h1{font-size:clamp(29px,4vw,48px);line-height:1.18;margin:14px 0}h2{font-size:clamp(23px,3vw,31px);margin:0 0 6px}.subtitle,.lead{color:var(--muted);margin:0 0 25px}.page-head{margin:18px 0 28px}.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:11px;background:var(--brand);color:#fff;padding:11px 18px;font-weight:700;text-decoration:none;transition:transform .18s,box-shadow .18s}.button:hover{transform:translateY(-2px);box-shadow:0 8px 18px #1c68503d}.button.secondary{background:transparent;border:1px solid var(--line);color:var(--ink)}.button.danger{background:#b74353}.button.small{padding:6px 10px;font-size:13px}.button:disabled{opacity:.5;cursor:wait;transform:none}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin:15px 0 30px}.panel,.stat,.atlas-card{background:var(--surface);border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow)}.stat{padding:24px}.stat i{font-size:24px;color:var(--brand)}.stat strong{display:block;font-size:32px}.stat span,.muted{color:var(--muted)}.panel{padding:24px;margin:18px 0}.panel h3{margin:0 0 18px;font-size:21px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}.atlas-card{padding:20px;text-align:left;color:var(--ink);width:100%;transition:transform .18s}.atlas-card:hover{transform:translateY(-3px)}.atlas-card .code{color:var(--brand);font-weight:800;font-size:13px}.atlas-card h3{margin:5px 0}.atlas-card p{margin:0;color:var(--muted);font-size:14px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.field.full{grid-column:1/-1}.field label{display:block;font-weight:700;margin-bottom:6px}.field input,.field textarea,.field select,.search{width:100%;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:10px 12px}.field textarea{min-height:105px;resize:vertical}.form-actions{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}.radio-group{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.radio-choice{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;padding:9px}.radio-choice input{width:auto}.status{color:var(--muted);min-height:24px}.spinner{display:inline-block;width:18px;height:18px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:7px}@keyframes spin{to{transform:rotate(360deg)}}.table-scroll{overflow-x:auto;max-width:100%}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-size:13px}td.actions{white-space:nowrap}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.toolbar .search{max-width:330px}.empty{color:var(--muted);padding:20px 4px}.modal-layer{position:fixed;inset:0;z-index:2000;background:#081820b9;display:none;align-items:center;justify-content:center;padding:22px}.modal-layer.open{display:flex}.modal{background:var(--surface);color:var(--ink);width:min(100%,700px);max-height:calc(100dvh - 44px);overflow:auto;border-radius:18px;padding:24px;box-shadow:0 24px 65px #0005;overscroll-behavior:contain}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.modal-head h2{margin:0 0 15px}.icon-btn{border:0;background:transparent;color:var(--ink);font-size:22px}.detail-image{display:block;max-width:100%;max-height:65vh;object-fit:contain;margin:10px auto;border-radius:12px}.detail-list dt{font-weight:800;margin-top:12px}.detail-list dd{margin:3px 0;white-space:pre-wrap}.markdown-body{background:transparent!important;color:var(--ink)!important}.markdown-body img{max-width:100%}audio{width:min(100%,520px)}.foot-space{height:20vh}@media(max-width:650px){main{padding:88px 14px 30vh}.topbar{padding:0 15px}.brand{font-size:15px}.hero{padding:44px 5px 25px}.stats,.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.radio-group{grid-template-columns:1fr}.panel{padding:17px}.modal-layer.markdown-modal{padding:0}.modal-layer.markdown-modal .modal{width:100%;height:100dvh;max-height:none;border-radius:0;padding:18px 16px 35vh}.modal{padding-bottom:35vh}.toolbar .search{max-width:none}.grid{grid-template-columns:1fr}}
+</style>
+</head><body><div class="topbar-wrap"><header class="topbar" id="topbar"><button class="brand" id="brand"><i class="fa-solid fa-horse-head"></i><span data-i18n="app"></span></button><nav class="desktop-nav" id="desktopNav"></nav><button class="lang-btn" id="languageButton" aria-label="Language"></button><button class="menu-btn" id="menuButton" aria-label="Menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button><div class="mobile-nav" id="mobileNav"></div></header></div>
+<main><section class="page active" id="homePage"><div class="hero"><div class="hero-icon"><i class="fa-solid fa-mug-hot"></i></div><h1 data-i18n="app"></h1><p class="lead" data-i18n="heroSub"></p><button class="button" id="startButton"><i class="fa-solid fa-briefcase"></i><span data-i18n="startNow"></span></button></div><div class="stats"><div class="stat"><i class="fa-solid fa-users"></i><strong id="testCount">—</strong><span data-i18n="totalTests"></span></div><div class="stat"><i class="fa-solid fa-heart"></i><strong id="reliefCount">—</strong><span data-i18n="totalRelief"></span></div></div><section class="panel"><h3 data-i18n="popular"></h3><div class="grid" id="homeAtlas"></div></section></section>
+<section class="page" id="testPage"><div class="page-head"><h2 data-i18n="testTitle"></h2><p class="subtitle" data-i18n="testSub"></p></div><section class="panel"><h3 data-i18n="testForm"></h3><form id="testFormElement" class="form-grid"><div class="field full"><label for="testForm_nickname" data-i18n="nickname"></label><input id="testForm_nickname" name="测试人昵称" required maxlength="80"></div><div class="field full" id="testQuestions"></div><div class="field full"><label for="testForm_description" data-i18n="description"></label><textarea id="testForm_description" name="工作状态补充描述"></textarea></div><input id="testForm_time" name="测试时间" type="hidden"><div class="form-actions"><button class="button" id="testSubmit" type="submit"><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="generateReport"></span></button></div></form></section><section class="panel" id="reportPanel" hidden><h3 data-i18n="myReport"></h3><div class="status" id="reportStatus"></div><div class="markdown-body" id="reportContent"></div><button class="button" id="goReliefButton" hidden><i class="fa-solid fa-mug-hot"></i><span data-i18n="goRelief"></span></button></section></section>
+<section class="page" id="reliefPage"><div class="page-head"><h2 data-i18n="reliefTitle"></h2><p class="subtitle" data-i18n="reliefSub"></p></div><section class="panel"><h3 data-i18n="reliefForm"></h3><form id="reliefFormElement" class="form-grid"><input id="reliefForm_number" name="记录编号" type="hidden"><div class="field"><label for="reliefForm_nickname" data-i18n="relatedTest"></label><input id="reliefForm_nickname" name="关联测试答卷" list="nicknamesList"><datalist id="nicknamesList"></datalist></div><div class="field"><label for="reliefForm_date" data-i18n="sendDate"></label><input id="reliefForm_date" name="发送时间" type="date"></div><div class="field full"><label for="reliefForm_text" data-i18n="reliefText"></label><textarea id="reliefForm_text" name="解压治愈文案" required></textarea></div><div class="form-actions"><button class="button" id="reliefSubmit" type="submit"><i class="fa-solid fa-headphones"></i><span data-i18n="makeVoice"></span></button></div></form><div class="status" id="reliefStatus"></div><div id="reliefAudio"></div></section><section class="panel"><div class="toolbar"><h3 data-i18n="reliefHistory"></h3><input class="search" id="reliefSearch" type="search" data-placeholder="search"></div><div class="table-scroll"><table><thead><tr><th data-i18n="relatedTest"></th><th data-i18n="reliefText"></th><th data-i18n="sendDate"></th><th data-i18n="actions"></th></tr></thead><tbody id="reliefRows"></tbody></table></div></section></section>
+<section class="page" id="atlasPage"><div class="page-head toolbar"><div><h2 data-i18n="atlasTitle"></h2><p class="subtitle" data-i18n="atlasSub"></p></div><button class="button" id="addAtlasButton"><i class="fa-solid fa-plus"></i><span data-i18n="addAtlas"></span></button></div><section class="panel"><div class="toolbar"><h3 data-i18n="atlasList"></h3><input class="search" id="atlasSearch" type="search" data-placeholder="search"></div><div class="table-scroll"><table><thead><tr><th data-i18n="personaCode"></th><th data-i18n="personaName"></th><th data-i18n="survival"></th><th data-i18n="actions"></th></tr></thead><tbody id="atlasRows"></tbody></table></div></section></section><div class="foot-space"></div></main>
+<div class="modal-layer" id="modalLayer"><div class="modal" id="modalBox" role="dialog" aria-modal="true"><div class="modal-head"><h2 id="modalTitle"></h2><button class="icon-btn" id="modalClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div id="modalContent"></div></div></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("60903617fbb1f45f_NMTI牛马人格测试")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const TABLE={test:'测试答卷与报告',relief:'治愈解压站',atlas:'NMTI人格图鉴'};
+const T={cn:{app:'NMTI牛马人格测试',home:'首页',test:'开始测试',relief:'治愈解压站',atlas:'人格图鉴库',heroSub:'一款轻松幽默的职场人格测试。你是哪种牛马？一测便知！',startNow:'立即开始测试',totalTests:'总测试人数',totalRelief:'总解压人次',popular:'热门牛马图鉴',testTitle:'打工人，请作答',testSub:'诚实面对你的职场内心戏。',testForm:'牛马测试卷',nickname:'测试人昵称',description:'工作状态补充描述',generateReport:'生成我的专属NMTI报告',myReport:'我的专属报告',goRelief:'太累了？去解压！',reliefTitle:'治愈解压站',reliefSub:'每天一句摸鱼语录，拯救不开心。',reliefForm:'生成解压',relatedTest:'关联测试答卷',sendDate:'发送时间',reliefText:'解压治愈文案',makeVoice:'制作专属解压语音',reliefHistory:'历史解压站',atlasTitle:'NMTI人格图鉴全览',atlasSub:'收录职场千姿百态的牛马品种。',addAtlas:'新增人格图鉴',atlasList:'人格图鉴',personaCode:'人格代号',personaName:'人格名称',survival:'职场生存指数',actions:'操作',search:'搜索当前列表',view:'查看海报',edit:'编辑',delete:'删除',play:'播放语音',save:'保存',cancel:'取消',slogan:'代表性口头禅',features:'核心特征描述',poster:'专属牛马形象海报',loading:'正在加载…',empty:'暂无数据',working:'AI心理师正在奋笔疾书中…',making:'正在制作专属语音…',timeout:'等待超时，请稍后查看。',error:'操作失败',confirmDelete:'确定删除这条记录吗？',noPoster:'海报尚未生成',noAudio:'语音尚未生成',saved:'保存成功',required:'请填写必填项'},en:{app:'NMTI Workplace Personality Test',home:'Home',test:'Take the Test',relief:'Relief Station',atlas:'Persona Atlas',heroSub:'A playful workplace personality test. What kind of office workhorse are you?',startNow:'Start the Test',totalTests:'Tests Taken',totalRelief:'Relief Sessions',popular:'Popular Personas',testTitle:'Dear worker, answer honestly',testSub:'Tell us what really goes on inside at work.',testForm:'Workplace Test',nickname:'Nickname',description:'Your work life, in your words',generateReport:'Generate My NMTI Report',myReport:'My Report',goRelief:'Need a break? Visit the relief station',reliefTitle:'Relief Station',reliefSub:'One moment of relief for a long workday.',reliefForm:'Create Relief Audio',relatedTest:'Related Test',sendDate:'Date',reliefText:'Your vent or comforting words',makeVoice:'Create My Relief Audio',reliefHistory:'Relief History',atlasTitle:'NMTI Persona Atlas',atlasSub:'Meet the many creatures of workplace life.',addAtlas:'Add Persona',atlasList:'Personas',personaCode:'Code',personaName:'Name',survival:'Survival Index',actions:'Actions',search:'Search this list',view:'View Poster',edit:'Edit',delete:'Delete',play:'Play Audio',save:'Save',cancel:'Cancel',slogan:'Catchphrase',features:'Core Traits',poster:'Persona Poster',loading:'Loading…',empty:'No records yet',working:'The AI therapist is writing your report…',making:'Creating your audio…',timeout:'Timed out. Please check again later.',error:'Operation failed',confirmDelete:'Delete this record?',noPoster:'Poster is not ready yet',noAudio:'Audio is not ready yet',saved:'Saved',required:'Please complete required fields'}};
+const QUESTIONS=[['情景一加班态度',['欣然接受','无奈留下','准点跑路','发疯掀桌'],['Scenario 1: Overtime',['Gladly accept','Stay reluctantly','Leave on time','Flip the table']]],['情景二面对内卷',['比他更卷','关我屁事','表面配合','阴阳怪气'],['Scenario 2: Competition',['Outwork them','Not my problem','Play along','Respond sarcastically']]],['情景三老板画饼',['深信不疑','左耳进右耳出','反向画饼','只认搞钱'],['Scenario 3: Big promises',['Believe every word','Let it pass','Promise back','Show me the money']]],['情景四天降大锅',['委屈接盘','当面硬刚','巧妙躲避','甩给别人'],['Scenario 4: Unfair blame',['Take the blame','Push back','Dodge it','Pass it on']]]];
+const $=id=>document.getElementById(id);let lang='cn',page='home',historyStack=[],atlasData=[],reliefData=[],modalOpen=false,reliefNickname='';
+function s(k){return T[lang][k]||k}function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function fileUrl(v,kind){return 'https://www.ithinkair.com/Files/'+encodeURIComponent(String(v||''))}function pad(n){return String(n).padStart(2,'0')}function dateText(dt,withTime){const d=dt||new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+(withTime?' '+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds()):'')}
+function defaultLanguage(){const stored=localStorage.getItem('iThinkAir_UiLanguage');if(stored!==null&&stored!=='')return stored==='en'?'en':'cn';const url=new URLSearchParams(location.search).get('lang');if(url==='cn'||url==='en')return url;const ls=navigator.languages;if(!ls||!ls.length)return 'cn';return ls.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en'}
+function setLanguage(l){lang=l;document.documentElement.lang=l==='cn'?'zh-CN':'en';localStorage.setItem('iThinkAir_UiLanguage',l);document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=s(el.dataset.i18n));document.querySelectorAll('[data-placeholder]').forEach(el=>el.placeholder=s(el.dataset.placeholder));$('languageButton').textContent=l==='cn'?'EN':'中文';renderNav();renderQuestions();renderAtlas();renderRelief();updateNavFit()}
+function renderNav(){const pages=[['home','home'],['test','test'],['relief','relief'],['atlas','atlas']];for(const id of ['desktopNav','mobileNav']){$(id).innerHTML='';for(const [name,key] of pages){const b=document.createElement('button');b.className='nav-btn'+(name===page?' active':'');b.textContent=s(key);b.onclick=()=>showPage(name);$(id).appendChild(b)}if(id==='mobileNav'){const b=document.createElement('button');b.className='lang-btn';b.textContent=lang==='cn'?'English':'中文';b.onclick=()=>{setLanguage(lang==='cn'?'en':'cn');closeMenu()};$(id).appendChild(b)}}}
+function updateNavFit(){const bar=$('topbar'),nav=$('desktopNav'),brand=$('brand'),language=$('languageButton');nav.style.display='flex';language.style.display='block';nav.style.visibility='hidden';language.style.visibility='hidden';const needed=brand.offsetWidth+nav.scrollWidth+language.offsetWidth+80;const mobile=needed>bar.clientWidth;nav.style.visibility='';language.style.visibility='';$('menuButton').style.display=mobile?'block':'none';nav.style.display=mobile?'none':'flex';language.style.display=mobile?'none':'block';if(!mobile)closeMenu()}
+function closeMenu(){$('mobileNav').classList.remove('open');$('menuButton').setAttribute('aria-expanded','false')}
+function showPage(next,save=true){if(next===page){closeMenu();return}if(save)historyStack.push({page,scroll:window.scrollY});page=next;for(const name of ['home','test','relief','atlas'])$(name+'Page').classList.toggle('active',name===next);renderNav();closeMenu();window.scrollTo(0,0);updateNavFit();if(next==='home')loadHome();if(next==='relief'){if(reliefNickname)$('reliefForm_nickname').value=reliefNickname;loadRelief()}if(next==='atlas')loadAtlas()}
+function airBack(){if(modalOpen){closeModal();return 'false'}if($('mobileNav').classList.contains('open')){closeMenu();return 'false'}const prev=historyStack.pop();if(!prev)return 'true';showPage(prev.page,false);requestAnimationFrame(()=>window.scrollTo(0,prev.scroll));return 'false'}window.airBack=airBack;
+function openModal(title,html,wide){$('modalTitle').textContent=title;$('modalContent').innerHTML=html;$('modalLayer').classList.add('open');$('modalLayer').classList.toggle('markdown-modal',!!wide);modalOpen=true}function closeModal(){$('modalLayer').classList.remove('open');$('modalLayer').classList.remove('markdown-modal');$('modalContent').innerHTML='';modalOpen=false}
+async function bridge(type,data,payload){const q={type};if(data!==undefined)q.data=data;if(payload!==undefined)q.payload=payload;return await callAppBridge(q)}async function csv(table,fields){const raw=await bridge('GetTableCSV',table+'/默认表格',fields.join(','));return parseCSV(String(raw||''))}async function cell(table,field,row){return await bridge('GetCellValue',table,field+'/'+row)}async function setCell(table,field,row,value){return await bridge('SetCellValue',table,field+'/'+row+'/'+String(value??''))}
+function showError(where,e){$(where).textContent=s('error')+': '+String(e&&e.message||e)}
+async function loadHome(){try{const result=await Promise.all([bridge('GetRecordCount',TABLE.test+'/默认表格'),bridge('GetRecordCount',TABLE.relief+'/默认表格'),csv(TABLE.atlas,['人格代号','人格名称','代表性口头禅'])]);$('testCount').textContent=result[0]||'0';$('reliefCount').textContent=result[1]||'0';const host=$('homeAtlas');host.innerHTML='';result[2].forEach((r,i)=>{if(!r.length)return;const b=document.createElement('button');b.className='atlas-card';b.innerHTML='<span class="code">'+esc(r[0])+'</span><h3>'+esc(r[1])+'</h3><p>'+esc(r[2])+'</p>';b.onclick=()=>viewAtlasDetail(i+1,r);host.appendChild(b)});if(!host.children.length)host.innerHTML='<p class="empty">'+s('empty')+'</p>'}catch(e){$('homeAtlas').innerHTML='<p class="empty">'+esc(String(e))+'</p>'}}
+async function viewAtlasDetail(row,r){openModal(r[1]||s('atlasList'),'<p class="status"><span class="spinner"></span>'+s('loading')+'</p>');try{const values=await Promise.all([cell(TABLE.atlas,'专属牛马形象海报',row),cell(TABLE.atlas,'核心特征描述',row)]);$('modalContent').innerHTML=(values[0]?'<img class="detail-image" src="'+esc(fileUrl(values[0]))+'" alt="'+esc(s('poster'))+'">':'')+'<dl class="detail-list"><dt>'+s('personaCode')+'</dt><dd>'+esc(r[0])+'</dd><dt>'+s('slogan')+'</dt><dd>'+esc(r[2])+'</dd><dt>'+s('features')+'</dt><dd>'+esc(values[1])+'</dd></dl>'}catch(e){$('modalContent').textContent=String(e)}}
+function renderQuestions(){const host=$('testQuestions');host.innerHTML='';QUESTIONS.forEach((q,i)=>{const wrap=document.createElement('div');wrap.className='field';const choices=q[1].map((value,j)=>'<label class="radio-choice"><input id="testForm_q'+i+'_'+j+'" type="radio" name="'+esc(q[0])+'" value="'+esc(value)+'" required><span>'+esc(lang==='cn'?value:q[2][1][j])+'</span></label>').join('');wrap.innerHTML='<label>'+esc(lang==='cn'?q[0]:q[2][0])+'</label><div class="radio-group">'+choices+'</div>';host.appendChild(wrap)})}
+function markdown(text){if(window.marked&&window.DOMPurify){const html=DOMPurify.sanitize(marked.parse(String(text||'')));const div=document.createElement('div');div.innerHTML=html;div.querySelectorAll('img').forEach(img=>{const src=img.getAttribute('src')||'';if(src&&!/^(?:https?:|data:)/i.test(src))img.src='http://' + window.location.hostname + ':3130/download/'+encodeURIComponent(src);const a=document.createElement('a');a.href=img.src;a.download='';a.target='_blank';img.replaceWith(a);a.appendChild(img)});return div.innerHTML}return '<pre style="white-space:pre-wrap">'+esc(text)+'</pre>'}
+async function poll(table,field,output){for(let elapsed=0;elapsed<1800;elapsed++){const value=String(await cell(table,field,1)||'').trim();if(value){await output(value);return}await new Promise(resolve=>setTimeout(resolve,1000))}throw new Error(s('timeout'))}
+async function submitTest(ev){ev.preventDefault();const f=$('testFormElement');if(!f.reportValidity())return;const data=Object.fromEntries(new FormData(f).entries());data['测试时间']=dateText(new Date(),true);$('testForm_time').value=data['测试时间'];const btn=$('testSubmit');btn.disabled=true;$('reportPanel').hidden=false;$('reportStatus').innerHTML='<span class="spinner"></span>'+s('working');$('reportContent').innerHTML='';$('goReliefButton').hidden=true;try{await bridge('SubmitRecord',TABLE.test,JSON.stringify(data));reliefNickname=data['测试人昵称'];await poll(TABLE.test,'NMTI评测分析报告',async value=>{$('reportStatus').textContent='';$('reportContent').innerHTML=markdown(value);$('goReliefButton').hidden=false});loadHome()}catch(e){showError('reportStatus',e)}finally{btn.disabled=false}}
+async function resolveNicknames(){try{const rows=await csv(TABLE.test,['测试人昵称']);const list=$('nicknamesList');list.innerHTML='';rows.forEach(r=>{if(r[0]){const o=document.createElement('option');o.value=r[0];list.appendChild(o)}});return rows.map(r=>r[0])}catch(e){return []}}
+async function submitRelief(ev){ev.preventDefault();const f=$('reliefFormElement');if(!f.reportValidity())return;const data=Object.fromEntries(new FormData(f).entries());data['记录编号']=String(Date.now())+String(Math.floor(Math.random()*100000));data['发送时间']=dateText(new Date(),false);$('reliefForm_number').value=data['记录编号'];$('reliefForm_date').value=data['发送时间'];const btn=$('reliefSubmit');btn.disabled=true;$('reliefStatus').innerHTML='<span class="spinner"></span>'+s('making');$('reliefAudio').innerHTML='';try{await bridge('SubmitRecord',TABLE.relief,JSON.stringify(data));await poll(TABLE.relief,'解压语音播报',async value=>{await renderAudio(value,'reliefAudio');$('reliefStatus').textContent=''});await loadRelief();loadHome()}catch(e){showError('reliefStatus',e)}finally{btn.disabled=false}}
+async function renderAudio(filename,target){const b64=await bridge('FileToBase64',filename);const src=/^data:/i.test(b64)?b64:'data:audio/mpeg;base64,'+b64;$(target).innerHTML='<audio controls src="'+esc(src)+'"></audio>'}
+async function loadRelief(){const host=$('reliefRows');host.innerHTML='<tr><td colspan="4">'+s('loading')+'</td></tr>';const nicknames=await resolveNicknames();try{reliefData=await csv(TABLE.relief,['关联测试答卷','解压治愈文案','发送时间']);reliefData=reliefData.map((r,i)=>({row:i+1,values:r,display:[/^\d+$/.test(r[0])&&nicknames[Number(r[0])-1]?nicknames[Number(r[0])-1]:r[0],r[1],r[2]]}));renderRelief()}catch(e){host.innerHTML='<tr><td colspan="4">'+esc(String(e))+'</td></tr>'}}
+function renderRelief(){const host=$('reliefRows');const query=$('reliefSearch').value.trim().toLocaleLowerCase();host.innerHTML='';reliefData.filter(x=>x.display.join(' ').toLocaleLowerCase().includes(query)).forEach(x=>{const tr=document.createElement('tr');tr.innerHTML=x.display.map(v=>'<td>'+esc(v)+'</td>').join('')+'<td class="actions"><button class="button small secondary" data-act="play">'+s('play')+'</button> <button class="button small danger" data-act="delete">'+s('delete')+'</button></td>';tr.querySelector('[data-act="play"]').onclick=()=>playRelief(x.row);tr.querySelector('[data-act="delete"]').onclick=()=>deleteRow(TABLE.relief,x.row,loadRelief);host.appendChild(tr)});if(!host.children.length)host.innerHTML='<tr><td colspan="4" class="empty">'+s('empty')+'</td></tr>'}
+async function playRelief(row){openModal(s('play'),'<div class="status" id="modalAudioStatus"><span class="spinner"></span>'+s('loading')+'</div><div id="modalAudio"></div>');try{const filename=await cell(TABLE.relief,'解压语音播报',row);if(!filename){$('modalAudioStatus').textContent=s('noAudio');return}await renderAudio(filename,'modalAudio');$('modalAudioStatus').textContent=''}catch(e){$('modalAudioStatus').textContent=String(e)}}
+async function deleteRow(table,row,refresh){if(!confirm(s('confirmDelete')))return;try{await bridge('DeleteRecord',table,String(row));await refresh();loadHome()}catch(e){alert(s('error')+': '+String(e))}}
+async function loadAtlas(){const host=$('atlasRows');host.innerHTML='<tr><td colspan="4">'+s('loading')+'</td></tr>';try{atlasData=(await csv(TABLE.atlas,['人格代号','人格名称','职场生存指数'])).map((values,i)=>({row:i+1,values}));renderAtlas()}catch(e){host.innerHTML='<tr><td colspan="4">'+esc(String(e))+'</td></tr>'}}
+function renderAtlas(){const host=$('atlasRows');const query=$('atlasSearch').value.trim().toLocaleLowerCase();host.innerHTML='';atlasData.filter(x=>x.values.join(' ').toLocaleLowerCase().includes(query)).forEach(x=>{const tr=document.createElement('tr');tr.innerHTML=x.values.map(v=>'<td>'+esc(v)+'</td>').join('')+'<td class="actions"><button class="button small secondary" data-act="view">'+s('view')+'</button> <button class="button small secondary" data-act="edit">'+s('edit')+'</button> <button class="button small danger" data-act="delete">'+s('delete')+'</button></td>';tr.querySelector('[data-act="view"]').onclick=()=>viewPoster(x.row);tr.querySelector('[data-act="edit"]').onclick=()=>openAtlasForm(x.row);tr.querySelector('[data-act="delete"]').onclick=()=>deleteRow(TABLE.atlas,x.row,loadAtlas);host.appendChild(tr)});if(!host.children.length)host.innerHTML='<tr><td colspan="4" class="empty">'+s('empty')+'</td></tr>'}
+async function viewPoster(row){openModal(s('poster'),'<p class="status" id="posterStatus"><span class="spinner"></span>'+s('loading')+'</p>');try{const image=await cell(TABLE.atlas,'专属牛马形象海报',row);$('modalContent').innerHTML=image?'<img class="detail-image" src="'+esc(fileUrl(image))+'" alt="'+esc(s('poster'))+'">':'<p class="empty">'+s('noPoster')+'</p>'}catch(e){$('modalContent').textContent=String(e)}}
+async function openAtlasForm(row){const editing=!!row;openModal(editing?s('edit'):s('addAtlas'),'<form id="atlasFormElement" class="form-grid"><div class="field"><label for="atlasForm_code">'+s('personaCode')+'</label><input id="atlasForm_code" name="人格代号" required></div><div class="field"><label for="atlasForm_name">'+s('personaName')+'</label><input id="atlasForm_name" name="人格名称" required></div><div class="field full"><label for="atlasForm_features">'+s('features')+'</label><textarea id="atlasForm_features" name="核心特征描述"></textarea></div><div class="field"><label for="atlasForm_slogan">'+s('slogan')+'</label><input id="atlasForm_slogan" name="代表性口头禅"></div><div class="field"><label for="atlasForm_survival">'+s('survival')+'</label><input id="atlasForm_survival" name="职场生存指数" type="number" step="any"></div><div class="form-actions"><button class="button" id="atlasForm_submit" type="submit">'+s('save')+'</button><button class="button secondary" type="button" id="atlasForm_cancel">'+s('cancel')+'</button></div><div class="status" id="atlasForm_status"></div></form>');$('atlasForm_cancel').onclick=closeModal;const fields=[['人格代号','atlasForm_code'],['人格名称','atlasForm_name'],['核心特征描述','atlasForm_features'],['代表性口头禅','atlasForm_slogan'],['职场生存指数','atlasForm_survival']];if(editing){$('atlasForm_submit').disabled=true;try{for(const [name,id] of fields)$(id).value=await cell(TABLE.atlas,name,row);$('atlasForm_submit').disabled=false}catch(e){showError('atlasForm_status',e)}}$('atlasFormElement').onsubmit=async ev=>{ev.preventDefault();if(!$('atlasFormElement').reportValidity())return;const btn=$('atlasForm_submit');btn.disabled=true;const data=Object.fromEntries(new FormData($('atlasFormElement')).entries());try{if(editing){for(const [name] of fields)await setCell(TABLE.atlas,name,row,data[name]);closeModal();await loadAtlas();loadHome()}else{await bridge('SubmitRecord',TABLE.atlas,JSON.stringify(data));$('atlasForm_status').innerHTML='<span class="spinner"></span>'+s('loading');await poll(TABLE.atlas,'专属牛马形象海报',async value=>{closeModal();openModal(s('poster'),'<img class="detail-image" src="'+esc(fileUrl(value))+'" alt="'+esc(s('poster'))+'">')});await loadAtlas();loadHome()}}catch(e){showError('atlasForm_status',e)}finally{btn.disabled=false}}}
+function keyboardVisibility(){document.addEventListener('focusin',ev=>{if(ev.target.matches('input,textarea,select'))setTimeout(()=>ev.target.scrollIntoView({block:'center',behavior:'smooth'}),280)});if(window.visualViewport)visualViewport.addEventListener('resize',()=>{const el=document.activeElement;if(el&&el.matches('input,textarea,select'))setTimeout(()=>el.scrollIntoView({block:'center',behavior:'smooth'}),100)})}
+async function initialize(){lang=defaultLanguage();try{const mode=await bridge('模式');document.body.classList.toggle('dark',String(mode).trim()==='暗色')}catch(e){document.body.classList.toggle('dark',matchMedia('(prefers-color-scheme: dark)').matches)}setLanguage(lang);$('brand').onclick=()=>{if(parent&&typeof parent.closeFullHtml==='function')parent.closeFullHtml(false)};$('startButton').onclick=()=>showPage('test');$('goReliefButton').onclick=()=>showPage('relief');$('addAtlasButton').onclick=()=>openAtlasForm(0);$('testFormElement').addEventListener('submit',submitTest);$('reliefFormElement').addEventListener('submit',submitRelief);$('reliefSearch').addEventListener('input',renderRelief);$('atlasSearch').addEventListener('input',renderAtlas);$('modalClose').onclick=closeModal;$('modalLayer').onclick=ev=>{if(ev.target===$('modalLayer'))closeModal()};$('menuButton').onclick=()=>{const open=$('mobileNav').classList.toggle('open');$('menuButton').setAttribute('aria-expanded',String(open))};$('languageButton').onclick=()=>setLanguage(lang==='cn'?'en':'cn');document.addEventListener('click',ev=>{if(!$('topbar').contains(ev.target))closeMenu()});window.addEventListener('resize',updateNavFit);document.addEventListener('keydown',ev=>{if(ev.key==='Escape'){if(modalOpen)closeModal();else closeMenu()}});keyboardVisibility();$('reliefForm_date').value=dateText(new Date(),false);await loadHome();updateNavFit()}
+document.addEventListener('DOMContentLoaded',()=>{(async () => {    await initialize();  })();});
+</script></body></html>

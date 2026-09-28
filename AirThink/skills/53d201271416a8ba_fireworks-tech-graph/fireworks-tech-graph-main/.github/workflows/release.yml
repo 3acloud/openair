@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: "20"
+      - name: Verify tag matches package version
+        run: |
+          test "$GITHUB_REF_NAME" = "v$(node -p "require('./package.json').version")"
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg imagemagick
+      - run: python3 -m pip install --disable-pip-version-check CairoSVG==2.7.1
+      - run: npm install --ignore-scripts --no-save --package-lock=false puppeteer-core@25.3.0
+      - run: python3 -m unittest discover -s tests -v
+      - run: TEST_OUTPUT_DIR="$RUNNER_TEMP/fireworks-tech-graph" ./scripts/test-all-styles.sh
+      - run: python3 tools/check_project_consistency.py
+      - run: python3 tools/distribution.py --check
+      - name: Validate installed SVG-to-GIF runtime for all 12 styles
+        env:
+          FIREWORKS_CHROME_NO_SANDBOX: "1"
+          FIREWORKS_INSTALL_CANARY_MOTION: "1"
+          FIREWORKS_INSTALL_CANARY_ALL_STYLES: "1"
+          FIREWORKS_INSTALL_CANARY_NODE_MODULES: ${{ github.workspace }}/node_modules
+        run: ./tools/install-canary.sh "$PWD/skills/fireworks-tech-graph"
+      - run: python3 tools/distribution.py --build-release --output-dir dist
+      - name: Verify public tagged skill installation
+        run: ./tools/install-canary.sh "yizhiyanhua-ai/fireworks-tech-graph/skills/fireworks-tech-graph#$GITHUB_REF_NAME"
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --verify-tag --notes-file "docs/releases/$GITHUB_REF_NAME.md" --title "Fireworks Tech Graph $GITHUB_REF_NAME"

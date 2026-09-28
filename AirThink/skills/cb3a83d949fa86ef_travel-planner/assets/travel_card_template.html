@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>东京 旅行卡片</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.card {
+  width: 380px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+/* ===== 头部：大图背景 + 渐变遮罩 ===== */
+.card-header {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+.card-header-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card-header-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 24px 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  color: #fff;
+}
+.card-emoji { font-size: 32px; margin-bottom: 4px; }
+.card-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+.card-subtitle { font-size: 13px; opacity: 0.95; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+
+/* ===== 统计区 ===== */
+.card-body { padding: 16px 20px 20px; }
+.card-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.stat { text-align: center; flex: 1; }
+.stat-value { font-size: 20px; font-weight: 700; color: #635bff; }
+.stat-label { font-size: 11px; color: #999; margin-top: 2px; }
+
+/* ===== 每日行程：带景点缩略图 ===== */
+.card-days { margin-bottom: 16px; }
+.day-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid #f8f8f8;
+}
+.day-item:last-child { border-bottom: none; }
+.day-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f0efff;
+  color: #635bff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+.day-content { flex: 1; min-width: 0; }
+.day-theme { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 6px; }
+.day-places { font-size: 11px; color: #999; line-height: 1.5; margin-bottom: 6px; }
+
+/* 每日景点缩略图网格 */
+.day-photos {
+  display: flex;
+  gap: 6px;
+}
+.day-photo {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ===== 预算区 ===== */
+.card-budget {
+  background: #f0efff;
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+.budget-label { font-size: 11px; color: #999; margin-bottom: 4px; }
+.budget-amount { font-size: 28px; font-weight: 700; color: #635bff; }
+.budget-per { font-size: 12px; color: #999; margin-top: 2px; }
+
+/* ===== 精选景点大图轮播 ===== */
+.card-gallery {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+  scrollbar-width: thin;
+}
+.card-gallery::-webkit-scrollbar { height: 4px; }
+.card-gallery::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
+.gallery-img {
+  width: 100px;
+  height: 75px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.gallery-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.card-footer {
+  text-align: center;
+  padding: 12px;
+  font-size: 10px;
+  color: #ccc;
+  border-top: 1px solid #f8f8f8;
+}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- 头部：东京实拍大图 -->
+  <div class="card-header">
+    <img class="card-header-img" src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=380&h=200&fit=crop&auto=format" alt="东京 Tokyo" onerror="this.src='https://picsum.photos/seed/tokyo/380/200'">
+    <div class="card-header-overlay">
+      <div class="card-emoji">🗼</div>
+      <div class="card-title">东京 Tokyo</div>
+      <div class="card-subtitle">3天 舒适型 · 2026-08-10 至 08-13</div>
+    </div>
+  </div>
+
+  <div class="card-body">
+
+    <!-- 统计数据 -->
+    <div class="card-stats">
+      <div class="stat">
+        <div class="stat-value">3</div>
+        <div class="stat-label">天数</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">9</div>
+        <div class="stat-label">景点</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">6</div>
+        <div class="stat-label">餐厅</div>
+      </div>
+    </div>
+
+    <!-- 精选景点实拍图 -->
+    <div class="gallery-label">📸 精选景点实拍</div>
+    <div class="card-gallery">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1583416750470-965b2707b355?w=100&h=75&fit=crop&auto=format" alt="浅草寺" onerror="this.src='https://picsum.photos/seed/sensoji/100/75'">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1513407030348-c983a97b98d8?w=100&h=75&fit=crop&auto=format" alt="东京塔" onerror="this.src='https://picsum.photos/seed/tokyotower/100/75'">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=100&h=75&fit=crop&auto=format" alt="涩谷" onerror="this.src='https://picsum.photos/seed/shibuya/100/75'">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1526481010627-7f3f48aab2c5?w=100&h=75&fit=crop&auto=format" alt="上野公园" onerror="this.src='https://picsum.photos/seed/ueno/100/75'">
+    </div>
+
+    <!-- 每日行程（含景点缩略图） -->
+    <div class="card-days">
+
+      <!-- Day 1 -->
+      <div class="day-item">
+        <div class="day-num">1</div>
+        <div class="day-content">
+          <div class="day-theme">传统文化线</div>
+          <div class="day-places">浅草寺 · 雷门 · 上野公园</div>
+          <div class="day-photos">
+            <img class="day-photo" src="https://images.unsplash.com/photo-1583416750470-965b2707b355?w=56&h=56&fit=crop&auto=format" alt="浅草寺" onerror="this.src='https://picsum.photos/seed/sensoji/56/56'">
+            <img class="day-photo" src="https://images.unsplash.com/photo-1554797589-7241ba691973?w=56&h=56&fit=crop&auto=format" alt="雷门" onerror="this.src='https://picsum.photos/seed/kaminarimon/56/56'">
+            <img class="day-photo" src="https://images.unsplash.com/photo-1526481010627-7f3f48aab2c5?w=56&h=56&fit=crop&auto=format" alt="上野公园" onerror="this.src='https://picsum.photos/seed/ueno/56/56'">
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 2 -->
+      <div class="day-item">
+        <div class="day-num">2</div>
+        <div class="day-content">
+          <div class="day-theme">现代潮流线</div>
+          <div class="day-places">明治神宫 · 原宿 · 涩谷</div>
+          <div class="day-photos">
+            <img class="day-photo" src="https://images.unsplash.com/photo-1493976040374-85c2e2b0d0f7?w=56&h=56&fit=crop&auto=format" alt="明治神宫" onerror="this.src='https://picsum.photos/seed/meiji/56/56'">
+            <img class="day-photo" src="https://images.unsplash.com/photo-1554797589-7241ba691973?w=56&h=56&fit=crop&auto=format" alt="原宿" onerror="this.src='https://picsum.photos/seed/harajuku/56/56'">
+            <img class="day-photo" src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=56&h=56&fit=crop&auto=format" alt="涩谷" onerror="this.src='https://picsum.photos/seed/shibuya/56/56'">
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 3 -->
+      <div class="day-item">
+        <div class="day-num">3</div>
+        <div class="day-content">
+          <div class="day-theme">经典地标线</div>
+          <div class="day-places">东京塔 · 六本木 · 银座</div>
+          <div class="day-photos">
+            <img class="day-photo" src="https://images.unsplash.com/photo-1513407030348-c983a97b98d8?w=56&h=56&fit=crop&auto=format" alt="东京塔" onerror="this.src='https://picsum.photos/seed/tokyotower/56/56'">
+            <img class="day-photo" src="https://images.unsplash.com/photo-1537531383496-f4749a31966a?w=56&h=56&fit=crop&auto=format" alt="六本木" onerror="this.src='https://picsum.photos/seed/roppongi/56/56'">
+            <img class="day-photo" src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=56&h=56&fit=crop&auto=format" alt="银座" onerror="this.src='https://picsum.photos/seed/ginza/56/56'">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 预算 -->
+    <div class="card-budget">
+      <div class="budget-label">预估总预算</div>
+      <div class="budget-amount">¥11,000</div>
+      <div class="budget-per">人均 ¥11,000</div>
+    </div>
+  </div>
+
+  <div class="card-footer">由 Travel Planner 生成 · 2026-07-12</div>
+</div>
+</body>
+</html>

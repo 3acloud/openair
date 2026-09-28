@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&family=Noto+Serif+SC:wght@400;600;700&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", "STSong", Georgia, serif;
+            font-size: 11pt;
+            line-height: 1.8;
+            color: #333;
+            text-align: justify;
+            text-align-last: left;
+            string-set: doctitle "";
+        }
+        
+        @page {
+            size: A4;
+            margin: 2.5cm 2cm;
+            @top-center { content: string(doctitle); font-size: 9pt; color: #666; }
+            @bottom-center { content: counter(page); font-size: 9pt; color: #666; }
+        }
+        
+        @page :first {
+            margin: 0;
+            @top-center { content: none; }
+            @bottom-center { content: none; }
+        }
+        
+        @page cover { @top-center { content: none; } @bottom-center { content: none; } }
+        
+        .cover {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+            page: cover;
+            page-break-after: always;
+            background: linear-gradient(135deg, #faf8f5 0%, #f5f0e8 100%);
+        }
+        
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: -50mm;
+            right: -30mm;
+            width: 180mm;
+            height: 180mm;
+            background: rgba(139, 115, 85, 0.08);
+            border-radius: 50%;
+        }
+        
+        .cover::after {
+            content: '';
+            position: absolute;
+            bottom: -40mm;
+            left: -40mm;
+            width: 150mm;
+            height: 150mm;
+            background: rgba(166, 139, 107, 0.06);
+            border-radius: 50%;
+        }
+        
+        .cover-decoration-1 {
+            position: absolute;
+            top: 25mm;
+            left: 20mm;
+            width: 60mm;
+            height: 3px;
+            background: linear-gradient(90deg, #8b7355, transparent);
+        }
+        
+        .cover-decoration-2 {
+            position: absolute;
+            bottom: 35mm;
+            right: 25mm;
+            width: 50mm;
+            height: 50mm;
+            border: 2px solid rgba(139, 115, 85, 0.15);
+            border-radius: 8px;
+            transform: rotate(15deg);
+        }
+        
+        .cover-decoration-3 {
+            position: absolute;
+            top: 60mm;
+            right: 30mm;
+            width: 25mm;
+            height: 25mm;
+            background: rgba(166, 139, 107, 0.1);
+            border-radius: 4px;
+        }
+        
+        .cover-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 80%;
+            z-index: 10;
+        }
+        
+        .cover-badge {
+            display: inline-block;
+            padding: 0.4em 1.2em;
+            border: 1px solid #8b7355;
+            color: #8b7355;
+            font-size: 10pt;
+            letter-spacing: 0.3em;
+            margin-bottom: 2cm;
+        }
+        
+        .cover-title {
+            font-size: 32pt;
+            font-weight: 700;
+            color: #3d3d3d;
+            margin-bottom: 0.8cm;
+            letter-spacing: 0.1em;
+        }
+        
+        .cover-subtitle {
+            font-size: 14pt;
+            color: #666;
+            margin-bottom: 3cm;
+            font-weight: 400;
+        }
+        
+        .cover-meta {
+            font-size: 11pt;
+            color: #555;
+            line-height: 2.2;
+        }
+        
+        .cover-line {
+            width: 40mm;
+            height: 1px;
+            background: #8b7355;
+            margin: 1.5cm auto;
+        }
+        
+        .content {
+            padding-top: 0;
+        }
+        
+        h1 {
+            font-size: 18pt;
+            font-weight: 700;
+            color: #333;
+            margin: 1.5em 0 0.8em 0;
+            padding-bottom: 0.3em;
+            border-bottom: 2px solid #8b7355;
+            string-set: doctitle content();
+            page-break-after: avoid;
+        }
+        
+        h2 {
+            font-size: 14pt;
+            font-weight: 600;
+            color: #444;
+            margin: 1.2em 0 0.6em 0;
+            page-break-after: avoid;
+        }
+        
+        .intro {
+            background: #faf8f5;
+            padding: 1em 1.2em;
+            border-left: 3px solid #8b7355;
+            margin: 1em 0 1.5em 0;
+            font-size: 10.5pt;
+            line-height: 1.9;
+        }
+        
+        .sentence-block {
+            margin: 1.5em 0;
+            page-break-inside: avoid;
+        }
+        
+        .sentence-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.8em;
+            height: 1.8em;
+            background: #8b7355;
+            color: white;
+            font-weight: 600;
+            font-size: 11pt;
+            border-radius: 50%;
+            margin-right: 0.5em;
+        }
+        
+        .sentence-title {
+            font-size: 12pt;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.6em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sentence-source {
+            font-size: 9pt;
+            color: #888;
+            font-weight: 400;
+            margin-left: 0.8em;
+        }
+        
+        .sentence-en {
+            background: #f9f7f4;
+            padding: 1em 1.2em;
+            border-radius: 4px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 11pt;
+            line-height: 1.9;
+            color: #333;
+            margin-bottom: 0.8em;
+            border-left: 3px solid #d4c4b0;
+        }
+        
+        .sentence-section {
+            margin: 0.6em 0;
+        }
+        
+        .section-label {
+            font-weight: 600;
+            color: #8b7355;
+            font-size: 10.5pt;
+            margin-bottom: 0.3em;
+        }
+        
+        .vocab-list {
+            font-size: 10.5pt;
+            line-height: 1.8;
+            padding-left: 1em;
+        }
+        
+        .vocab-item {
+            margin: 0.2em 0;
+        }
+        
+        .vocab-word {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .phonetic {
+            font-family: "Gentium Plus", Georgia, serif;
+            font-style: italic;
+            color: #777;
+            font-size: 0.95em;
+        }
+        
+        .analysis-content {
+            font-size: 10.5pt;
+            line-height: 1.9;
+            padding-left: 1em;
+        }
+        
+        .analysis-content p {
+            margin: 0.4em 0;
+        }
+        
+        .grammar-tag {
+            display: inline-block;
+            background: #f0ebe3;
+            color: #6b5a45;
+            padding: 0.1em 0.5em;
+            border-radius: 3px;
+            font-size: 9.5pt;
+            margin-right: 0.4em;
+        }
+        
+        .translation {
+            background: #faf8f5;
+            padding: 0.8em 1em;
+            border-radius: 4px;
+            font-size: 10.5pt;
+            line-height: 1.9;
+            color: #444;
+            border-left: 3px solid #a68b6b;
+        }
+        
+        .highlight {
+            background: linear-gradient(transparent 60%, rgba(166, 139, 107, 0.25) 60%);
+            padding: 0 0.1em;
+        }
+        
+        .clause {
+            color: #6b5a45;
+            font-style: italic;
+        }
+        
+        pre, table, figure, img, svg, blockquote {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        a { word-break: break-all; }
+    </style>
+</head>
+<body>
+    <div class="cover">
+        <div class="cover-decoration-1"></div>
+        <div class="cover-decoration-2"></div>
+        <div class="cover-decoration-3"></div>
+        <div class="cover-content">
+            <div class="cover-badge">考研英语</div>
+            <h1 class="cover-title">长难句精练</h1>
+            <p class="cover-subtitle">5句核心语法突破</p>
+            <div class="cover-line"></div>
+            <div class="cover-meta">
+                <p>涵盖定语从句 · 状语从句 · 名词性从句</p>
+                <p>非谓语动词 · 倒装强调 · 独立主格</p>
+                <p style="margin-top: 1.5em;">2026年考研备考专用</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>使用说明</h1>
+        <div class="intro">
+            <p>本练习精选5个考研英语真题及同源外刊长难句，涵盖考研英语核心语法难点。每个句子均包含<strong>词汇注释</strong>、<strong>结构分析</strong>和<strong>参考译文</strong>三部分，建议按以下步骤学习：</p>
+            <p style="margin-top: 0.5em;"><strong>第一步：</strong>通读原句，尝试自行划分句子结构；<strong>第二步：</strong>对照词汇注释理解生词；<strong>第三步：</strong>仔细阅读结构分析，理解语法要点；<strong>第四步：</strong>参考译文检验理解是否准确。</p>
+        </div>
+
+        <h1>长难句精练</h1>
+
+        <div class="sentence-block">
+            <div class="sentence-title">
+                <span class="sentence-number">1</span>
+                定语从句嵌套
+                <span class="sentence-source">（2010年考研真题）</span>
+            </div>
+            <div class="sentence-en">
+                It is only in recent years that we hear the more honest argument that predators are members of the community, and that no special interest has the right to exterminate them for the sake of a benefit, real or fancied, to itself.
+            </div>
+            <div class="sentence-section">
+                <div class="section-label">词汇注释</div>
+                <div class="vocab-list">
+                    <div class="vocab-item"><span class="vocab-word">predator</span> <span class="phonetic">/ˈpredətər/</span> n. 捕食者，食肉动物</div>
+                    <div class="vocab-item"><span class="vocab-word">exterminate</span> <span class="phonetic">/ɪkˈstɜːrmɪneɪt/</span> v. 消灭，根除</div>
+                    <div class="vocab-item"><span class="vocab-word">for the sake of</span> 为了……的利益</div>
+                    <div class="vocab-item"><span class="vocab-word">fancied</span> <span class="phonetic">/ˈfænsid/</span> adj. 想象的，虚构的</div>
+                </div>
+            </div>
+            <div class="sentence-section">
+                <div class="section-label">结构分析</div>
+                <div class="analysis-content">
+                    <p><span class="grammar-tag">强调句</span>本句主干为强调结构 <span class="highlight">It is...that...</span>，被强调部分为时间状语 <em>only in recent years</em>。</p>
+                    <p><span class="grammar-tag">同位语从句</span>argument 后接两个由 that 引导的同位语从句（<span class="clause">that predators are members...</span> 和 <span class="clause">that no special interest has...</span>），共同说明 argument 的具体内容。</p>
+                    <p><span class="grammar-tag">插入语</span><em>real or fancied</em> 为形容词短语作后置定语，修饰 benefit。</p>
+                </div>
+            </div>
+            <div class="sentence-section">
+                <div class="section-label">参考译文</div>
+                <div class="translation">
+                    只是到了近年来，我们才听到这种比较诚实的论点：食肉动物也是生物群落中的成员；任何特殊利益群体都无权为了自身的利益而消灭它们。
+                </div>
+            </div>
+        </div>
+
+        <div class="sentence-block">
+            <div class="sentence-title">
+                <span class="sentence-number">2</span>
+                分词结构作状语
+                <span class="sentence-source">（2011年考研真题）</span>
+            </div>
+            <div class="sentence-en">
+                But the researchers believe that outside directors have an easier time of avoiding a blow to their reputations if they leave a firm before bad news breaks.
+            </div>
+            <div class="sentence-section">
+                <div class="section-label">词汇注释</div>
+                <div class="vocab-list">
+                    <div class="vocab-item"><span class="vocab-word">outside director</span> 外部董事，独立董事</div>
+                    <div class="vocab-item"><span class="vocab-word">reputation</span> <span class="phonetic">/ˌrepjuˈteɪʃn/</span> n. 名誉，声誉</div>
+                    <div class="vocab-item"><span class="vocab-word">break</span> <span class="phonetic">/breɪk/</span> v. （消息）泄露，传开</div>
+                </div>
+            </div>
+            <div class="sentence-section">
+                <div class="section-label">结构分析</div>
+                <div class="analysis-content">
+                    <p><span class="grammar-tag">主从复合</span>主句为 <em>the researchers believe that...</em>，that 引导宾语从句作 believe 的宾语。</p>
+                    <p><span class="grammar-tag">条件状语从句</span>if 引导条件状语从句 <span class="clause">if they leave a firm before bad news breaks</span>。</p>
+                </div>
+            </div>
+            <div class="sentence-section">
+                <div class="section-label">参考译文</div>
+                <div class="translation">
+                    但研究人员认为，如果外部董事在坏消息传出之前离开公司，他们就能更容易地避免声誉受损。
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --main: #E9C784; --sub: #E9C784; --title: #E9C784; }
+
+  body {
+    width: 1080px; height: 1440px;
+    font-family: "Songti SC", "STSong", "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+    overflow: hidden; position: relative;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  /* ---------- 风格 1：蓝底玉兰 ---------- */
+  .st-magnolia-blue {
+    background: radial-gradient(ellipse at 50% 30%, #3A5A94 0%, #2C4577 55%, #233766 100%);
+    --main: #E9C784; --sub: #D8BC85; --title: #E9C784;
+  }
+  .st-magnolia-blue .deco-branch   { display: block; }
+  .st-magnolia-blue .deco-petals   { display: block; }
+
+  /* ---------- 风格 2：灰绿玉兰 ---------- */
+  .st-magnolia-sage {
+    background: linear-gradient(170deg, #77857A 0%, #6B7A6F 60%, #5F6F64 100%);
+    --main: #F2EDE0; --sub: #E4DECB; --title: #F2EDE0;
+  }
+  .st-magnolia-sage .deco-branch   { display: block; }
+  .st-magnolia-sage .block-title   { display: block; }
+
+  /* ---------- 风格 3：暖橙扇形 ---------- */
+  .st-fan-orange {
+    background: linear-gradient(160deg, #F6B04E 0%, #EF9838 45%, #E8862E 100%);
+    --main: #C05A22; --sub: #B4653A; --title: #FDFAF2;
+  }
+  .st-fan-orange .deco-fan         { display: block; }
+  .st-fan-orange .block-title      { display: block; }
+  .st-fan-orange .paper-panel      { display: block; }
+  .st-fan-orange .content          { justify-content: center; }
+
+  /* ---------- 风格 4：米色波浪 ---------- */
+  .st-wave-beige {
+    background: #EDE6D6;
+    --main: #7A5C42; --sub: #8A6B4F; --title: #7A5C42;
+  }
+  .st-wave-beige .deco-blobs       { display: block; }
+  .st-wave-beige .deco-waves       { display: block; }
+  .st-wave-beige .block-title      { display: block; }
+  .st-wave-beige .title-bracket    { display: inline; }
+
+  /* ---------- 装饰 ---------- */
+  .deco-branch, .deco-fan, .deco-petals, .deco-blobs, .deco-waves { display: none; position: absolute; }
+  .deco-branch { top: 0; left: 0; width: 520px; height: 420px; z-index: 1; }
+  .deco-petals { top: 0; left: 0; width: 1080px; height: 1440px; z-index: 1; pointer-events: none; }
+  .deco-fan    { top: 46px; left: 42px; width: 300px; height: 300px; z-index: 1; }
+  .deco-blobs  { top: 0; left: 0; width: 1080px; height: 1440px; z-index: 0; }
+  .deco-waves  { bottom: 0; left: 0; width: 1080px; height: 260px; z-index: 1; }
+
+  .paper-panel {
+    display: none; position: absolute; z-index: 1;
+    top: 300px; left: 90px; right: 90px; bottom: 80px;
+    background: #F8F1E4; border-radius: 6px;
+    box-shadow: 0 10px 40px rgba(120, 60, 10, 0.25);
+  }
+
+  /* ---------- 自定义背景图模式 ---------- */
+  .bg-custom { --main: #FFFFFF; --sub: #F3EBD8; --title: #FFFFFF; }
+  .bg-img    { display: none; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .bg-overlay{ display: none; position: absolute; inset: 0; z-index: 0; background: rgba(0,0,0,0.25); }
+  .bg-custom .bg-img, .bg-custom .bg-overlay { display: block; }
+  .bg-custom .content { text-shadow: 0 2px 14px rgba(0,0,0,0.35); }
+
+  /* ---------- 内容 ---------- */
+  .content {
+    position: relative; z-index: 5;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 90px 100px 70px;
+    text-align: center; color: var(--main);
+  }
+  .st-fan-orange .content { padding: 340px 150px 120px; }
+
+  .block-title { display: none; font-size: 42px; letter-spacing: 10px; font-weight: 600; color: var(--title); margin-bottom: 26px; }
+  .title-bracket { display: none; }
+
+  .pinyin { font-size: 56px; letter-spacing: 6px; color: var(--main); margin-top: 30px; }
+  .char   { font-size: 250px; line-height: 1.15; font-weight: 600; color: var(--main); margin: 6px 0 10px; }
+
+  .divider { width: 72px; height: 3px; background: var(--main); opacity: .55; margin: 26px 0 34px; }
+
+  .def-row { font-size: 35px; line-height: 1.7; color: var(--sub); margin-bottom: 14px; max-width: 780px; }
+  .def-row b { font-weight: 700; }
+
+  .copy { margin-top: 46px; font-size: 36px; line-height: 1.9; color: var(--sub); letter-spacing: 2px; max-width: 800px; }
+
+  .cta { margin-top: auto; font-size: 31px; letter-spacing: 4px; color: var(--main); opacity: .9; }
+</style>
+</head>
+<body class="st-{{STYLE}}{{BG_CLASS}}">
+
+  <!-- 自定义背景图（--bg 模式） -->
+  {{BG_IMG_HTML}}
+
+  <!-- 装饰：玉兰花枝（风格1/2） -->
+  <svg class="deco-branch" viewBox="0 0 520 420" fill="none">
+    <path d="M20 30 C 120 70, 190 140, 240 230 C 275 295, 300 340, 330 390"
+          stroke="{{BRANCH_COLOR}}" stroke-width="7" stroke-linecap="round" opacity="0.9"/>
+    <path d="M150 105 C 200 90, 260 95, 320 130" stroke="{{BRANCH_COLOR}}" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+    <path d="M238 232 C 210 260, 190 300, 188 345" stroke="{{BRANCH_COLOR}}" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+    <!-- 花苞 -->
+    <path d="M320 130 C 350 118, 372 130, 376 155 C 360 172, 332 168, 320 130 Z" fill="{{FLOWER_COLOR}}" opacity="0.9"/>
+    <path d="M188 345 C 176 372, 182 396, 205 405 C 222 390, 218 362, 188 345 Z" fill="{{FLOWER_COLOR}}" opacity="0.9"/>
+    <!-- 盛开花朵 -->
+    <g transform="translate(330,390)">
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(0) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(72) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(144) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(216) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(288) translate(0,-26)"/>
+      <circle r="10" fill="{{FLOWER_CORE}}"/>
+    </g>
+    <g transform="translate(243,225) scale(0.8)">
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(0) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(72) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(144) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(216) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(288) translate(0,-26)"/>
+      <circle r="10" fill="{{FLOWER_CORE}}"/>
+    </g>
+    <g transform="translate(148,102) scale(0.62)">
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(0) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(72) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(144) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(216) translate(0,-26)"/>
+      <ellipse rx="16" ry="34" fill="{{FLOWER_COLOR}}" transform="rotate(288) translate(0,-26)"/>
+      <circle r="10" fill="{{FLOWER_CORE}}"/>
+    </g>
+  </svg>
+
+  <!-- 装饰：飘落花瓣（风格1） -->
+  <svg class="deco-petals" viewBox="0 0 1080 1440" fill="none">
+    <ellipse cx="760" cy="330" rx="13" ry="26" fill="{{FLOWER_COLOR}}" opacity="0.5" transform="rotate(35 760 330)"/>
+    <ellipse cx="920" cy="620" rx="10" ry="22" fill="{{FLOWER_COLOR}}" opacity="0.38" transform="rotate(-25 920 620)"/>
+    <ellipse cx="820" cy="980" rx="12" ry="24" fill="{{FLOWER_COLOR}}" opacity="0.3" transform="rotate(55 820 980)"/>
+    <ellipse cx="640" cy="1230" rx="9" ry="20" fill="{{FLOWER_COLOR}}" opacity="0.26" transform="rotate(-40 640 1230)"/>
+    <ellipse cx="240" cy="700" rx="11" ry="22" fill="{{FLOWER_COLOR}}" opacity="0.22" transform="rotate(20 240 700)"/>
+    <ellipse cx="990" cy="180" rx="9" ry="18" fill="{{FLOWER_COLOR}}" opacity="0.4" transform="rotate(50 990 180)"/>
+  </svg>
+
+  <!-- 装饰：折扇（风格3） -->
+  <svg class="deco-fan" viewBox="0 0 300 300" fill="none">
+    <g transform="translate(150,285) rotate(18)">
+      <path d="M -190 0 A 190 190 0 0 1 190 0 Z" fill="#F8F1E4" opacity="0.95"/>
+      <path d="M -190 0 A 190 190 0 0 1 190 0" stroke="#C05A22" stroke-width="6"/>
+      <path d="M -150 0 A 150 150 0 0 1 150 0" stroke="#C05A22" stroke-width="3" opacity="0.5"/>
+      <line x1="0" y1="0" x2="0" y2="-190" stroke="#C05A22" stroke-width="3" opacity="0.6"/>
+      <line x1="0" y1="0" x2="-66" y2="-178" stroke="#C05A22" stroke-width="3" opacity="0.6"/>
+      <line x1="0" y1="0" x2="-131" y2="-138" stroke="#C05A22" stroke-width="3" opacity="0.6"/>
+      <line x1="0" y1="0" x2="66" y2="-178" stroke="#C05A22" stroke-width="3" opacity="0.6"/>
+      <line x1="0" y1="0" x2="131" y2="-138" stroke="#C05A22" stroke-width="3" opacity="0.6"/>
+      <circle cx="-190" cy="0" r="8" fill="#C05A22"/>
+      <circle cx="190" cy="0" r="8" fill="#C05A22"/>
+      <rect x="-7" y="-30" width="14" height="70" rx="6" fill="#B4653A"/>
+    </g>
+  </svg>
+
+  <!-- 装饰：抽象色块（风格4） -->
+  <svg class="deco-blobs" viewBox="0 0 1080 1440" fill="none">
+    <circle cx="920" cy="180" r="230" fill="#E8C9A0" opacity="0.5"/>
+    <circle cx="1010" cy="330" r="150" fill="#D9A87C" opacity="0.35"/>
+    <circle cx="120" cy="1150" r="260" fill="#C9D4C0" opacity="0.5"/>
+    <circle cx="260" cy="1330" r="140" fill="#B7C6AC" opacity="0.4"/>
+    <circle cx="960" cy="700" r="90" fill="#D9A87C" opacity="0.25"/>
+  </svg>
+
+  <!-- 装饰：波浪（风格4） -->
+  <svg class="deco-waves" viewBox="0 0 1080 260" preserveAspectRatio="none" fill="none">
+    <path d="M0 120 C 180 60, 360 180, 540 120 C 720 60, 900 180, 1080 120 L 1080 260 L 0 260 Z" fill="#B7C6AC" opacity="0.55"/>
+    <path d="M0 170 C 180 110, 360 230, 540 170 C 720 110, 900 230, 1080 170 L 1080 260 L 0 260 Z" fill="#8A6B4F" opacity="0.8"/>
+  </svg>
+
+  <!-- 装饰：米色纸面板（风格3） -->
+  <div class="paper-panel"></div>
+
+  <!-- 内容 -->
+  <div class="content">
+    <div class="block-title">{{TITLE_HTML}}</div>
+    <div class="pinyin">{{PINYIN}}</div>
+    <div class="char">{{CHAR}}</div>
+    <div class="divider"></div>
+    <div class="def-row"><b>【谐音】</b>{{HOMOPHONE}}</div>
+    <div class="def-row"><b>【释义】</b>{{MEANING}}</div>
+    <div class="copy">{{COPY_HTML}}</div>
+    <div class="cta">{{CTA}}</div>
+  </div>
+
+</body>
+</html>

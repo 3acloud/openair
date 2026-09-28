@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>植物生长阶段检测</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{--forest:#2F6B4F;--bud:#8FCB6A;--pink:#E7A6B1;--soil:#C4A574;--bg:#edf3e8;--cream:#fffdf5;--card:#ffffffed;--ink:#233e30;--muted:#718174;--line:#dce6d9;--shadow:0 12px 36px #284b3410}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,var(--bg),var(--cream));min-height:100vh}body::before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(125deg,transparent 0 110px,#8fcb6a06 111px 112px,transparent 113px 170px);z-index:-1}
+body.dark{--forest:#9bd5ac;--bg:#12231c;--cream:#192820;--card:#22362b;--ink:#e7f0e8;--muted:#acbfae;--line:#3b5142;--shadow:0 12px 36px #0003}
+button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box;width:100%;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:13px 15px;border-radius:12px}button{cursor:pointer;border:0;border-radius:12px;padding:12px 18px;background:var(--forest);color:white;font-weight:600;transition:transform .2s,background .2s}body.dark button{color:#163622}button:hover:not(:disabled){transform:translateY(-2px)}button:disabled{opacity:.45;cursor:not-allowed}button.secondary{background:var(--card);color:var(--forest);border:1px solid var(--line)}button.ghost{background:transparent;color:inherit}button.danger{background:#a33c48;color:white}button:focus-visible,a:focus-visible{outline:3px solid var(--bud);outline-offset:3px}i{margin-right:8px}
+.top-shell{position:fixed;inset:0 0 auto;z-index:1001}.navbar{position:relative;z-index:1001;background:#173e30ed;border-bottom:1px solid #8fcb6a75;color:#fff;backdrop-filter:blur(18px)}.nav-inner{max-width:1240px;margin:auto;min-height:78px;padding:12px 28px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{display:flex;align-items:center;gap:11px;white-space:nowrap;font-size:18px;background:transparent;color:#fff!important;padding:5px 0}.brand i{font-size:30px;color:var(--bud)}.desktop-nav{display:flex;align-items:center;gap:6px;white-space:nowrap}.nav-tab,.lang-toggle{background:transparent;color:#e5eee7!important;white-space:nowrap}.nav-tab.active{background:#ffffff1b;color:#c9e8b8!important}.hamburger{display:none;color:white!important;background:#ffffff12}.navbar.compact .desktop-nav{position:absolute;visibility:hidden;pointer-events:none}.navbar.compact .hamburger{display:block}.mobile-menu{position:absolute;top:100%;left:0;right:0;background:#173e30;padding:14px 22px;border-bottom:1px solid var(--bud);box-shadow:var(--shadow)}.mobile-menu button{display:block;width:100%;text-align:left;color:white!important;background:transparent}.mobile-menu button.active{background:#ffffff15}
+main{max-width:1190px;margin:auto;padding:114px 28px 100px}.page[hidden],[hidden]{display:none!important}.eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--forest);font-weight:700}.hero{padding:34px 0 40px;display:grid;grid-template-columns:1fr 250px;align-items:center;gap:20px}.hero h1{font-size:clamp(30px,4vw,47px);line-height:1.35;letter-spacing:-1px;margin:15px 0}.hero p{max-width:670px;line-height:1.9;color:var(--muted);margin-bottom:26px}.hero-art{width:210px;height:210px;display:grid;place-content:center;border-radius:50%;border:1px solid var(--line);background:radial-gradient(circle,#8fcb6a30,transparent 70%);position:relative;color:var(--forest);font-size:85px}.hero-art::after{content:"";position:absolute;inset:19px;border:1px dashed #8fcb6a88;border-radius:50%}.hero-art i{margin:0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}.card:hover{transform:translateY(-3px);box-shadow:0 16px 36px #2f6b4f18;background-image:linear-gradient(130deg,transparent 70%,#8fcb6a09)}.stat{padding:22px;border-top:3px solid var(--forest);min-height:155px}.stat:nth-child(2){border-color:var(--bud)}.stat:nth-child(3){border-color:var(--pink)}.stat:nth-child(4){border-color:var(--soil)}.stat-label{font-size:13px;color:var(--muted);line-height:1.6}.stat-value{margin-top:17px;font-size:34px;font-weight:700}.stat-value.summary{font-size:14px;line-height:1.65;font-weight:500}.stages{display:flex;gap:8px;overflow:auto;padding:22px 0;align-items:center}.stage{flex:1;min-width:max-content;text-align:center;border-radius:30px;padding:9px 15px;font-size:13px;color:var(--muted);background:#8fcb6a12;border:1px solid var(--line)}.stage.selected{background:#2f6b4f;color:white;border-color:#2f6b4f}.section-head,.page-head{display:flex;justify-content:space-between;align-items:center;gap:18px;margin:22px 0}.section-head h2{font-size:21px}.page-head{margin:5px 0 28px}.page-head h1{margin:0 0 10px;font-size:31px}.muted{color:var(--muted);line-height:1.7}.recent-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.recent{display:flex;align-items:center;gap:18px;width:100%;padding:15px;text-align:left;color:var(--ink);font-weight:400}.recent img{height:84px;width:84px;object-fit:cover;border-radius:13px}.recent .muted{font-size:14px}.record-no{font-size:11px;color:var(--forest);letter-spacing:1px;margin-bottom:6px}.empty{padding:44px 20px;text-align:center;color:var(--muted);grid-column:1/-1}.empty i{display:block;font-size:36px;margin:0 0 18px;color:var(--forest)}
+.capture{padding:22px}.preview{min-height:300px;height:38vh;max-height:480px;border:1px dashed var(--line);border-radius:15px;background:#8fcb6a09;display:flex;align-items:center;justify-content:center;overflow:hidden}.preview img{height:100%;width:100%;object-fit:contain}.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}.actions .primary{margin-left:auto}.result{margin-top:24px;padding:25px}.result h2{margin:0;font-size:21px}.waiting{display:flex;align-items:center;gap:13px;color:var(--forest);padding:25px 0;line-height:1.8}.waiting i{animation:turn 2.4s linear infinite;font-size:25px}@keyframes turn{to{transform:rotate(360deg)}}.filters{display:flex;gap:14px;margin:20px 0 25px}.filters input{flex:1}.filters select{width:210px}.archive-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.archive-card{overflow:hidden}.record-body{display:block;width:100%;padding:0;text-align:left;background:transparent;color:var(--ink)!important;font-weight:400;border-radius:0}.cover{height:195px;background:#8fcb6a10;position:relative}.cover img{width:100%;height:100%;object-fit:cover}.cover .badge{position:absolute;left:14px;bottom:14px;padding:6px 12px;border-radius:20px;background:#f4faefed;color:#2f6b4f;font-size:12px}.record-text{padding:18px;line-height:1.8;font-size:14px;min-height:116px;overflow-wrap:anywhere}.record-actions{display:flex;flex-wrap:wrap;gap:4px;padding:0 12px 15px}.record-actions button{padding:8px;font-size:12px}.more{text-align:center;padding:24px}.footer{margin-top:35px;text-align:center;font-size:12px;color:var(--muted)}
+.overlay{position:fixed;inset:0;background:#081b16a8;z-index:2005;display:flex;align-items:center;justify-content:center;padding:26px;backdrop-filter:blur(6px)}.dialog{width:min(820px,100%);max-height:calc(100dvh - 52px);background:var(--cream);border:1px solid var(--line);border-radius:22px;display:flex;flex-direction:column;box-shadow:0 25px 90px #0004}.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 22px;border-bottom:1px solid var(--line)}.dialog-head h2{font-size:20px;margin:0}.dialog-controls{display:flex;gap:5px}.dialog-controls button{padding:9px 13px}.dialog-body{padding:23px;overflow:auto;overscroll-behavior:contain;scroll-padding-bottom:100px}.detail-image{width:100%;max-height:390px;object-fit:contain;border-radius:15px;background:#8fcb6a09}.markdown{line-height:1.85;overflow-wrap:anywhere;color:var(--ink)}.markdown h1,.markdown h2,.markdown h3{line-height:1.4;color:var(--forest);margin-top:1.4em}.markdown img{max-width:100%;border-radius:12px;cursor:pointer}.markdown pre{overflow:auto;padding:16px;border-radius:12px;background:#8fcb6a15}.markdown code{font-family:monospace}.markdown blockquote{margin:18px 0;border-left:3px solid var(--bud);padding:8px 18px;background:#8fcb6a0c}.markdown table{display:block;max-width:100%;overflow:auto;border-collapse:collapse}.markdown td,.markdown th{border:1px solid var(--line);padding:9px 12px}.markdown a{color:var(--forest)}.markdown hr{border:0;border-top:1px solid var(--line)}.edit-field{margin:15px 0}.edit-field label{display:block;font-weight:600;margin-bottom:9px}.errorbar{padding:13px 18px;background:#fce8e5;color:#8e3434;border-radius:12px;margin-bottom:18px}.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);max-width:90vw;z-index:4000;background:#244a36;color:white;padding:14px 23px;border-radius:14px;box-shadow:var(--shadow)}
+@media(max-width:850px){.stats{grid-template-columns:1fr 1fr}.archive-grid{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr 160px}.hero-art{width:155px;height:155px;font-size:65px}}
+@media(max-width:600px){.nav-inner{padding:12px 17px;min-height:70px;gap:8px}.brand{font-size:15px;white-space:normal;text-align:left}.brand i{font-size:25px}.hero{display:block;padding-top:15px}.hero-art{display:none}main{padding:95px 17px 145px}.stats{gap:10px}.stat{padding:16px;min-height:145px}.stat-value{font-size:29px}.recent-grid,.archive-grid{grid-template-columns:1fr}.page-head{align-items:flex-start;flex-direction:column}.page-head h1{font-size:28px}.capture,.result{padding:16px}.preview{min-height:240px;height:33vh}.actions button{flex:1}.actions .primary{flex-basis:100%;margin:0}.filters{flex-direction:column}.filters select{width:100%}.overlay{padding:14px}.dialog{max-height:calc(100dvh - 28px);border-radius:16px}.overlay.reading{padding:0}.reading .dialog{width:100%;max-height:100dvh;height:100dvh;border-radius:0}.dialog-head{padding:14px}.dialog-body{padding:17px 17px max(140px,var(--keyboard-space,0px))}.section-head{align-items:center}.section-head button{padding:9px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="top-shell"><nav id="navbar" class="navbar" aria-label="Main navigation"><div class="nav-inner" id="navInner">
+<button class="brand" id="brand"><i class="fa-solid fa-seedling" aria-hidden="true"></i><span data-t="app"></span></button>
+<div class="desktop-nav" id="desktopNav"><button class="nav-tab active" data-page="home" data-t="home"></button><button class="nav-tab" data-page="detect" data-t="detect"></button><button class="nav-tab" data-page="archive" data-t="archive"></button><button class="lang-toggle" id="desktopLanguage">EN / 中文</button></div>
+<button id="hamburger" class="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menu"><i class="fa-solid fa-bars"></i></button></div>
+<div id="mobileMenu" class="mobile-menu" hidden><button data-page="home" data-t="home"></button><button data-page="detect" data-t="detect"></button><button data-page="archive" data-t="archive"></button><button id="mobileLanguage">English / 中文</button></div>
+</nav></div>
+<main>
+<div id="errorBar" class="errorbar" role="alert" hidden><span id="errorText"></span> <button id="retry" class="ghost" data-t="retry"></button></div>
+<section id="page-home" class="page">
+<div class="hero"><div><div class="eyebrow">Phenology · A living journal</div><h1 data-t="hero"></h1><p data-t="intro"></p><button id="startHome"><i class="fa-solid fa-leaf"></i><span data-t="start"></span> &nbsp;→</button></div><div class="hero-art" aria-hidden="true"><i class="fa-solid fa-seedling"></i></div></div>
+<div class="stats"><article class="card stat"><div class="stat-label"><i class="fa-solid fa-layer-group"></i><span data-t="total"></span></div><div id="statTotal" class="stat-value">—</div></article><article class="card stat"><div class="stat-label"><i class="fa-solid fa-leaf"></i><span data-t="latest"></span></div><div id="statLatest" class="stat-value summary">—</div></article><article class="card stat"><div class="stat-label"><i class="fa-solid fa-seedling"></i><span data-t="young"></span></div><div id="statYoung" class="stat-value">—</div></article><article class="card stat"><div class="stat-label"><i class="fa-solid fa-apple-whole"></i><span data-t="fruit"></span></div><div id="statFruit" class="stat-value">—</div></article></div>
+<div id="homeStages" class="stages"></div>
+<div class="section-head"><h2 data-t="recent"></h2><button class="ghost" id="allRecords"><span data-t="viewAll"></span> →</button></div><div id="recentGrid" class="recent-grid"></div>
+</section>
+<section id="page-detect" class="page" hidden><div class="page-head"><div><h1 data-t="detect"></h1><div class="muted" data-t="detectIntro"></div></div><button id="viewArchive" class="secondary" data-t="viewArchive"></button></div>
+<form id="detectionForm" class="card capture"><div id="preview" class="preview"></div><input type="hidden" id="detectionForm-image" name="植物图片"><div class="actions"><button type="button" id="capture"><i class="fa-solid fa-camera"></i><span data-t="capture"></span></button><button type="button" id="select" class="secondary"><i class="fa-regular fa-image"></i><span data-t="select"></span></button><button type="button" id="clear" class="ghost" data-t="clear"></button><button type="submit" id="submitDetection" class="primary" disabled><i class="fa-solid fa-wand-magic-sparkles"></i><span data-t="run"></span></button></div></form>
+<article class="card result"><h2 data-t="result"></h2><div id="resultStages" class="stages"></div><div id="resultBody" aria-live="polite"></div></article>
+</section>
+<section id="page-archive" class="page" hidden><div class="page-head"><div><h1 data-t="archive"></h1><div class="muted" data-t="archiveIntro"></div></div><button id="newDetection"><i class="fa-solid fa-plus"></i><span data-t="new"></span></button></div><div class="filters"><input id="search" type="search" name="search" data-placeholder="search" aria-label="Search"><select id="stageFilter" name="stage" aria-label="Stage"></select></div><div id="archiveCount" class="muted"></div><div id="archiveGrid" class="archive-grid"></div><div class="more"><button id="loadMore" class="secondary" data-t="more" hidden></button></div></section>
+<div class="footer"><i class="fa-solid fa-leaf"></i><span data-t="foot"></span></div>
+</main>
+<div id="modal" class="overlay" hidden><section id="dialog" class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><header class="dialog-head"><h2 id="dialogTitle"></h2><div class="dialog-controls"><button id="previous" class="secondary" aria-label="Previous"></button><button id="next" class="secondary" aria-label="Next"></button><button id="closeModal" class="ghost" aria-label="Close"></button></div></header><div id="dialogBody" class="dialog-body"></div></section></div>
+<div id="toast" class="toast" role="status" hidden></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("337d256fead1082e_植物生长阶段检测")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+</script>
+<script>
+const SOURCE='生长阶段检测/默认表格', TABLE='生长阶段检测', FILE_BASE='http://' + window.location.hostname + ':3130/download/';
+const STAGES=['发芽期','幼苗期','生长期','开花期','结果期','成熟期'];
+const EN_STAGES=['Germination','Seedling','Vegetative','Flowering','Fruiting','Maturity'];
+const words={
+cn:{app:'植物生长阶段检测',home:'首页',detect:'物候检测',archive:'生长档案',hero:'守望一株植物的物候时钟',intro:'拍下或载入植株照片，识别关键物候特征，判定当前生长发育阶段，辅助精准养护（仅提供阶段性通用方向，不涉及具体农事操作）。',start:'开始物候检测',total:'检测总数',latest:'本档案最新阶段摘要',young:'发芽 / 幼苗记录倾向',fruit:'开花 / 结果 / 成熟倾向',recent:'最近物候记录',viewAll:'查看全部',detectIntro:'拍摄或选择植株图片，识别物候特征并判定生长发育阶段',viewArchive:'查看生长档案',capture:'拍摄植株',select:'从相册选择',clear:'清除预览',run:'开始检测',result:'物候判定结果',aim:'把镜头对准植株',aimNote:'让子叶、真叶、花芽和果实清晰入镜',guide:'选择或拍摄一张植株照片后点击开始检测',waiting:'正在识别子叶、真叶、花芽与果实等物候特征…',archiveIntro:'以卡片回看每一次物候判定，点击卡片查看详情',new:'新的检测',search:'搜索检测结果关键词，如「幼苗期」',all:'全部阶段',more:'查看更多',foot:'每一次观察，都是成长的注脚 · 仅提供阶段性通用养护方向',none:'尚无检测',pending:'识别中或暂无结果',noMatch:'没有匹配的物候记录',details:'查看详情',edit:'编辑图片后重新检测',delete:'删除',retry:'重新加载',loading:'正在读取档案…',failure:'请求失败，请重试',timeout:'检测等待已超过30分钟，请稍后在档案中查看结果。',saved:'图片已更新',save:'仅保存图片',rerun:'使用新图片新建检测',image:'植物图片',readonly:'检测结果（只读）',editNote:'保存图片会更新原记录，不会重新生成结果。重新检测将创建一条新记录。',cancel:'取消',confirmDelete:'确定删除这条检测记录？此操作无法撤销。',deleted:'记录已删除',busy:'检测进行中，请等待完成后再修改记录或新建检测。',changed:'请先更换植物图片',records:'条记录',imageError:'图片暂时无法显示',unavailable:'Markdown 组件加载失败，暂以纯文本显示。',closeUnavailable:'当前环境无法关闭应用',record:'记录',refreshWait:'正在刷新记录…'},
+en:{app:'Plant Growth Stages',home:'Home',detect:'Detection',archive:'Growth archive',hero:'Follow the rhythm of a growing plant',intro:'Capture or select a plant photo to identify phenological features and its current growth stage. Guidance covers general stage-based care, without specific agricultural procedures.',start:'Start plant detection',total:'Total detections',latest:'Latest stage summary',young:'Germination / seedling trends',fruit:'Flowering / fruiting / maturity trends',recent:'Recent observations',viewAll:'View all',detectIntro:'Capture or choose a photo to identify plant features and its growth stage.',viewArchive:'View growth archive',capture:'Take a photo',select:'Choose photo',clear:'Clear preview',run:'Start detection',result:'Growth stage assessment',aim:'Point the camera at your plant',aimNote:'Keep cotyledons, true leaves, buds and fruit visible',guide:'Choose or capture a plant photo, then start detection.',waiting:'Identifying cotyledons, true leaves, flower buds and fruit…',archiveIntro:'Revisit each observation. Open a card for the full assessment.',new:'New detection',search:'Search assessment text or stage keywords',all:'All stages',more:'Show more',foot:'Every observation tells a growth story · General stage-based care only',none:'No detections yet',pending:'Processing or no result yet',noMatch:'No matching observations',details:'View details',edit:'Edit photo / detect again',delete:'Delete',retry:'Reload',loading:'Loading observations…',failure:'Request failed. Please try again.',timeout:'The 30-minute wait has ended. Check the archive for the result later.',saved:'Photo updated',save:'Save photo only',rerun:'Create detection with new photo',image:'Plant photo',readonly:'Assessment (read only)',editNote:'Saving updates the original photo without regenerating its assessment. Detecting again creates a new record.',cancel:'Cancel',confirmDelete:'Delete this detection record? This cannot be undone.',deleted:'Record deleted',busy:'A detection is running. Wait before changing records or starting another.',changed:'Choose a different plant photo first',records:'records',imageError:'Image unavailable',unavailable:'Markdown could not load; displaying plain text.',closeUnavailable:'This environment cannot close the application',record:'Record',refreshWait:'Refreshing records…'}
+};
+const $=id=>document.getElementById(id);
+let lang='cn',records=[],total=0,currentRow=0,page='home',historyStack=[],photo='',resultText='',busy=false,loadError=false,loaded=false,limit=12,modalKind='',modalRow=0,modalVersion=0,editPhoto='',originalPhoto='',modalResult='',mutationBusy=false,toastTimer,restoreFocus=null;
+function t(k){return words[lang][k]||k}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fileUrl(v){return FILE_BASE+encodeURIComponent(v)}
+function imageHTML(v,cls=''){return v?'<img class="'+cls+'" src="'+esc(fileUrl(v))+'" alt="'+esc(t('image'))+'" loading="lazy">':'<div class="empty"><i class="fa-solid fa-seedling"></i>'+esc(t('imageError'))+'</div>'}
+function empty(k){return '<div class="empty"><i class="fa-solid fa-leaf"></i>'+esc(t(k))+'</div>'}
+function snippet(s,n){return Array.from(s||t('pending')).slice(0,n).join('')+(Array.from(s||'').length>n?'…':'')}
+function stageIndex(s){return STAGES.findIndex((v,i)=>s.includes(v)||new RegExp('\\b'+EN_STAGES[i]+'\\b','i').test(s))}
+function stageBar(target,text=''){ $(target).innerHTML=STAGES.map((s,i)=>'<span class="stage '+(text.includes(s)||new RegExp('\\b'+EN_STAGES[i]+'\\b','i').test(text)?'selected':'')+'">'+esc(lang==='cn'?s:EN_STAGES[i])+'</span>').join('')}
+function markdown(node,text){node.className='markdown';if(window.marked&&window.DOMPurify){node.innerHTML=DOMPurify.sanitize(marked.parse(text||t('pending'),{gfm:true,breaks:true}));node.querySelectorAll('img').forEach(img=>{const raw=img.getAttribute('src')||'';let src;if(/^https?:\/\//i.test(raw)){src=raw}else if(raw&&!/^[a-z]+:/i.test(raw)){src=fileUrl(raw)}else{img.remove();return}img.src=src;const a=document.createElement('a');a.href=src;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('download','');img.replaceWith(a);a.append(img)});node.querySelectorAll('a').forEach(a=>{a.target='_blank';a.rel='noopener noreferrer'})}else{node.textContent=t('unavailable')+'\n\n'+(text||t('pending'));node.style.whiteSpace='pre-wrap'}}
+function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4500)}
+function errorMessage(e){return t('failure')+(e?' · '+String(e.message||e):'')}
+function safe(fn){return async(...args)=>{try{await fn(...args)}catch(e){toast(errorMessage(e))}}}
+function closeMenu(){$('mobileMenu').hidden=true;$('hamburger').setAttribute('aria-expanded','false')}
+function fitNav(){const available=$('navInner').clientWidth-56;const need=$('brand').scrollWidth+$('desktopNav').scrollWidth+22;$('navbar').classList.toggle('compact',need>available);if(need<=available)closeMenu()}
+function navigate(next,remember=true){if(next===page){closeMenu();return}if(remember)historyStack.push({page,scroll:window.scrollY});page=next;document.querySelectorAll('.page').forEach(n=>n.hidden=n.id!=='page-'+page);document.querySelectorAll('[data-page]').forEach(n=>{n.classList.toggle('active',n.dataset.page===page);n.setAttribute('aria-current',n.dataset.page===page?'page':'false')});closeMenu();window.scrollTo(0,0)}
+window.airBack=function(){if(!$('modal').hidden){if(!mutationBusy)closeModal();return 'false'}if(!$('mobileMenu').hidden){closeMenu();return 'false'}if(historyStack.length){const old=historyStack.pop();navigate(old.page,false);requestAnimationFrame(()=>window.scrollTo(0,old.scroll));return 'false'}return 'true'};
+function languageChoice(){try{const stored=localStorage.getItem('iThinkAir_UiLanguage');if(stored)return stored==='en'?'en':'cn'}catch(e){}const query=new URLSearchParams(location.search).get('lang');if(query==='cn'||query==='en')return query;const list=navigator.languages;return !list||!list.length||list.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en'}
+function applyLanguage(){document.documentElement.lang=lang==='cn'?'zh-CN':'en';document.title=t('app');document.querySelectorAll('[data-t]').forEach(n=>n.textContent=t(n.dataset.t));document.querySelectorAll('[data-placeholder]').forEach(n=>n.placeholder=t(n.dataset.placeholder));const selected=$('stageFilter').value;$('stageFilter').innerHTML='<option value="">'+t('all')+'</option>'+STAGES.map((s,i)=>'<option value="'+s+'">'+(lang==='cn'?s:EN_STAGES[i])+'</option>').join('');$('stageFilter').value=selected;stageBar('homeStages');renderHome();renderArchive();renderPreview();renderResult();if(modalKind==='detail')renderDetail();if(modalKind==='edit')renderEdit();if(modalKind==='delete')renderDelete();requestAnimationFrame(fitNav)}
+function toggleLanguage(){lang=lang==='cn'?'en':'cn';try{localStorage.setItem('iThinkAir_UiLanguage',lang)}catch(e){}applyLanguage();closeMenu()}
+async function getCell(field,row){return String(await callAppBridge({type:'GetCellValue',data:SOURCE,payload:field+'/'+row})??'')}
+async function refresh(){
+$('errorBar').hidden=true;
+try{
+const values=await Promise.all([callAppBridge({type:'GetTableCSV',data:SOURCE,payload:'植物图片,检测结果'}),callAppBridge({type:'GetRecordCount',data:SOURCE}),callAppBridge({type:'GetTableCSV',data:SOURCE,payload:'检测结果'})]);
+const raw=parseCSV(values[0]||'');const updated=[];
+for(let i=0;i<raw.length;i++){const full=await getCell('检测结果',i+1);updated.push({row:i+1,photo:raw[i][0]||'',result:full})}
+const count=Number(String(values[1]).trim());if(!Number.isFinite(count)||count<0)throw new Error('Invalid record count');
+records=updated;total=count;window.stageRows=parseCSV(values[2]||'');loaded=true;loadError=false;
+}catch(e){loadError=true;$('errorText').textContent=errorMessage(e);$('errorBar').hidden=false}
+renderHome();renderArchive();
+}
+function renderHome(){
+$('statTotal').textContent=loaded?total:'—';$('statLatest').textContent=loaded?(records.length?snippet(records[0].result,40):t('none')):'—';
+const rows=window.stageRows||[];
+$('statYoung').textContent=loaded?rows.filter(r=>/发芽期|幼苗期/.test(r[0]||'')).length:'—';
+$('statFruit').textContent=loaded?rows.filter(r=>/开花期|结果期|成熟期/.test(r[0]||'')).length:'—';
+$('recentGrid').innerHTML=!loaded?empty(loadError?'failure':'loading'):!records.length?empty('none'):records.slice(0,4).map(r=>'<button class="card recent" data-action="detail" data-row="'+r.row+'">'+imageHTML(r.photo)+'<div><div class="record-no">'+t('record')+' / '+String(r.row).padStart(2,'0')+'</div><div class="muted">'+esc(snippet(r.result,80))+'</div></div></button>').join('');
+}
+function renderArchive(){const term=$('search').value.trim().toLocaleLowerCase(),filter=$('stageFilter').value;const found=records.filter(r=>r.result.toLocaleLowerCase().includes(term)&&(!filter||r.result.includes(filter)));$('archiveCount').textContent=loaded?found.length+' '+t('records'):'';$('archiveGrid').innerHTML=!loaded?empty(loadError?'failure':'loading'):!found.length?empty(records.length?'noMatch':'none'):found.slice(0,limit).map(r=>{const si=stageIndex(r.result);return '<article class="card archive-card"><button class="record-body" data-action="detail" data-row="'+r.row+'"><div class="cover">'+imageHTML(r.photo)+(si>=0?'<span class="badge">'+esc(lang==='cn'?STAGES[si]:EN_STAGES[si])+'</span>':'')+'</div><div class="record-text"><div class="record-no">'+t('record')+' / '+String(r.row).padStart(2,'0')+'</div>'+esc(snippet(r.result,100))+'</div></button><div class="record-actions"><button class="ghost" data-action="detail" data-row="'+r.row+'">'+t('details')+'</button><button class="ghost" data-action="edit" data-row="'+r.row+'" '+(busy?'disabled':'')+'>'+t('edit')+'</button><button class="ghost" data-action="delete" data-row="'+r.row+'" '+(busy?'disabled':'')+'>'+t('delete')+'</button></div></article>'}).join('');$('loadMore').hidden=found.length<=limit}
+function renderPreview(){$('detectionForm-image').value=photo;$('preview').innerHTML=photo?imageHTML(photo):'<div class="empty"><i class="fa-solid fa-seedling"></i><strong>'+t('aim')+'</strong><div class="muted">'+t('aimNote')+'</div></div>';$('submitDetection').disabled=busy||!photo;['capture','select','clear','newDetection'].forEach(id=>$(id).disabled=busy)}
+function renderResult(){stageBar('resultStages',resultText);const box=$('resultBody');box.className='';if(busy)box.innerHTML='<div class="waiting"><i class="fa-solid fa-leaf"></i>'+t('waiting')+'</div>';else if(resultText)markdown(box,resultText);else box.innerHTML=empty(currentRow===0?'guide':'pending')}
+async function choose(type,editing=false){if(busy||mutationBusy)return;const value=String(await callAppBridge({type})||'');if(value){if(editing){editPhoto=value;renderEdit()}else{photo=value;renderPreview()}}}
+function newDetection(){if(busy){toast(t('busy'));return}photo='';resultText='';currentRow=0;renderPreview();renderResult();navigate('detect')}
+async function beginDetection(image){
+if(busy){toast(t('busy'));return}if(!image)return;
+busy=true;photo=image;resultText='';renderPreview();renderResult();renderArchive();
+try{
+await callAppBridge({type:'SubmitRecord',data:TABLE,payload:JSON.stringify({'植物图片':image})});currentRow=1;navigate('detect');
+const deadline=Date.now()+1800000;
+while(Date.now()<deadline){
+await new Promise(resolve=>setTimeout(resolve,1000));
+const remaining=deadline-Date.now();if(remaining<=0)break;
+let timer;
+const pending=await Promise.race([callAppBridge({type:'轮询',data:TABLE,payload:'检测结果'}),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(t('timeout'))),remaining)})]).finally(()=>clearTimeout(timer));
+if(String(pending??'').trim()){
+const full=await getCell('检测结果',1);
+if(full.trim()){resultText=full;break}
+}
+}
+if(!resultText)toast(t('timeout'));
+}catch(e){toast(errorMessage(e))}
+finally{busy=false;renderPreview();renderResult();await refresh()}
+}
+function openModal(kind,row){restoreFocus=document.activeElement;modalKind=kind;modalRow=row;currentRow=row;modalVersion++;$('modal').hidden=false;$('modal').classList.toggle('reading',kind==='detail');document.body.style.overflow='hidden';$('previous').hidden=kind!=='detail';$('next').hidden=kind!=='detail';$('dialogTitle').textContent=t(kind==='detail'?'details':kind==='edit'?'edit':'delete');$('dialogBody').innerHTML=empty('loading');$('closeModal').focus();return modalVersion}
+function closeModal(){if(mutationBusy)return;modalVersion++;$('modal').hidden=true;modalKind='';document.body.style.overflow='';restoreFocus?.focus()}
+async function detail(row){const version=openModal('detail',row);$('previous').disabled=true;$('next').disabled=true;try{const count=Number(await callAppBridge({type:'GetRecordCount',data:SOURCE}));const p=await getCell('植物图片',row);const r=await getCell('检测结果',row);if(version!==modalVersion)return;total=count;editPhoto=p;modalResult=r;renderDetail()}catch(e){if(version===modalVersion)$('dialogBody').textContent=errorMessage(e)}}
+function renderDetail(){$('dialogTitle').textContent=t('details')+' · '+modalRow;$('previous').disabled=modalRow<=1;$('next').disabled=modalRow>=total;$('dialogBody').innerHTML=imageHTML(editPhoto,'detail-image')+'<div id="detailStages" class="stages"></div><div id="detailMarkdown"></div><div class="actions"><button id="detailEdit" class="secondary" '+(busy?'disabled':'')+'>'+t('edit')+'</button></div>';stageBar('detailStages',modalResult);markdown($('detailMarkdown'),modalResult);$('detailEdit').onclick=safe(()=>edit(modalRow))}
+async function edit(row){if(busy){toast(t('busy'));return}const version=openModal('edit',row);try{const p=await getCell('植物图片',row);const r=await getCell('检测结果',row);if(version!==modalVersion)return;editPhoto=originalPhoto=p;modalResult=r;renderEdit()}catch(e){if(version===modalVersion)$('dialogBody').textContent=errorMessage(e)}}
+function renderEdit(){$('dialogTitle').textContent=t('edit');$('dialogBody').innerHTML='<form id="editForm"><div class="edit-field"><label for="editForm-image">'+t('image')+'</label><input type="text" id="editForm-image" name="植物图片" readonly value="'+esc(editPhoto)+'"></div>'+imageHTML(editPhoto,'detail-image')+'<div class="actions"><button type="button" id="editCapture">'+t('capture')+'</button><button type="button" id="editSelect" class="secondary">'+t('select')+'</button></div><h3>'+t('readonly')+'</h3><div id="editResult"></div><p class="muted">'+t('editNote')+'</p><div class="actions"><button type="submit" id="saveEdit" class="secondary">'+t('save')+'</button><button type="button" id="rerunEdit">'+t('rerun')+'</button></div></form>';markdown($('editResult'),modalResult);$('editCapture').onclick=safe(()=>choose('CapturePhoto',true));$('editSelect').onclick=safe(()=>choose('SelectImage',true));$('editForm').onsubmit=safe(async e=>{e.preventDefault();if(mutationBusy)return;if(!editPhoto||editPhoto===originalPhoto){toast(t('changed'));return}lockModal(true);try{await callAppBridge({type:'SetCellValue',data:SOURCE,payload:'植物图片/'+modalRow+'/'+editPhoto});toast(t('saved'));lockModal(false);closeModal();await refresh()}finally{lockModal(false)}});$('rerunEdit').onclick=safe(async()=>{if(!editPhoto||editPhoto===originalPhoto){toast(t('changed'));return}const nextPhoto=editPhoto;closeModal();await beginDetection(nextPhoto)})}
+function lockModal(value){mutationBusy=value;$('dialog').querySelectorAll('button').forEach(b=>b.disabled=value)}
+function renderDelete(){$('dialogTitle').textContent=t('delete');$('dialogBody').innerHTML='<p>'+t('confirmDelete')+'</p><div class="actions"><button id="cancelDelete" class="secondary">'+t('cancel')+'</button><button id="confirmDelete" class="danger">'+t('delete')+'</button></div>';$('cancelDelete').onclick=closeModal;$('confirmDelete').onclick=safe(async()=>{if(busy||mutationBusy)return;lockModal(true);try{await callAppBridge({type:'DeleteRecord',data:SOURCE,payload:modalRow.toString()});if(currentRow>=modalRow)currentRow=Math.max(0,currentRow-1);toast(t('deleted'));lockModal(false);closeModal();await refresh()}finally{lockModal(false)}})}
+async function initialize(){
+lang=languageChoice();applyLanguage();
+document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>navigate(b.dataset.page));
+$('brand').onclick=()=>{try{if(typeof parent.closeFullHtml==='function')parent.closeFullHtml(false);else toast(t('closeUnavailable'))}catch(e){toast(t('closeUnavailable'))}};
+$('hamburger').onclick=()=>{const show=$('mobileMenu').hidden;$('mobileMenu').hidden=!show;$('hamburger').setAttribute('aria-expanded',String(show))};
+document.addEventListener('click',e=>{if(!$('navbar').contains(e.target))closeMenu();const b=e.target.closest('[data-action]');if(!b)return;const row=Number(b.dataset.row);if(b.dataset.action==='detail')safe(()=>detail(row))();if(b.dataset.action==='edit')safe(()=>edit(row))();if(b.dataset.action==='delete'){if(busy){toast(t('busy'));return}openModal('delete',row);renderDelete()}});
+$('desktopLanguage').onclick=toggleLanguage;$('mobileLanguage').onclick=toggleLanguage;
+$('startHome').onclick=()=>navigate('detect');$('allRecords').onclick=$('viewArchive').onclick=()=>navigate('archive');$('newDetection').onclick=newDetection;
+$('capture').onclick=safe(()=>choose('CapturePhoto'));$('select').onclick=safe(()=>choose('SelectImage'));$('clear').onclick=()=>{photo='';renderPreview()};
+$('detectionForm').onsubmit=safe(async e=>{e.preventDefault();await beginDetection(photo)});
+$('search').oninput=()=>{limit=12;renderArchive()};$('stageFilter').onchange=()=>{limit=12;renderArchive()};$('loadMore').onclick=()=>{limit+=12;renderArchive()};
+$('closeModal').onclick=closeModal;$('modal').onclick=e=>{if(e.target===$('modal'))closeModal()};
+$('previous').onclick=safe(()=>detail(modalRow-1));$('next').onclick=safe(()=>detail(modalRow+1));$('retry').onclick=safe(refresh);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('modal').hidden)closeModal();else closeMenu()}if(e.key==='Tab'&&!$('modal').hidden){const items=Array.from($('dialog').querySelectorAll('button:not(:disabled),input,select,textarea,a[href]')).filter(n=>!n.hidden&&n.getClientRects().length);const first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus()}}});
+document.addEventListener('error',e=>{if(e.target.tagName==='IMG'){e.target.alt=t('imageError');e.target.style.objectFit='contain'}},true);
+window.addEventListener('resize',fitNav);if(window.ResizeObserver)new ResizeObserver(fitNav).observe($('navInner'));
+function keepInputVisible(){const viewport=window.visualViewport;const gap=viewport?Math.max(0,window.innerHeight-viewport.height-viewport.offsetTop):0;document.documentElement.style.setProperty('--keyboard-space',(gap+140)+'px');const active=document.activeElement;if(active&&/INPUT|TEXTAREA|SELECT/.test(active.tagName))setTimeout(()=>active.scrollIntoView({block:'center',behavior:'smooth'}),180)}
+document.addEventListener('focusin',e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))keepInputVisible()});window.visualViewport?.addEventListener('resize',keepInputVisible);
+document.body.classList.toggle('dark',window.matchMedia('(prefers-color-scheme: dark)').matches);
+await Promise.all([refresh(),(async()=>{try{const mode=String(await callAppBridge({type:'模式'})).trim();document.body.classList.toggle('dark',mode==='暗色')}catch(e){toast(errorMessage(e))}})()]);
+}
+(async () => { await initialize(); })();
+</script>
+</body>
+</html>

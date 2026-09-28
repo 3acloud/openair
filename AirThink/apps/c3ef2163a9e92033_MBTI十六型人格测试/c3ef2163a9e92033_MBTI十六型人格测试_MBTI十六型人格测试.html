@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>MBTI十六型人格测试</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{--bg:#151b38;--bg2:#49355b;--paper:#fbf6eb;--paper2:#f0eadf;--ink:#28283e;--muted:#6d6879;--line:#ded5c5;--purple:#7560a3;--purple2:#5d468c;--gold:#ad8947;--on:#fff;--shadow:0 14px 36px #070d2429;--E:#c96759;--I:#434f89;--S:#647f45;--N:#8663b0;--T:#57758f;--F:#b96383;--J:#987527;--P:#3d8e83}
+*{box-sizing:border-box}html{scroll-padding-top:105px}body{margin:0;background:radial-gradient(ellipse at 85% 7%,#9271a020,transparent 40%),linear-gradient(175deg,var(--bg),var(--bg2));background-attachment:fixed;color:var(--ink);font:15px/1.65 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;min-height:100vh}body.dark{--paper:#24263c;--paper2:#303149;--ink:#f0e9dd;--muted:#b8b2c6;--line:#4e455d;--purple:#9c85ce;--purple2:#8066b2;--gold:#c8a569;--E:#ee968a;--I:#9aa6e3;--S:#abc584;--N:#b79ce2;--T:#9abbdb;--F:#eda5bf;--J:#d9b86a;--P:#85cfbd}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--paper);color:var(--ink)}textarea{min-height:145px;resize:vertical}button{cursor:pointer;border:1px solid var(--line);border-radius:12px;padding:10px 17px;background:var(--paper2);color:var(--ink);transition:transform .18s,border-color .18s,box-shadow .18s}button:hover:not(:disabled),.record:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 5px 16px #10102b16}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}button.primary{background:var(--purple2);color:white;border-color:var(--purple2)}button.ghost{background:transparent}button.danger{color:#bd575f}button.icon{padding:8px 13px}.selected,[aria-pressed="true"]{border-color:var(--gold)!important;box-shadow:0 0 0 2px #b7924b42!important;background:var(--paper2)}[hidden]{display:none!important}h1,h2,h3{font-family:Georgia,"Noto Serif SC","Songti SC",serif;line-height:1.3;font-weight:600}h1{font-size:clamp(29px,4.5vw,48px);margin:8px 0 17px}h2{font-size:24px;margin:0 0 14px}h3{font-size:19px;margin:0 0 10px}p{margin:8px 0 16px}.muted,.hint{color:var(--muted)}.hint{font-size:13px}.eyebrow{font-size:11px;letter-spacing:.25em;color:var(--gold);font-weight:700}.gold{color:var(--gold)}.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.between{justify-content:space-between}.stack{display:grid;gap:22px}.panel{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);min-width:0}.panel.soft{background:var(--paper2);box-shadow:none}.grid{display:grid;gap:18px}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.spaced{margin-top:22px}.smallgap{gap:8px}.notice{padding:14px 17px;border-radius:12px;background:var(--paper2);border-left:3px solid var(--gold);font-size:14px}.error{color:var(--ink);border-left-color:#c66870}.empty{padding:30px 15px;text-align:center;color:var(--muted)}.empty i{display:block;font-size:25px;color:var(--gold);margin-bottom:13px}.status:empty{display:none}.status{margin:14px 0}.spinner{display:inline-block;width:15px;height:15px;border:2px solid var(--line);border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite;margin-right:9px}@keyframes spin{to{transform:rotate(360deg)}}
+.nav-shell{position:fixed;top:0;left:0;right:0;z-index:1001;background:#151b38ee;backdrop-filter:blur(18px);border-bottom:1px solid #ad894777}.navigation{position:relative;z-index:1001;max-width:1240px;margin:auto;display:flex;align-items:center;gap:18px;padding:16px 24px;min-height:78px}.brand{border:0;background:none!important;color:#fbf6eb;display:flex;align-items:center;gap:12px;text-align:left;padding:0;flex-shrink:0;box-shadow:none!important}.brand svg{width:41px;height:44px;flex-shrink:0}.brand strong{font:600 17px/1.3 Georgia,"Songti SC",serif}.brand small{display:block;font-size:10px;color:#ceb98d;letter-spacing:.16em;margin-top:3px}.nav-links{display:flex;gap:5px;margin-left:auto;white-space:nowrap}.nav-links button,.lang-button,.menu-button{background:transparent;color:#ded8e7;border:0;border-radius:0;padding:9px 10px;white-space:nowrap}.nav-links button.active{color:#e2c488;border-bottom:2px solid #c8a569}.menu-button{display:none;margin-left:auto}.navigation.collapsed>.nav-links,.navigation.collapsed>.lang-button{display:none}.navigation.collapsed>.menu-button{display:block}.mobile-menu{position:absolute;left:14px;right:14px;top:100%;padding:14px;background:#20213a;border:1px solid #ad894777;border-radius:0 0 18px 18px;box-shadow:var(--shadow)}.mobile-menu button{display:block;width:100%;text-align:left;background:transparent;color:#eee5de;border:0;margin:3px 0}.mobile-menu button.active{color:#e2c488;background:#ad894719}
+main{max-width:1200px;margin:auto;padding:112px 24px 48px}.page-header{color:#f6f0e6;margin-bottom:26px}.page-header p{color:#d1c6db;max-width:780px}.page-header .eyebrow{color:#d1b270}.hero{position:relative;overflow:hidden;padding:45px;min-height:330px}.hero-copy{max-width:700px;position:relative;z-index:1}.hero p{max-width:610px}.hero-art{position:absolute;right:-65px;top:-72px;width:400px;height:400px;border:1px solid #ad894744;border-radius:50%;pointer-events:none;background:radial-gradient(circle,#a894c419,transparent 65%)}.hero-art:before,.hero-art:after{content:"";position:absolute;inset:35px;border:1px solid #ad894744;border-radius:50%}.hero-art:after{inset:80px}.hero-star{position:absolute;right:92px;top:95px;color:var(--gold);font-size:50px;opacity:.55}.stat{width:100%;text-align:left;display:flex;gap:16px;align-items:center;padding:22px;background:var(--paper);border-radius:18px}.stat i{font-size:24px;color:var(--purple);background:var(--paper2);padding:14px;border-radius:14px}.stat strong{display:block;font:32px/1.2 Georgia,serif;margin-bottom:5px}.stat-label{font-size:13px;color:var(--muted)}.types{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px}.type-chip{padding:12px 6px;text-align:center;min-width:0}.letters{font-family:Georgia,serif;font-weight:bold;letter-spacing:2px;font-size:21px;white-space:nowrap}.dots{display:flex;justify-content:center;gap:5px;margin-top:6px}.dot{width:5px;height:5px;border-radius:50%;display:inline-block}.group-types{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.star-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.group-label{color:var(--muted);font-size:12px;margin-bottom:8px}.choice-card{flex:1;min-width:140px;text-align:left;padding:20px}.choice-card strong{font-size:19px;display:block;margin-top:6px}.choice-card small{display:block;color:var(--muted);margin-top:6px}.field{margin:20px 0}.field>label,.field>legend{display:block;font-weight:600;margin-bottom:10px}fieldset{border:0;padding:0;margin:0;min-width:0}.chips{display:flex;flex-wrap:wrap;gap:8px}.chips button{border-radius:24px;padding:7px 16px}.segmented{display:inline-flex;gap:4px;padding:4px;background:var(--paper2);border-radius:13px}.segmented button{border:0;background:transparent;padding:7px 17px}.segmented button.selected{background:var(--paper)}progress{width:100%;height:9px;accent-color:var(--purple);display:block;margin:13px 0}.questions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:15px 0}.question{display:flex;align-items:center;gap:5px;border:1px solid var(--line);padding:8px;border-radius:12px;min-width:0}.question span{font-size:12px;color:var(--muted);margin-right:auto}.question button{padding:5px 9px;border-radius:8px}.answer-preview{word-break:break-word;max-height:110px;overflow:auto;font-family:monospace}.report{min-height:155px}.report-head{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:20px}.report-head h2{margin:0}.report-nav{display:flex;align-items:center;gap:8px}.report-meta{font-size:12px;color:var(--muted);margin-bottom:15px}.filters{padding:16px;background:var(--paper2);border-radius:15px;margin:16px 0}.filters .row>*{flex:1;min-width:140px}.filters .row>button{flex:0 0 auto}.record-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.record{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:19px;transition:.18s;cursor:pointer;min-width:0}.record h3{font-size:18px}.record p{color:var(--muted);font-size:14px;overflow-wrap:anywhere}.record .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.record .actions button{font-size:12px;padding:6px 11px}.badge{font-size:11px;padding:4px 9px;background:var(--paper2);border-radius:18px;color:var(--muted)}.compare-select{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center}.compare-select .types{grid-template-columns:repeat(4,minmax(0,1fr))}.compare-preview{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.dimension{padding:17px;background:var(--paper2);border-radius:13px;text-align:center}.dimension .row{justify-content:center}.footer{text-align:center;color:#d7cadd;font-size:12px;padding:24px 16px 48px}.modal-layer{position:fixed;inset:0;z-index:2001;background:#090d24ba;display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(5px)}.modal{width: min(840px,100%);max-height:calc(100dvh - 48px);overflow:auto;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 100px #0006;overscroll-behavior:contain;scroll-padding:85px 0 180px}.modal-header{position:sticky;top:0;z-index:2;background:var(--paper);padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:15px}.modal-header h2{font-size:23px;margin:0}.modal-body{padding:24px}.modal-actions{margin-top:22px}.markdown{overflow-wrap:anywhere;line-height:1.85}.markdown>:first-child{margin-top:0}.markdown h1{font-size:29px}.markdown h2{margin-top:28px}.markdown h3{margin-top:22px}.markdown a{color:var(--purple)}.markdown blockquote{margin:18px 0;border-left:3px solid var(--gold);padding:8px 20px;background:var(--paper2)}.markdown pre{padding:16px;background:var(--paper2);overflow:auto;border-radius:12px}.markdown code{font-family:ui-monospace,monospace;font-size:.9em;background:var(--paper2);border-radius:4px}.markdown img{max-width:100%;height:auto;border-radius:10px}.markdown table{border-collapse:collapse;min-width:100%}.markdown th,.markdown td{border:1px solid var(--line);padding:9px 13px;text-align:left}.table-scroll{overflow-x:auto;width:100%}.markdown hr{border:0;border-top:1px solid var(--line);margin:24px 0}.markdown input{width:auto}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.keyboard-pad{height:var(--keyboard-pad,0px)}
+@media(max-width:850px){.types{grid-template-columns:repeat(4,minmax(0,1fr))}.questions{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:30px}.hero-art{opacity:.4}.star-groups{grid-template-columns:1fr}.compare-select{grid-template-columns:1fr}.swap{justify-self:center}.three{gap:10px}.stat{padding:15px;gap:10px}.stat i{padding:10px;font-size:18px}.stat strong{font-size:26px}}
+@media(max-width:600px){main{padding:99px 14px 80px}.navigation{padding:14px}.brand strong{font-size:15px}.brand svg{width:32px}.brand small{font-size:8px}.panel{padding:20px;border-radius:18px}.hero{padding:26px 22px}.hero h1{font-size:33px}.hero .row>button{flex:1;white-space:nowrap;padding:10px}.hero .row{gap:8px}.three{grid-template-columns:1fr}.stat{padding:16px}.stat strong{font-size:28px}.two,.record-list{grid-template-columns:1fr}.questions{grid-template-columns:repeat(2,minmax(0,1fr))}.choice-card{min-width:0;padding:12px 9px}.choice-card strong{font-size:15px}.choice-card small{font-size:11px}.field .row{gap:7px}.compare-preview{gap:6px}.dimension{padding:12px 5px}.modal-layer{padding:12px}.modal{max-height:calc(100dvh - 24px);border-radius:17px}.modal-body{padding:18px 16px 150px}.modal-layer.reading{padding:0}.reading .modal{max-height:100dvh;height:100dvh;border-radius:0}.footer{padding-bottom:100px}.report-head{gap:10px}.report-head h2{font-size:21px}.filters .row>*{min-width:100%}.filters .row>button{min-width:auto}.keyboard-pad{height:max(85px,var(--keyboard-pad,0px))}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="nav-shell"><nav id="navigation" class="navigation" aria-label="主导航" style="position: relative;z-index: 1001;">
+<button id="brand" class="brand" type="button"><svg viewBox="0 0 48 52" fill="none" aria-hidden="true"><ellipse cx="23" cy="22" rx="12" ry="16" stroke="#d1b270" stroke-width="1.6"/><ellipse cx="23" cy="22" rx="8.5" ry="12" fill="#a191bd33" stroke="#d1b27066"/><path d="M23 38v9m-7 1h14M19 14l-3 8" stroke="#d1b270" stroke-width="2" stroke-linecap="round"/><path d="m5 7 1-3 1 3 3 1-3 1-1 3-1-3-3-1Zm35 9 1-4 1 4 4 1-4 1-1 4-1-4-4-1ZM35 3l1-2 1 2 2 1-2 1-1 2-1-2-2-1ZM5 33l1-2 1 2 2 1-2 1-1 2-1-2-2-1Z" fill="#d1b270"/></svg><span><strong id="brand-title"></strong><small>STARRY NIGHT · INNER MIRROR</small></span></button>
+<div id="nav-links" class="nav-links"></div><button id="language" class="lang-button" type="button"></button><button id="menu-toggle" class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu"><i class="fa-solid fa-bars" aria-hidden="true"></i><span class="sr-only" id="menu-label"></span></button><div id="mobile-menu" class="mobile-menu" hidden></div>
+</nav></header>
+<main id="main"><div id="global-status" class="status" role="status" aria-live="polite"></div><section id="page-home" class="stack" data-page="home"></section><section id="page-test" class="stack" data-page="test" hidden></section><section id="page-archive" class="stack" data-page="archive" hidden></section><section id="page-types" class="stack" data-page="types" hidden></section><section id="page-compare" class="stack" data-page="compare" hidden></section><div class="keyboard-pad"></div></main>
+<footer id="footer" class="footer"></footer><div id="modal-root"></div>
+<script>
+
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("c3ef2163a9e92033_MBTI十六型人格测试")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let lang='cn', currentPage='home', dialogCounter=0, navigationHistory=[], dialogs=[], pageScroll={};
+const tr=(cn,en)=>lang==='cn'?cn:en;
+const appName=()=>tr('MBTI十六型人格测试','MBTI Personality Explorer');
+const levels=['默认','详细','完整'], amounts=['快测28题','标准93题','完整200题'];
+const groups={NT:['INTJ','INTP','ENTJ','ENTP'],NF:['INFJ','INFP','ENFJ','ENFP'],SJ:['ISTJ','ISFJ','ESTJ','ESFJ'],SP:['ISTP','ISFP','ESTP','ESFP']};
+const allTypes=Object.values(groups).flat();
+const label=v=>({'默认':tr('默认','Default'),'详细':tr('详细','Detailed'),'完整':tr('完整','Complete'),'快测28题':tr('快测28题','Quick · 28'),'标准93题':tr('标准93题','Standard · 93'),'完整200题':tr('完整200题','Full · 200')}[v]||v);
+const config={test:{table:'人格测试',fields:['题量','报告层级','答案'],report:'测试报告',title:()=>tr('人格测试','Personality test'),reportTitle:()=>tr('测试报告','Test report'),wait:()=>tr('正在依据作答生成人格报告…','Generating your personality report from your answers…')},types:{table:'类型查询',fields:['人格类型','报告层级','关注内容'],report:'类型解读',title:()=>tr('类型图鉴','Type atlas'),reportTitle:()=>tr('类型解读','Type interpretation'),wait:()=>tr('正在整理类型解读…','Preparing your type interpretation…')},compare:{table:'类型对比',fields:['人格类型','对比类型'],report:'对比报告',title:()=>tr('双型对照','Type comparison'),reportTitle:()=>tr('对比报告','Comparison report'),wait:()=>tr('正在对照两种人格…','Comparing the two personality types…')}};
+function freshDraft(key){return key==='test'?{'题量':'','报告层级':'','答案':'',mode:'text',segment:0}:key==='types'?{'人格类型':'','报告层级':'','关注内容':''}:{'人格类型':'','对比类型':''};}
+const states=Object.fromEntries(Object.keys(config).map(key=>[key,{draft:freshDraft(key),row:0,count:0,report:'',snapshot:null,busy:false,reading:false,pollToken:0,list:[],loaded:false,filter:{search:'',amount:'',level:'',type:''}}]));
+const disclaimer=()=>tr('结果仅供自我了解，不构成心理诊断。','For self-understanding only. This is not a psychological diagnosis.');
+function letters(type){return '<span class="letters">'+Array.from(type).map(c=>'<span style="color:var(--'+(/^[EISNTFJP]{1,4}$/.test(type)?c:'ink')+')">'+escapeHTML(c)+'</span>').join('')+'</span>';}
+function button(text,action,cls=''){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=text;b.onclick=action;return b;}
+function loading(el,message=tr('正在读取…','Loading…')){el.innerHTML='<div class="notice"><span class="spinner" aria-hidden="true"></span>'+escapeHTML(message)+'</div>';}
+function failure(el,retry,message=tr('暂时无法读取，请重试','Unable to load right now. Please retry.')){el.replaceChildren();const box=document.createElement('div');box.className='notice error row between';box.setAttribute('role','alert');const text=document.createElement('span');text.textContent=message;box.append(text,button(tr('重试','Retry'),retry));el.append(box);}
+async function attempt(el,fn){try{await fn();}catch(error){console.error(error);failure(el,()=>attempt(el,fn));}}
+async function api(type,data,payload){const req={type};if(data!==undefined)req.data=data;if(payload!==undefined)req.payload=payload;return await callAppBridge(req);}
+const source=key=>config[key].table+'/默认表格';
+async function cell(key,field,row){if(row<1)throw new Error('No selected row');return await api('GetCellValue',source(key),field+'/'+row);}
+async function count(key){const raw=String(await api('GetRecordCount',source(key))).trim();if(!/^\d+$/.test(raw))throw new Error('Invalid record count');states[key].count=Number(raw);return Number(raw);}
+function readRows(text,fieldCount){return parseCSV(text).map((row,index)=>({row:index+1,values:row.length>fieldCount?[...row.slice(0,fieldCount-1),row.slice(fieldCount-1).join(',')]:Array.from({length:fieldCount},(_,i)=>row[i]??'')}));}
+async function rows(key){return readRows(await api('GetTableCSV',source(key),config[key].fields.join(',')),config[key].fields.length);}
+async function readRecord(key,row,withReport=true){const result={};for(const f of config[key].fields)result[f]=await cell(key,f,row);if(withReport)result[config[key].report]=await cell(key,config[key].report,row);return result;}
+function clean(value){return String(value??'').replace(/[\r\n]+/g,' ').trim();}
+function parseAnswers(text){const entries=[];const regex=/(\d+\s*)?([ab])/gi;let match;while((match=regex.exec(text))!==null)entries.push({number:match[1]?Number(match[1].trim()):null,value:match[2].toUpperCase()});return entries;}
+function total(d){return {'快测28题':28,'标准93题':93,'完整200题':200}[d['题量']]||0;}
+function valid(key,d){if(key==='test')return total(d)>0&&levels.includes(d['报告层级'])&&parseAnswers(d['答案']).length===total(d);if(key==='types')return allTypes.includes(d['人格类型'])&&levels.includes(d['报告层级']);return allTypes.includes(d['人格类型'])&&allTypes.includes(d['对比类型'])&&d['人格类型']!==d['对比类型'];}
+function selection(prefix,field,values,current,card=false){return '<div class="'+(card?'row':'chips')+'">'+values.map((v,i)=>'<button type="button" id="'+prefix+'-'+encodeURIComponent(field)+'-'+i+'" name="'+escapeHTML(field)+'" data-field="'+escapeHTML(field)+'" data-value="'+escapeHTML(v)+'" aria-pressed="'+(current===v)+'" class="'+(card?'choice-card':'')+'">'+(card?'<span class="eyebrow">'+['QUICK','STANDARD','COMPLETE'][i]+'</span><strong>'+escapeHTML(label(v))+'</strong>'+(i===0&&current===v?'<small>'+tr('样本较小，仅供参考','Small sample; for reference only')+'</small>':''):escapeHTML(label(v)))+'</button>').join('')+'</div>';}
+function typeWall(prefix,field,value){return '<div class="types">'+allTypes.map((type,i)=>'<button type="button" id="'+prefix+'-'+encodeURIComponent(field)+'-'+i+'" name="'+escapeHTML(field)+'" class="type-chip" data-field="'+escapeHTML(field)+'" data-value="'+type+'" aria-pressed="'+(type===value)+'" aria-label="'+type+'">'+letters(type)+'</button>').join('')+'</div>';}
+function fieldTitle(cn,en){return '<label>'+tr(cn,en)+'</label>';}
+function inputs(key,prefix,d){if(key==='test')return '<div class="field">'+fieldTitle('题量','Test length')+selection(prefix,'题量',amounts,d['题量'],true)+'</div><div class="field">'+fieldTitle('报告层级','Report depth')+selection(prefix,'报告层级',levels,d['报告层级'])+'<p class="hint">'+tr('默认含类型、中文名、四维倾向和简短概述；详细补充优势、注意点与适合方向；完整给出该类型解读。','Default includes the type, Chinese name, four preferences and a short overview. Detailed adds strengths, watch-outs and suitable directions. Complete provides a type interpretation.')+'</p><p class="hint">'+tr('四维票数相等时取 E、S、T、J，由计分技能处理。','Ties resolve to E, S, T and J in the scoring skill.')+'</p></div><div class="field"><div class="row between"><label for="'+prefix+'-answer">'+tr('你的答案','Your answers')+'</label><div class="segmented"><button type="button" data-mode="text" class="'+(d.mode==='text'?'selected':'')+'">'+tr('连写','Text')+'</button><button type="button" data-mode="questions" class="'+(d.mode==='questions'?'selected':'')+'">'+tr('逐题','By question')+'</button></div></div><div id="'+prefix+'-question-zone" '+(d.mode!=='questions'?'hidden':'')+'></div><textarea class="spaced" id="'+prefix+'-answer" name="答案" placeholder="1A 2B 3A / ABBA" '+(d.mode==='questions'?'hidden':'')+'>'+escapeHTML(d['答案'])+'</textarea><div class="row between spaced"><span class="hint" id="'+prefix+'-progress-text" aria-live="polite"></span><button type="button" data-clear-answers class="ghost">'+tr('清空答案','Clear answers')+'</button></div><progress id="'+prefix+'-progress" max="'+(total(d)||1)+'" value="0"></progress><p id="'+prefix+'-answer-hint" class="hint"></p></div>';
+if(key==='types')return '<div class="field">'+fieldTitle('选择人格类型','Choose a type')+typeWall(prefix,'人格类型',d['人格类型'])+'</div><div class="field">'+fieldTitle('报告层级','Report depth')+selection(prefix,'报告层级',levels,d['报告层级'])+'</div><div class="field"><label for="'+prefix+'-focus">'+tr('关注内容（可选）','Focus (optional)')+'</label><input id="'+prefix+'-focus" name="关注内容" type="text" value="'+escapeHTML(d['关注内容'])+'" placeholder="'+tr('想更了解哪个方面？','What would you like to explore?')+'"><div class="chips spaced">'+[['职业','Career'],['爱情','Love'],['优势','Strengths'],['注意点','Watch-outs']].map(([cn,en])=>'<button type="button" data-focus="'+tr(cn,en)+'">'+tr(cn,en)+'</button>').join('')+'<button type="button" data-focus="">'+tr('清空关注','Clear focus')+'</button></div><p class="hint">'+tr('关注内容为空时按报告层级输出；不为空时只阐述该方面。','Leave focus blank for the chosen report depth, or enter a topic for a focused interpretation.')+'</p></div>';
+return '<div class="compare-select"><div class="field">'+fieldTitle('人格类型 A','Personality type A')+typeWall(prefix,'人格类型',d['人格类型'])+'</div><button type="button" data-swap class="swap" aria-label="'+tr('互换类型','Swap types')+'"><i class="fa-solid fa-arrow-right-arrow-left" aria-hidden="true"></i> '+tr('互换','Swap')+'</button><div class="field">'+fieldTitle('人格类型 B','Personality type B')+typeWall(prefix,'对比类型',d['对比类型'])+'</div></div><div id="'+prefix+'-preview"></div><p class="hint">'+tr('请选择两个不同的十六型；互换会保留原有报告，直到再次生成。','Choose two different types. Swapping keeps the existing report until you generate another.')+'</p>';}
+function synchronizeQuestionMap(d){const arr=Array(total(d)).fill('');const seen=new Set();let next=0;for(const a of parseAnswers(d['答案'])){const index=a.number!==null?a.number-1:next++;if(index<0||index>=arr.length||seen.has(index))return null;seen.add(index);arr[index]=a.value;}return arr;}
+function renderQuestions(prefix,d){const zone=$(prefix+'-question-zone');if(!zone||d.mode!=='questions')return;const n=total(d);if(!n){zone.innerHTML='<div class="empty">'+tr('请先选择题量','Choose a test length first')+'</div>';return;}const arr=synchronizeQuestionMap(d);if(!arr){zone.innerHTML='<div class="notice">'+tr('存在重复或超范围题号，请切回连写修正，或清空答案。','Duplicate or out-of-range question numbers. Fix them in Text mode or clear your answers.')+'</div>';return;}const pages=Math.ceil(n/20);d.segment=Math.min(Math.max(d.segment||0,0),pages-1);const start=d.segment*20,end=Math.min(n,start+20);zone.innerHTML='<div class="row between spaced"><button type="button" data-segment="-1" '+(d.segment===0?'disabled':'')+' aria-label="'+tr('上一段','Previous set')+'">&lt;</button><span class="hint">'+(start+1)+'–'+end+' / '+n+'</span><button type="button" data-segment="1" '+(d.segment>=pages-1?'disabled':'')+' aria-label="'+tr('下一段','Next set')+'">&gt;</button></div><div class="questions">'+arr.slice(start,end).map((value,i)=>'<div class="question"><span>'+(start+i+1)+'</span>'+['A','B',''].map(option=>'<button type="button" name="答案" id="'+prefix+'-q'+(start+i+1)+'-'+(option||'clear')+'" data-question="'+(start+i)+'" data-answer="'+option+'" aria-label="'+tr('第','Question ')+(start+i+1)+tr('题 ',' ')+(option||tr('清空','Clear'))+'" aria-pressed="'+(option!==''&&value===option)+'">'+(option||'×')+'</button>').join('')+'</div>').join('')+'</div><div class="notice answer-preview">'+escapeHTML(d['答案']||tr('尚未作答','No answers yet'))+'</div>';}
+function updateForm(key,prefix,d){const b=$(prefix+'-submit');if(b)b.disabled=!valid(key,d)||states[key].busy||states[key].reading;if(key==='test'){const n=total(d),a=parseAnswers(d['答案']).length;$(prefix+'-progress-text').textContent=tr('已识别 ','Recognized ')+a+' / '+n;$(prefix+'-progress').max=n||1;$(prefix+'-progress').value=Math.min(a,n);$(prefix+'-answer-hint').textContent=!n?tr('选择题量和报告层级后开始。','Choose a test length and report depth to begin.'):a<n?tr('尚未答完，提交后技能不会编造分数','Not finished. The skill will not invent scores for incomplete answers.'):a>n?tr('答案个数超出题量，请检查重复题号。','Too many answers. Check for duplicate question numbers.'):tr('答案数量符合题量，可生成报告。','Answer count matches the test length. Ready to generate.');renderQuestions(prefix,d);}if(key==='compare'){const zone=$(prefix+'-preview');if(!valid(key,d)){zone.innerHTML='';return;}zone.innerHTML='<div class="notice"><h3>'+tr('字母对照预览 · 不是正式报告','Letter preview · Not a formal report')+'</h3><p class="hint">'+tr('中文名以报告为准。相同字母同色，配色仅便于辨识。','Names come from the report. Matching letters use the same color for readability.')+'</p><div class="compare-preview">'+['E / I','S / N','T / F','J / P'].map((dimension,i)=>'<div class="dimension"><small class="muted">'+dimension+'</small><div class="row smallgap">'+letters(d['人格类型'][i])+ '<span class="muted">·</span>'+letters(d['对比类型'][i])+'</div></div>').join('')+'</div></div>';}}
+function bindInputs(key,prefix,d,rerender){const form=$(prefix);form.onclick=event=>{const b=event.target.closest('button');if(!b||b.disabled)return;if(b.dataset.field){d[b.dataset.field]=b.dataset.value;if(b.dataset.field==='题量')d.segment=0;rerender();}else if(b.dataset.mode){d.mode=b.dataset.mode;rerender();}else if(b.hasAttribute('data-clear-answers')){d['答案']='';d.segment=0;rerender();}else if(b.dataset.segment){d.segment+=Number(b.dataset.segment);updateForm(key,prefix,d);}else if(b.hasAttribute('data-question')){const arr=synchronizeQuestionMap(d);if(!arr)return;arr[Number(b.dataset.question)]=b.dataset.answer;d['答案']=arr.map((value,i)=>value?(i+1)+value:'').filter(Boolean).join(' ');$(prefix+'-answer').value=d['答案'];updateForm(key,prefix,d);}else if(b.hasAttribute('data-focus')){d['关注内容']=b.dataset.focus;$(prefix+'-focus').value=d['关注内容'];}else if(b.hasAttribute('data-swap')){[d['人格类型'],d['对比类型']]=[d['对比类型'],d['人格类型']];rerender();}};form.oninput=event=>{if(event.target.name==='答案'){d['答案']=event.target.value;updateForm(key,prefix,d);}if(event.target.name==='关注内容')d['关注内容']=event.target.value;};updateForm(key,prefix,d);}
+function header(cn,en,descCN,descEN,action=''){return '<div class="page-header"><div class="eyebrow">STARRY NIGHT · INNER MIRROR</div><div class="row between"><h1>'+tr(cn,en)+'</h1>'+action+'</div><p>'+tr(descCN,descEN)+'</p></div>';}
+function renderNavigation(){document.title=appName();document.documentElement.lang=lang==='cn'?'zh-CN':'en';$('brand-title').textContent=appName();$('menu-label').textContent=tr('打开导航菜单','Toggle navigation menu');$('navigation').setAttribute('aria-label',tr('主导航','Main navigation'));const items=[['home','首页','Home'],['test','人格测试','Test'],['archive','测试档案','Archive'],['types','类型图鉴','Type atlas'],['compare','双型对照','Compare']];const html=items.map(([key,cn,en])=>'<button type="button" data-go="'+key+'" class="'+(currentPage===key?'active':'')+'" '+(currentPage===key?'aria-current="page"':'')+'>'+tr(cn,en)+'</button>').join('');$('nav-links').innerHTML=html;$('mobile-menu').innerHTML=html+'<button type="button" id="mobile-language">'+tr('English / 切换语言','中文 / Switch language')+'</button>';$('language').textContent=tr('EN / 中','中 / EN');$('mobile-language').onclick=changeLanguage;$('footer').textContent=disclaimer();fitNavigation();}
+function fitNavigation(){const nav=$('navigation');nav.classList.remove('collapsed');const required=$('brand').offsetWidth+$('nav-links').scrollWidth+$('language').offsetWidth+110;if(required>nav.clientWidth)nav.classList.add('collapsed');else closeMenu();}
+function closeMenu(){$('mobile-menu').hidden=true;$('menu-toggle').setAttribute('aria-expanded','false');}
+function go(page,recordHistory=true){closeMenu();if(page===currentPage)return;pageScroll[currentPage]=window.scrollY;if(recordHistory)navigationHistory.push({page:currentPage,scroll:window.scrollY});currentPage=page;document.querySelectorAll('[data-page]').forEach(el=>el.hidden=el.dataset.page!==page);renderNavigation();window.scrollTo(0,pageScroll[page]||0);if(page==='archive'&&!states.test.loaded)loadList('test');if((page==='types'||page==='compare')&&!states[page].loaded)loadList(page);}
+window.airBack=function(){if(dialogs.length){closeDialog(dialogs[dialogs.length-1].id);return 'false';}if(!$('mobile-menu').hidden){closeMenu();return 'false';}if(navigationHistory.length){const entry=navigationHistory.pop();go(entry.page,false);window.scrollTo(0,entry.scroll);return 'false';}return 'true';};
+function renderHome(){const home=$('page-home');home.innerHTML='<div class="panel hero"><div class="hero-art"></div><i class="fa-regular fa-star hero-star" aria-hidden="true"></i><div class="hero-copy"><div class="eyebrow">A QUIET SPACE TO KNOW YOURSELF</div><h1>'+appName()+'</h1><p class="muted">'+tr('支持二十八题快测、九十三题标准与二百题完整测试，依据作答生成分层人格报告，并可查询单一类型或对比两种人格。','Choose a 28-question quick test, a 93-question standard test or a full 200-question test. Explore layered reports, individual types and two-type comparisons.')+'</p><div class="row spaced"><button type="button" class="primary" data-go="test"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> '+tr('开始测试','Start a test')+'</button><button type="button" data-go="types">'+tr('查询类型','Explore types')+'</button><button type="button" data-go="compare">'+tr('对比人格','Compare types')+'</button></div></div></div><div class="grid three">'+[['test','测试次数','Tests','fa-clipboard-list','archive'],['types','查询次数','Queries','fa-compass','types'],['compare','对比次数','Comparisons','fa-code-compare','compare']].map(([key,cn,en,icon,page])=>'<div id="stat-'+key+'"><button class="stat" type="button" data-go="'+page+'"><i class="fa-solid '+icon+'" aria-hidden="true"></i><span><strong id="count-'+key+'">—</strong><span class="stat-label">'+tr(cn,en)+'</span></span></button><div id="stat-status-'+key+'" class="status" role="status"></div></div>').join('')+'</div><div class="panel"><div class="row between"><h2>'+tr('人格星图','Personality constellation')+'</h2><span class="eyebrow">16 TYPES · 4 GROUPS</span></div><p class="hint">'+tr('仅便于点选，不是测试结论。','Grouped only for easy selection; these are not test conclusions.')+'</p><div class="star-groups">'+Object.entries(groups).map(([group,types])=>'<div><div class="group-label">'+group+' · '+tr('仅便于点选，不是测试结论','For selection only, not a conclusion')+'</div><div class="group-types">'+types.map(type=>'<button type="button" class="type-chip" data-explore="'+type+'">'+letters(type)+'<span class="dots">'+Array.from(type).map(c=>'<span class="dot" style="background:var(--'+c+')"></span>').join('')+'</span></button>').join('')+'</div></div>').join('')+'</div></div><div class="panel"><div class="row between"><h2>'+tr('最近测试','Recent tests')+'</h2><button type="button" class="ghost" data-go="archive">'+tr('查看全部','View all')+' <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div><div id="recent-tests"></div></div>';}
+async function loadStat(key){const el=$('stat-status-'+key);await attempt(el,async()=>{loading(el);const n=await count(key);$('count-'+key).textContent=n;el.replaceChildren();updateReportNav(key);});}
+async function loadRecent(){const el=$('recent-tests');await attempt(el,async()=>{loading(el);const data=(await rows('test')).slice(0,5);el.replaceChildren();if(!data.length){el.innerHTML='<div class="empty"><i class="fa-regular fa-moon" aria-hidden="true"></i>'+tr('还没有测试，先做一次快测吧','No tests yet. Start with a quick test.')+'</div>';el.append(button(tr('开始测试','Start a test'),()=>go('test'),'primary'));return;}const grid=document.createElement('div');grid.className='record-list';for(const item of data){const b=button('',()=>openDetail('test',item.row,true),'record');b.innerHTML='<div class="row between"><h3>'+escapeHTML(label(item.values[0]))+'</h3><span class="badge">'+escapeHTML(label(item.values[1]))+'</span></div><p>'+escapeHTML(item.values[2].slice(0,36))+(item.values[2].length>36?'…':'')+'</p>';grid.append(b);}el.append(grid);});}
+function renderWorkPage(key){const s=states[key],c=config[key],el=$('page-'+key);let title;if(key==='test')title=header('人格测试','Personality test','选择题量与报告层级，录入 A 或 B；计分由技能完成，未答完不会得到编造分数。','Choose a length and report depth, then enter A or B. The skill handles scoring; unfinished answers never receive invented scores.','<button type="button" data-go="archive">'+tr('查看档案','View archive')+'</button>');else if(key==='types')title=header('类型图鉴','Type atlas','选择十六型之一，按层级或某个关注方面生成解读。','Choose a type and explore it at your preferred depth or focus on one topic.','<button type="button" data-go="test">'+tr('去做测试','Take a test')+'</button>');else title=header('双型对照','Type comparison','选择两种人格，查看维度异同；正式差异以技能报告为准，页面不替用户下结论。','Choose two types to explore their dimensions. The skill report provides the interpretation; the page does not decide your type.');el.innerHTML=title+'<div class="panel"><form id="'+key+'-form"><fieldset id="'+key+'-fields"></fieldset><div class="row between spaced"><button id="'+key+'-form-submit" type="submit" class="primary"></button>'+(key==='types'?'':'<button id="'+key+'-reset" type="button">'+(key==='test'?tr('新的测试','New test'):tr('重新选择','Reset selection'))+'</button>')+'</div></form><div id="'+key+'-submit-status" class="status" role="status" aria-live="polite"></div></div><div class="panel"><div class="report-head row between"><h2>'+c.reportTitle()+'</h2><div class="report-nav"><button type="button" id="'+key+'-prev" aria-label="'+tr('上一行','Previous record')+'">&lt;</button><span id="'+key+'-row" class="hint">0 / 0</span><button type="button" id="'+key+'-next" aria-label="'+tr('下一行','Next record')+'">&gt;</button></div></div><div id="'+key+'-report-meta" class="report-meta"></div><div id="'+key+'-report" class="report" aria-live="polite"></div><p class="hint spaced">'+(key==='compare'?tr('请自行判断更接近哪一型；','Decide for yourself which type feels closer. '):'')+disclaimer()+'</p></div>'+(key!=='test'?'<div class="panel"><h2>'+tr(key==='types'?'查询记录':'对照记录',key==='types'?'Query history':'Comparison history')+'</h2><div id="'+key+'-filters"></div><div id="'+key+'-list" class="record-list"></div><div id="'+key+'-list-status" class="status" role="status"></div></div>':'');renderMainInputs(key);$(key+'-form').onsubmit=event=>{event.preventDefault();submitRecord(key);};if($(key+'-reset'))$(key+'-reset').onclick=()=>reset(key);$(key+'-prev').onclick=()=>browse(key,-1);$(key+'-next').onclick=()=>browse(key,1);renderReport(key);updateReportNav(key);if(key!=='test'){renderFilters(key);renderList(key);}}
+function renderMainInputs(key){const s=states[key],prefix=key+'-form';$(key+'-fields').innerHTML=inputs(key,prefix,s.draft);$(prefix+'-submit').textContent=key==='test'?tr('生成报告','Generate report'):key==='types'?tr('生成解读','Generate interpretation'):tr('生成对比','Generate comparison');bindInputs(key,prefix,s.draft,()=>renderMainInputs(key));lockPage(key);}
+function lockPage(key){const s=states[key];$(key+'-fields').disabled=s.busy||s.reading;$(key+'-form-submit').disabled=s.busy||s.reading||!valid(key,s.draft);if($(key+'-reset'))$(key+'-reset').disabled=s.busy||s.reading;updateReportNav(key);}
+function reset(key){if(states[key].busy||states[key].reading)return;const s=states[key];s.pollToken++;s.draft=freshDraft(key);s.row=0;s.report='';s.snapshot=null;$(key+'-submit-status').replaceChildren();renderMainInputs(key);renderReport(key);updateReportNav(key);}
+function updateReportNav(key){if(!$(key+'-prev'))return;const s=states[key];$(key+'-row').textContent=s.row+' / '+s.count;$(key+'-prev').disabled=s.busy||s.reading||s.row<=1;$(key+'-next').disabled=s.busy||s.reading||s.row>=s.count||s.count===0;}
+async function loadMarkdownLibraries(){for(const [name,url] of [['marked','https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js'],['DOMPurify','https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js']]){if(window[name])continue;await new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=url;script.onload=resolve;script.onerror=()=>{script.remove();reject(new Error('Markdown library unavailable'));};document.head.append(script);});}}
+function renderMarkdown(el,text){if(!window.marked||!window.DOMPurify){failure(el,()=>attempt(el,async()=>{loading(el);await loadMarkdownLibraries();renderMarkdown(el,text);}),tr('报告已获取，但 Markdown 组件未加载。请检查网络后重试。','Report received, but the Markdown library did not load. Check the network and retry.'));return;}el.classList.add('markdown');el.innerHTML=DOMPurify.sanitize(marked.parse(text,{gfm:true,breaks:false}),{USE_PROFILES:{html:true}});el.querySelectorAll('table').forEach(table=>{const wrap=document.createElement('div');wrap.className='table-scroll';table.replaceWith(wrap);wrap.append(table);});el.querySelectorAll('a').forEach(a=>{a.target='_blank';a.rel='noopener noreferrer';});el.querySelectorAll('img').forEach(img=>{const raw=img.getAttribute('src')||'';let filename=raw;try{if(/^https?:\/\//i.test(raw))filename=decodeURIComponent(new URL(raw).pathname.split('/').pop());}catch{}const url='http://' + window.location.hostname + ':3130/download/'+encodeURIComponent(filename);img.src=url;img.loading='lazy';const link=img.closest('a')||document.createElement('a');if(!img.closest('a')){img.replaceWith(link);link.append(img);}link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.title=tr('点击下载图片','Download image');});}
+function reportMetadata(key){const s=states[key];if(!s.snapshot)return '';return config[key].fields.filter(f=>f!=='答案'&&f!=='关注内容').map(f=>label(s.snapshot[f]||'')).join(' · ')+(s.snapshot['题量']==='快测28题'?' · '+tr('样本较小，仅供参考','Small sample; for reference only'):'');}
+function renderReport(key){const s=states[key],el=$(key+'-report');$(key+'-report-meta').textContent=reportMetadata(key);el.classList.remove('markdown');if(s.report.trim()){renderMarkdown(el,s.report);return;}if(s.busy){loading(el,config[key].wait());return;}if(s.row>0){el.innerHTML='<div class="empty">'+tr('报告生成中','Report is being generated')+'</div>';el.append(button(tr('再查一次','Check again'),()=>poll(key),'primary'));return;}el.innerHTML='<div class="empty"><i class="fa-regular fa-star" aria-hidden="true"></i>'+tr('你的报告将在这里呈现','Your report will appear here')+'</div>';}
+async function submitRecord(key){const s=states[key];if(s.busy||s.reading||!valid(key,s.draft))return;const payload={};for(const f of config[key].fields)payload[f]=clean(s.draft[f]);s.busy=true;lockPage(key);const target=$(key+'-submit-status');loading(target,tr('正在提交…','Submitting…'));try{await api('SubmitRecord',config[key].table,JSON.stringify(payload));s.row=1;s.report='';s.snapshot={...payload};s.count++;target.replaceChildren();renderReport(key);await poll(key,true);refreshRelated(key);}catch(error){s.busy=false;lockPage(key);failure(target,()=>submitRecord(key),tr('提交失败，请重试前确认档案中是否已保存，避免重复提交。','Submission could not be confirmed. Check history before retrying to avoid duplicates.'));}}
+async function poll(key,alreadyBusy=false){const s=states[key];if(s.row<1||s.reading||(s.busy&&!alreadyBusy))return;const row=s.row,token=++s.pollToken;s.busy=true;lockPage(key);loading($(key+'-report'),config[key].wait());try{for(let i=0;i<45;i++){await new Promise(resolve=>setTimeout(resolve,2000));if(token!==s.pollToken)return;const text=String(await cell(key,config[key].report,row));if(token!==s.pollToken)return;if(text.trim()){s.report=text;renderMarkdown($(key+'-report'),text);$(key+'-report-meta').textContent=reportMetadata(key);return;}}const el=$(key+'-report');el.innerHTML='<div class="notice">'+tr('生成时间较长，可稍后到测试档案或对应记录刷新查看。','Generation is taking longer. You can refresh this record in the history later.')+'</div>';el.append(button(tr('再查一次','Check again'),()=>poll(key),'primary'));}catch(error){failure($(key+'-report'),()=>poll(key));}finally{if(token===s.pollToken){s.busy=false;lockPage(key);}}}
+async function browse(key,delta){const s=states[key];if(s.busy||s.reading)return;const next=s.row+delta;if(next<1||next>s.count)return;s.reading=true;lockPage(key);await attempt($(key+'-report'),async()=>{s.reading=true;lockPage(key);loading($(key+'-report'));try{const data=await readRecord(key,next);s.row=next;s.snapshot={...data};s.report=data[config[key].report]||'';for(const f of config[key].fields)s.draft[f]=data[f];renderMainInputs(key);renderReport(key);}finally{s.reading=false;lockPage(key);}});}
+function renderArchive(){$('page-archive').innerHTML=header('测试档案','Test archive','查看、修正或删除已提交的作答。','Review, correct or delete submitted answers.','<button id="archive-new" type="button" class="primary">+ '+tr('新的测试','New test')+'</button>')+'<div class="panel"><div id="test-filters"></div><div id="test-list" class="record-list"></div><div id="test-list-status" class="status" role="status"></div></div>';$('archive-new').onclick=()=>{if(states.test.busy){go('test');return;}reset('test');go('test');};renderFilters('test');renderList('test');}
+function renderFilters(key){const f=states[key].filter,el=$(key+'-filters');el.className='filters';const prefix=key+'-filter';const options=(values,current,all)=>'<option value="">'+all+'</option>'+values.map(v=>'<option value="'+escapeHTML(v)+'" '+(current===v?'selected':'')+'>'+escapeHTML(label(v))+'</option>').join('');el.innerHTML='<div class="row"><label class="sr-only" for="'+prefix+'-search">'+tr('搜索','Search')+'</label><input id="'+prefix+'-search" name="search" type="search" value="'+escapeHTML(f.search)+'" placeholder="'+(key==='test'?tr('搜索答案文本','Search answer text'):tr('搜索人格类型','Search personality type'))+'">'+(key==='compare'?'<label class="sr-only" for="'+prefix+'-type">'+tr('包含类型','Contains type')+'</label><select id="'+prefix+'-type" name="type">'+options(allTypes,f.type,tr('全部类型','All types'))+'</select>':'')+'<button type="button" id="'+prefix+'-clear">'+tr('清除筛选','Clear filters')+'</button><button type="button" id="'+prefix+'-refresh"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i> '+tr('刷新','Refresh')+'</button></div>'+(key==='test'?'<div class="row spaced"><span class="hint">'+tr('题量','Length')+'</span><div class="chips">'+['',...amounts].map(v=>'<button type="button" data-filter="amount" data-value="'+v+'" aria-pressed="'+(f.amount===v)+'">'+(v?label(v):tr('全部','All'))+'</button>').join('')+'</div></div>':'')+(key!=='compare'?'<div class="row spaced"><span class="hint">'+tr('层级','Depth')+'</span><div class="chips">'+['',...levels].map(v=>'<button type="button" data-filter="level" data-value="'+v+'" aria-pressed="'+(f.level===v)+'">'+(v?label(v):tr('全部','All'))+'</button>').join('')+'</div></div>':'');$(prefix+'-search').oninput=e=>{f.search=e.target.value;renderList(key);};if($(prefix+'-type'))$(prefix+'-type').onchange=e=>{f.type=e.target.value;renderList(key);};el.onclick=e=>{const b=e.target.closest('[data-filter]');if(b){f[b.dataset.filter]=b.dataset.value;renderFilters(key);renderList(key);}};$(prefix+'-clear').onclick=()=>{states[key].filter={search:'',amount:'',level:'',type:''};renderFilters(key);renderList(key);};$(prefix+'-refresh').onclick=()=>loadList(key);}
+async function loadList(key){const el=$(key+'-list-status');await attempt(el,async()=>{loading(el);const data=await rows(key);states[key].list=data;states[key].loaded=true;el.replaceChildren();renderList(key);});}
+function renderList(key){const s=states[key],el=$(key+'-list');if(!el)return;el.replaceChildren();if(!s.loaded){el.innerHTML='<div class="empty">'+tr('正在等待读取记录…','Waiting to load records…')+'</div>';return;}const f=s.filter,search=f.search.trim().toLowerCase();const list=s.list.filter(item=>{const [a,b,c='']=item.values;if(key==='test')return c.toLowerCase().includes(search)&&(!f.amount||a===f.amount)&&(!f.level||b===f.level);if(key==='types')return a.toLowerCase().includes(search)&&(!f.level||b===f.level);return (a.toLowerCase().includes(search)||b.toLowerCase().includes(search))&&(!f.type||a===f.type||b===f.type);});if(!list.length){el.innerHTML='<div class="empty"><i class="fa-regular fa-folder-open" aria-hidden="true"></i>'+tr(s.list.length?'没有符合筛选的记录':'还没有记录',s.list.length?'No records match your filters':'No records yet')+'</div>';return;}for(const item of list){const card=document.createElement('article');card.className='record';card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label',tr('编辑记录','Edit record')+' '+item.row);const [a,b,c='']=item.values;card.innerHTML='<div class="row between"><h3>'+(key==='test'?escapeHTML(label(a)):letters(a))+(key==='compare'?' <span class="muted"></span> '+letters(b):'')+'</h3>'+(key!=='compare'?'<span class="badge">'+escapeHTML(label(b))+'</span>':'')+'</div>'+(key!=='compare'?'<p>'+escapeHTML(c.slice(0,key==='test'?80:120))+(c.length>(key==='test'?80:120)?'…':'')+'</p>':'')+'<span class="hint">'+tr('记录行 ','Record row ')+item.row+'</span>';const actions=document.createElement('div');actions.className='actions';actions.append(button(tr('编辑','Edit'),e=>{e.stopPropagation();openEditor(key,item.row);}),button(tr('查看','View ')+config[key].reportTitle(),e=>{e.stopPropagation();openDetail(key,item.row);}),button(tr('删除','Delete'),e=>{e.stopPropagation();confirmDelete(key,item.row);},'danger'));card.append(actions);card.onclick=()=>openEditor(key,item.row);card.onkeydown=e=>{if(e.target===card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openEditor(key,item.row);}};el.append(card);}}
+function openDialog(title,reading=false){const id='dialog-'+(++dialogCounter),layer=document.createElement('div');layer.id=id;layer.className='modal-layer'+(reading?' reading':'');layer.style.zIndex=2001+dialogs.length;layer.innerHTML='<section class="modal" role="dialog" aria-modal="true" aria-labelledby="'+id+'-title"><header class="modal-header"><h2 id="'+id+'-title">'+escapeHTML(title)+'</h2><button type="button" id="'+id+'-close" class="icon" aria-label="'+tr('关闭','Close')+'">×</button></header><div id="'+id+'-body" class="modal-body"></div></section>';const item={id,layer,previous:document.activeElement};dialogs.push(item);$('modal-root').append(layer);document.body.style.overflow='hidden';$('main').inert=true;$('navigation').inert=true;$('footer').inert=true;if(dialogs.length>1)dialogs[dialogs.length-2].layer.inert=true;$(id+'-close').onclick=()=>closeDialog(id);layer.onclick=e=>{if(e.target===layer)closeDialog(id);};$(id+'-close').focus();return {id,body:$(id+'-body'),layer};}
+function closeDialog(id){const index=dialogs.findIndex(x=>x.id===id);if(index<0||index!==dialogs.length-1)return;const item=dialogs.pop();item.layer.remove();if(dialogs.length)dialogs[dialogs.length-1].layer.inert=false;else{document.body.style.overflow='';$('main').inert=false;$('navigation').inert=false;$('footer').inert=false;}if(item.previous?.isConnected)item.previous.focus();}
+async function openDetail(key,row,all=false){const dialog=openDialog(config[key].reportTitle(),true);await attempt(dialog.body,async()=>{loading(dialog.body);const data=all?await readRecord(key,row):{[config[key].report]:await cell(key,config[key].report,row)};if(!dialog.body.isConnected)return;dialog.body.replaceChildren();if(all){const info=document.createElement('div');info.className='notice';info.textContent=label(data['题量'])+' · '+label(data['报告层级'])+(data['题量']==='快测28题'?' · '+tr('样本较小，仅供参考','Small sample; for reference only'):'');dialog.body.append(info);const answers=document.createElement('p');answers.className='answer-preview';answers.textContent=data['答案'];dialog.body.append(answers);}const report=document.createElement('div');report.className='spaced';dialog.body.append(report);const show=text=>{report.replaceChildren();report.classList.remove('markdown');if(String(text).trim())renderMarkdown(report,text);else report.innerHTML='<div class="empty">'+tr('报告生成中','Report is being generated')+'</div>';};show(data[config[key].report]);const refresh=button(tr('刷新报告','Refresh report'),async()=>{refresh.disabled=true;await attempt(report,async()=>{loading(report);show(await cell(key,config[key].report,row));});refresh.disabled=false;});dialog.body.append(refresh);const note=document.createElement('p');note.className='hint spaced';note.textContent=disclaimer();dialog.body.append(note);});}
+async function openEditor(key,row){const s=states[key];if(s.busy||s.reading){go(key);return;}const dialog=openDialog(key==='test'?tr('编辑人格测试','Edit personality test'):key==='types'?tr('编辑类型查询','Edit type query'):tr('编辑类型对比','Edit comparison'));await attempt(dialog.body,async()=>{loading(dialog.body);const d=await readRecord(key,row,true);if(!dialog.body.isConnected)return;s.row=row;s.report=d[config[key].report]||'';s.snapshot={...d};renderReport(key);updateReportNav(key);if(key==='test'){d.mode='text';d.segment=0;}const prefix=dialog.id+'-form';dialog.body.innerHTML='<p class="notice">'+tr('保存只会修正记录，不会重新生成报告；需要新报告请回对应页面重新提交。','Saving only corrects the record and does not regenerate its report. Submit a new record from its page for a new report.')+'</p><form id="'+prefix+'"><fieldset id="'+prefix+'-fields"></fieldset><div class="row modal-actions"><button id="'+prefix+'-submit" type="submit" class="primary">'+tr('保存','Save')+'</button><button id="'+prefix+'-cancel" type="button">'+tr('取消','Cancel')+'</button></div></form><div id="'+prefix+'-status" class="status" role="status"></div>';const render=()=>{$(prefix+'-fields').innerHTML=inputs(key,prefix,d);bindInputs(key,prefix,d,render);};render();$(prefix+'-cancel').onclick=()=>closeDialog(dialog.id);$(prefix).onsubmit=async event=>{event.preventDefault();if(row<1||!valid(key,d))return;const fields=config[key].fields;const values={};for(const f of fields)values[f]=clean(d[f]);let index=0;const save=async()=>{const form=$(prefix);if(!form)return;s.reading=true;lockPage(key);$(prefix+'-fields').disabled=true;$(prefix+'-submit').disabled=true;loading($(prefix+'-status'),tr('正在保存…','Saving…'));try{for(;index<fields.length;index++){const f=fields[index];await api('SetCellValue',source(key),f+'/'+row+'/'+values[f]);}if(s.row===row){s.draft={...s.draft,...values};s.snapshot={...values};renderMainInputs(key);renderReport(key);}closeDialog(dialog.id);refreshRelated(key);}catch(error){if($(prefix+'-status'))failure($(prefix+'-status'),save,tr('保存未完成；重试将从未完成字段继续。','Save incomplete. Retry resumes from the unfinished field.'));}finally{s.reading=false;lockPage(key);}};await save();};});}
+function confirmDelete(key,row){if(row<1)return;if(states[key].busy||states[key].reading){go(key);return;}const dialog=openDialog(tr('确认删除','Confirm deletion'));dialog.body.innerHTML='<p>'+tr('确定删除这条记录吗？删除后无法恢复。','Delete this record? This cannot be undone.')+'</p><div class="row"><button type="button" id="'+dialog.id+'-confirm" class="danger">'+tr('确认删除','Delete record')+'</button><button type="button" id="'+dialog.id+'-cancel">'+tr('取消','Cancel')+'</button></div><div id="'+dialog.id+'-status" class="status"></div>';$(dialog.id+'-cancel').onclick=()=>closeDialog(dialog.id);let removed=false;const execute=async()=>{const b=$(dialog.id+'-confirm');if(b)b.disabled=true;try{if(!removed){await api('DeleteRecord',source(key),row.toString());removed=true;}const s=states[key];s.pollToken++;if(s.row===row){s.row=0;s.report='';s.snapshot=null;}else if(s.row>row)s.row--;s.count=Math.max(0,s.count-1);renderReport(key);updateReportNav(key);closeDialog(dialog.id);refreshRelated(key);}catch(error){if($(dialog.id+'-status'))failure($(dialog.id+'-status'),execute);}};$(dialog.id+'-confirm').onclick=execute;}
+async function refreshRelated(key){const work=[loadStat(key),loadList(key)];if(key==='test')work.push(loadRecent());await Promise.allSettled(work);}
+async function changeLanguage(){if(dialogs.length)return;lang=lang==='cn'?'en':'cn';try{localStorage.setItem('iThinkAir_UiLanguage',lang);}catch{}closeMenu();renderNavigation();renderHome();for(const key of Object.keys(config))renderWorkPage(key);renderArchive();document.querySelectorAll('[data-page]').forEach(el=>el.hidden=el.dataset.page!==currentPage);await Promise.allSettled([loadStat('test'),loadStat('types'),loadStat('compare'),loadRecent()]);}
+async function loadMode(){const el=$('global-status');await attempt(el,async()=>{const mode=await api('模式');if(mode!=='暗色'&&mode!=='亮色')throw new Error('Invalid mode');document.body.classList.toggle('dark',mode==='暗色');el.replaceChildren();});}
+async function initialize(){try{const stored=localStorage.getItem('iThinkAir_UiLanguage');const param=new URLSearchParams(location.search).get('lang');if(stored)lang=stored==='en'?'en':'cn';else if(param==='cn'||param==='en')lang=param;else if(Array.isArray(navigator.languages)&&navigator.languages.length)lang=navigator.languages.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en';else lang='cn';}catch{const param=new URLSearchParams(location.search).get('lang');lang=param==='en'?'en':param==='cn'?'cn':navigator.languages?.length?(navigator.languages.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en'):'cn';}renderNavigation();renderHome();for(const key of Object.keys(config))renderWorkPage(key);renderArchive();$('language').onclick=changeLanguage;$('brand').onclick=()=>{try{parent.closeFullHtml(false);}catch{failure($('global-status'),()=>$('brand').click(),tr('暂时无法关闭，请重试','Unable to close right now. Please retry.'));}};$('menu-toggle').onclick=()=>{const hidden=!$('mobile-menu').hidden;$('mobile-menu').hidden=hidden;$('menu-toggle').setAttribute('aria-expanded',String(!hidden));};document.addEventListener('click',event=>{const goButton=event.target.closest('[data-go]');if(goButton)go(goButton.dataset.go);const type=event.target.closest('[data-explore]');if(type){if(!states.types.busy&&!states.types.reading){states.types.draft['人格类型']=type.dataset.explore;renderMainInputs('types');}go('types');}if(!$('navigation').contains(event.target))closeMenu();});document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(dialogs.length)closeDialog(dialogs[dialogs.length-1].id);else closeMenu();}if(event.key==='Tab'&&dialogs.length){const layer=dialogs[dialogs.length-1].layer;const controls=Array.from(layer.querySelectorAll('button:not(:disabled),input:not(:disabled),textarea:not(:disabled),select:not(:disabled),a[href],[tabindex="0"]')).filter(x=>x.getClientRects().length);const first=controls[0],last=controls[controls.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}}});let resizeFrame;window.addEventListener('resize',()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(fitNavigation);});const reveal=()=>{const input=document.activeElement;if(input&&input.matches('input,textarea,select')){const viewport=window.visualViewport;const keyboard=viewport?Math.max(0,window.innerHeight-viewport.height-viewport.offsetTop):0;document.documentElement.style.setProperty('--keyboard-pad',Math.max(120,keyboard+120)+'px');const modal=input.closest('.modal-body');if(modal)modal.style.paddingBottom=Math.max(150,keyboard+120)+'px';setTimeout(()=>input.scrollIntoView({block:'center',behavior:'smooth'}),120);}};document.addEventListener('focusin',reveal);window.visualViewport?.addEventListener('resize',reveal);document.addEventListener('focusout',()=>{setTimeout(()=>{if(!document.activeElement?.matches('input,textarea,select'))document.documentElement.style.removeProperty('--keyboard-pad');},150);});await Promise.allSettled([loadMode(),loadStat('test'),loadStat('types'),loadStat('compare'),loadRecent()]);}
+(async () => { await initialize(); })();
+</script>
+</body>
+</html>

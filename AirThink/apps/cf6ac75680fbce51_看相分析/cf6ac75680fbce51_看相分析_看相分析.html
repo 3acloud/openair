@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>看相分析大师</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+  <style>
+    :root{color-scheme:dark;--bg:#0e0b20;--bg2:#1b1230;--panel:#201936;--panel2:#281e43;--ink:#f9f2df;--muted:#c5b9d2;--gold:#e9c981;--gold2:#ae8242;--line:rgba(233,201,129,.35);--shadow:0 18px 45px rgba(0,0,0,.28)}
+    :root[data-mode="light"]{color-scheme:light;--bg:#f9f4ec;--bg2:#efe7df;--panel:#fffaf2;--panel2:#fff5e7;--ink:#32243d;--muted:#70647a;--gold:#946b25;--gold2:#b69255;--line:rgba(148,107,37,.35);--shadow:0 14px 34px rgba(52,35,50,.13)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 5%,rgba(125,78,151,.25),transparent 34%),radial-gradient(circle at 80% 60%,rgba(132,100,36,.13),transparent 35%),linear-gradient(145deg,var(--bg2),var(--bg) 65%);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Microsoft YaHei",sans-serif}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}a{color:inherit}.hidden{display:none!important}
+    .topbar{position:relative;z-index:1001;position:sticky;top:0;display:flex;align-items:center;gap:16px;width:100%;min-height:72px;padding:10px max(20px,calc((100vw - 1180px)/2));background:rgba(19,13,38,.97);border-bottom:1px solid var(--line);box-shadow:0 8px 28px rgba(0,0,0,.17)}:root[data-mode="light"] .topbar{background:rgba(255,250,242,.97)}.brand{display:inline-flex;align-items:center;gap:11px;white-space:nowrap;color:var(--gold);font-family:"Noto Serif SC","Songti SC",serif;font-size:1.22rem;font-weight:700;border:0;background:none;padding:4px}.brand i{font-size:1.6rem}.navlinks{display:flex;gap:5px;margin-left:auto;white-space:nowrap}.navlinks button,.langbtn,.hamburger,.mobilemenu button{border:0;background:transparent;color:var(--ink);padding:10px 14px;border-radius:9px}.navlinks button:hover,.navlinks button.active,.mobilemenu button:hover,.mobilemenu button.active{background:rgba(233,201,129,.13);color:var(--gold)}.langbtn{border:1px solid var(--line);white-space:nowrap}.hamburger{display:none;margin-left:auto;color:var(--gold);font-size:1.25rem}.mobilemenu{position:absolute;left:12px;right:12px;top:100%;display:grid;gap:3px;padding:10px;background:var(--panel);border:1px solid var(--line);border-radius:0 0 14px 14px;box-shadow:var(--shadow)}.mobilemenu button{text-align:left}
+    main{max-width:1180px;margin:auto;padding:40px 20px 150px}.page{display:none}.page.active{display:block}.hero{text-align:center;padding:75px 18px 58px;position:relative}.hero:before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);font-size:18rem;line-height:1;opacity:.045;pointer-events:none}.eyebrow{letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-size:.8rem}.hero h1,.pagehead h1{font-family:"Noto Serif SC","Songti SC",serif;color:var(--gold);font-size:clamp(2.2rem,5vw,4.3rem);font-weight:600;line-height:1.2;margin:15px 0 17px}.hero p,.pagehead p{color:var(--muted);max-width:750px;margin:0 auto 28px}.ornament{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--gold2);margin:12px 0 25px}.ornament:before,.ornament:after{content:"";width:72px;height:1px;background:var(--line)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:11px 19px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:var(--ink);box-shadow:0 5px 15px rgba(0,0,0,.1);transition:transform .2s,box-shadow .2s,border-color .2s}.btn:hover:not(:disabled),.card:hover{transform:translateY(-3px);box-shadow:0 12px 27px rgba(197,146,61,.17);border-color:var(--gold)}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.primary{background:linear-gradient(135deg,#f4d898,#bd8b42);color:#2b1a28;border-color:#f4d898;font-weight:700;box-shadow:0 0 28px rgba(225,178,86,.23)}.btn.danger{color:#f4a5a9;border-color:rgba(244,165,169,.4)}.btn.big{padding:16px 34px;font-size:1.1rem}.card{background:linear-gradient(155deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s,border-color .2s}.sectiontitle{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:38px 0 17px}.sectiontitle h2{font-family:"Noto Serif SC","Songti SC",serif;color:var(--gold);font-weight:600;margin:0;font-size:1.45rem}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.stat{padding:25px;text-align:center}.stat i{font-size:1.4rem;color:var(--gold)}.stat strong{display:block;font-family:Georgia,serif;color:var(--gold);font-size:2rem;margin:5px 0}.stat span{color:var(--muted)}.ring{display:grid;place-items:center;width:56px;height:56px;margin:auto;border-radius:50%;background:conic-gradient(var(--gold) 100%,transparent 0);animation:glow 2s ease-in-out infinite alternate}.ring:after{content:"";width:43px;height:43px;border-radius:50%;background:var(--panel)}@keyframes glow{to{filter:drop-shadow(0 0 10px var(--gold))}}
+    .pagehead{display:flex;justify-content:space-between;align-items:center;gap:20px;margin:8px 0 28px}.pagehead h1{font-size:clamp(2rem,4vw,3rem)}.pagehead p{margin:0}.workspace{display:grid;grid-template-columns:minmax(270px,410px) minmax(0,1fr);gap:24px;align-items:start}.uploadcard,.reportcard{padding:24px}.preview{width:min(100%,280px);aspect-ratio:1;border-radius:50%;border:3px solid var(--gold);overflow:hidden;display:grid;place-items:center;margin:10px auto 26px;background:radial-gradient(circle,#59406c,#1a1530);box-shadow:0 0 0 8px rgba(233,201,129,.08),0 0 30px rgba(233,201,129,.16)}.preview img{width:100%;height:100%;object-fit:cover}.preview i{font-size:5rem;color:#e3c987}.buttonrow{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}.generate{width:100%;margin-top:25px}.hint{color:var(--muted);font-size:.9rem;text-align:center}.reportcard{min-height:400px}.reportimage{display:block;max-width:100%;max-height:430px;object-fit:contain;margin:0 auto 22px;border-radius:13px}.waiting{text-align:center;padding:75px 10px;color:var(--gold)}.waiting i{font-size:2.2rem;animation:spin 2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.empty{text-align:center;color:var(--muted);padding:35px 15px}.recentgrid,.recordgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.listcard{display:flex;align-items:center;gap:16px;padding:18px;min-width:0;cursor:pointer}.thumb{flex:none;width:78px;height:78px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}.thumbplaceholder{display:grid;place-items:center;background:var(--bg2);color:var(--gold);font-size:1.8rem}.listbody{min-width:0;flex:1}.listbody h3{margin:0 0 5px;color:var(--gold);font-size:1rem}.summary{color:var(--muted);font-size:.9rem;overflow-wrap:anywhere}.summary p{margin:0}.recordcard{padding:18px}.recordtop{display:flex;gap:16px;align-items:start;cursor:pointer}.recordactions{display:flex;justify-content:flex-end;gap:9px;margin-top:17px}.recordactions .btn{padding:7px 12px;font-size:.85rem}.searchbar{position:relative;max-width:450px;margin:0 0 22px}.searchbar i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--gold)}.searchbar input{width:100%;padding:12px 15px 12px 42px;border-radius:11px;background:var(--panel);border:1px solid var(--line);color:var(--ink);outline:none}.searchbar input:focus{border-color:var(--gold)}.notice{color:var(--muted);font-size:.9rem;margin:10px 0}.loadmore{display:block;margin:24px auto}
+    .markdown-body{background:transparent!important;color:var(--ink)!important;line-height:1.75;overflow-wrap:anywhere}.markdown-body h1,.markdown-body h2,.markdown-body h3{color:var(--gold);border-bottom-color:var(--line)}.markdown-body a{color:var(--gold)}.markdown-body blockquote{color:var(--muted);border-left-color:var(--gold)}.markdown-body pre,.markdown-body code{background:rgba(125,98,130,.15)}.markdown-body img{max-width:100%;cursor:pointer}.markdown-body table{display:block;overflow-x:auto}.markdown-body td,.markdown-body th{border-color:var(--line)}.markdown-body tr{background:transparent;border-color:var(--line)}
+    .overlay{position:fixed;inset:0;z-index:2000;background:rgba(5,3,12,.78);display:grid;place-items:center;padding:22px}.modal{width:min(1080px,100%);max-height:calc(100dvh - 44px);overflow:auto;background:var(--panel);border:1px solid var(--gold2);border-radius:18px;box-shadow:0 25px 80px rgba(0,0,0,.5);padding:25px}.modalhead{display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid var(--line);padding-bottom:13px;margin-bottom:20px}.modalhead h2{margin:0;color:var(--gold);font-family:"Noto Serif SC","Songti SC",serif}.iconbtn{border:0;background:transparent;color:var(--ink);font-size:1.3rem;padding:5px}.detailgrid{display:grid;grid-template-columns:minmax(220px,38%) minmax(0,1fr);gap:25px}.detailimage{width:100%;max-height:70vh;object-fit:contain;border-radius:12px;background:var(--bg2)}.detailreport{min-width:0}.detailreport .markdown-body{max-height:70vh;overflow:auto;padding-right:8px}.error{color:#ffb5b8}.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);z-index:3000;background:var(--panel);border:1px solid var(--line);padding:10px 18px;border-radius:10px;box-shadow:var(--shadow)}
+    @media(max-width:760px){main{padding:20px 14px 180px}.hero{padding:55px 0 42px}.stats{gap:8px}.stat{padding:15px 6px}.stat strong{font-size:1.55rem}.stat span{font-size:.8rem}.workspace,.recentgrid,.recordgrid,.detailgrid{grid-template-columns:1fr}.pagehead{align-items:flex-start;flex-direction:column}.uploadcard,.reportcard{padding:18px}.overlay{padding:12px}.modal{max-height:calc(100dvh - 24px);padding:17px;padding-bottom:130px}.detailreport .markdown-body{max-height:none}.detailimage{max-height:40vh}.modal.markdownmodal{padding:14px 14px 140px}.topbar{padding:10px 14px}}
+    @media(max-width:480px){.brand{font-size:1.05rem}.brand i{font-size:1.35rem}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.buttonrow .btn{flex:1}.overlay:has(.markdownmodal){padding:0}.markdownmodal{width:100%;height:100dvh;max-height:100dvh;border-radius:0;border:0}.modal{overscroll-behavior:contain}}
+  </style>
+</head>
+<body>
+  <nav id="topbar" class="topbar" aria-label="Main navigation">
+    <button id="brand" class="brand" type="button"><i class="fa-solid fa-yin-yang" aria-hidden="true"></i><span data-i18n="appName">看相分析大师</span></button>
+    <div id="navlinks" class="navlinks">
+      <button type="button" data-page="home" data-i18n="home">首页</button><button type="button" data-page="start" data-i18n="start">开始看相</button><button type="button" data-page="records" data-i18n="records">分析记录</button>
+    </div>
+    <button id="langbtn" class="langbtn" type="button" aria-label="Language">中 / EN</button>
+    <button id="hamburger" class="hamburger" type="button" aria-label="Menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    <div id="mobilemenu" class="mobilemenu hidden">
+      <button type="button" data-page="home" data-i18n="home">首页</button><button type="button" data-page="start" data-i18n="start">开始看相</button><button type="button" data-page="records" data-i18n="records">分析记录</button><button id="mobilelang" type="button">中文 / English</button>
+    </div>
+  </nav>
+  <main>
+    <section id="page-home" class="page active">
+      <div class="hero"><div class="eyebrow" data-i18n="eyebrow">东方观相 · 洞见未来</div><h1 data-i18n="appName">看相分析大师</h1><div class="ornament"><i class="fa-solid fa-yin-yang"></i></div><p data-i18n="heroDesc">上传面相、手相、骨相或体相图片，智能识别类型并生成专业结构化分析报告，洞察性格、运势与发展</p><button id="heroStart" class="btn primary big" type="button"><i class="fa-solid fa-sparkles"></i><span data-i18n="startNow">立即开始看相</span></button></div>
+      <div class="stats"><div class="card stat"><i class="fa-solid fa-scroll"></i><strong id="totalCount">—</strong><span data-i18n="total">总分析次数</span></div><div class="card stat"><i class="fa-solid fa-sun"></i><strong id="todayCount">—</strong><span data-i18n="today">今日分析数</span></div><div class="card stat"><div class="ring" aria-hidden="true"></div><strong>100%</strong><span data-i18n="rate">报告完成率</span></div></div>
+      <div class="sectiontitle"><h2 data-i18n="recent">最近分析</h2><button id="viewAll" class="btn" type="button" data-i18n="viewAll">查看全部</button></div><div id="recentList" class="recentgrid"></div>
+    </section>
+    <section id="page-start" class="page"><div class="pagehead"><div><h1 data-i18n="start">开始看相</h1><p data-i18n="startDesc">拍摄或上传人体部位图片，AI 自动识别相术类型并生成专业报告</p></div><button id="historyBtn" class="btn" type="button"><i class="fa-solid fa-clock-rotate-left"></i><span data-i18n="viewHistory">查看历史记录</span></button></div>
+      <div class="workspace"><div class="card uploadcard"><div id="preview" class="preview"><i class="fa-solid fa-masks-theater"></i></div><div class="buttonrow"><button id="captureBtn" class="btn" type="button"><i class="fa-solid fa-camera"></i><span data-i18n="capture">拍照看相</span></button><button id="selectBtn" class="btn" type="button"><i class="fa-solid fa-image"></i><span data-i18n="upload">上传图片</span></button><button id="clearBtn" class="btn" type="button"><i class="fa-solid fa-xmark"></i><span data-i18n="clear">清空</span></button></div><button id="generateBtn" class="btn primary generate" type="button" disabled><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="generate">生成分析报告</span></button><p id="uploadHint" class="hint" data-i18n="uploadHint">请先拍照或选择一张图片</p></div><div id="reportPanel" class="card reportcard"><div class="sectiontitle" style="margin:0 0 16px"><h2 data-i18n="report">分析报告区</h2></div><div id="reportContent" class="empty" data-i18n="reportEmpty">报告将在这里呈现</div></div></div>
+    </section>
+    <section id="page-records" class="page"><div class="pagehead"><div><h1 data-i18n="records">分析记录</h1><p data-i18n="recordsDesc">浏览所有历史看相分析报告</p></div><button id="newBtn" class="btn primary" type="button"><i class="fa-solid fa-plus"></i><span data-i18n="new">新建看相</span></button></div><label class="searchbar"><i class="fa-solid fa-magnifying-glass"></i><input id="recordSearch" type="search" data-i18n-placeholder="search" placeholder="搜索分析报告内容"></label><p id="recordStatus" class="notice"></p><div id="recordList" class="recordgrid"></div><button id="loadMore" class="btn loadmore hidden" type="button" data-i18n="loadMore">查看更多</button></section>
+  </main>
+  <div id="detailOverlay" class="overlay hidden" role="presentation"><div id="detailModal" class="modal markdownmodal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modalhead"><h2 id="detailTitle" data-i18n="reportDetails">分析详情</h2><button id="closeDetail" class="iconbtn" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div id="detailContent" class="detailgrid"></div></div></div>
+  <div id="toast" class="toast hidden" role="status"></div>
+  <script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("cf6ac75680fbce51_看相分析")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+    const DATA_SOURCE = '看相分析/默认表格';
+    const FILE_BASE = 'http://' + window.location.hostname + ':3130/download/';
+    const I18N = {
+      cn:{appName:'看相分析大师',home:'首页',start:'开始看相',records:'分析记录',eyebrow:'东方观相 · 洞见未来',heroDesc:'上传面相、手相、骨相或体相图片，智能识别类型并生成专业结构化分析报告，洞察性格、运势与发展',startNow:'立即开始看相',total:'总分析次数',today:'今日分析数',rate:'报告完成率',recent:'最近分析',viewAll:'查看全部',startDesc:'拍摄或上传人体部位图片，AI 自动识别相术类型并生成专业报告',viewHistory:'查看历史记录',capture:'拍照看相',upload:'上传图片',clear:'清空',generate:'生成分析报告',uploadHint:'请先拍照或选择一张图片',report:'分析报告区',reportEmpty:'报告将在这里呈现',recordsDesc:'浏览所有历史看相分析报告',new:'新建看相',search:'搜索分析报告内容',loadMore:'查看更多',reportDetails:'分析详情',details:'查看详情',delete:'删除',waiting:'大师正在凝神观相，请稍候...',empty:'暂无分析记录',noMatch:'没有匹配的分析报告',failed:'操作失败',timeout:'等待分析报告超时，请稍后在分析记录中查看',confirmDelete:'确定删除这条分析记录？',todayUnknown:'没有创建日期字段，无法计算今日分析数',photoUnavailable:'拍照未返回图片',selectUnavailable:'未选择图片'},
+      en:{appName:'Physiognomy Master',home:'Home',start:'Start Reading',records:'Analysis Records',eyebrow:'Eastern Insight · Future Vision',heroDesc:'Upload a face, palm, bone structure, or body image to receive a structured analysis of traits, prospects, and development.',startNow:'Start a Reading',total:'Total Analyses',today:'Today',rate:'Completion Rate',recent:'Recent Analyses',viewAll:'View All',startDesc:'Take or upload a photo for an AI generated reading.',viewHistory:'View History',capture:'Take Photo',upload:'Upload Image',clear:'Clear',generate:'Generate Report',uploadHint:'Take or choose an image first',report:'Analysis Report',reportEmpty:'Your report will appear here',recordsDesc:'Browse your previous reports',new:'New Reading',search:'Search report content',loadMore:'Load More',reportDetails:'Report Details',details:'View Details',delete:'Delete',waiting:'The master is studying your image. Please wait...',empty:'No analysis records yet',noMatch:'No matching reports',failed:'Operation failed',timeout:'The report is taking longer than expected. Check your records later.',confirmDelete:'Delete this analysis record?',todayUnknown:'Today’s count is unavailable without a creation date field',photoUnavailable:'No image was returned',selectUnavailable:'No image selected'}
+    };
+    const state={lang:'cn',page:'home',history:[],image:'',records:[],visible:12,search:'',busy:false,pollToken:0,modal:false,currentRow:0};
+    const $=id=>document.getElementById(id);
+    function tr(key){return I18N[state.lang][key]||key}
+    function imageUrl(name){return FILE_BASE+encodeURIComponent(String(name||'').trim())}
+    function escapeHTML(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+    function markdown(text){const raw=window.marked?marked.parse(String(text||''),{gfm:true,breaks:true}):'<p>'+escapeHTML(text).replace(/\n/g,'<br>')+'</p>';return window.DOMPurify?DOMPurify.sanitize(raw,{ADD_ATTR:['download']}):raw}
+    function markdownNode(text){const node=document.createElement('div');node.className='markdown-body';node.innerHTML=markdown(text);node.querySelectorAll('img').forEach(img=>{const source=img.getAttribute('src')||'';if(source&&!/^(https?:|data:|blob:)/i.test(source))img.src=imageUrl(source);img.title='Download';img.addEventListener('click',()=>{const a=document.createElement('a');a.href=img.src;a.download='';document.body.appendChild(a);a.click();a.remove()})});return node}
+    function formatLocalDate(d,withTime=false){const p=n=>String(n).padStart(2,'0');const base=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());return withTime?base+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds()):base}
+    function toast(message){const el=$('toast');el.textContent=message;el.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.add('hidden'),4000)}
+    function setLanguage(lang){state.lang=lang==='en'?'en':'cn';document.documentElement.lang=state.lang==='cn'?'zh-CN':'en';document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=tr(el.dataset.i18n));document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>el.placeholder=tr(el.dataset.i18nPlaceholder));localStorage.setItem('iThinkAir_UiLanguage',state.lang);renderRecords();renderRecent();if(!state.image&&!state.busy)$('reportContent').textContent=tr('reportEmpty');updateNavFit()}
+    function initialLanguage(){const saved=localStorage.getItem('iThinkAir_UiLanguage');if(saved!==null&&saved!=='')return saved==='en'?'en':'cn';const param=new URLSearchParams(location.search).get('lang');if(param==='cn'||param==='en')return param;const languages=navigator.languages;if(!languages||!languages.length)return 'cn';return languages.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en'}
+    function closeMenu(){$('mobilemenu').classList.add('hidden');$('hamburger').setAttribute('aria-expanded','false')}
+    function updateNavFit(){const bar=$('topbar'),brand=$('brand'),links=$('navlinks'),lang=$('langbtn');links.classList.remove('hidden');lang.classList.remove('hidden');const needed=brand.scrollWidth+links.scrollWidth+lang.scrollWidth+80;const compact=window.innerWidth<700||needed>bar.clientWidth-25;bar.classList.toggle('compact',compact);links.classList.toggle('hidden',compact);lang.classList.toggle('hidden',compact);$('hamburger').style.display=compact?'block':'none';if(!compact)closeMenu()}
+    function navigate(page,push=true){if(!['home','start','records'].includes(page))return;if(push&&page!==state.page)state.history.push({page:state.page,scroll:window.scrollY});state.page=page;document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id==='page-'+page));document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===page));closeMenu();window.scrollTo(0,0);if(page==='home')refreshHome();if(page==='records')refreshRecords()}
+    function airBack(){if(state.modal){closeDetail();return 'false'}if(!$('mobilemenu').classList.contains('hidden')){closeMenu();return 'false'}if(state.history.length){const entry=state.history.pop();navigate(entry.page,false);requestAnimationFrame(()=>window.scrollTo(0,entry.scroll));return 'false'}return 'true'}
+    window.airBack=airBack;
+    function parseRows(csv){return parseCSV(String(csv||'')).filter(row=>row.length>1||row[0])}
+    async function getRecords(){const csv=await callAppBridge({type:'GetTableCSV',data:DATA_SOURCE,payload:'图片,分析报告'});state.records=parseRows(csv).map((row,index)=>({image:row[0]||'',report:row[1]||'',row:index+1}));return state.records}
+    function thumb(name){if(name){const img=document.createElement('img');img.className='thumb';img.src=imageUrl(name);img.alt='';img.loading='lazy';return img}const span=document.createElement('span');span.className='thumb thumbplaceholder';span.innerHTML='<i class="fa-solid fa-yin-yang"></i>';return span}
+    function summary(text,limit){return String(text||'').slice(0,limit)+(String(text||'').length>limit?'…':'')}
+    function makeCard(record,recent){const card=document.createElement('article');card.className='card '+(recent?'listcard':'recordcard');const top=document.createElement('div');top.className=recent?'listbody':'recordtop';if(recent){card.appendChild(thumb(record.image));const body=document.createElement('div');body.className='listbody';body.appendChild(markdownNode(summary(record.report,80)||'…'));card.appendChild(body)}else{top.appendChild(thumb(record.image));const body=document.createElement('div');body.className='listbody';const title=document.createElement('h3');title.textContent='#'+record.row;body.appendChild(title);body.appendChild(markdownNode(summary(record.report,100)||'…'));top.appendChild(body);card.appendChild(top);const actions=document.createElement('div');actions.className='recordactions';const view=document.createElement('button');view.type='button';view.className='btn';view.textContent=tr('details');view.onclick=e=>{e.stopPropagation();openDetail(record)};const del=document.createElement('button');del.type='button';del.className='btn danger';del.textContent=tr('delete');del.onclick=e=>{e.stopPropagation();deleteRecord(record)};actions.append(view,del);card.appendChild(actions)}card.tabIndex=0;card.setAttribute('role','button');card.onclick=()=>openDetail(record);card.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDetail(record)}};return card}
+    function renderRecent(){const container=$('recentList');container.replaceChildren();const records=state.records.slice(0,4);if(!records.length){const empty=document.createElement('p');empty.className='empty';empty.textContent=tr('empty');container.appendChild(empty)}else records.forEach(r=>container.appendChild(makeCard(r,true)))}
+    function renderRecords(){const container=$('recordList');container.replaceChildren();const query=state.search.trim().toLocaleLowerCase();const list=state.records.filter(r=>r.report.toLocaleLowerCase().includes(query));$('recordStatus').textContent=list.length+' / '+state.records.length;const visible=list.slice(0,state.visible);if(!visible.length){const empty=document.createElement('p');empty.className='empty';empty.textContent=query?tr('noMatch'):tr('empty');container.appendChild(empty)}else visible.forEach(r=>container.appendChild(makeCard(r,false)));$('loadMore').classList.toggle('hidden',list.length<=state.visible)}
+    async function refreshHome(){try{const [count]=await Promise.all([callAppBridge({type:'GetRecordCount',data:DATA_SOURCE}),getRecords()]);$('totalCount').textContent=String(count).trim()||state.records.length;renderRecent();await updateToday()}catch(e){toast(tr('failed')+': '+e.message)}}
+    async function updateToday(){try{const csv=await callAppBridge({type:'GetTableCSV',data:DATA_SOURCE,payload:'创建日期'});const today=formatLocalDate(new Date());const dates=parseRows(csv).map(r=>r[0]);const valid=dates.filter(x=>/^\d{4}-\d{2}-\d{2}/.test(x));$('todayCount').textContent=valid.length?valid.filter(x=>x.startsWith(today)).length:'—';$('todayCount').title=valid.length?'':tr('todayUnknown')}catch(e){$('todayCount').textContent='—';$('todayCount').title=tr('todayUnknown')}}
+    async function refreshRecords(){try{await getRecords();renderRecords()}catch(e){toast(tr('failed')+': '+e.message)}}
+    function setImage(name){state.image=String(name||'').trim();const preview=$('preview');preview.replaceChildren();if(state.image){const img=document.createElement('img');img.src=imageUrl(state.image);img.alt='Selected image';preview.appendChild(img)}else preview.innerHTML='<i class="fa-solid fa-masks-theater"></i>';$('generateBtn').disabled=!state.image||state.busy;$('uploadHint').textContent=state.image?state.image:tr('uploadHint')}
+    async function chooseImage(type){if(state.busy)return;try{const name=await callAppBridge({type});if(name)setImage(name);else toast(tr(type==='CapturePhoto'?'photoUnavailable':'selectUnavailable'))}catch(e){toast(tr('failed')+': '+e.message)}}
+    function setBusy(value){state.busy=value;$('generateBtn').disabled=value||!state.image;$('captureBtn').disabled=value;$('selectBtn').disabled=value;$('clearBtn').disabled=value}
+    async function generateReport(){if(!state.image||state.busy)return;setBusy(true);const image=state.image;const output=$('reportContent');output.className='waiting';output.innerHTML='<i class="fa-solid fa-yin-yang"></i><p></p>';output.querySelector('p').textContent=tr('waiting');navigate('start',false);try{await callAppBridge({type:'SubmitRecord',data:'看相分析',payload:JSON.stringify({'图片':image})});state.currentRow=1;await refreshRecords();await refreshHome();const token=++state.pollToken;const deadline=Date.now()+1800*1000;while(token===state.pollToken&&Date.now()<deadline){const text=String(await callAppBridge({type:'GetCellValue',data:DATA_SOURCE,payload:'分析报告/1'})||'').trim();if(text){output.className='';output.replaceChildren();const img=document.createElement('img');img.className='reportimage';img.src=imageUrl(image);img.alt='Analysis image';output.append(img,markdownNode(text));await refreshRecords();await refreshHome();return}await new Promise(resolve=>setTimeout(resolve,1000))}output.className='error';output.textContent=tr('timeout')}catch(e){output.className='error';output.textContent=tr('failed')+': '+e.message}finally{setBusy(false)}}
+    async function openDetail(record){state.modal=true;$('detailOverlay').classList.remove('hidden');$('detailContent').textContent=tr('waiting');try{const report=await callAppBridge({type:'GetCellValue',data:DATA_SOURCE,payload:'分析报告/'+record.row});if(!state.modal)return;const content=$('detailContent');content.replaceChildren();if(record.image){const img=document.createElement('img');img.className='detailimage';img.src=imageUrl(record.image);img.alt='Analysis image';content.appendChild(img)}const body=document.createElement('div');body.className='detailreport';body.appendChild(markdownNode(report));content.appendChild(body)}catch(e){$('detailContent').textContent=tr('failed')+': '+e.message}}
+    function closeDetail(){state.modal=false;$('detailOverlay').classList.add('hidden');$('detailContent').replaceChildren()}
+    async function deleteRecord(record){if(!confirm(tr('confirmDelete')))return;try{await callAppBridge({type:'DeleteRecord',data:DATA_SOURCE,payload:record.row.toString()});await refreshRecords();await refreshHome()}catch(e){toast(tr('failed')+': '+e.message)}}
+    function setupKeyboard(){if(!window.visualViewport)return;const show=()=>{const active=document.activeElement;if(!active||!active.matches('input,textarea,select'))return;setTimeout(()=>active.scrollIntoView({block:'center',behavior:'smooth'}),180)};document.addEventListener('focusin',show);window.visualViewport.addEventListener('resize',show)}
+    async function initialize(){setLanguage(initialLanguage());try{const mode=String(await callAppBridge({type:'模式'})).trim();document.documentElement.dataset.mode=mode==='亮色'?'light':'dark'}catch(e){document.documentElement.dataset.mode='dark'}document.querySelectorAll('[data-page]').forEach(btn=>btn.addEventListener('click',()=>navigate(btn.dataset.page)));$('brand').onclick=()=>{if(window.parent&&typeof window.parent.closeFullHtml==='function')window.parent.closeFullHtml(false)};$('heroStart').onclick=()=>navigate('start');$('viewAll').onclick=()=>navigate('records');$('historyBtn').onclick=()=>navigate('records');$('newBtn').onclick=()=>navigate('start');$('langbtn').onclick=()=>setLanguage(state.lang==='cn'?'en':'cn');$('mobilelang').onclick=()=>{setLanguage(state.lang==='cn'?'en':'cn');closeMenu()};$('hamburger').onclick=()=>{const open=$('mobilemenu').classList.toggle('hidden');$('hamburger').setAttribute('aria-expanded',String(!open))};document.addEventListener('click',e=>{if(!$('topbar').contains(e.target))closeMenu()});$('captureBtn').onclick=()=>chooseImage('CapturePhoto');$('selectBtn').onclick=()=>chooseImage('SelectImage');$('clearBtn').onclick=()=>setImage('');$('generateBtn').onclick=generateReport;$('recordSearch').oninput=e=>{state.search=e.target.value;state.visible=12;renderRecords()};$('loadMore').onclick=()=>{state.visible+=12;renderRecords()};$('closeDetail').onclick=closeDetail;$('detailOverlay').onclick=e=>{if(e.target===$('detailOverlay'))closeDetail()};document.addEventListener('keydown',e=>{if(e.key==='Escape')airBack()});window.addEventListener('resize',updateNavFit);if(window.ResizeObserver)new ResizeObserver(updateNavFit).observe($('topbar'));setupKeyboard();updateNavFit();await refreshHome()}
+    document.addEventListener('DOMContentLoaded',async () => { await initialize(); });
+  </script>
+</body>
+</html>

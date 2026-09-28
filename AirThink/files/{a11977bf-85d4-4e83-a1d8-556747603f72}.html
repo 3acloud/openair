@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H₂O 水分子 · VSEPR 弯曲构型 · chem-viz</title>
+  <style>
+    :root {
+      --cyan: #00bcd4;
+      --accent: #e94560;
+      --blue: #4285f4;
+      --red: #ea4335;
+      --green: #34a853;
+      --gold: #fbbc04;
+      --bg: #0a0a1a;
+      --panel: #12122a;
+      --panel-2: #1a1a36;
+      --text: #e8eef7;
+      --muted: #8b93a7;
+      --line: rgba(0, 188, 212, 0.28);
+      --font: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, #0a0a1a, #121233 55%, #0a0a1a);
+      flex-wrap: wrap;
+    }
+    header h1 {
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: 0.02em;
+    }
+    header h1 span { color: var(--cyan); }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--gold);
+      background: rgba(251, 188, 4, 0.12);
+      border: 1px solid rgba(251, 188, 4, 0.35);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+    }
+    .stage {
+      flex: 1;
+      position: relative;
+      min-width: 0;
+      min-height: 420px;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(0, 188, 212, 0.08), transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(233, 69, 96, 0.06), transparent 45%),
+        var(--bg);
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+      touch-action: none;
+    }
+    canvas:active { cursor: grabbing; }
+    .hud {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      background: rgba(10, 10, 26, 0.72);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      min-width: 210px;
+      backdrop-filter: blur(8px);
+      font-size: 13px;
+      line-height: 1.7;
+      pointer-events: none;
+    }
+    .hud b { color: var(--cyan); font-variant-numeric: tabular-nums; }
+    .hud .warn { color: var(--gold); }
+    .hud .ok { color: var(--green); }
+    .hint-float {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      left: 14px;
+      max-width: 520px;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(10, 10, 26, 0.65);
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 8px 12px;
+      pointer-events: none;
+    }
+    aside {
+      width: 360px;
+      max-width: 100%;
+      background: var(--panel);
+      border-left: 1px solid var(--line);
+      overflow: auto;
+      padding: 16px 16px 28px;
+    }
+    h2 {
+      font-size: 13px;
+      text-transform: none;
+      letter-spacing: 0.08em;
+      color: var(--cyan);
+      margin: 18px 0 8px;
+    }
+    h2:first-child { margin-top: 0; }
+    p.lead {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 8px;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    button, .seg label {
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 7px 12px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.12s, color 0.15s;
+    }
+    button:hover, .seg label:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-1px);
+    }
+    button:focus-visible, input:focus-visible, .seg label:focus-within {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+    button.primary {
+      background: rgba(0, 188, 212, 0.16);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    button.danger { border-color: rgba(233, 69, 96, 0.45); }
+    .seg { display: flex; gap: 0; }
+    .seg label {
+      border-radius: 0;
+      margin: 0;
+    }
+    .seg label:first-child { border-radius: 8px 0 0 8px; }
+    .seg label:last-child { border-radius: 0 8px 8px 0; }
+    .seg input { display: none; }
+    .seg input:checked + span,
+    .seg label:has(input:checked) {
+      background: rgba(0, 188, 212, 0.22);
+      color: var(--cyan);
+      border-color: var(--cyan);
+    }
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      margin: 6px 0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .toggle input { accent-color: var(--cyan); width: 16px; height: 16px; }
+    .slider-box { margin: 10px 0 4px; }
+    .slider-box label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--cyan);
+      cursor: pointer;
+    }
+    .tips {
+      background: rgba(0, 188, 212, 0.08);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: #c9eef3;
+    }
+    .tips ol { padding-left: 18px; }
+    .tips li { margin: 4px 0; }
+    .qbox {
+      background: rgba(251, 188, 4, 0.08);
+      border: 1px solid rgba(251, 188, 4, 0.28);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: #ffe7a3;
+    }
+    .legend {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      align-items: center;
+      margin-top: 8px;
+    }
+    .dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      display: inline-block;
+    }
+    .lewis {
+      background: #0a0a1a;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      text-align: center;
+    }
+    footer {
+      font-size: 11px;
+      color: var(--muted);
+      padding: 8px 16px;
+      border-top: 1px solid var(--line);
+    }
+    @media (max-width: 880px) {
+      main { flex-direction: column; }
+      aside {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--line);
+        max-height: none;
+      }
+      .stage { min-height: 58vh; }
+      .hud { font-size: 12px; min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><span>chem-viz</span> · H₂O 水分子三维结构（VSEPR · AX₂E₂）</h1>
+    <div class="badge">教学场景：引导探索 · SMILES: O</div>
+  </header>
+  <main>
+    <section class="stage" aria-label="三维分子画板">
+      <canvas id="cv"></canvas>
+      <div class="hud" id="hud"></div>
+      <div class="hint-float">拖动旋转分子 · 滚轮缩放 · 空格键自动旋转 · R 重置视角</div>
+    </section>
+    <aside>
+      <h2>显示模式</h2>
+      <div class="seg" role="radiogroup" aria-label="显示模式">
+        <label><input type="radio" name="mode" value="ballstick" checked><span>球棍模型</span></label>
+        <label><input type="radio" name="mode" value="spacefill"><span>空间填充</span></label>
+        <label><input type="radio" name="mode" value="wire"><span>线框</span></label>
+      </div>
+
+      <h2>展示重点</h2>
+      <label class="toggle"><input type="checkbox" id="showLP" checked> 孤对电子（两对）</label>
+      <label class="toggle"><input type="checkbox" id="showAngle" checked> 键角 H–O–H</label>
+      <label class="toggle"><input type="checkbox" id="showDipole" checked> 分子极性 / 偶极矩</label>
+      <label class="toggle"><input type="checkbox" id="showBondDipole"> 键偶极（矢量合成）</label>
+      <label class="toggle"><input type="checkbox" id="showLabels" checked> 原子与杂化标注</label>
+      <label class="toggle"><input type="checkbox" id="showTet"> 四面体电子对骨架</label>
+      <label class="toggle"><input type="checkbox" id="autoRot"> 自动旋转演示</label>
+
+      <h2>键角探索</h2>
+      <p class="lead">真实水分子键角约 104.5°。拖动滑块对比正四面体 109.5° 与直线形 180°，观察构型与极性如何一起变。</p>
+      <div class="slider-box">
+        <label><span>H–O–H 键角 θ</span><b id="angVal">104.5°</b></label>
+        <input type="range" id="ang" min="90" max="180" step="0.1" value="104.5">
+      </div>
+      <div class="row">
+        <button type="button" id="btn104" class="primary">真实水 104.5°</button>
+        <button type="button" id="btn109">正四面体 109.5°</button>
+        <button type="button" id="btn180">直线形 180°</button>
+      </div>
+      <div class="row">
+        <button type="button" id="btnReset">重置视角</button>
+        <button type="button" id="btnResetAll" class="danger">全部复位</button>
+      </div>
+
+      <h2>路易斯结构</h2>
+      <div class="lewis">
+        <svg viewBox="0 0 220 120" width="220" height="120" aria-label="水分子路易斯结构">
+          <text x="110" y="64" text-anchor="middle" font-size="28" fill="#ea4335" font-family="Georgia, serif">O</text>
+          <text x="48" y="100" text-anchor="middle" font-size="22" fill="#e8eef7" font-family="Georgia, serif">H</text>
+          <text x="172" y="100" text-anchor="middle" font-size="22" fill="#e8eef7" font-family="Georgia, serif">H</text>
+          <line x1="92" y1="72" x2="62" y2="88" stroke="#aaa" stroke-width="3"/>
+          <line x1="128" y1="72" x2="158" y2="88" stroke="#aaa" stroke-width="3"/>
+          <circle cx="96" cy="32" r="3.2" fill="#fbbc04"/>
+          <circle cx="108" cy="26" r="3.2" fill="#fbbc04"/>
+          <circle cx="124" cy="32" r="3.2" fill="#fbbc04"/>
+          <circle cx="112" cy="26" r="3.2" fill="#fbbc04"/>
+          <text x="110" y="16" text-anchor="middle" font-size="10" fill="#fbbc04">两对孤对电子</text>
+        </svg>
+      </div>
+      <div class="legend">
+        <span class="dot" style="background:#ea4335"></span><span>氧（红，δ−，sp³）</span>
+        <span class="dot" style="background:#f2f4f8"></span><span>氢（白，δ＋）</span>
+        <span class="dot" style="background:#fbbc04"></span><span>孤对电子叶瓣</span>
+        <span class="dot" style="background:#00bcd4"></span><span>分子偶极矩（指向氧）</span>
+      </div>
+
+      <h2>探索提示</h2>
+      <div class="tips">
+        <ol>
+          <li>拖动分子，从侧面看清两对孤对电子像“兔耳”立在氧原子上方。</li>
+          <li>打开“四面体电子对骨架”，对比<strong>电子对构型（四面体）</strong>与<strong>分子构型（弯曲/V形）</strong>。</li>
+          <li>把键角拉到 180°，看偶极矩是否抵消；再回到 104.5°，体会极性从何而来。</li>
+          <li>点击“正四面体 109.5°”，思考：孤对–孤对排斥为什么会把键角压到 104.5°？</li>
+        </ol>
+      </div>
+
+      <h2>引导问题（先探索，再回答）</h2>
+      <div class="qbox">
+        你发现了什么？<br>
+        1. 若没有孤对电子，H₂O 还会是弯曲形吗？<br>
+        2. 为什么水是极性分子，而键角 180° 时偶极矩变为 0？<br>
+        3. VSEPR 记号 AX₂E₂ 中，A、X、E 各代表什么？
+      </div>
+    </aside>
+  </main>
+  <footer>chem-viz v1.1 · 纯 Canvas2D 零依赖 · 键长 95.8 pm · 偶极矩 μ = 2 μ<sub>OH</sub> cos(θ/2) · 文件可在 file:// 下直接打开</footer>
+  <script>
+  (function () {
+    window.__CHEMVIZ_STATE = { ready: false, error: null, version: '1.0' };
+
+    var canvas = document.getElementById('cv');
+    var ctx = canvas.getContext('2d');
+    var hud = document.getElementById('hud');
+    var W = 0, H = 0, dpr = 1;
+
+    var rotX = 0.42, rotY = 0.72, dist = 7.2, fov = 430;
+    var dragging = false, lastX = 0, lastY = 0;
+    var bondAngle = 104.5;
+    var mode = 'ballstick';
+    var showLP = true, showAngle = true, showDipole = true, showBondDipole = false;
+    var showLabels = true, showTet = false, autoRot = false;
+    var pulse = 0;
+    var MU_OH = 1.51;
+    var R_OH = 1.72;
+    var R_LP = 1.28;
+
+    function $(id) { return document.getElementById(id); }
+    function deg(d) { return d * Math.PI / 180; }
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function add(a, b) { return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
+    function sub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+    function scale(a, s) { return [a[0] * s, a[1] * s, a[2] * s]; }
+    function dot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+    function cross(a, b) {
+      return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+    }
+    function len(a) { return Math.sqrt(dot(a, a)); }
+    function norm(a) {
+      var L = len(a) || 1;
+      return [a[0] / L, a[1] / L, a[2] / L];
+    }
+    function rotXP(p, a) {
+      var c = Math.cos(a), s = Math.sin(a);
+      return [p[0], p[1] * c - p[2] * s, p[1] * s + p[2] * c];
+    }
+    function rotYP(p, a) {
+      var c = Math.cos(a), s = Math.sin(a);
+      return [p[0] * c + p[2] * s, p[1], -p[0] * s + p[2] * c];
+    }
+    function project(p) {
+      var z = p[2] + dist;
+      var f = fov / Math.max(z, 0.12);
+      return [W / 2 + p[0] * f, H / 2 - p[1] * f, z, f];
+    }
+    function xform(p) {
+      return rotXP(rotYP(p, rotY), rotX);
+    }
+    function angBetween(a, b) {
+      var na = norm(a), nb = norm(b);
+      var c = clamp(dot(na, nb), -1, 1);
+      return Math.acos(c) * 180 / Math.PI;
+    }
+    function dipoleDebye(theta) {
+      return 2 * MU_OH * Math.cos(deg(theta) / 2);
+    }
+
+    function buildMol(theta) {
+      var half = deg(theta) / 2;
+      var O = [0, 0.08, 0];
+      var H1 = add(O, [R_OH * Math.sin(half), -R_OH * Math.cos(half), 0]);
+      var H2 = add(O, [-R_OH * Math.sin(half), -R_OH * Math.cos(half), 0]);
+      var lpOpen = 113.0;
+      if (theta > 150) lpOpen = 113 + (theta - 150) * 0.15;
+      var lpHalf = deg(lpOpen) / 2;
+      var LP1 = add(O, [0, R_LP * Math.cos(lpHalf), R_LP * Math.sin(lpHalf)]);
+      var LP2 = add(O, [0, R_LP * Math.cos(lpHalf), -R_LP * Math.sin(lpHalf)]);
+      return { O: O, H1: H1, H2: H2, LP1: LP1, LP2: LP2 };
+    }
+
+    function drawSphere(x, y, r, light, base, dark, alpha) {
+      if (r < 0.4) return;
+      ctx.save();
+      ctx.globalAlpha = alpha == null ? 1 : alpha;
+      var g = ctx.createRadialGradient(x - r * 0.32, y - r * 0.32, r * 0.06, x, y, r);
+      g.addColorStop(0, light);
+      g.addColorStop(0.45, base);
+      g.addColorStop(1, dark);
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawBond(x1, y1, x2, y2, r, c1, c2) {
+      var dx = x2 - x1, dy = y2 - y1;
+      var L = Math.sqrt(dx * dx + dy * dy) || 1;
+      var nx = -dy / L * r, ny = dx / L * r;
+      var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      var g = ctx.createLinearGradient(mx + nx, my + ny, mx - nx, my - ny);
+      g.addColorStop(0, '#2a2a33');
+      g.addColorStop(0.35, c1 || '#c8c8d0');
+      g.addColorStop(0.65, c2 || '#9aa0aa');
+      g.addColorStop(1, '#222');
+      ctx.beginPath();
+      ctx.moveTo(x1 + nx, y1 + ny);
+      ctx.lineTo(x2 + nx, y2 + ny);
+      ctx.lineTo(x2 - nx, y2 - ny);
+      ctx.lineTo(x1 - nx, y1 - ny);
+      ctx.closePath();
+      ctx.fillStyle = g;
+      ctx.fill();
+    }
+
+    function drawArrow3(a, b, color, width) {
+      var pa = project(xform(a));
+      var pb = project(xform(b));
+      var dx = pb[0] - pa[0], dy = pb[1] - pa[1];
+      var L = Math.sqrt(dx * dx + dy * dy) || 1;
+      var ux = dx / L, uy = dy / L;
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = width || 2.5;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(pa[0], pa[1]);
+      ctx.lineTo(pb[0] - ux * 12, pb[1] - uy * 12);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(pb[0], pb[1]);
+      ctx.lineTo(pb[0] - ux * 14 - uy * 7, pb[1] - uy * 14 + ux * 7);
+      ctx.lineTo(pb[0] - ux * 14 + uy * 7, pb[1] - uy * 14 - ux * 7);
+      ctx.closePath();
+      ctx.fill();
+      var hx = pa[0] - uy * 6, hy = pa[1] + ux * 6;
+      var hx2 = pa[0] + uy * 6, hy2 = pa[1] - ux * 6;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(hx, hy);
+      ctx.lineTo(hx2, hy2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function arcPoints(center, from, to, radius, n) {
+      var v0 = norm(sub(from, center));
+      var v1 = norm(sub(to, center));
+      var axis = norm(cross(v0, v1));
+      if (len(axis) < 1e-5) axis = [0, 0, 1];
+      var ang = Math.acos(clamp(dot(v0, v1), -1, 1));
+      var pts = [];
+      var i, t, k, v, w, p;
+      for (i = 0; i <= n; i++) {
+        t = ang * i / n;
+        k = 1 - Math.cos(t);
+        v = scale(v0, Math.cos(t));
+        w = add(scale(cross(axis, v0), Math.sin(t)), scale(axis, dot(axis, v0) * k));
+        p = add(center, scale(add(v, w), radius));
+        pts.push(p);
+      }
+      return pts;
+    }
+
+    function resize() {
+      var rect = canvas.getBoundingClientRect();
+      dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      W = rect.width;
+      H = rect.height;
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, W, H);
+      var mol = buildMol(bondAngle);
+      var mu = dipoleDebye(bondAngle);
+      var polar = Math.abs(mu) > 0.08;
+      var items = [];
+      var oR = mode === 'spacefill' ? 54 : (mode === 'wire' ? 5 : 34);
+      var hR = mode === 'spacefill' ? 32 : (mode === 'wire' ? 4 : 18);
+      var lpR = 16 + pulse * 2.2;
+      var bondW = mode === 'spacefill' ? 0 : (mode === 'wire' ? 1.4 : 7.5);
+
+      function pushAtom(p, r, light, base, dark, label, kind, alpha) {
+        var t = xform(p);
+        var pr = project(t);
+        items.push({
+          z: pr[2], kind: kind || 'atom', p: p, t: t, pr: pr, r: r * (pr[3] / 60),
+          light: light, base: base, dark: dark, label: label, alpha: alpha
+        });
+      }
+
+      if (bondW > 0) {
+        items.push({ z: project(xform(scale(add(mol.O, mol.H1), 0.5)))[2], kind: 'bond', a: mol.O, b: mol.H1, c1: '#ea4335', c2: '#f4f6fa', w: bondW });
+        items.push({ z: project(xform(scale(add(mol.O, mol.H2), 0.5)))[2], kind: 'bond', a: mol.O, b: mol.H2, c1: '#ea4335', c2: '#f4f6fa', w: bondW });
+      }
+
+      pushAtom(mol.O, oR, '#ff8a80', '#ea4335', '#6b1010', 'O  sp³', 'atom');
+      pushAtom(mol.H1, hR, '#ffffff', '#e8eaed', '#8a8f99', 'H', 'atom');
+      pushAtom(mol.H2, hR, '#ffffff', '#e8eaed', '#8a8f99', 'H', 'atom');
+
+      if (showLP) {
+        var lpDir1 = norm(sub(mol.LP1, mol.O));
+        var lpDir2 = norm(sub(mol.LP2, mol.O));
+        pushAtom(add(mol.O, scale(lpDir1, 0.72)), lpR, '#ffe082', '#fbbc04', '#8a6d00', 'E', 'lobe', 0.72);
+        pushAtom(add(mol.O, scale(lpDir1, 1.18)), lpR * 0.72, '#fff3c4', '#fbbc04', '#8a6d00', '', 'lobe', 0.55);
+        pushAtom(add(mol.O, scale(lpDir2, 0.72)), lpR, '#ffe082', '#fbbc04', '#8a6d00', 'E', 'lobe', 0.72);
+        pushAtom(add(mol.O, scale(lpDir2, 1.18)), lpR * 0.72, '#fff3c4', '#fbbc04', '#8a6d00', '', 'lobe', 0.55);
+      }
+
+      items.sort(function (a, b) { return b.z - a.z; });
+
+      var i, it, pa, pb, rpx;
+      for (i = 0; i < items.length; i++) {
+        it = items[i];
+        if (it.kind === 'bond') {
+          pa = project(xform(it.a));
+          pb = project(xform(it.b));
+          if (mode === 'wire') {
+            ctx.strokeStyle = '#9aa3b5';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(pa[0], pa[1]);
+            ctx.lineTo(pb[0], pb[1]);
+            ctx.stroke();
+          } else {
+            drawBond(pa[0], pa[1], pb[0], pb[1], it.w * (pa[3] / 60), it.c1, it.c2);
+          }
+        } else {
+          rpx = Math.max(it.r, 2);
+          if (mode === 'wire' && it.kind === 'atom') {
+            ctx.strokeStyle = it.base;
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.arc(it.pr[0], it.pr[1], rpx, 0, Math.PI * 2);
+            ctx.stroke();
+          } else {
+            drawSphere(it.pr[0], it.pr[1], rpx, it.light, it.base, it.dark, it.alpha);
+          }
+          if (showLabels && it.label && it.kind === 'atom') {
+            ctx.save();
+            ctx.fillStyle = '#f4f7ff';
+            ctx.font = '12px -apple-system, "PingFang SC", "Microsoft YaHei"';
+            ctx.textAlign = 'center';
+            ctx.fillText(it.label, it.pr[0], it.pr[1] - rpx - 6);
+            ctx.restore();
+          }
+        }
+      }
+
+      if (showTet) {
+        var verts = [mol.H1, mol.H2, mol.LP1, mol.LP2];
+        ctx.save();
+        ctx.strokeStyle = 'rgba(66, 133, 244, 0.55)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 4]);
+        var a, b, qa, qb;
+        for (a = 0; a < 4; a++) {
+          for (b = a + 1; b < 4; b++) {
+            qa = project(xform(verts[a]));
+            qb = project(xform(verts[b]));
+            ctx.beginPath();
+            ctx.moveTo(qa[0], qa[1]);
+            ctx.lineTo(qb[0], qb[1]);
+            ctx.stroke();
+          }
+        }
+        ctx.restore();
+      }
+
+      if (showAngle) {
+        var arc = arcPoints(mol.O, mol.H1, mol.H2, 0.92, 22);
+        ctx.save();
+        ctx.strokeStyle = '#00bcd4';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (i = 0; i < arc.length; i++) {
+          pa = project(xform(arc[i]));
+          if (i === 0) ctx.moveTo(pa[0], pa[1]);
+          else ctx.lineTo(pa[0], pa[1]);
+        }
+        ctx.stroke();
+        var mid = arc[Math.floor(arc.length / 2)];
+        var pmid = project(xform(mid));
+        ctx.fillStyle = '#00bcd4';
+        ctx.font = 'bold 14px -apple-system, "PingFang SC", "Microsoft YaHei"';
+        ctx.textAlign = 'center';
+        ctx.fillText(bondAngle.toFixed(1) + '°', pmid[0], pmid[1] - 8);
+        ctx.restore();
+      }
+
+      if (showBondDipole) {
+        var h1m = add(mol.H1, scale(sub(mol.O, mol.H1), 0.18));
+        var h1t = add(mol.H1, scale(sub(mol.O, mol.H1), 0.78));
+        var h2m = add(mol.H2, scale(sub(mol.O, mol.H2), 0.18));
+        var h2t = add(mol.H2, scale(sub(mol.O, mol.H2), 0.78));
+        drawArrow3(h1m, h1t, '#34a853', 2);
+        drawArrow3(h2m, h2t, '#34a853', 2);
+      }
+
+      if (showDipole) {
+        var tail = [0, -1.55, 0];
+        var head = [0, polar ? 1.15 : -1.55, 0];
+        if (polar) {
+          drawArrow3(tail, head, '#00bcd4', 3);
+          var hp = project(xform(head));
+          ctx.fillStyle = '#00bcd4';
+          ctx.font = '12px -apple-system, "PingFang SC", "Microsoft YaHei"';
+          ctx.textAlign = 'left';
+          ctx.fillText('μ ' + mu.toFixed(2) + ' D  → δ−', hp[0] + 8, hp[1]);
+        } else {
+          var op = project(xform(mol.O));
+          ctx.fillStyle = '#fbbc04';
+          ctx.font = '13px -apple-system, "PingFang SC", "Microsoft YaHei"';
+          ctx.textAlign = 'center';
+          ctx.fillText('键偶极抵消，μ ≈ 0（非极性极限）', op[0], op[1] + oR + 28);
+        }
+      }
+
+      var geomMol = bondAngle > 175 ? '直线形' : '弯曲形（V形）';
+      var polarTxt = polar ? '极性分子' : '偶极抵消（非极性）';
+      hud.innerHTML =
+        '分子 <b>H₂O</b>　SMILES <b>O</b><br>' +
+        'VSEPR <b>AX₂E₂</b>　杂化 <b>sp³</b><br>' +
+        '电子对构型 <b>四面体</b><br>' +
+        '分子构型 <b>' + geomMol + '</b><br>' +
+        '键角 <b>' + bondAngle.toFixed(1) + '°</b>（真实约 104.5°）<br>' +
+        '键长 <b>95.8 pm</b><br>' +
+        '偶极矩 <b>' + mu.toFixed(2) + ' D</b><br>' +
+        '极性 <b class="' + (polar ? 'ok' : 'warn') + '">' + polarTxt + '</b>';
+
+      window.__CHEMVIZ_STATE.bondAngle = bondAngle;
+      window.__CHEMVIZ_STATE.dipole = mu;
+      window.__CHEMVIZ_STATE.polar = polar;
+      window.__CHEMVIZ_STATE.mode = mode;
+      window.__CHEMVIZ_STATE.showLonePairs = showLP;
+    }
+
+    function loop(t) {
+      pulse = 0.5 + 0.5 * Math.sin((t || 0) * 0.0035);
+      if (autoRot) rotY += 0.007;
+      render();
+      requestAnimationFrame(loop);
+    }
+
+    window.resetView = function () {
+      rotX = 0.42;
+      rotY = 0.72;
+      dist = 7.2;
+    };
+
+    window.__CHEMVIZ_STATE.cameraPosition = function () {
+      return { rotX: rotX, rotY: rotY, dist: dist, fov: fov };
+    };
+
+    function bind() {
+      $('showLP').addEventListener('change', function (e) { showLP = e.target.checked; });
+      $('showAngle').addEventListener('change', function (e) { showAngle = e.target.checked; });
+      $('showDipole').addEventListener('change', function (e) { showDipole = e.target.checked; });
+      $('showBondDipole').addEventListener('change', function (e) { showBondDipole = e.target.checked; });
+      $('showLabels').addEventListener('change', function (e) { showLabels = e.target.checked; });
+      $('showTet').addEventListener('change', function (e) { showTet = e.target.checked; });
+      $('autoRot').addEventListener('change', function (e) { autoRot = e.target.checked; });
+      $('ang').addEventListener('input', function (e) {
+        bondAngle = parseFloat(e.target.value);
+        $('angVal').textContent = bondAngle.toFixed(1) + '°';
+      });
+      document.querySelectorAll('input[name="mode"]').forEach(function (el) {
+        el.addEventListener('change', function () {
+          if (el.checked) mode = el.value;
+        });
+      });
+      function setAngle(v) {
+        bondAngle = v;
+        $('ang').value = String(v);
+        $('angVal').textContent = v.toFixed(1) + '°';
+      }
+      $('btn104').addEventListener('click', function () { setAngle(104.5); });
+      $('btn109').addEventListener('click', function () { setAngle(109.5); });
+      $('btn180').addEventListener('click', function () { setAngle(180); });
+      $('btnReset').addEventListener('click', function () { window.resetView(); });
+      $('btnResetAll').addEventListener('click', function () {
+        window.resetView();
+        setAngle(104.5);
+        mode = 'ballstick';
+        document.querySelector('input[name="mode"][value="ballstick"]').checked = true;
+        showLP = true; $('showLP').checked = true;
+        showAngle = true; $('showAngle').checked = true;
+        showDipole = true; $('showDipole').checked = true;
+        showBondDipole = false; $('showBondDipole').checked = false;
+        showLabels = true; $('showLabels').checked = true;
+        showTet = false; $('showTet').checked = false;
+        autoRot = false; $('autoRot').checked = false;
+      });
+
+      canvas.addEventListener('pointerdown', function (e) {
+        dragging = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        canvas.setPointerCapture(e.pointerId);
+      });
+      canvas.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+        rotY += (e.clientX - lastX) * 0.008;
+        rotX += (e.clientY - lastY) * 0.008;
+        rotX = clamp(rotX, -1.2, 1.2);
+        lastX = e.clientX;
+        lastY = e.clientY;
+      });
+      canvas.addEventListener('pointerup', function () { dragging = false; });
+      canvas.addEventListener('pointercancel', function () { dragging = false; });
+      canvas.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        dist = clamp(dist + e.deltaY * 0.008, 4.2, 14);
+      }, { passive: false });
+      window.addEventListener('keydown', function (e) {
+        if (e.key === 'r' || e.key === 'R') window.resetView();
+        if (e.key === ' ') {
+          e.preventDefault();
+          autoRot = !autoRot;
+          $('autoRot').checked = autoRot;
+        }
+      });
+      window.addEventListener('resize', resize);
+    }
+
+    try {
+      resize();
+      bind();
+      window.__CHEMVIZ_STATE.ready = true;
+      requestAnimationFrame(loop);
+    } catch (err) {
+      window.__CHEMVIZ_STATE.error = String(err);
+      hud.textContent = '初始化失败：' + err;
+    }
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+{
+  "id": "h3-long-form",
+  "revision": 0,
+  "last_node_id": 14,
+  "last_link_id": 12,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoaderDisTorch2MultiGPU",
+      "pos": [
+        -60,
+        40
+      ],
+      "size": [
+        400,
+        220
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            3
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoaderDisTorch2MultiGPU",
+        "cnr_id": "comfyui-multigpu"
+      },
+      "widgets_values": [
+        "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+        "default",
+        "cuda:0",
+        0.0,
+        "cpu",
+        "cuda:0,9gb;cuda:1,12gb",
+        true
+      ],
+      "title": "DiT (cuda:0 + cuda:1)"
+    },
+    {
+      "id": 2,
+      "type": "CLIPLoaderDisTorch2MultiGPU",
+      "pos": [
+        -60,
+        300
+      ],
+      "size": [
+        400,
+        220
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            6
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoaderDisTorch2MultiGPU",
+        "cnr_id": "comfyui-multigpu"
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+        "minimax",
+        "cuda:2",
+        0.0,
+        "cpu",
+        "cuda:2,14gb;cuda:3,13gb",
+        false
+      ],
+      "title": "Text encoder Qwen3-VL (cuda:2 + cuda:3)"
+    },
+    {
+      "id": 3,
+      "type": "VAELoaderMultiGPU",
+      "pos": [
+        -60,
+        560
+      ],
+      "size": [
+        400,
+        90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            7
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoaderMultiGPU",
+        "cnr_id": "comfyui-multigpu"
+      },
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors",
+        "cuda:1"
+      ],
+      "title": "Video VAE"
+    },
+    {
+      "id": 4,
+      "type": "VAELoaderMultiGPU",
+      "pos": [
+        -60,
+        690
+      ],
+      "size": [
+        400,
+        90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            8
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoaderMultiGPU",
+        "cnr_id": "comfyui-multigpu"
+      },
+      "widgets_values": [
+        "minimax_h3_audio_vae_fp32.safetensors",
+        "cuda:1"
+      ],
+      "title": "Audio VAE"
+    },
+    {
+      "id": 5,
+      "type": "PathchSageAttentionKJ",
+      "pos": [
+        390,
+        40
+      ],
+      "size": [
+        330,
+        90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            4
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PathchSageAttentionKJ",
+        "cnr_id": "comfyui-kjnodes"
+      },
+      "widgets_values": [
+        "auto",
+        false
+      ],
+      "title": "1. SageAttention (Triton)"
+    },
+    {
+      "id": 6,
+      "type": "MiniMaxH3TurboLoRA",
+      "pos": [
+        390,
+        180
+      ],
+      "size": [
+        330,
+        130
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            5
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3TurboLoRA",
+        "cnr_id": "comfyui-minimax-h3-turbo"
+      },
+      "widgets_values": [
+        "minimax_h3_turbo_4step_ema_ckpt850.safetensors",
+        1.0,
+        true
+      ],
+      "title": "2. Turbo LoRA (keep low_vram ON)",
+      "color": "#233",
+      "bgcolor": "#355"
+    },
+    {
+      "id": 7,
+      "type": "MiniMaxH3TurboSampler",
+      "pos": [
+        390,
+        360
+      ],
+      "size": [
+        330,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            9
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3TurboSampler",
+        "cnr_id": "comfyui-minimax-h3-turbo"
+      },
+      "widgets_values": [],
+      "title": "3. Turbo sampler -> sampler_opt input",
+      "color": "#233",
+      "bgcolor": "#355"
+    },
+    {
+      "id": 8,
+      "type": "H3MultishotSampler",
+      "pos": [
+        780,
+        40
+      ],
+      "size": [
+        560,
+        720
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 5
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 6
+        },
+        {
+          "name": "video_vae",
+          "type": "VAE",
+          "link": 7
+        },
+        {
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": 8
+        },
+        {
+          "name": "start_image",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "sampler_opt",
+          "type": "SAMPLER",
+          "link": 9,
+          "shape": 7
+        },
+        {
+          "name": "frames_per_shot",
+          "type": "INT",
+          "link": 2,
+          "widget": {
+            "name": "frames_per_shot"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "master_frames",
+          "type": "IMAGE",
+          "links": [
+            10
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "master_audio",
+          "type": "AUDIO",
+          "links": [
+            11
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "shots_rendered",
+          "type": "INT",
+          "links": [],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3MultishotSampler",
+        "cnr_id": "comfyui-h3-multishot"
+      },
+      "widgets_values": [
+        "integrated_multimodal_description: Cinematic, live-action, horizontal 16:9, a first person POV shot from a soldier moving across an open desert of pale sand and low rock. Sunburnt gloved hands hold a sand-coloured assault rifle with a small red dot sight at the bottom of the frame, dusty green sleeves on the forearms. Heat shimmer distorts a low ridge of dark rock far ahead. The camera moves forward at slow speed with a steady walking sway. Two small figures in dark clothing appear on the ridge and one of them raises a rifle. The camera stops, the hands snap the rifle up to the eye and the red dot settles on the ridge, the horizon steadying in the sight.\n\noverall_soundscape: A steady dry wind moves across open ground with no echo, carrying a hiss of blowing sand. Boots crunch in loose sand, nylon straps creak, and breathing quickens sharply as the rifle comes up. A single distant rifle crack rolls flatly across the open desert.\n\nnon_diegetic_music: A single sustained low drone with a slow swell, tightening into a held high string note as the rifle comes up.\n\n---\n\nintegrated_multimodal_description: Cinematic, live-action, horizontal 16:9, a first person POV shot as the same soldier drops behind a shoulder of pale rock. The same sunburnt gloved hands and sand-coloured assault rifle with the red dot sight fill the bottom of the frame, dusty green sleeves on the forearms. Sand kicks up in two small bursts off the rock edge in front of the lens as incoming rounds strike. The camera shakes slightly and rises as he leans out around the rock, the red dot settling on a figure in dark clothing among the boulders ahead. The rifle fires three times, the muzzle flashing and the frame kicking with each shot, and a spent casing spins past the lens.\n\noverall_soundscape: Incoming rounds crack past close overhead and smack into rock, throwing grit. Three rifle shots fire close to the microphone with a hard flat report and no echo, the bolt cycling between them, and brass casings ring off the stone. Breathing is fast and shallow.\n\nnon_diegetic_music: Hard low percussion enters on each shot with a driving synth bass underneath, sparse and dry.\n\n---\n\nintegrated_multimodal_description: Cinematic, live-action, horizontal 16:9, a first person POV shot as the same soldier breaks from cover and runs across open sand toward a burnt truck half buried ahead. The same sunburnt gloved hands hold the sand-coloured assault rifle low across the body, dusty green sleeves on the forearms. The camera moves forward at fast speed with a hard running bounce, sand blurring past below and the blackened truck growing in the frame. Rounds kick up small plumes of sand to the left of the path. The camera drops sharply as he slides into cover behind the truck and the rifle comes back up beside the blackened fender.\n\noverall_soundscape: Boots pound hard into loose sand at a fast running rhythm, gear rattles and slaps against the body, and breathing is heavy and ragged. Rounds snap past and thud into sand, and the slide into cover ends in a long scrape of grit.\n\nnon_diegetic_music: Fast driving percussion with a low synth pulse, running steadily under the whole shot and cutting to a single held note as he reaches the truck.\n\n---\n\nintegrated_multimodal_description: Cinematic, live-action, horizontal 16:9, a first person POV shot as the same soldier rises slowly from behind the burnt truck. The same sunburnt gloved hands and sand-coloured assault rifle with the red dot sight are visible at the bottom of the frame, dusty green sleeves on the forearms. The camera pans right at slow speed across the boulders ahead, empty now, then settles on the low sun. The rifle lowers out of the centre of the frame and the left hand comes off the grip to wipe sand from the sight. Thin smoke drifts from the truck across the frame and blowing sand streams along the ground toward the light.\n\noverall_soundscape: The wind steadies and softens into a low hiss across sand. Hot metal on the truck ticks as it cools, a loose panel knocks in the gusts, and breathing slows down and deepens close to the microphone. No more gunfire.\n\nnon_diegetic_music: A single sustained low string chord opens slowly and holds, with the sub-bass fading out to near silence at the end.\n",
+        0,
+        1344,
+        768,
+        243,
+        424242,
+        "randomize",
+        4,
+        true,
+        "res_multistep",
+        "simple",
+        false
+      ],
+      "title": "CHAINED SHOTS (script: prompts separated by ---)",
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 9,
+      "type": "PrimitiveFloat",
+      "pos": [
+        390,
+        470
+      ],
+      "size": [
+        330,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveFloat",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        10.0
+      ],
+      "title": "SHOT DURATION, seconds",
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 10,
+      "type": "ComfyMathExpression",
+      "pos": [
+        390,
+        560
+      ],
+      "size": [
+        330,
+        130
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "a",
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 1
+        },
+        {
+          "label": "b",
+          "name": "values.b",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [],
+          "slot_index": 0
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            2
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "BOOLEAN",
+          "type": "BOOLEAN",
+          "links": [],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ComfyMathExpression",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      ],
+      "title": "-> frames per shot (17k+5 grid, 362 max)",
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 11,
+      "type": "CreateVideo",
+      "pos": [
+        1390,
+        40
+      ],
+      "size": [
+        330,
+        90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 10
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            12
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        24.0,
+        8
+      ],
+      "title": "Mux with audio"
+    },
+    {
+      "id": 12,
+      "type": "SaveVideo",
+      "pos": [
+        1390,
+        180
+      ],
+      "size": [
+        450,
+        500
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 12
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "video/MiniMaxH3_long",
+        "auto",
+        "auto"
+      ],
+      "title": "Save"
+    },
+    {
+      "id": 13,
+      "type": "MarkdownNote",
+      "pos": [
+        -620,
+        40
+      ],
+      "size": [
+        520,
+        1180
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "color": "#432",
+      "bgcolor": "#653",
+      "widgets_values": [
+        "# Long video: chained shots\n\nBuilds a 30 to 60 second clip out of several generations. Each shot starts from\nthe last frame of the previous one, the duplicated seam frame and its 1/24s of\naudio are trimmed, and the pieces are joined into one file with continuous\naudio.\n\nNodes come from `jlucasmcrell/ComfyUI-H3-Multishot`, **plus the small patch that\nships next to this workflow**. Without the patch the Turbo sampler cannot be\nconnected and the chain falls back to 20 steps. See LONGFORM.md.\n\n## The script\n\nOne prompt per shot, separated by a line of three dashes. Same prompt format as\nthe single-shot workflows: three fields starting with\n`integrated_multimodal_description`.\n\n⚠️ **A prompt must not begin with a square bracket.** The parser will read it as\nJSON and the run dies with a JSON error. Markers like `[Shot 1]` are pointless\nhere anyway: every prompt is already its own generation.\n\n## The one rule that matters: three beats per shot\n\nMeasured. Same 124-frame slice, six events against two:\n\n| prompt | motion | smear area |\n|---|---|---|\n| six events, 4 steps | 15.44 | 30.4% |\n| six events, 8 steps | 18.03 | 31.3% |\n| six events, 20 steps, no LoRA | 15.31 | 29.1% |\n| **two events, 4 steps** | **5.07** | **8.7%** |\n\nAn overloaded prompt drags smears behind moving objects and ripples the\nbackground. **Neither more steps nor dropping Turbo fixes it**: at 20 steps the\nsmear is identical and four times more expensive. Only cutting events fixes it.\n\nKeep it to three beats per ten seconds and one camera move per shot. Six events\nplus a fast arc move plus a magazine change in one shot is a guaranteed smear.\n\n## Settings\n\n**SHOT DURATION is set in seconds** by the green node, frames are computed for\nyou. The model only accepts lengths of the form 17k+5, so the formula rounds up\nto the nearest valid one: 10 seconds becomes 243 frames, 5 becomes 124, 15\nbecomes 362.\n\n**Total length is slightly under the sum of the shots.** Each seam drops the\nduplicated frame, so four shots of 243 give 969 frames rather than 972, that is\n40.4 seconds instead of 40.5.\n\n**362 frames per shot is the training ceiling.** Past it the model extrapolates\nand the scene drifts. Build length out of more shots, not longer ones.\n\n**shot_count 0** means one shot per prompt in the script. A number from 1 to 8\nforces the count: extra prompts are dropped, missing ones repeat the last.\n\n**seed_per_shot ON.** The pack author measured it: one seed for every shot makes\nboth the face and the voice drift. Identity lives in the conditioning.\n\n**steps 4** with the Turbo sampler in `sampler_opt`.\n\n**evict_text_encoder** OFF for a multi-GPU split, ON for a single card. See\nLONGFORM.md for what it does.\n\n## What it costs\n\n1344x768, 243 frames per shot, Turbo LoRA merged, on 4x RTX 3090:\n\n| length | shots | time |\n|---|---|---|\n| 30 seconds | 3 | 33 min |\n| 40 seconds | 4 | 44 min |\n\nRoughly 11 minutes per shot: about 9 minutes of sampling and a minute of\nre-encoding the prompt. The encoder runs once per shot and does not care how\nlong the video is, so on short drafts its share is much more noticeable.\n\n## What to check in the result\n\n**Seams in the audio.** The crossfade is hardcoded to 40 ms. If a shot ends loud\n(gunfire) and the next starts quiet, you get a click at the joint. Fix it in\nyour editor.\n\n**Inherited damage.** The last frame of a shot conditions the next one, so a\ndefect crosses the seam and sets. A bad first shot means a bad chain: regenerate\nrather than pushing on.\n\n## Memory sampler\n\nThe pack also has `H3 Multishot Sampler + Memory` for 12 to 30 shot chains. It\nholds a persistent anchor from the first frame of the piece and shows it to the\nencoder on every shot so drift cannot compound. Pointless at four shots, and I\nhave not tested it.\n"
+      ]
+    },
+    {
+      "id": 14,
+      "type": "MarkdownNote",
+      "pos": [
+        -620,
+        1250
+      ],
+      "size": [
+        520,
+        560
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "color": "#325",
+      "bgcolor": "#446",
+      "widgets_values": [
+        "## A recipe that worked\n\nA 40 second first-person clip, four shots, 44 minutes:\n\nDesert, POV. Shot 1: walking over sand, two figures appear on a far ridge, the\nrifle comes up. Shot 2: drops behind rock, incoming rounds kick up sand, leans\nout and fires three times. Shot 3: sprints under fire to a burnt truck, slides\ninto cover. Shot 4: rises, pans across empty boulders, lowers the rifle, sunset.\n\nThree beats per shot, one camera move each, and the character re-described in\nevery prompt with the same details: gloves, sand-coloured rifle, green sleeves.\n\n**A first-person view removes the main Turbo risk.** The distill damages skin on\nclose-ups; with no faces in frame there is nothing to damage. If you do shoot\nfaces close, keep `low_vram` ON in the Turbo LoRA node (that is the default, and\nthe workflow README explains why).\n\n**Describe open space explicitly in the sound**: flat gunshots with no echo.\nOtherwise H3 adds room reverb in the middle of a desert.\n"
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      9,
+      0,
+      10,
+      0,
+      "FLOAT,INT,BOOLEAN"
+    ],
+    [
+      2,
+      10,
+      1,
+      8,
+      6,
+      "INT"
+    ],
+    [
+      3,
+      1,
+      0,
+      5,
+      0,
+      "MODEL"
+    ],
+    [
+      4,
+      5,
+      0,
+      6,
+      0,
+      "MODEL"
+    ],
+    [
+      5,
+      6,
+      0,
+      8,
+      0,
+      "MODEL"
+    ],
+    [
+      6,
+      2,
+      0,
+      8,
+      1,
+      "CLIP"
+    ],
+    [
+      7,
+      3,
+      0,
+      8,
+      2,
+      "VAE"
+    ],
+    [
+      8,
+      4,
+      0,
+      8,
+      3,
+      "VAE"
+    ],
+    [
+      9,
+      7,
+      0,
+      8,
+      5,
+      "SAMPLER"
+    ],
+    [
+      10,
+      8,
+      0,
+      11,
+      0,
+      "IMAGE"
+    ],
+    [
+      11,
+      8,
+      1,
+      11,
+      1,
+      "AUDIO"
+    ],
+    [
+      12,
+      11,
+      0,
+      12,
+      0,
+      "VIDEO"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.55,
+      "offset": [
+        700,
+        100
+      ]
+    }
+  },
+  "version": 0.4
+}

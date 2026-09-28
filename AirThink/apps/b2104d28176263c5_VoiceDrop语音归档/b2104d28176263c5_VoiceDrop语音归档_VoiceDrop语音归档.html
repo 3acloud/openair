@@ -1,0 +1,945 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>VoiceDrop 语音归档</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css">
+<style>
+:root{--bg:#f7f3ed;--card:#fffbf7;--ink:#1a1a1a;--muted:#6b6560;--line:#e9e0d8;--accent:#e85a3c;--shadow:0 16px 48px #e85a3c12;color-scheme:light}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}body.dark{--bg:#171514;--card:#26211e;--ink:#f8f2ec;--muted:#c3b7ae;--line:#463a34;--shadow:0 16px 48px #0005;color-scheme:dark}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}a{color:inherit}nav{position:relative;z-index:1001;position:sticky;top:0;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.navin{max-width:1240px;margin:auto;padding:12px 22px;display:flex;align-items:center;gap:22px}.brand{border:0;background:none;color:var(--ink);font-weight:850;font-size:21px;display:flex;align-items:center;gap:10px;margin-right:auto}.brand i{background:var(--accent);color:white;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px}.tabs{display:flex;align-items:center;gap:18px;white-space:nowrap}.tab{border:0;background:none;color:var(--muted);padding:10px 2px;font-weight:700;white-space:nowrap;border-bottom:2px solid transparent}.tab.active{color:var(--accent);border-color:var(--accent)}.btn{border:1px solid var(--accent);border-radius:999px;padding:10px 20px;background:var(--accent);color:white;font-weight:750;white-space:nowrap}.btn.secondary{background:transparent;color:var(--accent)}.btn.small{padding:6px 12px;font-size:13px}.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)}.actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}.menuBtn{display:none;border:0;background:none;color:var(--ink);font-size:21px;margin-left:auto}.mobileMenu{display:none;position:absolute;top:100%;right:12px;left:12px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:var(--shadow)}.mobileMenu.open{display:grid}.mobileMenu button{text-align:left}.page{display:none;max-width:1240px;margin:auto;padding:42px 22px 170px;min-height:calc(100vh - 60px)}.page.active{display:block}.hero{min-height:420px;display:flex;align-items:center;justify-content:space-between;gap:40px}.heroText{max-width:680px}.eyebrow{color:var(--accent);font-weight:800;letter-spacing:.12em;text-transform:uppercase}h1{font-size:clamp(38px,6vw,78px);line-height:1.06;letter-spacing:-.045em;margin:14px 0 20px}h2{font-size:clamp(26px,3vw,42px);line-height:1.2;letter-spacing:-.03em;margin:0 0 14px}h3{margin:0 0 10px}.lead{font-size:clamp(17px,2vw,22px);color:var(--muted);max-width:700px}.section{margin-top:78px}.sectionHead,.pageHead{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 1px 0 #00000004;transition:transform .2s,box-shadow .2s}.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.card.clickable{cursor:pointer}.stat{font-size:36px;font-weight:850;color:var(--accent)}.muted{color:var(--muted)}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid var(--line);background:var(--bg);border-radius:100px;padding:4px 10px;color:var(--muted);font-size:13px}.chip.accent{color:var(--accent);border-color:var(--accent)}.banner{background:#2b211d;color:#fff;border-radius:28px;padding:40px}.banner .muted{color:#ddd0c8}.faq details{border-bottom:1px solid var(--line);padding:16px 2px}.faq summary{cursor:pointer;font-weight:750}.cta{background:var(--accent);color:#fff;border-radius:28px;padding:54px;text-align:center}.cta .btn{background:#fff;color:var(--accent);border-color:#fff}.recorder{max-width:720px;margin:30px auto;text-align:center;padding:45px 20px}.recordOrb{width:132px;height:132px;border:0;border-radius:50%;background:var(--accent);color:white;font-size:42px;box-shadow:0 0 0 18px #e85a3c1e,0 0 0 34px #e85a3c0d}.recordOrb.recording{animation:pulse 1.7s infinite}@keyframes pulse{50%{box-shadow:0 0 0 25px #e85a3c24,0 0 0 48px #e85a3c08}}.wave{display:flex;justify-content:center;align-items:center;gap:5px;height:50px;margin:26px auto}.wave b{display:block;width:4px;height:12px;border-radius:4px;background:var(--accent)}.wave b:nth-child(3n){height:29px}.wave b:nth-child(4n){height:20px}.recording~.wave b{animation:wave .65s ease-in-out infinite alternate}@keyframes wave{to{height:7px}}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 24px}.toolbar input,.toolbar select{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:11px 14px;border-radius:12px;min-width:150px}.toolbar input{flex:1;min-width:220px}.itemTitle{font-size:20px;font-weight:800;overflow-wrap:anywhere}.itemMeta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 14px}.itemText{color:var(--muted);overflow-wrap:anywhere}.itemAudio{width:100%;height:36px;margin:12px 0}.empty{text-align:center;padding:52px 20px;color:var(--muted)}.modalWrap{position:fixed;inset:0;z-index:2000;background:#17100f99;display:none;align-items:center;justify-content:center;padding:20px}.modalWrap.open{display:flex}.modal{background:var(--card);color:var(--ink);border-radius:22px;width:min(720px,100%);max-height:calc(100dvh - 40px);overflow:auto;padding:26px 28px 100px;box-shadow:0 22px 70px #0004}.modalHead{display:flex;justify-content:space-between;align-items:center;gap:12px}.iconBtn{background:none;border:0;color:var(--muted);font-size:24px}.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-weight:700}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;background:var(--bg);color:var(--ink)}.field textarea{min-height:110px}.field.hidden{display:none}.markdown-body{background:transparent!important;color:var(--ink)!important;overflow-wrap:anywhere}.markdown-body img{max-width:100%}.waitbar{height:4px;background:var(--line);overflow:hidden;border-radius:4px}.waitbar:before{content:"";display:block;width:35%;height:100%;background:var(--accent);animation:progress 1.2s infinite alternate}@keyframes progress{to{transform:translateX(190%)}}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#211b18;color:white;padding:10px 18px;border-radius:12px;z-index:3000;display:none}.footerSpace{height:100px}@media(max-width:850px){.grid,.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.tabs,.navCta,.langDesktop{display:none}.menuBtn{display:block}}@media(max-width:620px){.page{padding:28px 16px 190px}.grid,.grid.four{grid-template-columns:1fr}.hero{min-height:350px}.section{margin-top:55px}.sectionHead,.pageHead{align-items:start;flex-direction:column}.sectionHead .actions,.pageHead .actions{align-self:flex-end}.formGrid{grid-template-columns:1fr}.modalWrap.markdownModal{padding:0}.markdownModal .modal{width:100%;max-height:100dvh;min-height:100dvh;border-radius:0;padding-bottom:230px}.modal{padding-bottom:230px}.recorder{padding:35px 16px}.recordOrb{width:150px;height:150px}}
+</style></head><body>
+<nav id="nav"><div class="navin"><button class="brand" id="brand"><i class="fa-solid fa-microphone-lines"></i>VoiceDrop</button><div class="tabs" id="tabs"></div><button class="btn small navCta" data-go="capture" data-i18n="try">立即体验</button><button class="btn small secondary langDesktop" id="langDesktop">EN</button><button class="menuBtn" id="menuBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button></div><div class="mobileMenu" id="mobileMenu"></div></nav>
+<main><section class="page active" id="home"><div class="hero"><div class="heroText"><div class="eyebrow">VOICE IN. ORDER OUT.</div><h1 data-i18n="slogan">开口说，它自己归档。</h1><p class="lead" data-i18n="heroLead">把灵感、待办、会议和生活碎片，变成可检索、可执行的语音笔记。</p><div class="actions" style="justify-content:flex-start"><button class="btn" data-go="capture" data-i18n="openSay">打开，说一句</button></div></div></div><div class="section"><h2 data-i18n="three">三秒钟的事</h2><div class="grid" id="steps"></div></div><div class="section"><h2 data-i18n="overview">数据概览</h2><div class="grid four" id="overviewCards"></div></div><div class="section banner"><h2 data-i18n="pieces">碎片要管，属于你</h2><p class="muted" data-i18n="bannerLead">自动命名、标记重点、提取待办，把零散语音变成条理清晰的记录。</p><div class="chips" id="typeChips"></div></div><div class="section"><div class="sectionHead"><h2 data-i18n="recent">最近开口</h2><div class="actions"><button class="btn secondary" data-go="notes" data-i18n="allNotes">查看全部</button></div></div><div class="grid" id="recentCards"></div></div><div class="section faq"><h2>FAQ</h2><div id="faq"></div></div><div class="section cta"><h2 data-i18n="cta">打开，说一句，剩下的它来办</h2><button class="btn" data-go="capture" data-i18n="try">立即体验</button></div></section>
+<section class="page" id="capture"><div class="pageHead"><div><h1 data-i18n="capture">开口即记</h1><p class="lead" data-i18n="captureLead">三秒钟的事——打开并说话，系统进行整理，内容保存归档。</p></div><div class="actions"><button class="btn secondary" data-go="notes" data-i18n="viewArchive">查看归档</button></div></div><div class="card recorder"><button class="recordOrb" id="recordOrb" aria-label="Record"><i class="fa-solid fa-microphone"></i></button><div class="wave" id="wave"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div><h3 id="recordStatus"></h3><div class="muted" id="recordTimer">00:00</div><div class="actions" style="justify-content:center;margin-top:20px"><button class="btn secondary" id="selectAudio" data-i18n="selectAudio">选择已有录音</button><button class="btn ghost" id="cancelAudio" data-i18n="cancel" hidden>取消</button></div><div id="captureAudio"></div></div><div class="actions"><button class="btn" id="openArchive" data-i18n="startArchive" disabled>开始归档</button></div><div id="waitPanel"></div><div id="resultPanel"></div></section>
+<section class="page" id="notes"><div class="pageHead"><div><h1 data-i18n="notes">语音笔记</h1><p class="lead" data-i18n="notesLead">零散语音，已变成可检索、可执行的记录。</p></div><div class="actions"><button class="btn" data-go="capture" data-i18n="addVoice">+ 开口即记</button></div></div><div class="toolbar"><input id="noteSearch" type="search" data-placeholder="noteSearch"><select id="noteType"></select><select id="noteStatus"></select><select id="noteStar"></select><select id="noteTag"></select></div><div class="grid" id="noteCards"></div></section>
+<section class="page" id="tasks"><div class="pageHead"><div><h1 data-i18n="tasks">待办事项</h1><p class="lead" data-i18n="tasksLead">从语音里抽出可执行的下一步，截止日期和优先级一目了然。</p></div><div class="actions"><button class="btn" id="addTask" data-i18n="addTask">+ 添加待办</button></div></div><div class="grid" id="taskStats"></div><div class="toolbar"><input id="taskSearch" type="search" data-placeholder="taskSearch"><select id="taskPriority"></select><select id="taskDone"></select></div><div class="actions" id="taskSegments"></div><div class="grid" id="taskCards" style="margin-top:20px"></div></section></main>
+<div class="modalWrap" id="modalWrap"><div class="modal" role="dialog" aria-modal="true"><div class="modalHead"><h2 id="modalTitle"></h2><button class="iconBtn" id="modalClose" aria-label="Close">&times;</button></div><div id="modalBody"></div></div></div><div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script><script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script><script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("b2104d28176263c5_VoiceDrop语音归档")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const NOTE_TABLE='语音笔记/默认表格',TASK_TABLE='待办事项/默认表格';
+const NOTE_FIELDS=['笔记标题','录音文件','记录类型','标签','是否重点','记录时间','归档状态','整理结果'];
+const TASK_FIELDS=['任务标题','笔记标题','优先级','截止日期','是否完成','任务说明','创建时间'];
+const NOTE_LIST=['笔记标题','录音文件','记录类型','标签','是否重点','归档状态'];
+const TASK_LIST=['任务标题','笔记标题','优先级','截止日期','是否完成','任务说明'];
+const types=['灵感','待办','会议','生活记录','其他'], tags=['工作','学习','生活','灵感闪现','重要','紧急','会议纪要','随手记'];
+const copy={
+cn:{home:'首页',capture:'开口即记',notes:'语音笔记',tasks:'待办事项',try:'立即体验',slogan:'开口说，它自己归档。',heroLead:'把灵感、待办、会议和生活碎片，变成可检索、可执行的语音笔记。',openSay:'打开，说一句',three:'三秒钟的事',overview:'数据概览',pieces:'碎片要管，属于你',bannerLead:'自动命名、标记重点、提取待办，把零散语音变成条理清晰的记录。',recent:'最近开口',allNotes:'查看全部',cta:'打开，说一句，剩下的它来办',captureLead:'三秒钟的事——打开并说话，系统进行整理，内容保存归档。',viewArchive:'查看归档',selectAudio:'选择已有录音',cancel:'取消',startArchive:'开始归档',notesLead:'零散语音，已变成可检索、可执行的记录。',addVoice:'+ 开口即记',tasksLead:'从语音里抽出可执行的下一步，截止日期和优先级一目了然。',addTask:'+ 添加待办',noteSearch:'搜索标题、类型、标签',taskSearch:'搜索任务、说明、关联笔记',all:'全部',unfinished:'未完成',finished:'已完成',pending:'待整理',archived:'已归档',recordReady:'待开始',recording:'录音中',recordDone:'已完成',emptyNotes:'碎片还在风里。开口说，它自己归档。',emptyRecent:'还没有声音。打开，说一句，剩下的它来办。',emptyTasks:'还没有待办事项',detail:'查看详情',edit:'编辑',delete:'删除',toTask:'转为待办',related:'查看关联笔记',save:'保存',close:'关闭',download:'下载',open:'打开',important:'重点',confirmArchive:'确认归档',markImportant:'标为重点',again:'再记一条',noName:'未命名语音',tip:'可把 VoiceDrop 固定到主屏幕，开口即记',waiting:'AI 正在转写、提取要点并分类归档…',waitMore:'正在把这句口语音变成可检索的记录…',timeout:'整理等待已超时，可稍后在笔记中查看。'},
+en:{home:'Home',capture:'Speak now',notes:'Voice notes',tasks:'To-dos',try:'Try it',slogan:'Say it. It files itself.',heroLead:'Turn ideas, tasks, meetings and moments into searchable, actionable voice notes.',openSay:'Open and speak',three:'Three simple steps',overview:'Overview',pieces:'Your moments, organized',bannerLead:'Automatic titles, key points and to-dos turn scattered audio into clear notes.',recent:'Recent notes',allNotes:'View all',cta:'Open it. Say it. The rest takes care of itself.',captureLead:'Speak, let AI organize, and save your thoughts.',viewArchive:'View archive',selectAudio:'Choose audio',cancel:'Cancel',startArchive:'Archive now',notesLead:'Searchable and actionable notes from scattered speech.',addVoice:'+ Record voice',tasksLead:'Clear next steps, deadlines and priorities extracted from your voice.',addTask:'+ Add task',noteSearch:'Search title, type, tags',taskSearch:'Search task, description, note',all:'All',unfinished:'Open',finished:'Done',pending:'Pending',archived:'Archived',recordReady:'Ready',recording:'Recording',recordDone:'Ready to archive',emptyNotes:'No notes yet. Say it and it files itself.',emptyRecent:'No voice yet. Open and say something.',emptyTasks:'No tasks yet',detail:'Details',edit:'Edit',delete:'Delete',toTask:'Make task',related:'Related note',save:'Save',close:'Close',download:'Download',open:'Open',important:'Important',confirmArchive:'Confirm archive',markImportant:'Mark important',again:'Record another',noName:'Untitled voice',tip:'Pin VoiceDrop to your home screen for quick notes.',waiting:'AI is transcribing and organizing…',waitMore:'Turning your speech into a searchable note…',timeout:'Processing timed out. Check the note later.'}};
+let lang='cn',page='home',historyStack=[],currentRow=0,notes=[],tasks=[],recordState='idle',recordFile='',recordStart=0,recordClock=null,polling=false,prefillType='',taskSegment='all',mediaUrls=[],modalKind='',modalRow=0,modalTable='';
+const $=id=>document.getElementById(id),t=k=>copy[lang][k]||k,esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const attr=s=>esc(s), sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function localDate(d=new Date(),dateOnly=false){let p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+(dateOnly?'':' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds()))}
+function showToast(message){$('toast').textContent=message;$('toast').style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>$('toast').style.display='none',3500)}
+async function bridge(request){try{return await callAppBridge(request)}catch(e){showToast(String(e));throw e}}
+async function rows(table,fields){const csv=await bridge({type:'GetTableCSV',data:table,payload:fields.join(',')});return parseCSV(String(csv||'')).map((row,i)=>Object.fromEntries(fields.map((f,j)=>[f,row[j]||'']).concat([['_row',i+1]])))}
+async function cell(table,field,row){return await bridge({type:'GetCellValue',data:table,payload:field+'/'+row})}
+async function setCell(table,field,row,value){return await bridge({type:'SetCellValue',data:table,payload:field+'/'+row+'/'+String(value??'')})}
+function stopAudio(){document.querySelectorAll('audio').forEach(a=>{a.pause();a.currentTime=0});mediaUrls.forEach(u=>URL.revokeObjectURL(u));mediaUrls=[]}
+async function audioSource(file){if(!file)return '';const b64=await bridge({type:'FileToBase64',data:file});if(!b64)return '';let raw=String(b64).includes(',')?String(b64).split(',')[1]:String(b64);const binary=atob(raw),bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);const url=URL.createObjectURL(new Blob([bytes],{type:'audio/mpeg'}));mediaUrls.push(url);return url}
+async function mountAudio(container,file,auto=false){if(!file||!container)return;try{const src=await audioSource(file);if(!container.isConnected)return;const a=document.createElement('audio');a.controls=true;a.className='itemAudio';a.src=src;container.appendChild(a);if(auto)a.play().catch(()=>{})}catch(e){container.textContent=String(e)}}
+function url(file,download=false){return 'https://www.ithinkair.com:3031/'+(download?'download/':'private/')+encodeURIComponent(file)}
+function closeModal(){const wasOpen=$('modalWrap').classList.contains('open');stopAudio();$('modalWrap').classList.remove('open','markdownModal');$('modalBody').innerHTML='';modalKind='';if(wasOpen){if(page==='home')renderRecent();if(page==='notes')renderNoteCards();if(page==='capture'&&recordFile){$('captureAudio').innerHTML='';mountAudio($('captureAudio'),recordFile)}}}
+function openModal(title,html,markdown=false){stopAudio();$('modalTitle').textContent=title;$('modalBody').innerHTML=html;$('modalWrap').classList.add('open');$('modalWrap').classList.toggle('markdownModal',markdown)}
+function go(next,push=true){if(!['home','capture','notes','tasks'].includes(next))return;if(page!==next){stopAudio();closeModal();if(push)historyStack.push({page,scroll:window.scrollY});page=next;document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id===next));window.scrollTo(0,0)}$('mobileMenu').classList.remove('open');renderNav();if(next==='home')refreshHome();if(next==='notes')refreshNotes();if(next==='tasks')refreshTasks()}
+function airBack(){if($('modalWrap').classList.contains('open')){closeModal();return 'false'}if($('mobileMenu').classList.contains('open')){$('mobileMenu').classList.remove('open');return 'false'}if(historyStack.length){const prior=historyStack.pop();go(prior.page,false);requestAnimationFrame(()=>window.scrollTo(0,prior.scroll));return 'false'}return 'true'}
+window.airBack=airBack;
+function chooseLang(next){lang=next;localStorage.setItem('iThinkAir_UiLanguage',next);document.documentElement.lang=next==='cn'?'zh-CN':'en';document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));document.querySelectorAll('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));$('langDesktop').textContent=lang==='cn'?'EN':'中';renderNav();renderStatic();renderNoteCards();renderTaskCards();renderTaskStats();renderRecent()}
+function renderNav(){const ids=['home','capture','notes','tasks'];$('tabs').innerHTML=ids.map(id=>'<button class="tab '+(page===id?'active':'')+'" data-go="'+id+'">'+t(id)+'</button>').join('');$('mobileMenu').innerHTML=ids.map(id=>'<button class="tab '+(page===id?'active':'')+'" data-go="'+id+'">'+t(id)+'</button>').join('')+'<button class="tab" id="langMobile">'+(lang==='cn'?'English':'中文')+'</button>'}
+function renderStatic(){$('steps').innerHTML=[['01',lang==='cn'?'打开并说话':'Open and speak'],['02',lang==='cn'?'系统进行整理':'AI organizes'],['03',lang==='cn'?'内容保存归档':'Saved and searchable']].map(([n,title])=>'<div class="card"><div class="eyebrow">'+n+'</div><h3>'+title+'</h3></div>').join('');$('typeChips').innerHTML=types.slice(0,4).map(x=>'<button class="chip accent" data-prefill="'+attr(x)+'">'+esc(x)+'</button>').join('');const faq=lang==='cn'?[['如何开始？','打开「开口即记」，点录音按钮说话或选择已有录音。'],['AI 会做什么？','生成标题、转写润色、提取要点和待办、给出标签建议。'],['录音存在哪？','每条语音笔记都会归档，可随时检索、标记重点、转为待办。'],['能否只说话不取名？','可以，标题可留空，提交后由 AI 整理。']]:[['How do I start?','Open Speak now, tap the record button or choose existing audio.'],['What does AI do?','It transcribes, titles, summarizes, suggests tags and extracts tasks.'],['Where is audio stored?','Each note is archived and searchable.'],['Can I skip the title?','Yes. AI can name the note after submission.']];$('faq').innerHTML=faq.map(([q,a])=>'<details><summary>'+q+'</summary><p class="muted">'+a+'</p></details>').join('');fillFilters()}
+function fillSelect(id,options,first){const el=$(id),old=el.value;el.innerHTML='<option value="">'+esc(first||t('all'))+'</option>'+options.map(x=>'<option value="'+attr(x)+'">'+esc(x)+'</option>').join('');if(options.includes(old))el.value=old}
+function fillFilters(){fillSelect('noteType',types,t('all'));fillSelect('noteStatus',['待整理','已归档','已完成'],t('all'));fillSelect('noteStar',['是','否'],t('all'));fillSelect('noteTag',tags,t('all'));fillSelect('taskPriority',['高','中','低'],t('all'));fillSelect('taskDone',['是','否'],t('all'));$('taskSegments').innerHTML=['all','open','done'].map(s=>'<button class="btn '+(taskSegment===s?'':'secondary')+' small" data-segment="'+s+'">'+t(s==='all'?'all':s==='open'?'unfinished':'finished')+'</button>').join('')}
+async function refreshHome(){try{const [count,taskCount,statuses,recent]=await Promise.all([bridge({type:'GetRecordCount',data:NOTE_TABLE}),bridge({type:'GetRecordCount',data:TASK_TABLE}),rows(NOTE_TABLE,['归档状态']),rows(NOTE_TABLE,NOTE_LIST)]);notes=recent;$('overviewCards').innerHTML=[[count,t('notes')],[statuses.filter(r=>r['归档状态']==='待整理').length,t('pending')],[statuses.filter(r=>r['归档状态']==='已归档').length,t('archived')],[taskCount,t('tasks')]].map(([n,label])=>'<div class="card"><div class="stat">'+esc(n)+'</div><div class="muted">'+esc(label)+'</div></div>').join('');renderRecent()}catch(e){showToast(String(e))}}
+function noteCard(n,recent=false){const row=n._row,title=n['笔记标题']||t('noName'),tagsHtml=String(n['标签']||'').split(/[,，;；]/).filter(Boolean).map(x=>'<span class="chip">'+esc(x.trim())+'</span>').join('');return '<article class="card clickable noteCard" data-row="'+row+'"><div class="itemMeta"><span class="chip accent">'+esc(n['记录类型'])+'</span><span>'+ (n['是否重点']==='是'?'<i class="fa-solid fa-star" style="color:var(--accent)"></i> ':'')+esc(n['归档状态'])+'</span></div><div class="itemTitle">'+esc(title)+'</div><div class="chips">'+tagsHtml+'</div><div class="audioSlot" data-file="'+attr(n['录音文件'])+'"></div><div class="actions"><button class="btn small secondary" data-note-detail="'+row+'">'+t('detail')+'</button>'+(!recent?'<button class="btn small ghost" data-note-edit="'+row+'">'+t('edit')+'</button><button class="btn small ghost" data-note-task="'+row+'">'+t('toTask')+'</button><button class="btn small ghost" data-note-delete="'+row+'">'+t('delete')+'</button>':'')+'</div></article>'}
+async function mountSlots(root){const slots=[...root.querySelectorAll('.audioSlot[data-file]')];for(const slot of slots){if(slot.dataset.file)await mountAudio(slot,slot.dataset.file)}}
+function renderRecent(){const root=$('recentCards');root.innerHTML=notes.length?notes.slice(0,5).map(n=>noteCard(n,true)).join(''):'<div class="card empty">'+t('emptyRecent')+'<div class="actions"><button class="btn" data-go="capture">'+t('openSay')+'</button></div></div>';mountSlots(root)}
+async function refreshNotes(){try{notes=await rows(NOTE_TABLE,NOTE_LIST);renderNoteCards()}catch(e){showToast(String(e))}}
+function renderNoteCards(){const q=$('noteSearch').value.trim().toLowerCase(),type=$('noteType').value,status=$('noteStatus').value,star=$('noteStar').value,tag=$('noteTag').value;const filtered=notes.filter(n=>(!q||['笔记标题','记录类型','标签'].some(f=>String(n[f]||'').toLowerCase().includes(q)))&&(!type||n['记录类型']===type)&&(!status||n['归档状态']===status)&&(!star||n['是否重点']===star)&&(!tag||String(n['标签']).includes(tag)));const root=$('noteCards');root.innerHTML=filtered.length?filtered.map(n=>noteCard(n)).join(''):'<div class="card empty">'+t('emptyNotes')+'</div>';mountSlots(root)}
+async function refreshTasks(){try{const [taskRows,noteTitles]=await Promise.all([rows(TASK_TABLE,TASK_LIST),rows(NOTE_TABLE,['笔记标题','记录类型','归档状态'])]);tasks=taskRows;window.noteTitleOptions=noteTitles;renderTaskStats();renderTaskCards()}catch(e){showToast(String(e))}}
+function renderTaskStats(){$('taskStats').innerHTML=[[tasks.length,t('all')],[tasks.filter(x=>x['是否完成']!=='是').length,t('unfinished')],[tasks.filter(x=>x['是否完成']==='是').length,t('finished')]].map(([n,title])=>'<div class="card"><div class="stat">'+n+'</div><div>'+title+'</div></div>').join('')}
+function renderTaskCards(){const q=$('taskSearch').value.trim().toLowerCase(),pri=$('taskPriority').value,done=$('taskDone').value;const filtered=tasks.filter(x=>(!q||['任务标题','任务说明','笔记标题'].some(f=>String(x[f]||'').toLowerCase().includes(q)))&&(!pri||x['优先级']===pri)&&(!done||x['是否完成']===done)&&(taskSegment==='all'||(taskSegment==='done')===(x['是否完成']==='是')));$('taskCards').innerHTML=filtered.length?filtered.map(x=>'<article class="card" style="'+(x['是否完成']==='是'?'opacity:.62':'')+'"><div class="itemMeta"><label><input type="checkbox" data-task-toggle="'+x._row+'" '+(x['是否完成']==='是'?'checked':'')+'> <span class="itemTitle" style="'+(x['是否完成']==='是'?'text-decoration:line-through':'')+'">'+esc(x['任务标题'])+'</span></label><span class="chip accent">'+esc(x['优先级'])+'</span></div><div class="muted">'+esc(x['截止日期'])+'</div><div class="itemText">'+esc(String(x['任务说明']||'').slice(0,180))+'</div><div class="chips">'+(x['笔记标题']?'<span class="chip">'+esc(x['笔记标题'])+'</span>':'')+'</div><div class="actions"><button class="btn small secondary" data-task-edit="'+x._row+'">'+t('edit')+'</button>'+(x['笔记标题']?'<button class="btn small ghost" data-related="'+x._row+'">'+t('related')+'</button>':'')+'<button class="btn small ghost" data-task-delete="'+x._row+'">'+t('delete')+'</button></div></article>').join(''):'<div class="card empty">'+t('emptyTasks')+'</div>'}
+function md(raw){const html=window.marked?marked.parse(String(raw||'')):esc(raw).replace(/\n/g,'<br>');return window.DOMPurify?DOMPurify.sanitize(html):html}
+function markdownLinks(container){container.querySelectorAll('img').forEach(img=>{const match=img.src.match(/\/download\/([^?#]+)/);if(match){const a=document.createElement('a');a.href=img.src;a.download=decodeURIComponent(match[1]);img.replaceWith(a);a.appendChild(img)}})}
+async function detailNote(row){currentRow=row;const data={};for(const f of NOTE_FIELDS)data[f]=await cell(NOTE_TABLE,f,row);const file=data['录音文件'];const content='<div class="chips"><span class="chip accent">'+esc(data['记录类型'])+'</span><span class="chip">'+esc(data['归档状态'])+'</span><span class="chip">'+(data['是否重点']==='是'?'★ '+t('important'):'☆')+'</span></div><p class="muted">'+esc(data['记录时间'])+' · '+esc(data['标签'])+'</p>'+(file?'<p>'+esc(file)+' <a href="'+url(file)+'" target="_blank" rel="noopener">'+t('open')+'</a> · <a href="'+url(file,true)+'" download>'+t('download')+'</a></p><div id="detailAudio"></div>':'')+'<div class="markdown-body" id="detailMarkdown">'+md(data['整理结果'])+'</div><div class="actions"><button class="btn secondary" data-note-edit="'+row+'">'+t('edit')+'</button><button class="btn" data-note-task="'+row+'">'+t('toTask')+'</button></div>';openModal(data['笔记标题']||t('noName'),content,true);markdownLinks($('detailMarkdown'));if(file)await mountAudio($('detailAudio'),file,true)}
+function fieldHtml(formId,field,value,kind){const id=formId+'_'+field,name=' name="'+attr(field)+'"',val=attr(value||''),hidden=['记录时间','创建时间','整理结果'].includes(field);if(field==='整理结果')return '';if(hidden)return '<div class="field hidden"><input id="'+id+'"'+name+' value="'+val+'"></div>';let control='';if(field==='录音文件'){control='<input id="'+id+'"'+name+' readonly value="'+val+'"><div class="actions"><button type="button" class="btn small secondary" id="'+formId+'_chooseFile">'+t('selectAudio')+'</button><button type="button" class="btn small ghost" id="'+formId+'_recordFile"><i class="fa-solid fa-microphone"></i></button><button type="button" class="btn small ghost" id="'+formId+'_finishFile" hidden>'+t('recording')+'</button></div><div id="'+formId+'_audio"></div>'}else if(field==='记录类型'||field==='归档状态'||field==='优先级'||field==='是否重点'||field==='是否完成'){const opts=field==='记录类型'?types:field==='归档状态'?['待整理','已归档','已完成']:field==='优先级'?['高','中','低']:['是','否'];control='<select id="'+id+'"'+name+'>'+opts.map(o=>'<option value="'+attr(o)+'" '+(value===o?'selected':'')+'>'+esc(o)+'</option>').join('')+'</select>'}else if(field==='标签'){control='<div class="chips">'+tags.map((o,i)=>'<label class="chip"><input type="checkbox" name="'+attr(field)+'" value="'+attr(o)+'" '+(String(value||'').split(/[,，;；]/).includes(o)?'checked':'')+'> '+esc(o)+'</label>').join('')+'</div>'}else if(field==='笔记标题'&&kind==='task'){const options=window.noteTitleOptions||[];control='<input id="'+id+'"'+name+' list="'+formId+'_noteOptions" value="'+val+'"><datalist id="'+formId+'_noteOptions">'+options.map(x=>'<option value="'+attr(x['笔记标题'])+'"></option>').join('')+'</datalist>'}else if(field==='任务说明'){control='<textarea id="'+id+'"'+name+'>'+esc(value)+'</textarea>'}else{const type=field==='截止日期'?'date':'text';control='<input type="'+type+'" id="'+id+'"'+name+' value="'+val+'" '+(field==='笔记标题'&&kind==='note'?'placeholder="可留空，让 AI 为你命名"':'')+'>'}return '<div class="field '+(['任务说明','标签','录音文件'].includes(field)?'full':'')+'"><label for="'+id+'">'+esc(field)+'</label>'+control+'</div>'}
+async function openForm(kind,row=0,prefill={}){const isNote=kind==='note',fields=isNote?NOTE_FIELDS:TASK_FIELDS,table=isNote?NOTE_TABLE:TASK_TABLE,formId=isNote?'noteForm':'taskForm';modalKind=kind;modalRow=row;modalTable=table;const values={};if(row){for(const f of fields)values[f]=await cell(table,f,row)}else{Object.assign(values,prefill);values[isNote?'记录时间':'创建时间']=localDate();values[isNote?'是否重点':'是否完成']='否';if(isNote)values['归档状态']='待整理'}const html='<form id="'+formId+'"><div class="formGrid">'+fields.map(f=>fieldHtml(formId,f,values[f],kind)).join('')+'</div><div class="actions" style="margin-top:25px"><button class="btn secondary" type="button" data-close>'+t('cancel')+'</button><button class="btn" type="submit">'+t('save')+'</button></div></form>';openModal(isNote?t('notes'):t('tasks'),html);modalKind=kind;modalRow=row;modalTable=table;const form=$(formId);form.addEventListener('submit',async e=>{e.preventDefault();const save=form.querySelector('[type=submit]');save.disabled=true;try{const payload={};for(const f of fields){if(f==='整理结果')continue;if(f==='标签')payload[f]=[...form.querySelectorAll('[name="标签"]:checked')].map(x=>x.value).join(',');else payload[f]=form.elements[f]?.value||''}if(isNote&&!payload['录音文件'])throw Error('请先录入语音');if(row){for(const f of fields){if(f==='整理结果')continue;await setCell(table,f,row,payload[f])}currentRow=row}else{await bridge({type:'SubmitRecord',data:isNote?'语音笔记':'待办事项',payload:JSON.stringify(payload)});currentRow=1}closeModal();if(isNote){await refreshNotes();await refreshHome();if(!row)startPoll(1)}else await refreshTasks()}catch(err){showToast(String(err))}finally{save.disabled=false}});if(isNote){$('noteForm_chooseFile').onclick=async()=>{try{const file=await bridge({type:'SelectFile'});if(file){$('noteForm_录音文件').value=file;const slot=$('noteForm_audio');slot.innerHTML='';await mountAudio(slot,file)}}catch(e){}};$('noteForm_recordFile').onclick=async()=>{try{await bridge({type:'StartRecordVoice'});$('noteForm_recordFile').hidden=true;$('noteForm_finishFile').hidden=false}catch(e){}};$('noteForm_finishFile').onclick=async()=>{try{const file=await bridge({type:'FinishRecordVoice'});$('noteForm_录音文件').value=file;$('noteForm_finishFile').hidden=true;$('noteForm_recordFile').hidden=false;const slot=$('noteForm_audio');slot.innerHTML='';await mountAudio(slot,file)}catch(e){}};if(values['录音文件'])mountAudio($('noteForm_audio'),values['录音文件'])}}
+function updateRecorder(){$('recordStatus').textContent=t(recordState==='recording'?'recording':recordFile?'recordDone':'recordReady');$('recordOrb').classList.toggle('recording',recordState==='recording');$('recordOrb').innerHTML='<i class="fa-solid fa-'+(recordState==='recording'?'stop':'microphone')+'"></i>';$('recordOrb').title=recordState==='recording'?t('recording'):t('capture');$('selectAudio').hidden=recordState==='recording';$('cancelAudio').hidden=recordState==='idle'&&!recordFile;$('openArchive').disabled=!recordFile||polling}
+async function resetRecorder(){if(recordState==='recording')await bridge({type:'CancelRecordVoice'});recordState='idle';recordFile='';currentRow=0;clearInterval(recordClock);$('recordTimer').textContent='00:00';$('captureAudio').innerHTML='';$('resultPanel').innerHTML='';updateRecorder()}
+async function toggleRecording(){if(recordState!=='recording'){await bridge({type:'StartRecordVoice'});recordState='recording';recordFile='';recordStart=Date.now();clearInterval(recordClock);recordClock=setInterval(()=>{const seconds=Math.floor((Date.now()-recordStart)/1000);$('recordTimer').textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0')},1000);updateRecorder()}else{const file=await bridge({type:'FinishRecordVoice'});clearInterval(recordClock);recordState='done';recordFile=file||'';updateRecorder();$('captureAudio').innerHTML='';if(file)await mountAudio($('captureAudio'),file)}}
+async function startPoll(row){if(polling)return;polling=true;updateRecorder();$('waitPanel').innerHTML='<div class="card" style="margin:22px auto;max-width:720px"><strong>'+t('waiting')+'</strong><p class="muted">'+t('waitMore')+'</p><div class="waitbar"></div></div>';$('resultPanel').innerHTML='';const deadline=Date.now()+1800000;while(Date.now()<deadline){try{const result=await cell(NOTE_TABLE,'整理结果',row);if(String(result||'').trim()){const file=await cell(NOTE_TABLE,'录音文件',row);$('waitPanel').innerHTML='';$('resultPanel').innerHTML='<div class="card"><div class="markdown-body" id="resultMarkdown">'+md(result)+'</div><div class="actions"><button class="btn secondary" data-confirm-archive="'+row+'">'+t('confirmArchive')+'</button><button class="btn secondary" data-mark-important="'+row+'">'+t('markImportant')+'</button><button class="btn secondary" data-note-task="'+row+'">'+t('toTask')+'</button><button class="btn" id="againBtn">'+t('again')+'</button></div></div>';markdownLinks($('resultMarkdown'));await refreshNotes();await refreshHome();break}}catch(e){showToast(String(e))}await sleep(1000)}if(Date.now()>=deadline){$('waitPanel').innerHTML='<div class="card">'+t('timeout')+'</div>'}polling=false;updateRecorder()}
+async function removeRecord(table,row){if(!confirm(lang==='cn'?'确定删除这条记录？':'Delete this record?'))return;await bridge({type:'DeleteRecord',data:table,payload:String(row)});if(table===NOTE_TABLE){await refreshNotes();await refreshHome()}else await refreshTasks()}
+async function relatedNote(taskRow){const task=tasks.find(x=>x._row===taskRow);if(!task?.['笔记标题'])return;const rowText=await bridge({type:'GetRecordRow',data:NOTE_TABLE,payload:'笔记标题/'+task['笔记标题']});const row=Number(rowText);if(row>0)await detailNote(row);else showToast(lang==='cn'?'关联笔记未找到':'Related note not found')}
+function bindEvents(){document.addEventListener('click',async e=>{const btn=e.target.closest('button,[data-row]');if(!btn)return;try{if(btn.id==='brand'){stopAudio();if(window.parent?.closeFullHtml)window.parent.closeFullHtml(false);return}if(btn.id==='menuBtn'){$('mobileMenu').classList.toggle('open');return}if(btn.id==='langDesktop'||btn.id==='langMobile'){chooseLang(lang==='cn'?'en':'cn');$('mobileMenu').classList.remove('open');return}if(btn.dataset.go){go(btn.dataset.go);return}if(btn.dataset.prefill){prefillType=btn.dataset.prefill;go('capture');return}if(btn.dataset.segment){taskSegment=btn.dataset.segment;fillFilters();renderTaskCards();return}if(btn.dataset.close!==undefined||btn.id==='modalClose'){closeModal();return}if(btn.id==='recordOrb'){await toggleRecording();return}if(btn.id==='selectAudio'){const file=await bridge({type:'SelectFile'});if(file){recordFile=file;recordState='done';updateRecorder();$('captureAudio').innerHTML='';await mountAudio($('captureAudio'),file)}return}if(btn.id==='cancelAudio'){await resetRecorder();return}if(btn.id==='openArchive'){if(recordFile)await openForm('note',0,{'录音文件':recordFile,'记录类型':prefillType||'灵感'});return}if(btn.id==='addTask'){await openForm('task');return}if(btn.id==='againBtn'){await resetRecorder();return}if(btn.dataset.confirmArchive){await setCell(NOTE_TABLE,'归档状态',Number(btn.dataset.confirmArchive),'已归档');showToast(t('archived'));await refreshNotes();await refreshHome();return}if(btn.dataset.markImportant){await setCell(NOTE_TABLE,'是否重点',Number(btn.dataset.markImportant),'是');showToast(t('important'));await refreshNotes();await refreshHome();return}if(btn.dataset.noteDetail){await detailNote(Number(btn.dataset.noteDetail));return}if(btn.dataset.noteEdit){await openForm('note',Number(btn.dataset.noteEdit));return}if(btn.dataset.noteDelete){await removeRecord(NOTE_TABLE,Number(btn.dataset.noteDelete));return}if(btn.dataset.noteTask){const row=Number(btn.dataset.noteTask);let title=notes.find(x=>x._row===row)?.['笔记标题'];if(title===undefined)title=await cell(NOTE_TABLE,'笔记标题',row);go('tasks');await openForm('task',0,{'笔记标题':title||''});return}if(btn.dataset.taskEdit){await openForm('task',Number(btn.dataset.taskEdit));return}if(btn.dataset.taskDelete){await removeRecord(TASK_TABLE,Number(btn.dataset.taskDelete));return}if(btn.dataset.related){await relatedNote(Number(btn.dataset.related));return}if(btn.dataset.row){await detailNote(Number(btn.dataset.row));return}}catch(err){showToast(String(err))}});$('modalWrap').addEventListener('click',e=>{if(e.target===$('modalWrap'))closeModal()});document.addEventListener('click',e=>{if(!$('nav').contains(e.target))$('mobileMenu').classList.remove('open')});document.addEventListener('change',async e=>{if(e.target.dataset.taskToggle){try{await setCell(TASK_TABLE,'是否完成',Number(e.target.dataset.taskToggle),e.target.checked?'是':'否');await refreshTasks()}catch(err){showToast(String(err))}}});['noteSearch','noteType','noteStatus','noteStar','noteTag'].forEach(id=>$(id).addEventListener('input',renderNoteCards));['taskSearch','taskPriority','taskDone'].forEach(id=>$(id).addEventListener('input',renderTaskCards));document.addEventListener('focusin',e=>{if(e.target.matches('input,select,textarea'))setTimeout(()=>e.target.scrollIntoView({block:'center',behavior:'smooth'}),320)});if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>{const focused=document.activeElement;if(focused?.matches('input,select,textarea'))setTimeout(()=>focused.scrollIntoView({block:'center',behavior:'smooth'}),120)});window.addEventListener('pagehide',stopAudio);document.addEventListener('visibilitychange',()=>{if(document.hidden)stopAudio()})}
+async function initialize(){const stored=localStorage.getItem('iThinkAir_UiLanguage'),param=new URLSearchParams(location.search).get('lang');const langs=navigator.languages;lang=stored?(stored==='en'?'en':'cn'):param==='en'?'en':param==='cn'?'cn':!langs||!langs.length?'cn':langs.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en';try{const mode=await bridge({type:'模式'});if(String(mode).trim()==='暗色')document.body.classList.add('dark')}catch(e){}bindEvents();chooseLang(lang);updateRecorder();await Promise.allSettled([refreshHome(),refreshTasks()])}
+document.addEventListener('click',e=>{if(e.target.closest('audio,a,input,select,textarea'))e.stopPropagation()},true);
+document.addEventListener('DOMContentLoaded',()=>{(async()=>{await initialize()})()});
+</script></body></html>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>线段中点与直径所对圆周角</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraph.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraphcore.js"></script>
+  <style>
+    :root {
+      --accent: #e94560;
+      --blue: #4285f4;
+      --red: #ea4335;
+      --green: #34a853;
+      --gold: #fbbc04;
+      --ink: #1f2933;
+      --muted: #5b6773;
+      --panel: #ffffff;
+      --bg: #f4f6f9;
+      --line: #e6eaf0;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .app {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 14px 20px 10px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .main {
+      display: flex;
+      gap: 14px;
+      padding: 14px;
+      flex: 1;
+      min-height: 0;
+    }
+    .graph-panel {
+      flex: 1;
+      min-width: 0;
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(31, 41, 51, 0.05);
+    }
+    #jxgbox {
+      width: 100%;
+      height: 100%;
+      min-height: 520px;
+    }
+    .panel {
+      width: 360px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: calc(100vh - 86px);
+      overflow: auto;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+    .problem {
+      font-size: 13.5px;
+      line-height: 1.65;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      padding: 5px 0;
+      border-bottom: 1px dashed #edf1f5;
+      font-size: 13.5px;
+    }
+    .row:last-child { border-bottom: none; }
+    .k { color: var(--muted); }
+    .v {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      text-align: right;
+    }
+    .v.ok { color: var(--green); }
+    .v.warn { color: var(--accent); }
+    .v.blue { color: var(--blue); }
+    .eq {
+      margin-top: 8px;
+      padding: 8px 10px;
+      background: #f7f9fc;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      background: var(--blue);
+      color: #fff;
+      font-family: inherit;
+      transition: transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
+    }
+    button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    button.secondary {
+      background: #eef3fb;
+      color: #2457c5;
+    }
+    button.danger { background: var(--accent); }
+    button.active { background: #1a73e8; box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35); }
+    label.check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      padding: 4px 0;
+      cursor: pointer;
+    }
+    label.check:hover { color: var(--blue); }
+    input[type="checkbox"] { accent-color: var(--blue); width: 15px; height: 15px; }
+    .tips {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #334155;
+    }
+    .tips li { margin: 2px 0; }
+    .why {
+      font-size: 13px;
+      line-height: 1.7;
+      color: #334155;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eaf8ef;
+      color: var(--green);
+    }
+    .badge.off {
+      background: #fdecee;
+      color: var(--accent);
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 4px;
+      vertical-align: -1px;
+    }
+    @media (max-width: 900px) {
+      .main { flex-direction: column; }
+      .panel { width: 100%; max-height: none; }
+      #jxgbox { min-height: 420px; height: 62vh; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>线段中点与直径所对圆周角</h1>
+      <p>已知 A(1, 2)、B(4, 6)。作出 AB 的中点，以及以 AB 为直径的圆，观察圆上一点 P 处的 ∠APB。</p>
+    </header>
+    <div class="main">
+      <div class="graph-panel">
+        <div id="jxgbox" class="jxgbox"></div>
+      </div>
+      <div class="panel">
+        <div class="card">
+          <h2>题目</h2>
+          <div class="problem">在平面直角坐标系中，已知点 A(1, 2)、B(4, 6)。求线段 AB 的中点坐标，并作出以 AB 为直径的圆，观察圆上任意一点 P 与 A、B 所成角 ∠APB 的大小。</div>
+        </div>
+        <div class="card">
+          <h2>实时数据</h2>
+          <div class="row"><span class="k">A</span><span class="v" id="aVal">—</span></div>
+          <div class="row"><span class="k">B</span><span class="v" id="bVal">—</span></div>
+          <div class="row"><span class="k">中点 M</span><span class="v blue" id="mVal">—</span></div>
+          <div class="row"><span class="k">P</span><span class="v" id="pVal">—</span></div>
+          <div class="row"><span class="k">|AB| / 半径</span><span class="v" id="rVal">—</span></div>
+          <div class="row"><span class="k">∠APB</span><span class="v ok" id="angVal">—</span></div>
+          <div class="row"><span class="k">向量 PA · PB</span><span class="v" id="dotVal">—</span></div>
+          <div class="row"><span class="k">P 相对圆的位置</span><span class="v" id="posVal">—</span></div>
+          <div class="eq" id="eqBox">圆方程：—</div>
+          <div style="margin-top:8px"><span id="statusBadge" class="badge">直径所对圆周角是直角</span></div>
+        </div>
+        <div class="card">
+          <h2>交互控制</h2>
+          <div class="btns">
+            <button id="btnAnim" type="button">绕圆运动</button>
+            <button id="btnReset" class="secondary" type="button">恢复原题</button>
+          </div>
+          <label class="check"><input type="checkbox" id="lockAB" checked> 锁定 A、B（保持原题坐标）</label>
+          <label class="check"><input type="checkbox" id="onCircle" checked> 将 P 限制在圆周上</label>
+          <label class="check"><input type="checkbox" id="showRadius"> 显示半径 MP（辅助线）</label>
+          <label class="check"><input type="checkbox" id="showSquare" checked> 显示直角记号</label>
+        </div>
+        <div class="card">
+          <h2>探索提示</h2>
+          <ol class="tips">
+            <li>先拖动圆上的点 <b>P</b>，盯住右侧的 ∠APB，它会变吗？</li>
+            <li>点击「绕圆运动」，让 P 走遍圆周（避开 A、B），看角度是否始终为直角。</li>
+            <li>取消「将 P 限制在圆周上」，把 P 拖到圆内、圆外，比较锐角 / 直角 / 钝角。</li>
+            <li>解锁 A、B 后改动直径，中点与圆会跟着变。泰勒斯定理还成立吗？</li>
+            <li>观察 PA · PB：在圆上是否几乎为 0？这就是“垂直”的向量说法。</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h2>为什么？</h2>
+          <div class="why">
+            中点公式：M = ((x<sub>A</sub>+x<sub>B</sub>)/2, (y<sub>A</sub>+y<sub>B</sub>)/2)。以 AB 为直径时，圆心就是 M，半径是 |AB|/2。<br><br>
+            设 P 在圆上，则 |PM| = |AM|。把 M = (A+B)/2 代入 |P−M|<sup>2</sup> = |A−M|<sup>2</sup>，展开整理得到 (A−P)·(B−P) = 0，即 PA ⊥ PB，所以 ∠APB = 90°。<br><br>
+            这就是泰勒斯定理：<b>直径所对的圆周角是直角</b>。
+          </div>
+        </div>
+        <div class="card">
+          <h2>图例</h2>
+          <div class="legend">
+            <span><i class="dot" style="background:#333"></i>A / B</span>
+            <span><i class="dot" style="background:#fbbc04"></i>中点 M</span>
+            <span><i class="dot" style="background:#4285f4"></i>动点 P</span>
+            <span><i class="dot" style="background:#e94560"></i>圆</span>
+            <span><i class="dot" style="background:#34a853"></i>直角 / 半径</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const board = JXG.JSXGraph.initBoard('jxgbox', {
+      boundingbox: [-1.8, 8.6, 7.6, -1.2],
+      axis: true,
+      grid: true,
+      keepAspectRatio: true,
+      showCopyright: false,
+      showNavigation: true,
+      pan: { enabled: true, needShift: false },
+      zoom: { enabled: true }
+    });
+
+    const A = board.create('point', [1, 2], {
+      name: 'A',
+      size: 5,
+      face: 'o',
+      strokeColor: '#222',
+      fillColor: '#222',
+      fixed: true,
+      label: { fontSize: 16, offset: [-16, -12] }
+    });
+    const B = board.create('point', [4, 6], {
+      name: 'B',
+      size: 5,
+      face: 'o',
+      strokeColor: '#222',
+      fillColor: '#222',
+      fixed: true,
+      label: { fontSize: 16, offset: [10, 10] }
+    });
+    const M = board.create('midpoint', [A, B], {
+      name: 'M',
+      size: 4,
+      face: 'o',
+      strokeColor: '#d4a017',
+      fillColor: '#fbbc04',
+      label: { fontSize: 15, color: '#b8860b', offset: [10, -8] }
+    });
+    const circ = board.create('circle', [M, A], {
+      strokeColor: '#e94560',
+      strokeWidth: 2.5,
+      fillColor: '#e94560',
+      fillOpacity: 0.05,
+      highlight: false
+    });
+    const P = board.create('point', [0.5, 5.5], {
+      name: 'P',
+      size: 6,
+      face: 'o',
+      strokeColor: '#1a73e8',
+      fillColor: '#4285f4',
+      label: { fontSize: 16, color: '#1a73e8', offset: [-18, 14] }
+    });
+
+    board.create('polygon', [A, P, B], {
+      fillColor: '#4285f4',
+      fillOpacity: 0.12,
+      vertices: { visible: false },
+      borders: { visible: false },
+      highlight: false
+    });
+    board.create('segment', [A, B], {
+      strokeColor: '#4285f4',
+      strokeWidth: 3.5,
+      fixed: true
+    });
+    board.create('segment', [A, P], {
+      strokeColor: '#ea4335',
+      strokeWidth: 2.4
+    });
+    board.create('segment', [B, P], {
+      strokeColor: '#ea4335',
+      strokeWidth: 2.4
+    });
+
+    const radiusMP = board.create('segment', [M, P], {
+      strokeColor: '#34a853',
+      strokeWidth: 1.8,
+      dash: 2,
+      visible: false
+    });
+    board.create('text', [
+      function () { return (M.X() + P.X()) / 2; },
+      function () { return (M.Y() + P.Y()) / 2; },
+      function () { return radiusMP.getAttribute('visible') ? '半径' : ''; }
+    ], { fontSize: 12, color: '#34a853', anchorX: 'middle' });
+
+    const ANG_R = 0.58;
+    const Pa = board.create('point', [
+      function () {
+        const ax = A.X() - P.X();
+        const ay = A.Y() - P.Y();
+        const n = Math.hypot(ax, ay) || 1;
+        return P.X() + ANG_R * ax / n;
+      },
+      function () {
+        const ax = A.X() - P.X();
+        const ay = A.Y() - P.Y();
+        const n = Math.hypot(ax, ay) || 1;
+        return P.Y() + ANG_R * ay / n;
+      }
+    ], { visible: false, withLabel: false });
+    const Pb = board.create('point', [
+      function () {
+        const bx = B.X() - P.X();
+        const by = B.Y() - P.Y();
+        const n = Math.hypot(bx, by) || 1;
+        return P.X() + ANG_R * bx / n;
+      },
+      function () {
+        const bx = B.X() - P.X();
+        const by = B.Y() - P.Y();
+        const n = Math.hypot(bx, by) || 1;
+        return P.Y() + ANG_R * by / n;
+      }
+    ], { visible: false, withLabel: false });
+    const Pab = board.create('point', [
+      function () { return Pa.X() + Pb.X() - P.X(); },
+      function () { return Pa.Y() + Pb.Y() - P.Y(); }
+    ], { visible: false, withLabel: false });
+
+    const sq = board.create('polygon', [Pa, Pab, Pb], {
+      fillColor: '#34a853',
+      fillOpacity: 0.22,
+      vertices: { visible: false },
+      borders: { strokeColor: '#34a853', strokeWidth: 2.2 },
+      highlight: false
+    });
+
+    const angArc = board.create('curve', [
+      function (t) {
+        const a0 = Math.atan2(A.Y() - P.Y(), A.X() - P.X());
+        const a1 = Math.atan2(B.Y() - P.Y(), B.X() - P.X());
+        let d = a1 - a0;
+        while (d > Math.PI) d -= 2 * Math.PI;
+        while (d < -Math.PI) d += 2 * Math.PI;
+        const ang = a0 + t * d;
+        return P.X() + ANG_R * Math.cos(ang);
+      },
+      function (t) {
+        const a0 = Math.atan2(A.Y() - P.Y(), A.X() - P.X());
+        const a1 = Math.atan2(B.Y() - P.Y(), B.X() - P.X());
+        let d = a1 - a0;
+        while (d > Math.PI) d -= 2 * Math.PI;
+        while (d < -Math.PI) d += 2 * Math.PI;
+        const ang = a0 + t * d;
+        return P.Y() + ANG_R * Math.sin(ang);
+      },
+      0, 1
+    ], { strokeColor: '#fbbc04', strokeWidth: 2.6, highlight: false });
+
+    const angLabel = board.create('text', [
+      function () {
+        const ax = A.X() - P.X();
+        const ay = A.Y() - P.Y();
+        const bx = B.X() - P.X();
+        const by = B.Y() - P.Y();
+        const na = Math.hypot(ax, ay) || 1;
+        const nb = Math.hypot(bx, by) || 1;
+        let mx = ax / na + bx / nb;
+        let my = ay / na + by / nb;
+        const nm = Math.hypot(mx, my);
+        if (nm < 1e-8) {
+          mx = -ay / na;
+          my = ax / na;
+        } else {
+          mx /= nm;
+          my /= nm;
+        }
+        return P.X() + 0.92 * mx;
+      },
+      function () {
+        const ax = A.X() - P.X();
+        const ay = A.Y() - P.Y();
+        const bx = B.X() - P.X();
+        const by = B.Y() - P.Y();
+        const na = Math.hypot(ax, ay) || 1;
+        const nb = Math.hypot(bx, by) || 1;
+        let mx = ax / na + bx / nb;
+        let my = ay / na + by / nb;
+        const nm = Math.hypot(mx, my);
+        if (nm < 1e-8) {
+          mx = -ay / na;
+          my = ax / na;
+        } else {
+          mx /= nm;
+          my /= nm;
+        }
+        return P.Y() + 0.92 * my;
+      },
+      function () {
+        const deg = angleAPB();
+        if (!isFinite(deg)) return '';
+        if (Math.abs(deg - 90) < 0.08) return '90°';
+        return deg.toFixed(1) + '°';
+      }
+    ], { fontSize: 15, color: '#e94560', anchorX: 'middle', anchorY: 'middle' });
+
+    board.create('text', [
+      function () { return (A.X() + B.X()) / 2; },
+      function () { return (A.Y() + B.Y()) / 2 - 0.28; },
+      '直径 AB'
+    ], { fontSize: 12, color: '#4285f4', anchorX: 'middle' });
+
+    function fmtPt(x, y) {
+      return '(' + x.toFixed(2) + ', ' + y.toFixed(2) + ')';
+    }
+    function angleAPB() {
+      const ax = A.X() - P.X();
+      const ay = A.Y() - P.Y();
+      const bx = B.X() - P.X();
+      const by = B.Y() - P.Y();
+      const na = Math.hypot(ax, ay);
+      const nb = Math.hypot(bx, by);
+      if (na < 1e-6 || nb < 1e-6) return NaN;
+      let c = (ax * bx + ay * by) / (na * nb);
+      c = Math.max(-1, Math.min(1, c));
+      return Math.acos(c) * 180 / Math.PI;
+    }
+    function dotPAPB() {
+      const ax = A.X() - P.X();
+      const ay = A.Y() - P.Y();
+      const bx = B.X() - P.X();
+      const by = B.Y() - P.Y();
+      return ax * bx + ay * by;
+    }
+    function radiusLen() {
+      return Math.hypot(A.X() - M.X(), A.Y() - M.Y());
+    }
+    function distPM() {
+      return Math.hypot(P.X() - M.X(), P.Y() - M.Y());
+    }
+    function projectP() {
+      const mx = M.X();
+      const my = M.Y();
+      const r = radiusLen();
+      if (r < 1e-8) return;
+      let dx = P.X() - mx;
+      let dy = P.Y() - my;
+      let n = Math.hypot(dx, dy);
+      if (n < 1e-8) {
+        dx = -(B.Y() - A.Y());
+        dy = B.X() - A.X();
+        n = Math.hypot(dx, dy) || 1;
+      }
+      P.setPosition(JXG.COORDS_BY_USER, [mx + r * dx / n, my + r * dy / n]);
+    }
+
+    let animating = false;
+    let animId = null;
+    let updating = false;
+
+    function updatePanel() {
+      if (updating) return;
+      updating = true;
+      const ax = A.X(), ay = A.Y(), bx = B.X(), by = B.Y();
+      const mx = M.X(), my = M.Y();
+      const px = P.X(), py = P.Y();
+      const r = radiusLen();
+      const dpm = distPM();
+      const ang = angleAPB();
+      const dot = dotPAPB();
+      const ab = 2 * r;
+      const nearAB = Math.hypot(px - ax, py - ay) < 0.22 || Math.hypot(px - bx, py - by) < 0.22;
+
+      document.getElementById('aVal').textContent = fmtPt(ax, ay);
+      document.getElementById('bVal').textContent = fmtPt(bx, by);
+      document.getElementById('mVal').textContent = fmtPt(mx, my);
+      document.getElementById('pVal').textContent = fmtPt(px, py);
+      document.getElementById('rVal').textContent = ab.toFixed(3) + ' / ' + r.toFixed(3);
+      document.getElementById('eqBox').textContent =
+        '圆方程：(x − ' + mx.toFixed(2) + ')² + (y − ' + my.toFixed(2) + ')² = ' + (r * r).toFixed(3);
+
+      const angEl = document.getElementById('angVal');
+      const badge = document.getElementById('statusBadge');
+      const posEl = document.getElementById('posVal');
+      const dotEl = document.getElementById('dotVal');
+
+      if (nearAB || !isFinite(ang)) {
+        angEl.textContent = '未定义（P 靠近 A 或 B）';
+        angEl.className = 'v warn';
+        badge.textContent = '请把 P 从 A、B 处移开';
+        badge.className = 'badge off';
+      } else {
+        const shown = Math.abs(ang - 90) < 0.08 ? 90 : ang;
+        angEl.textContent = shown.toFixed(1) + '°';
+        const onC = Math.abs(dpm - r) < 0.04 * Math.max(r, 0.5);
+        if (onC) {
+          angEl.className = 'v ok';
+          badge.textContent = '直径所对圆周角是直角';
+          badge.className = 'badge';
+        } else if (dpm < r) {
+          angEl.className = 'v warn';
+          badge.textContent = 'P 在圆内：圆周角变为钝角';
+          badge.className = 'badge off';
+        } else {
+          angEl.className = 'v warn';
+          badge.textContent = 'P 在圆外：张角变为锐角';
+          badge.className = 'badge off';
+        }
+      }
+
+      if (Math.abs(dpm - r) < 0.04 * Math.max(r, 0.5)) {
+        posEl.textContent = '在圆上';
+        posEl.className = 'v ok';
+      } else if (dpm < r) {
+        posEl.textContent = '圆内';
+        posEl.className = 'v warn';
+      } else {
+        posEl.textContent = '圆外';
+        posEl.className = 'v warn';
+      }
+
+      if (Math.abs(dot) < 0.05) {
+        dotEl.textContent = '0.000  （垂直）';
+        dotEl.className = 'v ok';
+      } else {
+        dotEl.textContent = dot.toFixed(3);
+        dotEl.className = 'v';
+      }
+
+      const showSq = document.getElementById('showSquare').checked &&
+        isFinite(ang) && Math.abs(ang - 90) < 1.2 && !nearAB;
+      sq.setAttribute({ visible: showSq });
+      angArc.setAttribute({ visible: !nearAB });
+      updating = false;
+    }
+
+    function constrainIfNeeded() {
+      if (document.getElementById('onCircle').checked) projectP();
+    }
+
+    P.on('drag', function () {
+      constrainIfNeeded();
+      updatePanel();
+    });
+    A.on('drag', function () {
+      constrainIfNeeded();
+      updatePanel();
+    });
+    B.on('drag', function () {
+      constrainIfNeeded();
+      updatePanel();
+    });
+
+    document.getElementById('lockAB').addEventListener('change', function () {
+      A.setAttribute({ fixed: this.checked });
+      B.setAttribute({ fixed: this.checked });
+    });
+    document.getElementById('onCircle').addEventListener('change', function () {
+      if (this.checked) {
+        projectP();
+        board.update();
+      }
+      updatePanel();
+    });
+    document.getElementById('showRadius').addEventListener('change', function () {
+      radiusMP.setAttribute({ visible: this.checked });
+      board.update();
+    });
+    document.getElementById('showSquare').addEventListener('change', function () {
+      updatePanel();
+      board.update();
+    });
+
+    function stopAnim() {
+      animating = false;
+      if (animId) cancelAnimationFrame(animId);
+      animId = null;
+      document.getElementById('btnAnim').textContent = '绕圆运动';
+      document.getElementById('btnAnim').classList.remove('active');
+    }
+    function startAnim() {
+      animating = true;
+      document.getElementById('onCircle').checked = true;
+      document.getElementById('btnAnim').textContent = '停止运动';
+      document.getElementById('btnAnim').classList.add('active');
+      projectP();
+      function step() {
+        if (!animating) return;
+        const mx = M.X();
+        const my = M.Y();
+        const r = radiusLen();
+        let th = Math.atan2(P.Y() - my, P.X() - mx);
+        th += 0.016;
+        const tx = mx + r * Math.cos(th);
+        const ty = my + r * Math.sin(th);
+        const tooClose =
+          Math.hypot(tx - A.X(), ty - A.Y()) < 0.35 ||
+          Math.hypot(tx - B.X(), ty - B.Y()) < 0.35;
+        if (tooClose) {
+          th += 0.42;
+        }
+        P.setPosition(JXG.COORDS_BY_USER, [mx + r * Math.cos(th), my + r * Math.sin(th)]);
+        board.update();
+        updatePanel();
+        animId = requestAnimationFrame(step);
+      }
+      step();
+    }
+    document.getElementById('btnAnim').addEventListener('click', function () {
+      if (animating) stopAnim();
+      else startAnim();
+    });
+    document.getElementById('btnReset').addEventListener('click', function () {
+      stopAnim();
+      document.getElementById('lockAB').checked = true;
+      document.getElementById('onCircle').checked = true;
+      A.setAttribute({ fixed: false });
+      B.setAttribute({ fixed: false });
+      A.setPosition(JXG.COORDS_BY_USER, [1, 2]);
+      B.setPosition(JXG.COORDS_BY_USER, [4, 6]);
+      A.setAttribute({ fixed: true });
+      B.setAttribute({ fixed: true });
+      P.setPosition(JXG.COORDS_BY_USER, [0.5, 5.5]);
+      board.update();
+      updatePanel();
+    });
+
+    window.addEventListener('resize', function () {
+      const box = document.getElementById('jxgbox');
+      board.resizeContainer(box.clientWidth, box.clientHeight);
+    });
+
+    updatePanel();
+  </script>
+</body>
+</html>

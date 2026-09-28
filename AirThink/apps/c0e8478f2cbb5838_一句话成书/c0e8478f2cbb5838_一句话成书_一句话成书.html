@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>一句话成书 · 墨香书房</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.7/marked.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.5/purify.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
+<style>
+:root{--paper:#f7f1e3;--paper2:#efe4d0;--ink:#2c2a32;--nav:#1b1a2e;--gold:#c6a35a;--red:#8b2942;--green:#35775e;--card:#fffaf0;--muted:#756e68;--line:#d9c9a9;--shadow:0 12px 34px #41351b22;--navh:72px;color-scheme:light}*{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;background:radial-gradient(circle at 10% 0%,var(--paper),var(--paper2) 80%);color:var(--ink);font:16px/1.65 system-ui,"Microsoft YaHei",sans-serif}body.dark{--paper:#1b1a22;--paper2:#24222a;--ink:#eee4d1;--nav:#12111a;--gold:#d6b872;--red:#d97894;--green:#6bb998;--card:#2d2a32;--muted:#b5a99b;--line:#51483d;--shadow:0 12px 34px #0007;color-scheme:dark}h1,h2,h3,.brand-name,.book-title{font-family:Georgia,"Noto Serif SC","Songti SC",serif;line-height:1.3}h1{font-size:clamp(2.2rem,5vw,4.5rem);margin:.2em 0}h2{font-size:clamp(1.5rem,3vw,2.2rem);margin:.3em 0}h3{margin:.4em 0}p{margin:.5em 0 1em}.muted{color:var(--muted)}button,input,select,textarea{font:inherit;box-sizing:border-box}button{cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:.65rem 1rem;background:var(--card);color:var(--ink);transition:transform .16s,box-shadow .16s,border-color .16s}button:hover,.book-card:hover,.cat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--gold)}button:disabled{opacity:.55;cursor:not-allowed;transform:none}button.primary{background:var(--gold);border-color:var(--gold);color:#17151b;font-weight:700}button.danger{color:var(--red)}button.plain{background:transparent;border-color:transparent}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);padding:.7rem .85rem;min-height:44px}textarea{min-height:130px;resize:vertical}label{display:block;font-weight:650;margin:.8rem 0 .3rem}.topbar{height:var(--navh);position:fixed;top:0;left:0;right:0;background:var(--nav);color:#f6ead8;border-bottom:2px solid var(--gold);z-index:1001;display:flex;align-items:center;gap:1rem;padding:0 clamp(14px,3vw,42px)}.brand{display:flex;align-items:center;gap:.7rem;color:inherit;text-decoration:none;min-width:0;cursor:pointer}.brand i{font-size:1.8rem;color:var(--gold)}.brand-name{font-size:1.23rem;font-weight:700;white-space:nowrap}.brand small{display:block;font-size:.69rem;color:#d6c5a7;white-space:nowrap}.navlinks{display:flex;align-items:center;gap:.1rem;margin-left:auto;white-space:nowrap}.navlinks button{color:#e9decd;border:0;background:transparent;border-radius:0;padding:.5rem .8rem}.navlinks button.active{color:var(--gold);border-bottom:2px solid var(--gold)}#menuToggle{display:none;margin-left:auto;background:transparent;color:var(--gold);border-color:var(--gold)}#mobileMenu{position:absolute;top:100%;right:0;left:0;background:var(--nav);padding:.8rem;display:none;box-shadow:var(--shadow)}#mobileMenu.open{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}#mobileMenu button{background:#ffffff12;color:#f6ead8;border-color:#ffffff25}main{padding-top:var(--navh)}.page{display:none;min-height:calc(100vh - var(--navh));padding:clamp(20px,3vw,44px) max(20px,calc((100vw - 1320px)/2));padding-bottom:clamp(170px,28vh,360px)}.page.active{display:block}.page.detail-page{padding-left:0;padding-right:0}.hero{border-radius:24px;padding:clamp(35px,7vw,95px);background:linear-gradient(125deg,#242337ed,#39343ced),radial-gradient(circle at right,#b88a4255,transparent);color:#fff4df;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:'';position:absolute;right:8%;top:2%;font-size:18rem;color:#c6a35a20}.hero p{max-width:740px;font-size:1.13rem}.actions,.toolbar,.row,.step-actions{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center}.section-head{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin:2rem 0 1rem}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin:1.5rem 0}.stat,.panel,.cat-card,.book-card,.chapter-card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.stat{padding:1.3rem;border-top:4px solid var(--gold);transition:transform .16s}.stat:nth-child(2){border-color:var(--red)}.stat:nth-child(3){border-color:var(--green)}.stat:nth-child(4){border-color:#6f76a4}.stat:hover{transform:translateY(-4px)}.stat strong{display:block;font:700 2rem Georgia,serif}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem}.book-card{overflow:hidden;cursor:pointer;transition:transform .16s,box-shadow .16s}.cover{aspect-ratio:2/3;width:100%;object-fit:cover;display:block;background:linear-gradient(130deg,#766146,#d7c6a3);border-right:9px solid #0002}.cover-wrap{position:relative}.cover-placeholder{display:flex;align-items:center;justify-content:center;font:700 5rem Georgia,serif;color:#704c37;text-shadow:1px 2px #fff5}.book-card .body,.cat-card{padding:1.15rem}.book-card .body{display:grid;gap:.4rem}.book-card p{margin:0}.book-title{font-size:1.35rem;font-weight:bold}.badge{display:inline-block;padding:.15rem .55rem;border-radius:50px;background:#c6a35a33;color:var(--ink);font-size:.78rem;width:max-content}.badge.done{background:#35775e33}.card-actions{display:flex;flex-wrap:wrap;gap:.4rem;border-top:1px solid var(--line);padding-top:.7rem}.card-actions button{padding:.32rem .55rem;font-size:.82rem}.empty{padding:3rem;text-align:center;border:1px dashed var(--line);border-radius:18px;background:var(--card)}.empty i{font-size:3rem;color:var(--gold)}.toolbar{margin:1.2rem 0}.toolbar input{flex:2;min-width:190px}.toolbar select{flex:1;min-width:130px}.chips{display:flex;gap:.45rem;overflow:auto;padding:.5rem 0 1rem}.chips button{white-space:nowrap}.chips button.active{background:var(--gold);color:#16151c}.panel{padding:1.35rem;margin:1.2rem 0}.work-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:1.5rem}.steps{position:sticky;top:calc(var(--navh) + 18px);align-self:start;display:grid;gap:.4rem}.steps button{text-align:left;border-left:4px solid var(--line)}.steps button.active{border-left-color:var(--gold);background:var(--card)}.steps button.done{border-left-color:var(--green)}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 1rem}.span-2{grid-column:1/-1}.preview{display:grid;grid-template-columns:160px 1fr;gap:1.2rem;align-items:start}.preview .cover{border-radius:6px}.detail-top,.detail-columns{display:grid;grid-template-columns:minmax(240px,320px) minmax(0,1fr);gap:1.4rem;padding:0 clamp(16px,3vw,44px)}.detail-top{margin-top:1rem}.detail-columns{margin-top:1.4rem}.detail-aside{align-self:start}.detail-aside .cover{max-width:320px}.chapter-card{padding:1rem;margin:.75rem 0;box-shadow:none}.chapter-card h3{font-size:1.1rem}.reader{display:none;background:var(--card);padding:clamp(24px,5vw,70px);margin-top:1.4rem;min-height:100vh}.reader.active{display:block}.reader .markdown-body{max-width:800px;margin:auto;font-family:Georgia,"Noto Serif SC","Songti SC",serif;font-size:1.12rem;line-height:2}.reader-head,.reader-nav{max-width:900px;margin:auto;display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap}.reader-nav{margin-top:3rem}.reader-nav .next{margin-left:auto}.outline{margin-top:1.4rem}.outline summary{cursor:pointer;font-size:1.35rem;font-family:Georgia,serif;font-weight:bold}.markdown-body{background:transparent!important;color:var(--ink)!important;overflow-wrap:anywhere}.markdown-body img{max-width:100%;cursor:pointer}.markdown-body a{color:var(--red)}.modal-layer{position:fixed;inset:0;background:#111a;z-index:2000;display:none;place-items:center;padding:20px}.modal-layer.open{display:grid}.modal{background:var(--card);color:var(--ink);border:1px solid var(--gold);border-radius:16px;width:min(760px,100%);max-height:calc(100dvh - 40px);overflow:auto;padding:1.5rem;box-shadow:0 25px 80px #0008}.modal .modal-top{display:flex;justify-content:space-between;align-items:start}.modal .modal-top h2{margin:0}.modal .actions{margin-top:1rem}.modal .markdown-body{max-width:100%}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--nav);color:white;padding:.7rem 1rem;border-radius:10px;z-index:3000;display:none;max-width:90vw}.loading{opacity:.7}.sr-only{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}@media(max-width:800px){:root{--navh:66px}.stats{grid-template-columns:repeat(2,1fr)}.work-layout,.detail-top,.detail-columns{grid-template-columns:1fr}.steps{position:static;display:flex;overflow:auto}.steps button{flex:0 0 auto}.detail-aside .cover{max-width:230px}.page{padding-bottom:260px}.reader{margin:1.2rem 0 0}.modal{padding:1rem;padding-bottom:35vh}.modal-layer.markdown-modal{padding:0}.modal-layer.markdown-modal .modal{width:100%;height:100dvh;max-height:100dvh;border-radius:0}.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}}@media(max-width:560px){.brand small{display:none}.hero{padding:35px 24px}.stats{gap:.6rem}.stat{padding:.8rem}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}.book-card .body{padding:.75rem}.book-title{font-size:1.1rem}.card-actions button{font-size:.72rem}.preview{grid-template-columns:100px 1fr}.detail-top,.detail-columns{padding:0}.reader{padding:20px}.reader-nav{gap:1.2rem}.reader-nav button{max-width:100%}.page.detail-page{padding-bottom:260px}}
+.navlinks{position:relative;z-index:1001}.detail-page.reading .detail-top,.detail-page.reading #directory,.detail-page.reading #outlineDrawer,.detail-page.reading .detail-columns>div:first-child{display:none}.detail-page.reading .detail-columns{display:block;padding:0;margin-top:0}.detail-page.reading .reader{margin:0;min-height:calc(100dvh - var(--navh));border-radius:0}.detail-page.reading>div:first-child{display:none}
+</style></head><body>
+<header class="topbar" id="topbar"><a class="brand" id="brand" aria-label="Close"><i class="fa-solid fa-book-open"></i><span><span class="brand-name" data-i18n="app">一句话成书</span><small data-i18n="tagline">一念落墨，万卷自成</small></span></a><nav class="navlinks" id="navLinks"></nav><button id="langButton" class="plain" aria-label="Language">中 / EN</button><button id="menuToggle" aria-label="Menu"><i class="fa-solid fa-bars"></i></button><div id="mobileMenu"></div></header>
+<main><section id="homePage" class="page active"><div class="hero"><div class="muted" style="color:var(--gold)">INK & IMAGINATION</div><h1 data-i18n="app">一句话成书</h1><p data-i18n="hero">写下你的一句话灵感，AI 策划编辑与畅销书作家将为你起名、搭大纲、写正文、绘封面、录朗读，一气呵成。</p><div class="actions"><button class="primary" data-go="workshop" data-i18n="start">开始创作</button><button data-go="shelf" data-i18n="visitShelf">走进书架</button></div></div><div class="stats" id="stats"></div><div class="section-head"><h2 data-i18n="recent">最近落墨</h2><button data-go="shelf" data-i18n="viewAll">查看全部</button></div><div class="grid" id="recentGrid"></div><p class="muted" style="text-align:center;margin-top:4rem" data-i18n="footer">一念落墨，万卷自成。</p></section>
+<section id="workshopPage" class="page"><div class="section-head"><div><h2 data-i18n="workshop">创作工坊</h2><p class="muted" data-i18n="workshopIntro">用一句话点燃一部作品。提交后依次生成书名、大纲与封面，再拆章撰写与朗读。</p></div><button data-go="shelf" data-i18n="backShelf">返回书架</button></div><div class="work-layout"><div class="steps" id="steps"></div><div><section class="panel" id="workFormPanel"><h2 data-i18n="oneSentence">一句话设定</h2><form id="createBookForm"><div class="form-grid"><div class="span-2"><label for="createBookForm_一句话" data-i18n="idea">一句话</label><textarea id="createBookForm_一句话" name="一句话" required></textarea></div><div><label for="createBookForm_分类名称" data-i18n="category">分类</label><select id="createBookForm_分类名称" name="分类名称" required></select><small id="categoryHint" class="muted"></small></div><div><label for="createBookForm_写作风格" data-i18n="style">写作风格</label><select id="createBookForm_写作风格" name="写作风格" required></select></div><div><label for="createBookForm_目标篇幅" data-i18n="length">目标篇幅</label><select id="createBookForm_目标篇幅" name="目标篇幅" required></select></div></div><input type="hidden" id="createBookForm_书籍编号" name="书籍编号"><input type="hidden" id="createBookForm_创建时间" name="创建时间"><input type="hidden" id="createBookForm_完结状态" name="完结状态"><button class="primary" type="submit" id="createBookSubmit" data-i18n="create">落笔成书</button></form><div id="noCategory" hidden><p data-i18n="needCategory">请先创建分类。</p><button data-go="categories" data-i18n="manageCategory">前往分类管理</button></div></section><section class="panel" id="workProgress" hidden><h2 id="progressTitle"></h2><p id="progressMessage"></p><div id="progressContent"></div><div class="actions" id="progressActions"></div></section></div></div></section>
+<section id="shelfPage" class="page"><div class="section-head"><div><h2 data-i18n="shelf">我的书架</h2><p class="muted" data-i18n="shelfIntro">按分类浏览、检索与管理全部作品</p></div><button class="primary" data-go="workshop" data-i18n="newBook">+ 一句话成书</button></div><div class="toolbar"><input id="shelfSearch" type="search" data-placeholder="searchBook"><select id="shelfCategory"></select><select id="shelfStyle"></select><select id="shelfLength"></select><select id="shelfStatus"></select></div><div class="chips" id="categoryChips"></div><div class="grid" id="shelfGrid"></div></section>
+<section id="categoriesPage" class="page"><div class="section-head"><div><h2 data-i18n="categories">分类管理</h2><p class="muted" data-i18n="categoryIntro">管理书架分类，供创作时选用</p></div><button class="primary" id="addCategory" data-i18n="addCategory">+ 添加分类</button></div><div class="toolbar"><input id="categorySearch" type="search" data-placeholder="searchCategory"></div><div class="grid" id="categoryGrid"></div></section>
+<section id="detailPage" class="page detail-page"><div style="padding:0 clamp(16px,3vw,44px)"><button data-go="shelf" data-i18n="backShelf">← 我的书架</button></div><div class="detail-top" id="detailTop"></div><div class="detail-columns"><div><section class="panel" id="directory"><div class="section-head"><h2 data-i18n="directory">目录</h2><button id="addChapter" data-i18n="addChapter">+ 添加章节</button></div><div id="chapterList"></div></section></div><div><details class="panel outline" id="outlineDrawer"><summary data-i18n="outline">全书大纲</summary><div class="markdown-body" id="outlineBody"></div></details><article class="reader" id="reader"><div class="reader-head"><h2 id="readerTitle"></h2><div id="readerAudio"></div></div><div class="markdown-body" id="readerBody"></div><div class="reader-nav" id="readerNav"></div></article></div></div></section></main>
+<div class="modal-layer" id="modalLayer"><div class="modal" role="dialog" aria-modal="true"><div class="modal-top"><h2 id="modalTitle"></h2><button class="plain" id="closeModal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div id="modalBody"></div></div></div><div class="toast" id="toast"></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("c0e8478f2cbb5838_一句话成书")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+</script><script>
+const T={书籍:'书籍/默认表格',书籍分类:'书籍分类/默认表格',书籍大纲:'书籍大纲/默认表格',书籍封面:'书籍封面/默认表格',章节:'章节/默认表格',章节朗读:'章节朗读/默认表格'};
+const F={books:['书籍编号','一句话','分类名称','写作风格','目标篇幅','完结状态','创建时间','书名'],cats:['分类名称','分类简介','排序号'],chapters:['章节编号','书籍编号','章节序号','章节标题','本章要点'],covers:['书籍编号','封面图片'],outlines:['书籍编号','大纲内容'],audio:['章节编号','朗读音频']};
+const styles=['现实文学','科幻未来','玄幻奇幻','武侠仙侠','悬疑推理','历史传记','都市言情','儿童童话','科普百科','心理励志','其他'],lengths=['短篇','中篇','长篇'],statuses=['创作中','已完结'];
+const I={cn:{app:'一句话成书',tagline:'一念落墨，万卷自成',home:'首页',workshop:'创作工坊',shelf:'我的书架',categories:'分类管理',hero:'写下你的一句话灵感，AI 策划编辑与畅销书作家将为你起名、搭大纲、写正文、绘封面、录朗读，一气呵成。',start:'开始创作',visitShelf:'走进书架',recent:'最近落墨',viewAll:'查看全部',footer:'一念落墨，万卷自成。',workshopIntro:'用一句话点燃一部作品。提交后依次生成书名、大纲与封面，再拆章撰写与朗读。',backShelf:'返回书架',oneSentence:'一句话设定',idea:'一句话',category:'分类',style:'写作风格',length:'目标篇幅',create:'落笔成书',needCategory:'请先创建分类。',manageCategory:'前往分类管理',shelfIntro:'按分类浏览、检索与管理全部作品',newBook:'+ 一句话成书',categoryIntro:'管理书架分类，供创作时选用',addCategory:'+ 添加分类',directory:'目录',addChapter:'+ 添加章节',outline:'全书大纲',searchBook:'搜索书名或一句话',searchCategory:'搜索分类名称或简介',all:'全部',loading:'加载中…',emptyBooks:'书架尚空',firstBook:'用一句话写下第一本书',emptyCats:'暂无分类，先添加一个。',noResults:'没有匹配的结果',retry:'加载失败，请重试',bookCount:'藏书总数',creating:'创作中',completed:'已完结',categoryCount:'分类数',read:'阅读',edit:'编辑',delete:'删除',details:'详情',books:'本书',viewCategory:'查看该分类书籍',save:'保存',cancel:'取消',continue:'继续创作章节',markDone:'标记完结',reopen:'重新开写',export:'导出 PDF',readChapter:'阅读本章',voice:'生成朗读',returnDirectory:'返回目录',prev:'上一章',next:'下一章',writeAgain:'再写一本',enterBook:'进入这部书'},en:{app:'A Book from One Sentence',tagline:'One thought, a thousand pages',home:'Home',workshop:'Workshop',shelf:'My Library',categories:'Categories',hero:'Write one spark of inspiration. AI editors and authors will create a title, outline, chapters, cover, and narration.',start:'Start writing',visitShelf:'Visit library',recent:'Recently written',viewAll:'View all',footer:'One thought, a thousand pages.',workshopIntro:'Turn a sentence into a book, then create its chapters and narration.',backShelf:'Back to library',oneSentence:'Your idea',idea:'One sentence',category:'Category',style:'Writing style',length:'Target length',create:'Create book',needCategory:'Create a category first.',manageCategory:'Manage categories',shelfIntro:'Browse, search, and manage your books',newBook:'+ New book',categoryIntro:'Manage categories for your books',addCategory:'+ Add category',directory:'Contents',addChapter:'+ Add chapter',outline:'Book outline',searchBook:'Search title or idea',searchCategory:'Search categories',all:'All',loading:'Loading…',emptyBooks:'Your library is empty',firstBook:'Write your first book',emptyCats:'No categories yet. Add one.',noResults:'No matching results',retry:'Could not load. Retry.',bookCount:'Books',creating:'In progress',completed:'Completed',categoryCount:'Categories',read:'Read',edit:'Edit',delete:'Delete',details:'Details',books:'books',viewCategory:'View books',save:'Save',cancel:'Cancel',continue:'Continue chapters',markDone:'Complete',reopen:'Reopen',export:'Export PDF',readChapter:'Read chapter',voice:'Generate narration',returnDirectory:'Contents',prev:'Previous',next:'Next',writeAgain:'Write another',enterBook:'Open book'}};
+let lang='cn',page='home',historyStack=[],currentBook=null,currentChapter=null,currentRow=0,workStep=0,busy=false,books=[],cats=[],covers=[],outlines=[],chapters=[],audios=[],maxStep=0,workBook=null,workResults={},bookCount=0,categoryCount=0;
+const $=id=>document.getElementById(id),tx=k=>I[lang][k]||k,esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),attr=s=>esc(s),fileUrl=n=>'http://' + window.location.hostname + ':3130/download/'+encodeURIComponent(n),delay=ms=>new Promise(r=>setTimeout(r,ms));
+function toast(s){$('toast').textContent=s;$('toast').style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.display='none',4500)}
+function fmtDate(d,withTime=true){let p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+(withTime?' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds()):'')}
+function randomId(){return String(Date.now())+String(Math.floor(Math.random()*1000000)).padStart(6,'0')}
+function rows(csv,fields){return parseCSV(String(csv||'')).filter(r=>r.some(x=>String(x).trim())).map((r,i)=>Object.fromEntries([...fields.map((f,j)=>[f,r[j]??'']),['_row',i+1]]))}
+async function getRows(table,fields){return rows(await callAppBridge({type:'GetTableCSV',data:T[table],payload:fields.join(',')}),fields)}
+async function cell(table,field,row){return await callAppBridge({type:'GetCellValue',data:T[table],payload:field+'/'+row})}
+async function recordRow(table,field,value){const n=Number(await callAppBridge({type:'GetRecordRow',data:T[table],payload:field+'/'+value}));if(!Number.isInteger(n)||n<1)throw Error('记录不存在');return n}
+async function put(table,field,row,value){return await callAppBridge({type:'SetCellValue',data:T[table],payload:field+'/'+row+'/'+String(value??'')})}
+async function submit(table,data){await callAppBridge({type:'SubmitRecord',data:table,payload:JSON.stringify(data)});currentRow=1}
+async function del(table,row){await callAppBridge({type:'DeleteRecord',data:T[table],payload:row.toString()})}
+function markdown(s){const raw=window.marked?marked.parse(String(s||'')):'<p>'+esc(s)+'</p>';return window.DOMPurify?DOMPurify.sanitize(raw):raw}
+function mdInto(el,s){el.innerHTML=markdown(s);el.querySelectorAll('img').forEach(img=>{let src=img.getAttribute('src')||'';if(src&&!/^https?:|^data:/i.test(src))src=fileUrl(src);img.src=src;img.addEventListener('click',()=>{let a=document.createElement('a');a.href=src;a.download='';a.click()})})}
+function setLang(l,persist=false){lang=l==='en'?'en':'cn';document.documentElement.lang=lang==='cn'?'zh-CN':'en';if(persist)localStorage.setItem('iThinkAir_UiLanguage',lang);document.querySelectorAll('[data-i18n]').forEach(e=>e.textContent=tx(e.dataset.i18n));document.querySelectorAll('[data-placeholder]').forEach(e=>e.placeholder=tx(e.dataset.placeholder));renderNav();renderAll()}
+function renderNav(){const items=[['home','home'],['workshop','workshop'],['shelf','shelf'],['categories','categories']];$('navLinks').innerHTML=items.map(([p,k])=>`<button data-go="${p}" class="${page===p?'active':''}">${tx(k)}</button>`).join('');$('mobileMenu').innerHTML=items.map(([p,k])=>`<button data-go="${p}">${tx(k)}</button>`).join('')+`<button id="mobileLang">${lang==='cn'?'English':'中文'}</button>`;$('navLinks').style.display='flex';$('langButton').style.display='block';const need=$('brand').scrollWidth+$('navLinks').scrollWidth+$('langButton').scrollWidth+80>window.innerWidth;$('navLinks').style.display=need?'none':'flex';$('langButton').style.display=need?'none':'block';$('menuToggle').style.display=need?'block':'none';$('mobileLang').onclick=()=>{setLang(lang==='cn'?'en':'cn',true);$('mobileMenu').classList.remove('open')}}
+function go(p,opts={}){if(!opts.back)historyStack.push({page,book:currentBook,chapter:currentChapter,scroll:window.scrollY});page=p;document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id===p+'Page'));$('mobileMenu').classList.remove('open');renderNav();if(!opts.keepScroll)window.scrollTo(0,0);if(p==='detail')renderDetail();if(p==='shelf')renderShelf()}
+function airBack(){if($('modalLayer').classList.contains('open')){closeModal();return 'false'}if($('mobileMenu').classList.contains('open')){$('mobileMenu').classList.remove('open');return 'false'}if(page==='detail'&&$('detailPage').classList.contains('reading')){$('detailPage').classList.remove('reading');currentChapter=null;$('reader').classList.remove('active');requestAnimationFrame(()=>scrollTarget($('directory')));return 'false'}if(historyStack.length){const h=historyStack.pop();currentBook=h.book;currentChapter=h.chapter;go(h.page,{back:true,keepScroll:true});window.scrollTo(0,h.scroll);return 'false'}return 'true'}window.airBack=airBack;
+function openModal(title,html,kind=''){document.body.style.overflow='hidden';$('modalLayer').className='modal-layer open '+kind;$('modalTitle').textContent=title;$('modalBody').innerHTML=html;$('modalLayer').querySelector('.modal').scrollTop=0}
+function closeModal(){document.body.style.overflow='';$('modalLayer').className='modal-layer';$('modalBody').innerHTML=''}
+function coverMarkup(book,extra=''){const c=covers.find(x=>x.书籍编号===book.书籍编号);return c?.封面图片?`<img class="cover ${extra}" src="${attr(fileUrl(c.封面图片))}" alt="${attr(book.书名)}">`:`<div class="cover cover-placeholder ${extra}" aria-label="${attr(book.书名)}">${esc((book.书名||'书').trim().charAt(0))}</div>`}
+function bookCard(b,recent=false){return `<article class="book-card" data-book="${attr(b.书籍编号)}"><div class="cover-wrap">${coverMarkup(b)}</div><div class="body"><div class="book-title">${esc(b.书名||'书名生成中…')}</div><p class="muted">${esc((b.一句话||'').slice(0,recent?36:40))}</p><div class="row"><span class="badge ${b.完结状态==='已完结'?'done':''}">${esc(b.完结状态)}</span><small>${esc(recent?b.写作风格:[b.分类名称,b.写作风格,b.目标篇幅].filter(Boolean).join(' · '))}</small></div>${recent?'':`<div class="card-actions"><button data-action="read" data-id="${attr(b.书籍编号)}">${tx('read')}</button><button data-action="bookDetail" data-id="${attr(b.书籍编号)}">${tx('details')}</button><button data-action="editBook" data-id="${attr(b.书籍编号)}">${tx('edit')}</button><button class="danger" data-action="deleteBook" data-id="${attr(b.书籍编号)}">${tx('delete')}</button></div>`}</div></article>`}
+function emptyBooks(){return `<div class="empty" style="grid-column:1/-1"><i class="fa-solid fa-book-open"></i><h3>${tx('emptyBooks')}</h3><button class="primary" data-go="workshop">${tx('firstBook')}</button></div>`}
+function renderHome(){const recent=[...books].sort((a,b)=>String(b.创建时间).localeCompare(String(a.创建时间))).slice(0,6);$('recentGrid').innerHTML=recent.length?recent.map(b=>bookCard(b,true)).join(''):emptyBooks();$('stats').innerHTML=[[tx('bookCount'),bookCount,'fa-book'],[tx('creating'),books.filter(b=>b.完结状态==='创作中').length,'fa-pen-nib'],[tx('completed'),books.filter(b=>b.完结状态==='已完结').length,'fa-circle-check'],[tx('categoryCount'),categoryCount,'fa-layer-group']].map(x=>`<div class="stat"><i class="fa-solid ${x[2]}"></i><strong>${x[1]}</strong><span>${x[0]}</span></div>`).join('')}
+function options(id,values,key,selected=''){let el=$(id);el.innerHTML=`<option value="">${tx(key)}</option>`+values.map(v=>`<option value="${attr(v)}" ${v===selected?'selected':''}>${esc(v)}</option>`).join('')}
+function renderSelectors(){options('createBookForm_分类名称',cats.map(c=>c.分类名称),'category');options('createBookForm_写作风格',styles,'style');options('createBookForm_目标篇幅',lengths,'length');$('noCategory').hidden=!!cats.length;$('createBookSubmit').disabled=!cats.length||busy;options('shelfCategory',cats.map(c=>c.分类名称),'all',$('shelfCategory').value);options('shelfStyle',styles,'all',$('shelfStyle').value);options('shelfLength',lengths,'all',$('shelfLength').value);options('shelfStatus',statuses,'all',$('shelfStatus').value);$('categoryChips').innerHTML=['',...cats.map(c=>c.分类名称)].map(v=>`<button data-filter-category="${attr(v)}" class="${$('shelfCategory').value===v?'active':''}">${esc(v||tx('all'))}</button>`).join('')}
+function renderShelf(){let q=$('shelfSearch').value.trim().toLowerCase(),c=$('shelfCategory').value,s=$('shelfStyle').value,l=$('shelfLength').value,st=$('shelfStatus').value;let list=books.filter(b=>(!q||(b.书名+' '+b.一句话).toLowerCase().includes(q))&&(!c||b.分类名称===c)&&(!s||b.写作风格===s)&&(!l||b.目标篇幅===l)&&(!st||b.完结状态===st));$('shelfGrid').innerHTML=list.length?list.map(b=>bookCard(b)).join(''):(books.length?`<div class="empty" style="grid-column:1/-1">${tx('noResults')}</div>`:emptyBooks());$('categoryChips').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.filterCategory===c))}
+function renderCats(){let q=$('categorySearch').value.trim().toLowerCase(),list=cats.filter(c=>(c.分类名称+' '+c.分类简介).toLowerCase().includes(q));$('categoryGrid').innerHTML=list.length?list.map(c=>`<article class="cat-card" data-category="${attr(c.分类名称)}"><div class="row"><i class="fa-solid fa-bookmark" style="color:var(--gold)"></i><small>#${esc(c.排序号)}</small></div><h3>${esc(c.分类名称)}</h3><p class="muted">${esc(c.分类简介)}</p><p>${books.filter(b=>b.分类名称===c.分类名称).length} ${tx('books')}</p><div class="card-actions"><button data-action="categoryBooks" data-id="${attr(c.分类名称)}">${tx('viewCategory')}</button><button data-action="editCategory" data-id="${attr(c.分类名称)}">${tx('edit')}</button><button class="danger" data-action="deleteCategory" data-id="${attr(c.分类名称)}">${tx('delete')}</button></div></article>`).join(''):`<div class="empty" style="grid-column:1/-1">${q?tx('noResults'):tx('emptyCats')}</div>`}
+function renderSteps(){let names=lang==='cn'?['一句话设定','生成书名','生成大纲','生成封面','拆章成书','生成朗读']:['Idea','Title','Outline','Cover','Chapters','Narration'];$('steps').innerHTML=names.map((n,i)=>`<button data-step="${i}" ${i>maxStep?'disabled':''} class="${i===workStep?'active':''} ${i<maxStep?'done':''}">${String(i+1).padStart(2,'0')} ${n}</button>`).join('')}
+function renderAll(){renderHome();renderSelectors();renderShelf();renderCats();renderSteps();if(page==='detail')renderDetail()}
+async function refresh(){let result=await Promise.allSettled([getRows('书籍',F.books),getRows('书籍分类',F.cats),getRows('书籍封面',F.covers),getRows('书籍大纲',F.outlines),getRows('章节',F.chapters),getRows('章节朗读',F.audio),callAppBridge({type:'GetRecordCount',data:T.书籍}),callAppBridge({type:'GetRecordCount',data:T.书籍分类})]);let values=result.slice(0,6).map((r,i)=>{if(r.status==='fulfilled')return r.value;toast(tx('retry'));return [books,cats,covers,outlines,chapters,audios][i]});[books,cats,covers,outlines,chapters,audios]=values;bookCount=result[6].status==='fulfilled'?Number(result[6].value)||0:books.length;categoryCount=result[7].status==='fulfilled'?Number(result[7].value)||0:cats.length;cats.sort((a,b)=>Number(a.排序号)-Number(b.排序号));renderAll()}
+function progress(step,title,msg,content=''){workStep=step;maxStep=Math.max(maxStep,step);$('workProgress').hidden=false;$('progressTitle').textContent=title;$('progressMessage').textContent=msg;$('progressContent').innerHTML=content;renderSteps()}
+async function showWorkStep(i){if(i>maxStep)return;workStep=i;renderSteps();if(i===0){scrollTarget($('workFormPanel'));return}if(!workBook){scrollTarget($('workProgress'));return}let b=books.find(x=>x.书籍编号===workBook.书籍编号)||workBook;if(i===1){progress(1,'生成书名','书名生成结果');mdInto($('progressContent'),b.书名||await cell('书籍','书名',await recordRow('书籍','书籍编号',b.书籍编号)))}else if(i===2){let r=await recordRow('书籍大纲','书籍编号',b.书籍编号);progress(2,'生成大纲','全书大纲');mdInto($('progressContent'),await cell('书籍大纲','大纲内容',r))}else if(i===3){let r=await recordRow('书籍封面','书籍编号',b.书籍编号),name=await cell('书籍封面','封面图片',r);progress(3,'生成封面','封面生成结果',`<img class="cover" style="max-width:280px" src="${attr(fileUrl(name))}" alt="">`)}else{let list=chapters.filter(c=>c.书籍编号===b.书籍编号).sort((a,z)=>Number(a.章节序号)-Number(z.章节序号));progress(i,i===4?'拆章成书':'生成朗读',`${list.length} 章`,list.map(c=>`<div class="chapter-card"><b>${esc(c.章节序号)} · ${esc(c.章节标题)}</b><p>${esc(c.本章要点)}</p><small>${audios.some(a=>a.章节编号===c.章节编号&&a.朗读音频)?' 已有朗读':'等待朗读'}</small></div>`).join('')||'<p>正在生成…</p>');$('progressActions').innerHTML=`<button data-action="openWorkBook">${tx('enterBook')}</button><button data-action="resetWork">${tx('writeAgain')}</button>`}scrollTarget($('workProgress'))}
+async function poll(table,field,row,msg){let end=Date.now()+1800000;progress(workStep,msg,msg,`<p class="loading"><i class="fa-solid fa-spinner fa-spin"></i> ${esc(msg)}</p>`);while(Date.now()<end){let v=String(await cell(table,field,row)||'').trim();if(v)return v;await delay(1000)}throw Error('生成超时，请稍后重试')}
+function parseOutlineChapters(md){let lines=String(md||'').split(/\r?\n/),found=[],current=null,inCatalog=false;const heading=/^\s*(?:#{1,6}\s*|[-*]\s*|\d+[.、]\s*)?(?:第\s*([一二三四五六七八九十百零〇两\d]+)\s*[章节回篇]|chapter\s*(\d+))\s*[：:.、\-—]?\s*(.+)?/i;for(let line of lines){if(/章节目录|目录规划|chapter\s*(?:list|outline)/i.test(line))inCatalog=true;let m=line.match(heading),numbered=inCatalog?line.match(/^\s*(?:[-*]\s*)?(\d{1,3})[.、)）]\s*(.+)/):null;if(m||numbered){if(current)found.push(current);let title=m?(m[3]||line.replace(/^#+\s*/,'')):numbered[2];current={章节标题:title.replace(/\*\*/g,'').trim(),本章要点:''}}else if(current&&line.trim()&&!/^#{1,3}\s/.test(line))current.本章要点+=(current.本章要点?'\n':'')+line.trim()}if(current)found.push(current);return found.filter(x=>x.章节标题)}
+async function createNarration(ch){let existing=audios.find(a=>a.章节编号===ch.章节编号);let row;if(existing){row=await recordRow('章节朗读','章节编号',ch.章节编号);if(existing.朗读音频)return existing.朗读音频}else{await submit('章节朗读',{章节编号:ch.章节编号,朗读音频:''});row=1}workStep=5;maxStep=5;let v=await poll('章节朗读','朗读音频',row,'朗读者正在录制有声书…');await refresh();return v}
+async function createChapter(book,data){let chId=data.章节编号||randomId();await submit('章节',{章节编号:chId,书籍编号:book.书籍编号,章节序号:data.章节序号,章节标题:data.章节标题,本章要点:data.本章要点,章节正文:''});let row=1;workStep=4;maxStep=4;await poll('章节','章节正文',row,'作家正在撰写本章正文…');await refresh();await createNarration(chapters.find(c=>c.章节编号===chId)||{章节编号:chId});return chId}
+async function continueBook(book){if(busy)return;busy=true;try{let o=outlines.find(x=>x.书籍编号===book.书籍编号);if(!o){toast('大纲尚未生成');return}let outline=await cell('书籍大纲','大纲内容',await recordRow('书籍大纲','书籍编号',book.书籍编号));let plan=parseOutlineChapters(outline);if(!plan.length){toast('未能识别章节目录，请手动添加章节');return}let made=chapters.filter(c=>c.书籍编号===book.书籍编号);for(let i=0;i<plan.length;i++){let n=i+1;if(!made.some(c=>Number(c.章节序号)===n)){progress(4,'拆章成书',`正在创建第 ${n} 章…`);await createChapter(book,{章节序号:n,...plan[i]});made=chapters.filter(c=>c.书籍编号===book.书籍编号)}}for(let ch of made.sort((a,b)=>Number(a.章节序号)-Number(b.章节序号))){let a=audios.find(x=>x.章节编号===ch.章节编号);if(!a?.朗读音频)await createNarration(ch)}await refresh();progress(5,'创作完成','章节与朗读已生成。',`<button class="primary" data-action="openWorkBook">${tx('enterBook')}</button> <button data-action="resetWork">${tx('writeAgain')}</button>`)}catch(e){toast(e.message||String(e));$('progressMessage').textContent=(e.message||String(e))+' · 请重试';$('progressActions').innerHTML=`<button data-action="continueWork">重试</button>`}finally{busy=false}}
+async function createBook(ev){ev.preventDefault();if(busy)return;const form=ev.target;if(!form.reportValidity())return;busy=true;$('createBookSubmit').disabled=true;let data={书籍编号:randomId(),一句话:form.elements['一句话'].value.trim(),分类名称:form.elements['分类名称'].value,写作风格:form.elements['写作风格'].value,目标篇幅:form.elements['目标篇幅'].value,完结状态:'创作中',创建时间:fmtDate(new Date()),书名:''};if(!data.一句话){toast('请填写一句话');busy=false;return}try{await submit('书籍',data);workBook=data;maxStep=1;workStep=1;progress(1,'生成书名','策划编辑正在为这部作品起名…');let title=await poll('书籍','书名',1,'策划编辑正在为这部作品起名…');data.书名=title;progress(2,'生成大纲','结构编辑正在搭建全书骨架…');await submit('书籍大纲',{书籍编号:data.书籍编号,大纲内容:''});let outline=await poll('书籍大纲','大纲内容',1,'结构编辑正在搭建全书骨架…');progress(3,'生成封面','封面设计师正在绘制书籍封面…');await submit('书籍封面',{书籍编号:data.书籍编号,封面图片:''});let cover=await poll('书籍封面','封面图片',1,'封面设计师正在绘制书籍封面…');await refresh();let b=books.find(x=>x.书籍编号===data.书籍编号)||data;progress(4,'创作完成预览','正在拆章成书…',`<div class="preview">${coverMarkup(b)}<div><h3>${esc(title)}</h3><p>${esc(data.一句话)}</p><p>${esc([data.写作风格,data.目标篇幅,data.分类名称].join(' · '))}</p><p>${esc(outline.slice(0,120))}</p></div></div>`);busy=false;await continueBook(b)}catch(e){toast(e.message||String(e));$('progressMessage').textContent=(e.message||String(e))+' · 请重试';$('progressActions').innerHTML=`<button data-action="retryWork">重试</button>`}finally{busy=false;$('createBookSubmit').disabled=!cats.length}}
+function resetWork(){workBook=null;workResults={};currentRow=0;workStep=0;maxStep=0;$('createBookForm').reset();$('workProgress').hidden=true;$('workFormPanel').hidden=false;renderSteps();go('workshop')}
+async function openBook(id){let b=books.find(x=>x.书籍编号===id);if(!b){toast('书籍不存在');return}currentBook=b;currentChapter=null;currentRow=await recordRow('书籍','书籍编号',id);go('detail')}
+function scrollTarget(el){if(!el)return;let y=window.scrollY+el.getBoundingClientRect().top-$('topbar').offsetHeight-18;window.scrollTo({top:Math.max(0,y),behavior:'instant'})}
+async function renderDetail(){let b=currentBook;if(!b)return;let list=chapters.filter(c=>c.书籍编号===b.书籍编号).sort((a,z)=>Number(a.章节序号)-Number(z.章节序号));$('detailPage').classList.toggle('reading',!!currentChapter);$('detailTop').innerHTML=`<div class="panel detail-aside">${coverMarkup(b)}<h1 style="font-size:2rem">${esc(b.书名||'书名生成中…')}</h1><p>${esc(b.一句话)}</p><p class="muted">${esc([b.分类名称,b.写作风格,b.目标篇幅].filter(Boolean).join(' · '))}</p><span class="badge ${b.完结状态==='已完结'?'done':''}">${esc(b.完结状态)}</span><div class="actions" style="margin-top:1rem"><button class="primary" data-action="continueBook" data-id="${attr(b.书籍编号)}">${tx('continue')}</button><button data-action="toggleStatus" data-id="${attr(b.书籍编号)}">${tx(b.完结状态==='已完结'?'reopen':'markDone')}</button><button data-action="editBook" data-id="${attr(b.书籍编号)}">${tx('edit')}</button><button data-action="exportPdf" data-id="${attr(b.书籍编号)}">${tx('export')}</button><button class="danger" data-action="deleteBook" data-id="${attr(b.书籍编号)}">${tx('delete')}</button></div></div><div class="panel"><h2>${esc(b.书名||'书名生成中…')}</h2><p>${esc(b.一句话)}</p><p class="muted">${esc([b.写作风格,b.目标篇幅,b.分类名称].filter(Boolean).join(' · '))}</p><p>${list.length} ${lang==='cn'?'章':'chapters'}</p></div>`;
+ $('chapterList').innerHTML=list.length?list.map(c=>{let a=audios.find(x=>x.章节编号===c.章节编号);return `<article class="chapter-card"><div class="row"><span class="badge">${esc(c.章节序号)}</span><h3>${esc(c.章节标题)}</h3>${a?.朗读音频?'<i class="fa-solid fa-volume-high"></i>':''}</div><p class="muted">${esc((c.本章要点||'').slice(0,90))}</p><div class="card-actions"><button data-action="readChapter" data-id="${attr(c.章节编号)}">${tx('readChapter')}</button>${a?.朗读音频?'':`<button data-action="generateVoice" data-id="${attr(c.章节编号)}">${tx('voice')}</button>`}<button data-action="editChapter" data-id="${attr(c.章节编号)}">${tx('edit')}</button><button class="danger" data-action="deleteChapter" data-id="${attr(c.章节编号)}">${tx('delete')}</button></div></article>`}).join(''):`<div class="empty"><i class="fa-solid fa-feather"></i><h3>暂无章节</h3><button data-action="addChapter">根据大纲写下第一章</button></div>`;
+ let o=outlines.find(x=>x.书籍编号===b.书籍编号);if(o){try{mdInto($('outlineBody'),await cell('书籍大纲','大纲内容',await recordRow('书籍大纲','书籍编号',b.书籍编号)))}catch(e){$('outlineBody').textContent=tx('retry')}}else $('outlineBody').textContent='大纲生成中…';if(currentChapter&&list.some(c=>c.章节编号===currentChapter.章节编号))await showChapter(currentChapter.章节编号,false);else $('reader').classList.remove('active')}
+async function showChapter(id,scroll=true){let c=chapters.find(x=>x.章节编号===id);if(!c)return;currentChapter=c;currentRow=await recordRow('章节','章节编号',id);let list=chapters.filter(x=>x.书籍编号===c.书籍编号).sort((a,b)=>Number(a.章节序号)-Number(b.章节序号)),i=list.findIndex(x=>x.章节编号===id);$('detailPage').classList.add('reading');$('reader').classList.add('active');$('readerTitle').textContent=`${currentBook.书名} · ${lang==='cn'?'第'+c.章节序号+'章':'Chapter '+c.章节序号} · ${c.章节标题}`;$('readerBody').textContent=tx('loading');$('readerAudio').innerHTML='';$('readerNav').innerHTML=`${i>0?`<button data-action="readChapter" data-id="${attr(list[i-1].章节编号)}">← ${tx('prev')} · ${esc(list[i-1].章节标题)}</button>`:''}<button data-action="returnDirectory">${tx('returnDirectory')}</button>${i<list.length-1?`<button class="next" data-action="readChapter" data-id="${attr(list[i+1].章节编号)}">${tx('next')} · ${esc(list[i+1].章节标题)} →</button>`:''}`;if(scroll)scrollTarget($('reader'));try{let body=await cell('章节','章节正文',currentRow);mdInto($('readerBody'),body||'正文正在赶来，或请稍后重试');let a=audios.find(x=>x.章节编号===id);if(a?.朗读音频)$('readerAudio').innerHTML=`<audio controls preload="none" src="${attr(fileUrl(a.朗读音频))}"></audio>`}catch(e){$('readerBody').textContent=tx('retry')}}
+function inputField(form,field,value='',kind='text',extra=''){return `<div><label for="${form}_${field}">${esc(field)}</label><input id="${form}_${field}" name="${field}" type="${kind}" value="${attr(value)}" ${extra}></div>`}
+function selectField(form,field,values,value=''){return `<div><label for="${form}_${field}">${esc(field)}</label><select id="${form}_${field}" name="${field}">${values.map(x=>`<option value="${attr(x)}" ${x===value?'selected':''}>${esc(x)}</option>`).join('')}</select></div>`}
+async function editBook(id){let b=books.find(x=>x.书籍编号===id),row=await recordRow('书籍','书籍编号',id);currentRow=row;let fields=['一句话','分类名称','写作风格','目标篇幅','完结状态','书名','创建时间'];let v={};for(let f of fields)v[f]=await cell('书籍',f,row);openModal(tx('edit')+' · '+(b.书名||''),`<form id="editBookForm"><input type="hidden" id="editBookForm_书籍编号" name="书籍编号" value="${attr(id)}"><input type="hidden" id="editBookForm_创建时间" name="创建时间" value="${attr(v.创建时间)}"><div class="form-grid"><div class="span-2"><label for="editBookForm_一句话">一句话</label><textarea id="editBookForm_一句话" name="一句话" required>${esc(v.一句话)}</textarea></div>${selectField('editBookForm','分类名称',cats.map(x=>x.分类名称),v.分类名称)}${selectField('editBookForm','写作风格',styles,v.写作风格)}${selectField('editBookForm','目标篇幅',lengths,v.目标篇幅)}${selectField('editBookForm','完结状态',statuses,v.完结状态)}<div class="span-2"><label>书名</label><div class="markdown-body" id="editBookTitle"></div></div></div><div class="actions"><button class="primary" type="submit">${tx('save')}</button><button type="button" data-action="closeModal">${tx('cancel')}</button></div></form>`);mdInto($('editBookTitle'),v.书名);$('editBookForm').onsubmit=async e=>{e.preventDefault();let f=e.target;try{for(let k of ['一句话','分类名称','写作风格','目标篇幅','完结状态'])await put('书籍',k,row,f.elements[k].value);closeModal();await refresh();currentBook=books.find(x=>x.书籍编号===id)||null;toast('已保存')}catch(x){toast(x.message||String(x))}}}
+async function bookDetails(id){let b=books.find(x=>x.书籍编号===id),o=outlines.find(x=>x.书籍编号===id),c=covers.find(x=>x.书籍编号===id),outline='',cover='';if(o)outline=await cell('书籍大纲','大纲内容',await recordRow('书籍大纲','书籍编号',id));if(c)cover=await cell('书籍封面','封面图片',await recordRow('书籍封面','书籍编号',id));openModal(b.书名||tx('details'),`<div class="preview">${cover?`<img class="cover" src="${attr(fileUrl(cover))}" alt="">`:coverMarkup(b)}<div><p>${esc(b.一句话)}</p><p>${esc([b.分类名称,b.写作风格,b.目标篇幅,b.完结状态].join(' · '))}</p></div></div><h3>${tx('outline')}</h3><div class="markdown-body" id="detailOutline"></div>`, 'markdown-modal');mdInto($('detailOutline'),outline||'大纲生成中…')}
+async function deleteBook(id){if(!confirm('确定删除这部作品及所有章节、朗读、大纲和封面？'))return;try{let related=chapters.filter(x=>x.书籍编号===id);for(let ch of related){for(let a of audios.filter(x=>x.章节编号===ch.章节编号))await del('章节朗读',await recordRow('章节朗读','章节编号',a.章节编号));await del('章节',await recordRow('章节','章节编号',ch.章节编号))}for(let x of covers.filter(x=>x.书籍编号===id))await del('书籍封面',await recordRow('书籍封面','书籍编号',id));for(let x of outlines.filter(x=>x.书籍编号===id))await del('书籍大纲',await recordRow('书籍大纲','书籍编号',id));await del('书籍',await recordRow('书籍','书籍编号',id));if(currentBook?.书籍编号===id){currentBook=null;go('shelf')}await refresh();toast('已删除')}catch(e){toast(e.message||String(e))}}
+async function toggleStatus(id){let b=books.find(x=>x.书籍编号===id);await put('书籍','完结状态',await recordRow('书籍','书籍编号',id),b.完结状态==='已完结'?'创作中':'已完结');await refresh();currentBook=books.find(x=>x.书籍编号===id);renderDetail()}
+async function categoryForm(name=''){let c=cats.find(x=>x.分类名称===name),row=c?await recordRow('书籍分类','分类名称',name):0;currentRow=row;let v=c?{}:{分类名称:'',分类简介:'',排序号:String(cats.length+1)};if(c)for(let k of F.cats)v[k]=await cell('书籍分类',k,row);openModal(c?tx('edit'):tx('addCategory'),`<form id="categoryForm"><div class="form-grid">${inputField('categoryForm','分类名称',v.分类名称,'text','required')}${inputField('categoryForm','排序号',v.排序号,'number','required')}<div class="span-2"><label for="categoryForm_分类简介">分类简介</label><textarea id="categoryForm_分类简介" name="分类简介">${esc(v.分类简介)}</textarea></div></div><div class="actions"><button class="primary">${tx('save')}</button><button type="button" data-action="closeModal">${tx('cancel')}</button></div></form>`);$('categoryForm').onsubmit=async e=>{e.preventDefault();let f=e.target,d=Object.fromEntries(new FormData(f));try{if(row){for(let k of F.cats)await put('书籍分类',k,row,d[k])}else await submit('书籍分类',d);closeModal();await refresh();toast('已保存')}catch(x){toast(x.message||String(x))}}}
+async function deleteCategory(name){if(books.some(b=>b.分类名称===name)){toast('该分类有书籍引用，请先移动书籍');return}if(!confirm('确定删除分类？'))return;try{await del('书籍分类',await recordRow('书籍分类','分类名称',name));await refresh();toast('已删除')}catch(e){toast(e.message||String(e))}}
+async function chapterForm(id=''){if(!currentBook)return;let c=chapters.find(x=>x.章节编号===id),row=c?await recordRow('章节','章节编号',id):0;currentRow=row;let v=c?{}:{章节编号:randomId(),书籍编号:currentBook.书籍编号,章节序号:String(Math.max(0,...chapters.filter(x=>x.书籍编号===currentBook.书籍编号).map(x=>Number(x.章节序号)||0))+1),章节标题:'',本章要点:''};if(c)for(let f of F.chapters)v[f]=await cell('章节',f,row);openModal(c?tx('edit'):tx('addChapter'),`<form id="chapterForm"><input type="hidden" id="chapterForm_章节编号" name="章节编号" value="${attr(v.章节编号)}"><input type="hidden" id="chapterForm_书籍编号" name="书籍编号" value="${attr(v.书籍编号)}"><div class="form-grid">${inputField('chapterForm','章节序号',v.章节序号,'number','required min="1"')}${inputField('chapterForm','章节标题',v.章节标题,'text','required')}<div class="span-2"><label for="chapterForm_本章要点">本章要点</label><textarea id="chapterForm_本章要点" name="本章要点" required>${esc(v.本章要点)}</textarea></div>${c?'<div class="span-2"><label>章节正文</label><div class="markdown-body" id="chapterEditBody"></div></div>':''}</div><div class="actions"><button class="primary">${tx('save')}</button><button type="button" data-action="closeModal">${tx('cancel')}</button></div></form>`);if(c)mdInto($('chapterEditBody'),await cell('章节','章节正文',row));$('chapterForm').onsubmit=async e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));if(busy)return;busy=true;try{if(row){for(let f of ['章节序号','章节标题','本章要点'])await put('章节',f,row,d[f]);closeModal();await refresh();renderDetail()}else{closeModal();await createChapter(currentBook,d);await refresh();renderDetail()}toast('已保存')}catch(x){toast(x.message||String(x))}finally{busy=false}}}
+async function deleteChapter(id){if(!confirm('确定删除本章及朗读？'))return;try{for(let a of audios.filter(x=>x.章节编号===id))await del('章节朗读',await recordRow('章节朗读','章节编号',id));await del('章节',await recordRow('章节','章节编号',id));currentChapter=null;await refresh();renderDetail();toast('已删除')}catch(e){toast(e.message||String(e))}}
+async function voiceChapter(id){if(busy)return;busy=true;let ch=chapters.find(x=>x.章节编号===id);try{await createNarration(ch);await refresh();renderDetail();toast('朗读已生成')}catch(e){toast(e.message||String(e))}finally{busy=false}}
+async function exportPdf(id){let b=books.find(x=>x.书籍编号===id);if(!window.html2pdf){toast('PDF 工具加载失败');return}toast('正在整理全书 PDF…');let box=document.createElement('div');box.style.cssText='position:fixed;left:-20000px;width:794px;background:#fffaf0;color:#2c2a32;padding:45px;font-family:Georgia,serif;z-index:-1';let c=covers.find(x=>x.书籍编号===id);let cover=c?.封面图片?`<img src="${attr(fileUrl(c.封面图片))}" crossorigin="anonymous" style="max-height:620px;max-width:100%;display:block;margin:auto">`:'';let o=outlines.find(x=>x.书籍编号===id),outline=o?await cell('书籍大纲','大纲内容',await recordRow('书籍大纲','书籍编号',id)):'';box.innerHTML=`<section style="min-height:950px;text-align:center;page-break-after:always">${cover}<h1>${esc(b.书名)}</h1><p>${esc(b.一句话)}</p></section><section style="page-break-after:always"><h1>全书大纲</h1><div class="markdown-body">${markdown(outline)}</div></section>`;for(let ch of chapters.filter(x=>x.书籍编号===id).sort((a,z)=>Number(a.章节序号)-Number(z.章节序号))){let body=await cell('章节','章节正文',await recordRow('章节','章节编号',ch.章节编号));let section=document.createElement('section');section.style.cssText='page-break-before:always';section.innerHTML=`<h1>第${esc(ch.章节序号)}章 · ${esc(ch.章节标题)}</h1><div class="markdown-body">${markdown(body)}</div>`;box.appendChild(section)}document.body.appendChild(box);try{await Promise.all([...box.querySelectorAll('img')].map(img=>new Promise(r=>{if(img.complete)return r();img.onload=r;img.onerror=r})));await html2pdf().set({margin:0,filename:(b.书名||'一句话成书')+'.pdf',image:{type:'jpeg',quality:.96},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'},pagebreak:{mode:['css','legacy']}}).from(box).save()}catch(e){toast(e.message||String(e))}finally{box.remove()}}
+async function action(a,id){try{if(a==='read')await openBook(id);else if(a==='bookDetail')await bookDetails(id);else if(a==='editBook')await editBook(id);else if(a==='deleteBook')await deleteBook(id);else if(a==='toggleStatus')await toggleStatus(id);else if(a==='categoryBooks'){$('shelfCategory').value=id;go('shelf')}else if(a==='editCategory')await categoryForm(id);else if(a==='deleteCategory')await deleteCategory(id);else if(a==='addChapter')await chapterForm();else if(a==='readChapter')await showChapter(id);else if(a==='returnDirectory'){$('detailPage').classList.remove('reading');currentChapter=null;$('reader').classList.remove('active');requestAnimationFrame(()=>scrollTarget($('directory')))}else if(a==='editChapter')await chapterForm(id);else if(a==='deleteChapter')await deleteChapter(id);else if(a==='generateVoice')await voiceChapter(id);else if(a==='continueBook'){let b=books.find(x=>x.书籍编号===id);workBook=b;go('workshop');await continueBook(b)}else if(a==='continueWork'&&workBook)await continueBook(workBook);else if(a==='retryWork'&&workBook)await continueBook(workBook);else if(a==='openWorkBook'&&workBook)await openBook(workBook.书籍编号);else if(a==='resetWork')resetWork();else if(a==='exportPdf')await exportPdf(id);else if(a==='closeModal')closeModal()}catch(e){toast(e.message||String(e))}}
+function bind(){document.addEventListener('click',e=>{let goEl=e.target.closest('[data-go]');if(goEl){go(goEl.dataset.go);return}let ac=e.target.closest('[data-action]');if(ac){e.stopPropagation();action(ac.dataset.action,ac.dataset.id);return}let chip=e.target.closest('[data-filter-category]');if(chip){$('shelfCategory').value=chip.dataset.filterCategory;renderShelf();return}let card=e.target.closest('[data-book]');if(card){openBook(card.dataset.book);return}let cat=e.target.closest('[data-category]');if(cat){categoryForm(cat.dataset.category);return}let step=e.target.closest('[data-step]');if(step){showWorkStep(Number(step.dataset.step)).catch(x=>toast(x.message||String(x)));return}});$('brand').onclick=()=>{try{parent.closeFullHtml(false)}catch(e){}};$('menuToggle').onclick=()=>$('mobileMenu').classList.toggle('open');$('langButton').onclick=()=>setLang(lang==='cn'?'en':'cn',true);$('closeModal').onclick=closeModal;$('modalLayer').onclick=e=>{if(e.target===$('modalLayer'))closeModal()};document.addEventListener('click',e=>{if(!$('topbar').contains(e.target))$('mobileMenu').classList.remove('open')});$('createBookForm').onsubmit=createBook;$('addCategory').onclick=()=>categoryForm();$('addChapter').onclick=()=>chapterForm();['shelfSearch','shelfCategory','shelfStyle','shelfLength','shelfStatus'].forEach(id=>$(id).addEventListener(id==='shelfSearch'?'input':'change',renderShelf));$('categorySearch').addEventListener('input',renderCats);window.addEventListener('resize',renderNav);document.addEventListener('focusin',e=>{if(e.target.matches('input,textarea,select'))setTimeout(()=>e.target.scrollIntoView({block:'center',behavior:'instant'}),350)});if(window.visualViewport)visualViewport.addEventListener('resize',()=>{let a=document.activeElement;if(a?.matches('input,textarea,select'))setTimeout(()=>a.scrollIntoView({block:'center',behavior:'instant'}),120)})}
+async function initialize(){bind();let ls=localStorage.getItem('iThinkAir_UiLanguage');let q=new URLSearchParams(location.search).get('lang');let detected=ls?(ls==='en'?'en':'cn'):q==='cn'?'cn':q==='en'?'en':!navigator.languages?.length?'cn':navigator.languages.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en';setLang(detected);try{let mode=await callAppBridge({type:'模式'});document.body.classList.toggle('dark',String(mode).trim()==='暗色')}catch(e){}await refresh()}
+document.addEventListener('DOMContentLoaded',()=>{(async () => { await initialize(); })()});
+</script></body></html>

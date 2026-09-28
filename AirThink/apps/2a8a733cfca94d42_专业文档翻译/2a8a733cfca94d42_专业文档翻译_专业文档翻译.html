@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>专业文档翻译</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{color-scheme:dark;--bg:#0a1230;--bg2:#102450;--panel:rgba(255,255,255,.085);--panel2:rgba(255,255,255,.12);--border:rgba(194,215,255,.18);--text:#f6f8ff;--muted:#b5c3df;--accent:#70d8f5;--accent2:#a5a4ff;--shadow:0 24px 70px rgba(2,8,30,.3)}
+:root[data-mode=light]{color-scheme:light;--bg:#eef3ff;--bg2:#d9edfa;--panel:rgba(255,255,255,.78);--panel2:#fff;--border:rgba(39,67,124,.16);--text:#182744;--muted:#536989;--accent:#126fa7;--accent2:#5355c2;--shadow:0 24px 70px rgba(37,66,118,.14)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:Inter,"Microsoft YaHei",sans-serif;color:var(--text);background:radial-gradient(circle at 80% 2%,rgba(52,162,214,.28),transparent 35%),linear-gradient(140deg,var(--bg),var(--bg2));background-attachment:fixed}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}a{color:var(--accent)}.hidden{display:none!important}
+.nav{position:relative;z-index:1001;position:sticky;top:0;min-height:72px;background:rgba(12,24,65,.94);border-bottom:1px solid rgba(205,226,255,.14);box-shadow:0 6px 24px rgba(0,0,0,.12);backdrop-filter:blur(20px)}:root[data-mode=light] .nav{background:rgba(240,247,255,.95)}
+.nav-inner{max-width:1200px;margin:auto;padding:0 24px;min-height:72px;display:flex;align-items:center;gap:26px}.brand{display:flex;align-items:center;gap:12px;color:var(--text);font-weight:800;font-size:18px;white-space:nowrap;text-decoration:none}.brand-mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,#6b79dc,#39bfd7);color:#fff;box-shadow:0 0 24px #56bbef55}.nav-links{display:flex;align-items:center;gap:4px;margin-left:auto;white-space:nowrap}.nav-links button,.lang-btn,.menu-btn,.mobile-menu button{border:0;background:transparent;color:var(--muted);font-weight:600;padding:12px 16px;border-radius:10px}.nav-links button.active,.nav-links button:hover,.lang-btn:hover,.mobile-menu button:hover{color:var(--text);background:var(--panel2)}.lang-btn{border:1px solid var(--border);white-space:nowrap}.menu-btn{display:none;margin-left:auto;font-size:20px}.mobile-menu{position:absolute;top:100%;left:0;right:0;padding:12px 24px 18px;display:grid;gap:5px;background:var(--bg2);border-bottom:1px solid var(--border);box-shadow:var(--shadow)}.mobile-menu button{text-align:left}.mobile-menu button.active{color:var(--accent);background:var(--panel2)}.nav.compact .nav-links,.nav.compact .lang-btn{display:none}.nav.compact .menu-btn{display:block}
+main{max-width:1200px;margin:auto;padding:45px 24px 120px}.page{display:none}.page.active{display:block}.hero{text-align:center;padding:75px 12px 57px}.eyebrow{display:inline-block;border:1px solid var(--border);border-radius:99px;background:var(--panel);color:var(--accent);padding:8px 15px;font-size:12px;font-weight:800;letter-spacing:.12em}.hero h1{font-size:clamp(38px,6vw,70px);line-height:1.12;margin:25px 0 18px;letter-spacing:-.05em}.hero p{max-width:760px;margin:0 auto 32px;color:var(--muted);font-size:17px;line-height:1.8}.btn{border:1px solid var(--border);border-radius:12px;padding:11px 17px;color:var(--text);background:var(--panel2);font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}.btn:hover,.task-card:hover,.stat:hover,.recent-item:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(89,181,236,.19)}.btn.primary{background:linear-gradient(110deg,#5f67d3,#268db7);color:white;border-color:transparent;box-shadow:0 8px 25px #247fbc40}.btn.large{padding:17px 27px;font-size:16px}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.btn.danger{color:#ffacb1}.btn.small{padding:8px 11px;font-size:12px}.icon-button{border:0;background:transparent;color:var(--muted);font-size:17px;padding:8px;border-radius:9px}.icon-button:hover{background:var(--panel2);color:var(--text)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:10px 0 34px}.card,.stat,.task-card{border:1px solid var(--border);background:var(--panel);border-radius:20px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}.stat{padding:25px;transition:transform .2s,box-shadow .2s}.stat-icon{display:grid;place-items:center;width:42px;height:42px;background:rgba(103,196,242,.15);color:var(--accent);border-radius:12px;margin-bottom:22px}.stat strong{display:block;font-size:35px;letter-spacing:-.05em}.stat span:last-child{color:var(--muted);font-size:13px}.card{padding:24px}.section-head,.page-head,.result-head{display:flex;align-items:center;justify-content:space-between;gap:16px}.section-head h2{font-size:20px;margin:0 0 18px}.recent-list{display:grid;gap:10px}.recent-item{width:100%;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.04);padding:16px;display:flex;align-items:center;gap:15px;text-align:left;color:var(--text);transition:transform .2s,box-shadow .2s}.recent-main{min-width:0;flex:1}.recent-title{display:block;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.recent-sub{display:block;color:var(--muted);font-size:12px;margin-top:7px}.badge{display:inline-flex;align-items:center;border-radius:99px;padding:5px 9px;font-size:11px;font-weight:800;white-space:nowrap}.badge.done{color:#72e3bb;background:#28a57b26}.badge.busy{color:#ffd18b;background:#e5963a28}.badge.domain{color:var(--accent);background:rgba(94,184,228,.15)}.hint{margin-top:24px;border:1px solid var(--border);padding:16px 19px;border-radius:13px;color:var(--muted);background:var(--panel);font-size:13px}.hint i{color:var(--accent);margin-right:8px}.page-head{margin-bottom:29px;align-items:flex-start}.page-head h1{font-size:clamp(30px,4vw,43px);margin:0 0 9px}.page-head p{margin:0;color:var(--muted);line-height:1.7}
+.form-card{max-width:810px;margin:0 auto}.step{display:flex;align-items:center;gap:12px;margin:7px 0 18px;font-size:17px;font-weight:800}.step-num{width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:linear-gradient(130deg,#5e75d3,#33b5d7);color:white;font-size:13px}.upload-zone{border:2px dashed rgba(130,195,244,.45);border-radius:16px;text-align:center;padding:31px 18px;background:rgba(82,174,224,.055)}.upload-zone>i{display:block;font-size:35px;color:var(--accent);margin-bottom:14px}.upload-zone p{color:var(--muted);font-size:13px}.selected-file{margin-top:15px;display:flex;align-items:center;gap:10px;justify-content:center;word-break:break-all}.divider{height:1px;background:var(--border);margin:28px 0}.field{display:grid;gap:9px;margin:0 0 19px}.field label{font-weight:700;font-size:13px}.field input,.field select,.field textarea,.filter input,.filter select{width:100%;min-width:0;padding:12px 13px;border-radius:11px;border:1px solid var(--border);background:var(--panel2);color:var(--text);outline:none}.field input:focus,.filter input:focus,.filter select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,189,233,.16)}.field input[readonly]{opacity:.7}.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 22px}.chip{border-radius:99px;border:1px solid var(--border);background:var(--panel2);color:var(--muted);padding:7px 12px;font-size:12px}.chip:hover{color:var(--accent);border-color:var(--accent)}.form-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.status-text{color:var(--muted);font-size:13px}.result-card{max-width:810px;margin:25px auto 0}.result-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);word-break:break-all}.result-row:last-child{border:0}.result-label{color:var(--muted);font-size:12px}.result-name{font-weight:700;margin-top:4px}.result-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}.filter{min-width:170px;flex:1}.filter.search{flex:2;min-width:250px}.filter label{display:block;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:7px}.task-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.task-card{padding:21px;cursor:pointer;transition:transform .2s,box-shadow .2s}.task-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.task-card h3{font-size:18px;margin:20px 0 8px;min-height:24px;overflow-wrap:anywhere}.task-card p{color:var(--muted);font-size:13px;overflow-wrap:anywhere;margin:0}.task-file{border-top:1px solid var(--border);margin-top:20px;padding-top:14px;color:var(--muted);font-size:12px;overflow-wrap:anywhere}.task-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}.list-footer{color:var(--muted);font-size:13px;margin-top:25px}.empty{text-align:center;color:var(--muted);padding:30px}
+.modal-layer{position:fixed;inset:0;z-index:2000;background:rgba(2,8,26,.72);display:flex;align-items:center;justify-content:center;padding:20px}.modal{width:min(760px,100%);max-height:calc(100dvh - 40px);overflow:auto;background:#17244b;color:#f5f8ff;border:1px solid rgba(210,228,255,.22);border-radius:20px;box-shadow:0 30px 100px #0008;padding:25px}.modal.wide{width:min(960px,100%)}:root[data-mode=light] .modal{background:#fff;color:#182744}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.modal-head h2{margin:0;font-size:21px}.modal-body{overflow-wrap:anywhere}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.detail-cell{border:1px solid var(--border);border-radius:11px;padding:13px}.detail-cell span{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.detail-cell strong{font-size:13px;font-weight:600;word-break:break-all}.modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.markdown{line-height:1.7;overflow-wrap:anywhere}.markdown img{max-width:100%;height:auto}.markdown pre{overflow:auto;padding:15px;border-radius:10px;background:#0d1732}.markdown code{font-family:monospace}.markdown table{display:block;overflow-x:auto;border-collapse:collapse}.markdown th,.markdown td{padding:8px;border:1px solid var(--border)}.markdown blockquote{border-left:3px solid var(--accent);padding-left:13px;margin-left:0;color:var(--muted)}.markdown a{word-break:break-all}.preview-frame{width:100%;height:min(70dvh,720px);border:0;background:white;border-radius:9px}
+@media(max-width:900px){.task-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.nav-inner{padding:0 16px}.brand{font-size:15px}main{padding:25px 16px 150px}.hero{padding:56px 0 40px}.hero p{font-size:14px}.stats{grid-template-columns:1fr;gap:10px}.stat{padding:18px}.stat-icon{margin-bottom:10px}.task-grid{grid-template-columns:1fr}.page-head{display:block}.page-head .btn{margin-top:18px}.detail-grid{grid-template-columns:1fr}.modal-layer{padding:12px}.modal{max-height:calc(100dvh - 24px);padding:19px}.modal.markdown-modal,.modal.preview-modal{width:100%;height:100dvh;max-height:100dvh;border-radius:0;padding:18px}.modal-layer:has(.markdown-modal),.modal-layer:has(.preview-modal){padding:0}.modal-body{padding-bottom:25vh}body:after{content:"";display:block;height:80px}}@media(max-width:360px){.brand span:last-child{display:none}}
+</style>
+</head>
+<body>
+<header class="nav" id="nav">
+<div class="nav-inner">
+<a href="#" class="brand" id="brand" aria-label="Close"><span class="brand-mark"><i class="fa-solid fa-file-circle-check"></i></span><span data-i18n="appName">专业文档翻译</span></a>
+<nav class="nav-links" id="navLinks" aria-label="Pages"><button type="button" data-page="home" data-i18n="home">首页</button><button type="button" data-page="create" data-i18n="create">新建翻译</button><button type="button" data-page="records" data-i18n="records">翻译记录</button></nav>
+<button class="lang-btn" id="langButton" type="button">EN</button>
+<button class="menu-btn" id="menuButton" type="button" aria-expanded="false" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+</div>
+<div class="mobile-menu hidden" id="mobileMenu"><button type="button" data-page="home" data-i18n="home">首页</button><button type="button" data-page="create" data-i18n="create">新建翻译</button><button type="button" data-page="records" data-i18n="records">翻译记录</button><button type="button" id="mobileLang">English</button></div>
+</header>
+<main>
+<section class="page active" id="page-home">
+<div class="hero"><span class="eyebrow">AI · DOCUMENT TRANSLATION</span><h1 data-i18n="appName">专业文档翻译</h1><p data-i18n="heroText">面向专业领域的文本与PDF智能翻译，结合领域知识与术语库，生成高准确度译文及双语对照文件</p><button class="btn primary large" type="button" data-page="create"><i class="fa-solid fa-plus"></i><span data-i18n="startNew">开始新翻译</span></button></div>
+<div class="stats"><div class="stat"><span class="stat-icon"><i class="fa-solid fa-layer-group"></i></span><strong id="statTotal">—</strong><span data-i18n="totalTasks">总翻译任务数</span></div><div class="stat"><span class="stat-icon"><i class="fa-solid fa-circle-check"></i></span><strong id="statDone">—</strong><span data-i18n="completedTasks">已完成译文数</span></div><div class="stat"><span class="stat-icon"><i class="fa-solid fa-globe"></i></span><strong id="statDomains">—</strong><span data-i18n="domainCount">专业领域覆盖数</span></div></div>
+<div class="card"><div class="section-head"><h2 data-i18n="recent">最近翻译</h2><button class="btn small" type="button" data-page="records" data-i18n="allRecords">查看全部记录</button></div><div class="recent-list" id="recentList"></div></div>
+<div class="hint"><i class="fa-solid fa-circle-info"></i><span data-i18n="homeHint">支持文本与PDF，PDF自动生成双语Markdown对照文件</span></div>
+</section>
+<section class="page" id="page-create">
+<div class="page-head"><div><h1 data-i18n="newTask">新建翻译任务</h1><p data-i18n="newTaskDesc">上传文本或PDF，指定专业领域与细分方向，AI将结合术语库生成精准译文</p></div><button class="btn" type="button" data-page="records" data-i18n="allRecords">查看全部记录</button></div>
+<div class="card form-card"><form id="createForm"><div class="step"><span class="step-num">1</span><span data-i18n="uploadStep">上传文档</span></div><div class="upload-zone"><i class="fa-solid fa-cloud-arrow-up"></i><button class="btn primary" type="button" id="selectFileButton"><i class="fa-solid fa-file-arrow-up"></i><span data-i18n="chooseFile">选择文件</span></button><p data-i18n="uploadHelp">选择要翻译的文本或PDF文件</p><div class="selected-file hidden" id="selectedFile"><i class="fa-solid fa-file-lines"></i><span id="selectedFileName"></span><button class="icon-button" id="clearFileButton" type="button" aria-label="Remove"><i class="fa-solid fa-xmark"></i></button></div></div><input type="hidden" id="createForm_file" name="翻译文件"><div class="divider"></div><div class="step"><span class="step-num">2</span><span data-i18n="domainStep">领域信息</span></div><div class="field"><label for="createForm_domain" data-i18n="domain">专业领域</label><input id="createForm_domain" name="专业领域" required autocomplete="off" data-placeholder="domainPlaceholder"><div class="chips" id="domainChips"></div></div><div class="field"><label for="createForm_direction" data-i18n="direction">细分方向</label><input id="createForm_direction" name="细分方向" required autocomplete="off" data-placeholder="directionPlaceholder"></div><div class="form-actions"><button class="btn primary large" type="submit" id="submitButton" disabled><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="startTranslate">开始智能翻译</span></button><span class="status-text" id="submitStatus" role="status"></span></div></form></div>
+<div class="card result-card hidden" id="resultCard"><div class="result-head"><h2 data-i18n="translationResult">翻译结果</h2><button class="btn small" type="button" id="againButton" data-i18n="again">再译一份</button></div><div id="resultContent"></div></div>
+</section>
+<section class="page" id="page-records">
+<div class="page-head"><div><h1 data-i18n="records">翻译记录</h1><p data-i18n="recordsDesc">浏览、下载与管理所有专业翻译历史任务</p></div><button class="btn primary" type="button" data-page="create"><i class="fa-solid fa-plus"></i><span data-i18n="create">新建翻译</span></button></div>
+<div class="filters"><div class="filter search"><label for="searchInput" data-i18n="search">搜索</label><input id="searchInput" data-placeholder="searchPlaceholder" type="search"></div><div class="filter"><label for="domainFilter" data-i18n="domainFilter">专业领域筛选</label><select id="domainFilter"><option value="" data-i18n="allDomains">全部领域</option></select></div><div class="filter"><label for="statusFilter" data-i18n="statusFilter">完成状态</label><select id="statusFilter"><option value="" data-i18n="all">全部</option><option value="done" data-i18n="done">已完成</option><option value="busy" data-i18n="busy">翻译中</option></select></div><div class="filter"><label for="sortSelect" data-i18n="sort">排序</label><select id="sortSelect"><option value="new" data-i18n="newest">最新在前</option><option value="domain" data-i18n="byDomain">按专业领域</option></select></div></div>
+<div class="task-grid" id="taskGrid"></div><div class="list-footer" id="listFooter"></div>
+</section>
+</main>
+<div id="modalHost"></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("2a8a733cfca94d42_专业文档翻译")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const TABLE = '翻译任务/默认表格';
+const FIELD_NAMES = ['翻译文件','专业领域','细分方向','译文文件'];
+const DOWNLOAD = 'http://' + window.location.hostname + ':3130/download/';
+const PRIVATE = 'http://' + window.location.hostname + ':3130/private/';
+const I18N = {
+cn:{appName:'专业文档翻译',home:'首页',create:'新建翻译',records:'翻译记录',heroText:'面向专业领域的文本与PDF智能翻译，结合领域知识与术语库，生成高准确度译文及双语对照文件',startNew:'开始新翻译',totalTasks:'总翻译任务数',completedTasks:'已完成译文数',domainCount:'专业领域覆盖数',recent:'最近翻译',allRecords:'查看全部记录',homeHint:'支持文本与PDF，PDF自动生成双语Markdown对照文件',newTask:'新建翻译任务',newTaskDesc:'上传文本或PDF，指定专业领域与细分方向，AI将结合术语库生成精准译文',uploadStep:'上传文档',chooseFile:'选择文件',uploadHelp:'选择要翻译的文本或PDF文件',domainStep:'领域信息',domain:'专业领域',direction:'细分方向',domainPlaceholder:'例如：法律',directionPlaceholder:'如“知识产权诉讼”或“心脏介入手术”',startTranslate:'开始智能翻译',translationResult:'翻译结果',again:'再译一份',recordsDesc:'浏览、下载与管理所有专业翻译历史任务',search:'搜索',searchPlaceholder:'搜索专业领域或细分方向',domainFilter:'专业领域筛选',allDomains:'全部领域',statusFilter:'完成状态',all:'全部',done:'已完成',busy:'翻译中',sort:'排序',newest:'最新在前',byDomain:'按专业领域',details:'查看详情',downloadTranslation:'下载译文',delete:'删除',file:'原文件',translatedFile:'译文文件',downloadOriginal:'下载原文件',preview:'打开预览',markdownPreview:'Markdown预览',edit:'编辑领域信息',save:'保存更改',cancel:'取消',close:'关闭',taskNo:'任务序号',totalAndFiltered:'总记录 {total} 条 · 当前筛选 {filtered} 条',empty:'暂无记录',loading:'正在加载…',failed:'加载失败：{message}',working:'AI翻译中，请稍候…',waiting:'正在结合领域术语库生成译文，请耐心等待…',success:'翻译已完成',timeout:'等待超时，请到翻译记录中查看任务进度。',selectRequired:'请先选择文件并填写专业领域和细分方向。',confirmDelete:'确定删除这条翻译任务吗？',deleteFailed:'删除失败：{message}',saveFailed:'保存失败：{message}',submitFailed:'提交失败：{message}',fileMissing:'尚未生成译文',readFailed:'无法读取文件：{message}',suggestions:['法律','医学','金融','工程技术','学术论文','专利','商务合同']},
+en:{appName:'Professional Document Translation',home:'Home',create:'New Translation',records:'Translation Records',heroText:'Intelligent translation for specialist text and PDF documents, guided by domain knowledge and terminology for precise results and bilingual files.',startNew:'Start a Translation',totalTasks:'Total Tasks',completedTasks:'Completed Translations',domainCount:'Professional Domains',recent:'Recent Translations',allRecords:'View All Records',homeHint:'Supports text and PDF. PDFs produce a bilingual Markdown file automatically.',newTask:'New Translation Task',newTaskDesc:'Upload text or PDF, choose a domain and speciality, and let AI create a precise translation.',uploadStep:'Upload Document',chooseFile:'Choose File',uploadHelp:'Select a text or PDF document to translate',domainStep:'Domain Information',domain:'Professional Domain',direction:'Speciality',domainPlaceholder:'For example: Law',directionPlaceholder:'For example: Intellectual Property Litigation',startTranslate:'Start Translation',translationResult:'Translation Result',again:'Translate Another',recordsDesc:'Browse, download and manage your translation history',search:'Search',searchPlaceholder:'Search domain or speciality',domainFilter:'Domain',allDomains:'All Domains',statusFilter:'Status',all:'All',done:'Completed',busy:'Translating',sort:'Sort',newest:'Newest First',byDomain:'By Domain',details:'View Details',downloadTranslation:'Download Translation',delete:'Delete',file:'Original File',translatedFile:'Translated File',downloadOriginal:'Download Original',preview:'Open Preview',markdownPreview:'Markdown Preview',edit:'Edit Domain Information',save:'Save Changes',cancel:'Cancel',close:'Close',taskNo:'Task Number',totalAndFiltered:'{total} total · {filtered} matching',empty:'No records',loading:'Loading…',failed:'Could not load: {message}',working:'AI is translating, please wait…',waiting:'Generating the translation with domain terminology…',success:'Translation complete',timeout:'Wait timed out. Check the task in Translation Records.',selectRequired:'Choose a file and enter a domain and speciality.',confirmDelete:'Delete this translation task?',deleteFailed:'Could not delete: {message}',saveFailed:'Could not save: {message}',submitFailed:'Could not submit: {message}',fileMissing:'Translation is not ready',readFailed:'Could not read file: {message}',suggestions:['Law','Medicine','Finance','Engineering','Academic Paper','Patent','Business Contract']}
+};
+const state={lang:'cn',page:'home',history:[],records:[],total:0,currentRow:0,polling:false,pollTimer:null,pollToken:0,modals:[],pendingDetailRow:0};
+const el=id=>document.getElementById(id);
+const t=(key,vars={})=>{let s=I18N[state.lang][key]||key;for(const k in vars)s=s.replace('{'+k+'}',String(vars[k]));return s};
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fileName=v=>String(v||'').split(/[\\/]/).pop();
+const fileUrl=(base,v)=>base+encodeURIComponent(String(v||''));
+const isMarkdown=v=>/\.m(?:arkdown|d|down)(?:$|[?#])/i.test(String(v||''));
+function chooseLanguage(){const saved=localStorage.getItem('iThinkAir_UiLanguage');if(saved)return saved==='en'?'en':'cn';const p=new URLSearchParams(location.search).get('lang');if(p==='cn'||p==='en')return p;try{if(!navigator.languages)return 'cn';return navigator.languages.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en'}catch{return 'cn'}}
+function applyLanguage(){document.documentElement.lang=state.lang==='cn'?'zh-CN':'en';document.querySelectorAll('[data-i18n]').forEach(n=>n.textContent=t(n.dataset.i18n));document.querySelectorAll('[data-placeholder]').forEach(n=>n.placeholder=t(n.dataset.placeholder));el('langButton').textContent=state.lang==='cn'?'EN':'中文';el('mobileLang').textContent=state.lang==='cn'?'English':'中文';renderChips();renderRecent();renderRecords();renderResultIfAny();updateNavigation()}
+function toggleLanguage(){state.lang=state.lang==='cn'?'en':'cn';localStorage.setItem('iThinkAir_UiLanguage',state.lang);applyLanguage();closeMenu()}
+function renderChips(){el('domainChips').replaceChildren(...t('suggestions').map(v=>{const b=document.createElement('button');b.className='chip';b.type='button';b.textContent=v;b.onclick=()=>{el('createForm_domain').value=v;updateSubmit();el('createForm_domain').focus()};return b}))}
+function updateNavigation(){document.querySelectorAll('[data-page]').forEach(n=>n.classList.toggle('active',n.dataset.page===state.page))}
+function showPage(page,push=true){if(!['home','create','records'].includes(page))return;if(push&&state.page!==page)state.history.push({page:state.page,y:window.scrollY});state.page=page;document.querySelectorAll('.page').forEach(n=>n.classList.toggle('active',n.id==='page-'+page));updateNavigation();closeMenu();window.scrollTo(0,0);if(page==='records')refreshRecords()}
+function fitNavigation(){const nav=el('nav');nav.classList.remove('compact');const inner=nav.querySelector('.nav-inner');nav.classList.toggle('compact',inner.scrollWidth>inner.clientWidth||window.innerWidth<750);if(!nav.classList.contains('compact'))closeMenu()}
+function closeMenu(){el('mobileMenu').classList.add('hidden');el('menuButton').setAttribute('aria-expanded','false')}
+function toggleMenu(){const m=el('mobileMenu');m.classList.toggle('hidden');el('menuButton').setAttribute('aria-expanded',String(!m.classList.contains('hidden')))}
+function openModal(content,kind=''){const layer=document.createElement('div');layer.className='modal-layer';layer.innerHTML='<div class="modal '+kind+'" role="dialog" aria-modal="true">'+content+'</div>';layer.addEventListener('click',e=>{if(e.target===layer)closeModal()});el('modalHost').appendChild(layer);state.modals.push(layer);layer.querySelector('[data-close]')?.addEventListener('click',closeModal);return layer}
+function closeModal(){const layer=state.modals.pop();if(layer)layer.remove()}
+function airBack(){if(state.modals.length){closeModal();return 'false'}if(state.history.length){const h=state.history.pop();showPage(h.page,false);requestAnimationFrame(()=>window.scrollTo(0,h.y));return 'false'}return 'true'}
+window.airBack=airBack;
+function animateNumber(node,target){const end=Math.max(0,Number(target)||0);const start=performance.now();function tick(now){const p=Math.min(1,(now-start)/550);node.textContent=String(Math.round(end*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
+async function csv(fields){const raw=await callAppBridge({type:'GetTableCSV',data:TABLE,payload:fields.join(',')});return parseCSV(String(raw||''))}
+async function refreshHome(){try{const values=await Promise.all([callAppBridge({type:'GetRecordCount',data:TABLE}),csv(['译文文件']),csv(['专业领域']),csv(FIELD_NAMES)]);animateNumber(el('statTotal'),parseInt(values[0],10));animateNumber(el('statDone'),values[1].filter(r=>String(r[0]||'').trim()).length);animateNumber(el('statDomains'),new Set(values[2].map(r=>String(r[0]||'').trim()).filter(Boolean)).size);state.recent=values[3].slice(0,5).map((r,i)=>({row:i+1,file:r[0]||'',domain:r[1]||'',direction:r[2]||'',translation:r[3]||''}));renderRecent()}catch(e){el('recentList').innerHTML='<div class="empty">'+esc(t('failed',{message:e.message||e}))+'</div>'}}
+function renderRecent(){if(!el('recentList'))return;const list=state.recent||[];el('recentList').innerHTML=list.length?list.map(r=>'<button class="recent-item" type="button" data-row="'+r.row+'"><span class="badge domain">'+esc(r.domain||'—')+'</span><span class="recent-main"><span class="recent-title">'+esc(r.direction||fileName(r.file)||'—')+'</span><span class="recent-sub">'+esc(fileName(r.file))+'</span></span><span class="badge '+(r.translation?'done':'busy')+'">'+t(r.translation?'done':'busy')+'</span><span class="btn small">'+t('details')+'</span></button>').join(''):'<div class="empty">'+t('empty')+'</div>';el('recentList').querySelectorAll('[data-row]').forEach(n=>n.addEventListener('click',()=>{state.pendingDetailRow=Number(n.dataset.row);showPage('records')}))}
+async function refreshRecords(){el('taskGrid').innerHTML='<div class="empty">'+t('loading')+'</div>';try{const values=await Promise.all([csv(FIELD_NAMES),callAppBridge({type:'GetRecordCount',data:TABLE})]);state.records=values[0].map((r,i)=>({row:i+1,file:r[0]||'',domain:r[1]||'',direction:r[2]||'',translation:r[3]||''}));state.total=parseInt(values[1],10)||0;renderDomainFilter();renderRecords();if(state.pendingDetailRow){const row=state.pendingDetailRow;state.pendingDetailRow=0;await showDetail(row)}}catch(e){el('taskGrid').innerHTML='<div class="empty">'+esc(t('failed',{message:e.message||e}))+'</div>'}}
+function renderDomainFilter(){const s=el('domainFilter'),old=s.value,domains=[...new Set(state.records.map(r=>r.domain).filter(Boolean))].sort((a,b)=>a.localeCompare(b));s.innerHTML='<option value="">'+t('allDomains')+'</option>'+domains.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');s.value=domains.includes(old)?old:''}
+function renderRecords(){if(!el('taskGrid'))return;const q=el('searchInput').value.trim().toLocaleLowerCase(),domain=el('domainFilter').value,status=el('statusFilter').value,sort=el('sortSelect').value;let rows=state.records.filter(r=>(!q||(r.domain+' '+r.direction).toLocaleLowerCase().includes(q))&&(!domain||r.domain===domain)&&(!status||(status==='done'?!!r.translation:!r.translation)));if(sort==='domain')rows.sort((a,b)=>a.domain.localeCompare(b.domain)||a.row-b.row);el('taskGrid').innerHTML=rows.length?rows.map(r=>'<article class="task-card" data-row="'+r.row+'" tabindex="0"><div class="task-top"><span class="badge domain">'+esc(r.domain||'—')+'</span><span class="badge '+(r.translation?'done':'busy')+'">'+t(r.translation?'done':'busy')+'</span></div><h3>'+esc(r.direction||'—')+'</h3><p>'+t('taskNo')+' #'+r.row+'</p><div class="task-file"><i class="fa-regular fa-file-lines"></i> '+esc(fileName(r.file)||'—')+'</div><div class="task-actions"><button class="btn small" type="button" data-action="detail" data-row="'+r.row+'">'+t('details')+'</button><button class="btn small" type="button" data-action="download" data-row="'+r.row+'" '+(r.translation?'':'disabled')+'>'+t('downloadTranslation')+'</button><button class="btn small danger" type="button" data-action="delete" data-row="'+r.row+'">'+t('delete')+'</button></div></article>').join(''):'<div class="empty">'+t('empty')+'</div>';el('listFooter').textContent=t('totalAndFiltered',{total:state.total,filtered:rows.length});el('taskGrid').querySelectorAll('.task-card').forEach(card=>{card.addEventListener('click',e=>{if(!e.target.closest('button'))showDetail(Number(card.dataset.row))});card.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target===card)showDetail(Number(card.dataset.row))})});el('taskGrid').querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const row=Number(b.dataset.row),r=state.records.find(x=>x.row===row);if(b.dataset.action==='detail')showDetail(row);if(b.dataset.action==='download'&&r?.translation)window.open(fileUrl(DOWNLOAD,r.translation),'_blank','noopener');if(b.dataset.action==='delete')deleteRecord(row)}))}
+async function getDetails(row){const o={row};for(const f of FIELD_NAMES)o[f]=await callAppBridge({type:'GetCellValue',data:TABLE,payload:f+'/'+row});return o}
+function detailCell(label,value){return '<div class="detail-cell"><span>'+esc(label)+'</span><strong>'+esc(value||'—')+'</strong></div>'}
+async function showDetail(row){state.currentRow=row;const layer=openModal('<div class="modal-head"><h2>'+t('details')+'</h2><button class="icon-button" type="button" data-close aria-label="'+t('close')+'"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body">'+t('loading')+'</div>','wide');try{const d=await getDetails(row);if(!layer.isConnected)return;const body=layer.querySelector('.modal-body');body.innerHTML='<div class="detail-grid">'+detailCell(t('taskNo'),'#'+row)+detailCell(t('domain'),d['专业领域'])+detailCell(t('direction'),d['细分方向'])+detailCell(t('file'),fileName(d['翻译文件']))+detailCell(t('translatedFile'),fileName(d['译文文件'])||t('fileMissing'))+'</div><div class="modal-actions" id="detailActions"></div><div id="detailMarkdown"></div>';const actions=body.querySelector('#detailActions');if(d['翻译文件'])actions.appendChild(linkButton(t('downloadOriginal'),DOWNLOAD,d['翻译文件']));if(d['译文文件']){actions.appendChild(linkButton(t('downloadTranslation'),DOWNLOAD,d['译文文件']));const preview=document.createElement('button');preview.type='button';preview.className='btn small';preview.textContent=t('preview');preview.onclick=()=>openPreview(d['译文文件']);actions.appendChild(preview);if(isMarkdown(d['译文文件'])){const md=document.createElement('button');md.type='button';md.className='btn small';md.textContent=t('markdownPreview');md.onclick=()=>openMarkdown(d['译文文件']);actions.appendChild(md);await renderMarkdownFile(d['译文文件'],body.querySelector('#detailMarkdown'))}}const edit=document.createElement('button');edit.type='button';edit.className='btn primary small';edit.textContent=t('edit');edit.onclick=()=>showEdit(row);actions.appendChild(edit)}catch(e){layer.querySelector('.modal-body').textContent=t('failed',{message:e.message||e})}}
+function linkButton(label,base,file){const a=document.createElement('a');a.className='btn small';a.href=fileUrl(base,file);a.target='_blank';a.rel='noopener';a.textContent=label;return a}
+function openPreview(file){const layer=openModal('<div class="modal-head"><h2>'+esc(fileName(file))+'</h2><button class="icon-button" type="button" data-close aria-label="'+t('close')+'"><i class="fa-solid fa-xmark"></i></button></div><iframe class="preview-frame" title="'+esc(fileName(file))+'"></iframe>','preview-modal');layer.querySelector('iframe').src=fileUrl(PRIVATE,file)}
+function markdownHtml(text){if(!window.marked)return '<pre>'+esc(text)+'</pre>';let html=marked.parse(String(text||''));if(window.DOMPurify)html=DOMPurify.sanitize(html);else return '<pre>'+esc(text)+'</pre>';return html}
+async function renderMarkdownFile(file,target){target.innerHTML='<p>'+t('loading')+'</p>';try{const content=await callAppBridge({type:'ReadFile',data:file});if(!target.isConnected)return;target.className='markdown';target.innerHTML=markdownHtml(content);target.querySelectorAll('img').forEach(img=>{const raw=img.getAttribute('src')||'';const name=raw.startsWith(DOWNLOAD)?decodeURIComponent(raw.slice(DOWNLOAD.length)):raw;if(!/^https?:|^data:/i.test(raw))img.src=fileUrl(DOWNLOAD,name);img.style.cursor='pointer';img.addEventListener('click',()=>window.open(fileUrl(DOWNLOAD,name),'_blank','noopener'))})}catch(e){target.textContent=t('readFailed',{message:e.message||e})}}
+function openMarkdown(file){const layer=openModal('<div class="modal-head"><h2>'+esc(fileName(file))+'</h2><button class="icon-button" type="button" data-close aria-label="'+t('close')+'"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body markdown"></div>','wide markdown-modal');renderMarkdownFile(file,layer.querySelector('.modal-body'))}
+async function showEdit(row){const layer=openModal('<div class="modal-head"><h2>'+t('edit')+'</h2><button class="icon-button" type="button" data-close aria-label="'+t('close')+'"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body">'+t('loading')+'</div>');try{const d=await getDetails(row);if(!layer.isConnected)return;layer.querySelector('.modal-body').innerHTML='<form id="editForm"><div class="field"><label for="editForm_file">'+t('file')+'</label><input id="editForm_file" name="翻译文件" readonly></div><div class="field"><label for="editForm_domain">'+t('domain')+'</label><input id="editForm_domain" name="专业领域" required></div><div class="field"><label for="editForm_direction">'+t('direction')+'</label><input id="editForm_direction" name="细分方向" required></div><div class="field"><label for="editForm_translation">'+t('translatedFile')+'</label><input id="editForm_translation" name="译文文件" readonly></div><div class="modal-actions"><button class="btn primary" type="submit">'+t('save')+'</button><button class="btn" type="button" id="editForm_cancel">'+t('cancel')+'</button></div><p class="status-text" id="editForm_status"></p></form>';el('editForm_file').value=d['翻译文件']||'';el('editForm_domain').value=d['专业领域']||'';el('editForm_direction').value=d['细分方向']||'';el('editForm_translation').value=d['译文文件']||'';el('editForm_cancel').onclick=closeModal;el('editForm').onsubmit=async e=>{e.preventDefault();const button=el('editForm').querySelector('[type=submit]');button.disabled=true;try{for(const [field,id] of [['专业领域','editForm_domain'],['细分方向','editForm_direction']])await callAppBridge({type:'SetCellValue',data:TABLE,payload:field+'/'+row+'/'+el(id).value.trim()});closeModal();if(state.modals.length)closeModal();await refreshAll()}catch(error){el('editForm_status').textContent=t('saveFailed',{message:error.message||error});button.disabled=false}}}catch(e){layer.querySelector('.modal-body').textContent=t('failed',{message:e.message||e})}}
+async function deleteRecord(row){if(!confirm(t('confirmDelete')))return;try{await callAppBridge({type:'DeleteRecord',data:TABLE,payload:row.toString()});state.currentRow=0;await refreshAll()}catch(e){alert(t('deleteFailed',{message:e.message||e}))}}
+async function refreshAll(){await Promise.all([refreshHome(),refreshRecords()])}
+function updateSubmit(){el('submitButton').disabled=state.polling||!el('createForm_file').value||!el('createForm_domain').value.trim()||!el('createForm_direction').value.trim()}
+function setFile(file){el('createForm_file').value=file||'';el('selectedFileName').textContent=fileName(file);el('selectedFile').classList.toggle('hidden',!file);updateSubmit()}
+function resetCreate(){state.pollToken++;state.polling=false;state.currentRow=0;el('createForm').reset();setFile('');el('submitStatus').textContent='';el('resultCard').classList.add('hidden');el('resultContent').replaceChildren()}
+function resultRow(label,file){return '<div class="result-row"><div><div class="result-label">'+t(label)+'</div><div class="result-name">'+esc(fileName(file))+'</div></div><a class="btn small" href="'+esc(fileUrl(DOWNLOAD,file))+'" target="_blank" rel="noopener">'+t(label==='file'?'downloadOriginal':'downloadTranslation')+'</a></div>'}
+function showResult(original,translation){state.lastResult={original,translation};el('resultCard').classList.remove('hidden');renderResultIfAny()}
+function renderResultIfAny(){const r=state.lastResult;if(!r||!el('resultContent'))return;el('resultContent').innerHTML=resultRow('file',r.original)+resultRow('translatedFile',r.translation)+'<div class="result-actions"><button class="btn small" type="button" id="resultPreview">'+t('preview')+'</button>'+(isMarkdown(r.translation)?'<button class="btn small" type="button" id="resultMarkdown">'+t('markdownPreview')+'</button>':'')+'</div>';el('resultPreview').onclick=()=>openPreview(r.translation);if(el('resultMarkdown'))el('resultMarkdown').onclick=()=>openMarkdown(r.translation)}
+async function pollTranslation(token,original){const started=Date.now();while(token===state.pollToken&&Date.now()-started<1800000){await new Promise(resolve=>setTimeout(resolve,1000));if(token!==state.pollToken)break;try{const value=String(await callAppBridge({type:'轮询',data:'翻译任务',payload:'译文文件'})||'').trim();if(value){state.polling=false;el('submitStatus').textContent=t('success');showResult(original,value);updateSubmit();await refreshAll();return}}catch(e){el('submitStatus').textContent=t('failed',{message:e.message||e})}}if(token===state.pollToken){state.polling=false;el('submitStatus').textContent=t('timeout');updateSubmit();await refreshAll()}}
+async function submitCreate(e){e.preventDefault();if(state.polling)return;if(!el('createForm_file').value||!el('createForm_domain').value.trim()||!el('createForm_direction').value.trim()){el('submitStatus').textContent=t('selectRequired');return}state.polling=true;updateSubmit();el('submitStatus').innerHTML='<span class="spinner"></span> '+t('working');const original=el('createForm_file').value;const payload={'翻译文件':original,'专业领域':el('createForm_domain').value.trim(),'细分方向':el('createForm_direction').value.trim()};try{await callAppBridge({type:'SubmitRecord',data:'翻译任务',payload:JSON.stringify(payload)});state.currentRow=1;el('submitStatus').innerHTML='<span class="spinner"></span> '+t('waiting');await refreshAll();const token=++state.pollToken;pollTranslation(token,original)}catch(error){state.polling=false;el('submitStatus').textContent=t('submitFailed',{message:error.message||error});updateSubmit()}}
+function ensureInputVisible(target){if(!target.matches('input,textarea,select'))return;setTimeout(()=>{target.scrollIntoView({block:'center',behavior:'smooth'})},250)}
+async function initialize(){state.lang=chooseLanguage();try{const mode=await callAppBridge({type:'模式'});document.documentElement.dataset.mode=String(mode).trim()==='亮色'?'light':'dark'}catch{document.documentElement.dataset.mode='dark'}applyLanguage();fitNavigation();window.addEventListener('resize',fitNavigation);if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>{const a=document.activeElement;if(a)ensureInputVisible(a)});document.addEventListener('focusin',e=>ensureInputVisible(e.target));el('brand').onclick=e=>{e.preventDefault();if(window.parent&&typeof window.parent.closeFullHtml==='function')window.parent.closeFullHtml(false)};document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));el('menuButton').onclick=toggleMenu;document.addEventListener('click',e=>{if(!el('nav').contains(e.target))closeMenu()});el('langButton').onclick=toggleLanguage;el('mobileLang').onclick=toggleLanguage;el('selectFileButton').onclick=async()=>{try{const file=await callAppBridge({type:'SelectFile'});if(file)setFile(String(file))}catch(e){el('submitStatus').textContent=String(e.message||e)}};el('clearFileButton').onclick=()=>setFile('');for(const id of ['createForm_domain','createForm_direction'])el(id).addEventListener('input',updateSubmit);el('createForm').addEventListener('submit',submitCreate);el('againButton').onclick=()=>{resetCreate();window.scrollTo({top:0,behavior:'smooth'})};for(const id of ['searchInput','domainFilter','statusFilter','sortSelect'])el(id).addEventListener(id==='searchInput'?'input':'change',renderRecords);await refreshAll()}
+document.addEventListener('DOMContentLoaded',async()=>{await initialize()});
+</script>
+</body>
+</html>

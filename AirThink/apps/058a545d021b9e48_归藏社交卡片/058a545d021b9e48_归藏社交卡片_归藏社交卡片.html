@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>归藏社交卡片</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script><script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{color-scheme:light;--paper:#f7f3eb;--end:#efe8dc;--ink:#1a1a1a;--muted:#6e6e6e;--red:#b83b3b;--line:#cfc7b9;--panel:#fcfaf5}*{box-sizing:border-box}body{margin:0;background:linear-gradient(125deg,var(--paper),var(--end));color:var(--ink);font:15px/1.7 Arial,"Microsoft YaHei",sans-serif;overflow-wrap:anywhere}body.dark{color-scheme:dark;--paper:#1d1d1b;--end:#24231f;--ink:#eee9df;--muted:#b5afa5;--red:#e78076;--line:#49463e;--panel:#292823}button,input,textarea,select{font:inherit}input,select,textarea{box-sizing:border-box;max-width:100%;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:2px;padding:10px;width:100%}textarea{resize:vertical;min-height:110px}button,a{touch-action:manipulation}button{cursor:pointer;color:inherit;background:transparent;border:1px solid var(--line);padding:9px 15px}button:hover{border-color:var(--red);color:var(--red)}button:disabled{opacity:.4;cursor:not-allowed}button.primary{background:var(--red);border-color:var(--red);color:#fff}button:focus-visible,a:focus-visible{outline:2px solid var(--red);outline-offset:3px}h1,h2,h3{font-family:"Source Han Serif SC","Songti SC",SimSun,Georgia,serif;line-height:1.3}h1{font-size:clamp(36px,5vw,64px);font-weight:500;letter-spacing:.04em;margin:12px 0 22px}h2{font-size:25px;font-weight:500}h3{font-size:21px;margin:14px 0}.muted,small{color:var(--muted)}.eyebrow{font-size:11px;letter-spacing:.22em;color:var(--red)}.top{position:fixed;top:0;left:0;right:0;z-index:1001;background:#1a1a1a;border-bottom:2px solid #b83b3b;color:#f7f3eb}.nav{position:relative;z-index:1001;max-width:1360px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 28px;gap:24px}.brand{display:flex;align-items:center;gap:12px;border:0;padding:0;color:#fff;white-space:nowrap;font-family:SimSun,serif;font-size:19px}.logo{border:1px solid #f7f3eb;padding:1px 8px;font-size:25px}.navlinks{display:flex;align-items:center;gap:15px;white-space:nowrap}.navlinks button{border:0;color:#e5dfd4}.navlinks .active{border-bottom:2px solid #cd5d56}.hamburger{display:none;color:white}.nav.compact .hamburger{display:block}.nav.compact .navlinks{display:none}.nav.compact.open .navlinks{display:flex;position:absolute;top:100%;left:0;right:0;background:#1a1a1a;padding:18px;flex-direction:column;align-items:stretch;border-bottom:1px solid #b83b3b}.wrap{max-width:1300px;margin:auto;padding:120px 30px 100px}.page[hidden]{display:none}.hero{padding:30px 0 52px;border-bottom:1px solid var(--line);position:relative}.hero p{max-width:660px;font-size:17px}.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:32px 0 50px}.stat,.panel,.card{border:1px solid var(--line);background:var(--panel)}.stat{padding:23px}.stat strong{font:42px/1.4 Georgia,serif;display:block;margin-top:12px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:22px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.card{padding:23px;transition:transform .2s,border-color .2s;min-width:0;position:relative}.card:hover{transform:translateY(-4px);border-bottom-color:var(--red)}.cardbody{display:block;border:0;text-align:left;padding:0;width:100%;color:var(--ink)}.cardbody:hover{color:var(--ink)}.card p{white-space:pre-wrap}.thumb{width:82px;height:94px;object-fit:cover;float:left;margin:12px 14px 8px 0}.badge{display:inline-block;border-left:3px solid var(--red);padding:1px 8px;font-size:12px;margin-right:5px;background:var(--paper)}.card .actions{clear:both;padding-top:15px;border-top:1px solid var(--line);margin-top:20px}.card .actions button{font-size:12px;padding:5px 8px}.work{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:26px;align-items:start}.panel{padding:26px;min-width:0}.panel h2{margin-top:0}.field{margin-bottom:23px}.field>label,.field>legend{display:block;font-size:14px;margin-bottom:9px;font-weight:bold}fieldset{border:0;padding:0;margin:0;min-width:0}.choices{display:flex;flex-wrap:wrap;gap:8px}.choice{position:relative}.choice input{position:absolute;opacity:0;width:1px;height:1px}.choice span{display:block;border:1px solid var(--line);padding:6px 11px;font-size:13px;cursor:pointer}.choice input:checked+span{border-color:var(--red);color:var(--red);background:var(--paper)}.choice input:focus-visible+span{outline:2px solid var(--red)}.files{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.file{border:1px solid var(--line);padding:5px;max-width:100%;display:flex;align-items:center;gap:5px}.file img{width:35px;height:35px;object-fit:cover}.file button{padding:3px 6px;border:0;font-size:12px;overflow-wrap:anywhere}.hint{color:var(--red);font-size:12px;white-space:pre-line;margin:10px 0}.empty{text-align:center;padding:75px 12px;color:var(--muted)}.empty i{font-size:36px;display:block;margin-bottom:20px;color:var(--red)}.filters{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:12px;margin:25px 0}.foot{display:flex;justify-content:space-between;margin-top:25px;padding-top:15px;border-top:1px solid var(--line)}.status{padding:12px 0;color:var(--red);white-space:pre-wrap}.overlay{position:fixed;inset:0;z-index:2002;background:#0009;display:flex;align-items:center;justify-content:center;padding:28px}.dialog{background:var(--panel);border:1px solid var(--line);width:min(1120px,100%);max-height:calc(100dvh - 56px);overflow:auto;padding:28px;box-shadow:0 20px 90px #0005}.dialoghead{display:flex;justify-content:space-between;gap:20px;align-items:center;border-bottom:1px solid var(--line);margin-bottom:24px}.detail{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:30px}.detail dt{font-size:12px;color:var(--muted);margin-top:18px}.detail dd{margin:6px 0;white-space:pre-wrap}.markdown{line-height:1.85;overflow-wrap:anywhere}.markdown img,.markdown video{max-width:100%;height:auto}.markdown a{color:var(--red)}.markdown pre{background:var(--paper);padding:16px;overflow:auto}.markdown code{font-family:monospace}.markdown blockquote{margin:20px 0;border-left:3px solid var(--red);padding:5px 18px;color:var(--muted)}.markdown table{display:block;overflow-x:auto;border-collapse:collapse;max-width:100%}.markdown td,.markdown th{border:1px solid var(--line);padding:8px}.markdown iframe,.viewer{width:100%;height:65vh;border:1px solid var(--line);background:white}.markdown hr{border:0;border-top:1px solid var(--line)}.busy{opacity:.7}.notice{font-size:12px;color:var(--muted);padding-top:20px}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.filters input{grid-column:1/-1}.work{grid-template-columns:1fr}}@media(max-width:600px){.wrap{padding:100px 18px 150px}.nav{padding:13px 18px}.brand{font-size:17px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{padding:17px}.stat strong{font-size:34px}.grid,.detail{grid-template-columns:1fr}.panel,.card{padding:20px}.sectionhead{align-items:flex-start}.overlay{padding:12px}.overlay.reading{padding:0}.dialog{max-height:calc(100dvh - 24px);padding:20px 18px 150px}.reading .dialog{height:100dvh;max-height:100dvh;border:0}.dialog form{padding-bottom:120px}.hero{padding-top:18px}.keyboard form{padding-bottom:350px}.foot{gap:10px}.filters{gap:8px}}
+</style></head><body>
+<header class="top"><nav class="nav" id="nav"><button class="brand" id="brand"><span class="logo">藏</span><span data-i="app"></span></button><button id="hamburger" class="hamburger" aria-expanded="false" aria-controls="navlinks" aria-label="Menu"><i class="fa-solid fa-bars"></i></button><div id="navlinks" class="navlinks"><button data-page="home" data-i="home"></button><button data-page="studio" data-i="studio"></button><button data-page="library" data-i="library"></button><button id="language">EN</button></div></nav></header>
+<main class="wrap"><div id="globalStatus" class="status" role="status" aria-live="polite"></div>
+<section id="home" class="page"><div class="hero"><span class="eyebrow">GUIZANG / SOCIAL CARD ATELIER</span><h1 data-i="app"></h1><p class="muted" data-i="intro"></p><div class="actions"><button class="primary" data-page="studio" data-i="start"></button><button data-page="library" data-i="browse"></button></div></div><div id="stats" class="stats"></div><div class="sectionhead"><h2 data-i="recent"></h2><button data-page="library" data-i="all"></button></div><div id="recent" class="grid"></div></section>
+<section id="studio" class="page" hidden><div class="sectionhead"><div><span class="eyebrow">01 / THE ATELIER</span><h1 data-i="studio"></h1><p class="muted" data-i="studioIntro"></p></div><button data-page="library" data-i="browse"></button></div><div class="work"><div class="panel"><h2 data-i="make"></h2><form id="createForm"></form></div><div class="panel"><div class="sectionhead"><h2 data-i="output"></h2><div class="actions"><button id="prev" aria-label="Previous">&lt;</button><span id="rowLabel"></span><button id="next" aria-label="Next">&gt;</button></div></div><div id="result" class="markdown" aria-live="polite"></div><div class="foot"><small data-i="edition"></small><button id="newDraft" data-i="draft"></button></div></div></div></section>
+<section id="library" class="page" hidden><div class="sectionhead"><div><span class="eyebrow">02 / THE COLLECTION</span><h1 data-i="library"></h1><p class="muted" data-i="libraryIntro"></p></div><button id="newCard" class="primary" data-i="new"></button></div><div id="filters" class="filters"></div><div class="sectionhead"><small id="countLabel"></small><button id="refresh" data-i="refresh"></button></div><div id="collection" class="grid"></div><div class="actions" style="justify-content:center;margin-top:28px"><button id="more" data-i="more"></button></div></section>
+<footer class="notice">GUIZANG — <span data-i="footer"></span></footer></main>
+<script>
+
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("058a545d021b9e48_归藏社交卡片")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+</script>
+<script>
+const TABLE='社交卡片/默认表格',FIELDS=['源内容','目标平台','卡片形式','画面比例','视觉风格','配图来源','素材文件','制作要求'];
+const OPTIONS={'目标平台':['小红书','微信公众号','其他'],'卡片形式':['静态图文卡片','单视频实况卡片','二宫格实况拼图','三宫格实况拼图','四宫格实况拼图','公众号双封面'],'画面比例':['按平台默认','3:4','1:1','21:9','21:9与1:1双封面'],'视觉风格':['自动选择','瑞士国际主义','电子墨水杂志'],'配图来源':['用户提供','网络素材','AI生成','由智能体选择']};
+const EN={'源内容':'Source content','目标平台':'Platforms','卡片形式':'Card format','画面比例':'Aspect ratio','视觉风格':'Visual style','配图来源':'Image source','素材文件':'Media files','制作要求':'Creative brief','生成结果':'Generated result','小红书':'Xiaohongshu','微信公众号':'WeChat','其他':'Other','静态图文卡片':'Static editorial card','单视频实况卡片':'Single live video','二宫格实况拼图':'Two-panel live collage','三宫格实况拼图':'Three-panel live collage','四宫格实况拼图':'Four-panel live collage','公众号双封面':'WeChat dual covers','按平台默认':'Platform default','21:9与1:1双封面':'21:9 + 1:1 dual covers','自动选择':'Automatic','瑞士国际主义':'Swiss International','电子墨水杂志':'E-ink magazine','用户提供':'User supplied','网络素材':'Web assets','AI生成':'AI generated','由智能体选择':'Agent selected'};
+const TEXT={app:['归藏社交卡片','Guizang Social Cards'],home:['首页','Home'],studio:['制作工坊','Atelier'],library:['作品库','Collection'],intro:['把长文、截图与视频，收成一张可发布的归藏风格卡片。覆盖小红书图文、实况拼图、公众号双封面。','Transform articles, screenshots and videos into publish-ready Guizang cards. For Xiaohongshu, live collages and WeChat dual covers.'],start:['开始制作 ↗','Start creating ↗'],browse:['浏览作品库','Browse collection'],recent:['最近出品','Fresh from the press'],all:['全部作品 →','All works →'],studioIntro:['填写源内容与约束，提交后由归藏技能异步构图、渲染并完成视觉检查。','Add your content and constraints. Guizang will compose, render and visually review your cards.'],libraryIntro:['以卡片墙浏览、筛选、回看与再制作全部归藏社交卡片。','Browse, filter, revisit and remake your Guizang collection.'],make:['制作归藏社交卡片','Create a Guizang card'],output:['作品呈现区','The finished page'],edition:['一稿一构 · 归藏出品','Composed with care · Guizang'],draft:['+ 新稿','+ New draft'],new:['+ 制作新卡片','+ New card'],refresh:['刷新','Refresh'],more:['查看更多','Show more'],footer:['收拢灵感，落成纸上。','Gather ideas. Give them a page.'],total:['总作品数','Total works'],xhs:['小红书作品','Xiaohongshu'],wechat:['公众号作品','WeChat'],live:['实况作品','Live cards'],empty:['暂无作品。由一份新稿开始。','No works yet. Start with a fresh draft.'],blank:['墨稿尚未落成。填写左侧表单后点击生成。','Your page awaits. Complete the form and generate a card.'],unfinished:['该稿尚未完成渲染','This draft has not finished rendering.'],pending:['墨稿生成中或尚无成品','Rendering is in progress, or no result is available.'],wait:['正在提炼内容、规划版式并渲染归藏卡片，请稍候…','Distilling content, planning layouts and rendering your cards…'],generate:['生成卡片','Generate cards'],save:['保存修改','Save changes'],edit:['编辑','Edit'],view:['查看作品','View work'],remove:['删除','Delete'],remake:['再制作','Remake'],close:['关闭','Close'],image:['选择图片','Choose image'],file:['选择文件','Choose file'],camera:['拍摄素材','Take photo'],open:['打开','Open'],download:['下载','Download'],search:['搜索源内容或制作要求…','Search source content or brief…'],any:['全部','All'],sourcePlaceholder:['粘贴文章、口播稿、笔记或需要转化的文字…','Paste an article, script, notes or text to transform…'],briefPlaceholder:['可选：内容类别、固定标题、页数、主题配色、素材出现位置、视频时间范围及裁切重点等','Optional: content category, title, page count, palette, asset placement, video timing and crop focus.'],required:['请输入源内容。','Please enter source content.'],assetsRequired:['用户提供模式需要至少一份素材。','User supplied mode requires at least one media file.'],xhsHint:['小红书常用 3:4。','Xiaohongshu commonly uses 3:4.'],wechatHint:['公众号双封面常用 21:9 与 1:1。','WeChat dual covers commonly use 21:9 and 1:1.'],ratioHint:['公众号双封面建议选择「21:9与1:1双封面」。','Consider the 21:9 + 1:1 dual-cover ratio.'],videoHint:['实况形式需提供视频，并尽量写明时间范围与裁切重点。','Supply video for live formats; specify time ranges and crop focus.'],editNote:['保存不会自动重新出图；请使用「再制作」生成新作品。','Saving does not regenerate output. Use Remake to create new cards.'],confirm:['确认删除此作品？此操作不可撤销。','Delete this work? This cannot be undone.'],timeout:['等待已超过 30 分钟，请稍后在作品库查看结果。','The 30-minute wait has ended. Check the collection later.'],loading:['正在读取…','Loading…'],error:['操作失败：','Operation failed: '],saved:['已保存修改。','Changes saved.'],noMatch:['没有符合搜索或筛选条件的作品。','No works match these filters.'],locked:['生成期间请等待完成后再新建或修改。','Please wait for generation before creating or modifying another draft.'],retry:['重试加载','Retry loading'],partial:['部分字段可能已保存，请重新打开检查后再修改。','Some fields may have been saved. Reopen the record to review before editing again.']};
+let lang='cn',page='home',historyStack=[],rows=[],recordCount=0,currentRow=0,busy=false,loading=false,limit=12,resultText='',dataReady=false;const modals=[];const $=id=>document.getElementById(id);const t=k=>TEXT[k]?TEXT[k][lang==='en'?1:0]:lang==='en'?(EN[k]||k):k;const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api=(type,data=TABLE,payload='')=>callAppBridge({type,data,payload});const files=s=>String(s||'').split(',').map(x=>x.trim()).filter(Boolean);const isImage=f=>/\.(png|jpe?g|gif|webp|avif|bmp|svg)(?:[?#].*)?$/i.test(f);const fileURL=(f,open=false)=>'https://www.ithinkair.com:3031/'+(open?'private/':'download/')+encodeURIComponent(f);const safeURL=s=>/^(https?:|data:image\/|data:video\/|data:audio\/)/i.test(s)?s:/^[a-z][a-z\d+.-]*:/i.test(s)?'':fileURL(s);
+function showError(e){$('globalStatus').textContent=t('error')+(e.message||String(e));}function run(fn){return async function(...args){try{await fn(...args);}catch(e){showError(e);}};}function emptyHTML(k){return '<div class="empty"><i class="fa-solid fa-feather-pointed" aria-hidden="true"></i>'+esc(t(k))+'</div>';}
+function getLanguage(){let s;try{s=localStorage.getItem('iThinkAir_UiLanguage');}catch{}if(s)return s==='en'?'en':'cn';const q=new URLSearchParams(location.search).get('lang');if(q==='cn'||q==='en')return q;return !navigator.languages?.length||navigator.languages.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en';}
+function navigate(next,remember=true){if(next===page)return;if(remember)historyStack.push({page,scroll:window.scrollY});page=next;document.querySelectorAll('.page').forEach(e=>e.hidden=e.id!==page);document.querySelectorAll('[data-page]').forEach(e=>e.classList.toggle('active',e.dataset.page===page));closeMenu();window.scrollTo(0,0);}
+function closeMenu(){$('nav').classList.remove('open');$('hamburger').setAttribute('aria-expanded','false');}function fitNav(){const n=$('nav');n.classList.remove('compact');if(n.scrollWidth>n.clientWidth||$('brand').offsetWidth+$('navlinks').offsetWidth+100>n.clientWidth)n.classList.add('compact');}
+window.airBack=function(){if(modals.length){closeModal();return 'false';}if($('nav').classList.contains('open')){closeMenu();return 'false';}if(historyStack.length){const h=historyStack.pop();navigate(h.page,false);requestAnimationFrame(()=>window.scrollTo(0,h.scroll));return 'false';}return 'true';};
+function modal(title,reading=false){const overlay=document.createElement('div');overlay.className='overlay'+(reading?' reading':'');overlay.innerHTML='<section class="dialog" role="dialog" aria-modal="true" tabindex="-1"><div class="dialoghead"><h2>'+esc(title)+'</h2><button class="x" aria-label="'+esc(t('close'))+'"><i class="fa-solid fa-xmark"></i></button></div><div class="content"></div></section>';overlay.style.zIndex=2002+modals.length;const item={overlay,focus:document.activeElement,locked:false};modals.push(item);document.body.append(overlay);document.body.style.overflow='hidden';overlay.querySelector('.x').onclick=()=>closeModal();overlay.onclick=e=>{if(e.target===overlay)closeModal();};overlay.querySelector('.dialog').focus();return overlay.querySelector('.content');}
+function closeModal(){const item=modals.at(-1);if(!item||item.locked)return;modals.pop();item.overlay.remove();if(!modals.length)document.body.style.overflow='';item.focus?.focus();}
+function formValues(id){const f=$(id),obj={};for(const field of FIELDS){if(OPTIONS[field])obj[field]=Array.from(f.querySelectorAll('input[name="'+field+'"]:checked')).map(e=>e.value).join(',');else obj[field]=f.elements.namedItem(field).value.trim();}return obj;}
+function renderForm(id,values={}){const f=$(id);f.innerHTML=FIELDS.map((field,index)=>{const key=id+'-f'+index,v=values[field]??(OPTIONS[field]?OPTIONS[field][0]:'');if(OPTIONS[field])return '<fieldset class="field"><legend>'+esc(t(field))+'</legend><div class="choices">'+OPTIONS[field].map((option,i)=>'<label class="choice" for="'+key+'-'+i+'"><input id="'+key+'-'+i+'" name="'+field+'" type="'+(field==='目标平台'?'checkbox':'radio')+'" value="'+option+'" '+(files(v).includes(option)?'checked':'')+'><span>'+esc(t(option))+'</span></label>').join('')+'</div></fieldset>';return '<div class="field"><label for="'+key+'">'+esc(t(field))+(field==='源内容'?' *':'')+'</label>'+(field==='素材文件'?'<input id="'+key+'" name="'+field+'" value="'+esc(v)+'" placeholder="file1.png,file2.mp4"><div class="files" id="'+id+'-files"></div><div class="actions">'+[['SelectImage','image','fa-image'],['SelectFile','file','fa-paperclip'],['CapturePhoto','camera','fa-camera']].map(([type,label,icon])=>'<button type="button" data-pick="'+type+'"><i class="fa-solid '+icon+'"></i> '+t(label)+'</button>').join('')+'</div>':'<textarea id="'+key+'" name="'+field+'" '+(field==='源内容'?'required rows="7"':'rows="4"')+' placeholder="'+esc(t(field==='源内容'?'sourcePlaceholder':'briefPlaceholder'))+'">'+esc(v)+'</textarea>')+'</div>';}).join('')+'<div class="hint" id="'+id+'-hint" aria-live="polite"></div><button class="primary" id="'+id+'-submit" type="submit">'+t(id==='createForm'?'generate':'save')+'</button>'+(id==='editForm'?'<p class="muted">'+t('editNote')+'</p>':'');f.oninput=()=>updateForm(id);f.onchange=()=>updateForm(id);f.querySelectorAll('[data-pick]').forEach(b=>b.onclick=run(async()=>{b.disabled=true;try{const name=await callAppBridge({type:b.dataset.pick});if(name){const input=f.elements.namedItem('素材文件');input.value=[...files(input.value),name].join(',');updateForm(id);}}finally{b.disabled=false;}}));updateForm(id);}
+function updateForm(id){const f=$(id),v=formValues(id),hint=[];if(v['目标平台'].includes('小红书'))hint.push(t('xhsHint'));if(v['目标平台'].includes('微信公众号'))hint.push(t('wechatHint'));if(v['卡片形式']==='公众号双封面'&&v['画面比例']!=='21:9与1:1双封面')hint.push(t('ratioHint'));if(v['卡片形式'].includes('实况'))hint.push(t('videoHint'));const missing=v['配图来源']==='用户提供'&&!files(v['素材文件']).length;if(missing)hint.push(t('assetsRequired'));$(id+'-hint').textContent=hint.join('\n');$(id+'-submit').disabled=missing||(id==='createForm'&&busy);$(id+'-files').replaceChildren();for(const name of files(v['素材文件'])){const el=document.createElement('span');el.className='file';el.innerHTML=(isImage(name)?'<img alt="" src="'+esc(fileURL(name))+'">':'')+'<button type="button">'+esc(name)+'</button><button type="button" aria-label="'+esc(t('remove')+' '+name)+'">×</button>';el.querySelectorAll('button')[0].onclick=run(()=>openFile(name));el.querySelectorAll('button')[1].onclick=()=>{f.elements.namedItem('素材文件').value=files(f.elements.namedItem('素材文件').value).filter(x=>x!==name).join(',');updateForm(id);};$(id+'-files').append(el);}}
+function validate(v){if(!v['源内容'])throw Error(t('required'));if(v['配图来源']==='用户提供'&&!files(v['素材文件']).length)throw Error(t('assetsRequired'));}
+function normalizeMarkdown(text){return text.replace(/(!?\[[^\]]*\]\()([^\s)]+)(\))/g,(m,a,b,c)=>a+(/^(https?:|data:|#)/i.test(b)?b:fileURL(b))+c);}
+function renderMarkdown(el,text,empty='pending'){el.replaceChildren();if(!text.trim()){el.innerHTML=emptyHTML(empty);return;}if(!window.marked||!window.DOMPurify){el.textContent=text;return;}el.innerHTML=DOMPurify.sanitize(marked.parse(normalizeMarkdown(text),{gfm:true,breaks:true}));el.querySelectorAll('img').forEach(img=>{const src=img.getAttribute('src');if(!src)return;img.src=safeURL(src);img.style.cursor='pointer';img.tabIndex=0;img.setAttribute('role','link');img.title=t('download');const download=e=>{e.preventDefault();e.stopPropagation();window.open(img.src,'_blank','noopener');};img.onclick=download;img.onkeydown=e=>{if(e.key==='Enter')download(e);};});el.querySelectorAll('a').forEach(a=>{a.rel='noopener noreferrer';a.target='_blank';const href=a.getAttribute('href')||'';if(/\.html?(?:[?#]|$)/i.test(href)){a.onclick=run(async e=>{e.preventDefault();await openFile(decodeURIComponent(href.split('/').pop().split(/[?#]/)[0]));});}else if(/\.(mp4|webm|mov|mp3|wav|m4a)(?:[?#]|$)/i.test(href)&&href.includes('ithinkair.com:3031/')){a.onclick=run(async e=>{e.preventDefault();await openFile(decodeURIComponent(href.split('/').pop().split(/[?#]/)[0]));});}});const known=new Set();for(const match of text.matchAll(/(?:^|[\s`])([^\s`<>"\[\]()]+\.(?:png|jpe?g|webp|gif|html?|zip|mp4|webm|mp3|pdf))(?=$|[\s`])/gi)){const name=match[1];if(name.includes('://')||name.includes('/'))continue;if(known.has(name))continue;known.add(name);const block=document.createElement('p');if(isImage(name)){const a=document.createElement('a');a.href=fileURL(name);a.target='_blank';a.rel='noopener';const im=document.createElement('img');im.src=fileURL(name);im.alt=name;a.append(im);block.append(a);}const b=document.createElement('button');b.textContent=t('open')+' · '+name;b.onclick=run(()=>openFile(name));block.append(b);const a=document.createElement('a');a.textContent=' '+t('download');a.href=fileURL(name);a.target='_blank';a.rel='noopener';block.append(a);el.append(block);}}
+async function openFile(name){const content=modal(name,true);if(/\.html?$/i.test(name)){const frame=document.createElement('iframe');frame.className='viewer';frame.title=name;frame.sandbox='allow-scripts allow-downloads';frame.src=fileURL(name,true);content.append(frame);}else if(/\.(mp4|webm|mov|mp3|wav|m4a)$/i.test(name)){content.textContent=t('loading');const b64=await api('FileToBase64',name);const media=document.createElement(/\.(mp3|wav|m4a)$/i.test(name)?'audio':'video');const ext=name.split('.').pop().toLowerCase(),mime={mp4:'video/mp4',webm:'video/webm',mov:'video/quicktime',mp3:'audio/mpeg',wav:'audio/wav',m4a:'audio/mp4'}[ext];media.controls=true;media.style.maxWidth='100%';media.src=b64.startsWith('data:')?b64:'data:'+mime+';base64,'+b64;content.replaceChildren(media);}else if(/\.(md|markdown|txt|csv|json)$/i.test(name)){content.textContent=t('loading');const txt=await api('ReadFile',name);if(/\.(md|markdown)$/i.test(name)){content.classList.add('markdown');renderMarkdown(content,txt);}else{const pre=document.createElement('pre');pre.style.whiteSpace='pre-wrap';pre.textContent=txt;content.replaceChildren(pre);}}else if(isImage(name)){const img=document.createElement('img');img.src=fileURL(name);img.alt=name;img.style.maxWidth='100%';content.append(img);}else{const frame=document.createElement('iframe');frame.className='viewer';frame.title=name;frame.src=fileURL(name,true);content.append(frame);}const a=document.createElement('a');a.href=fileURL(name);a.textContent=t('download');a.target='_blank';a.rel='noopener';content.append(a);}
+async function getRecord(row,includeResult=true){const obj={};for(const field of [...FIELDS,...(includeResult?['生成结果']:[])])obj[field]=await api('GetCellValue',TABLE,field+'/'+row);return obj;}
+function updateNav(){$('rowLabel').textContent=currentRow+' / '+recordCount;$('prev').disabled=busy||loading||currentRow<=1;$('next').disabled=busy||loading||currentRow>=recordCount;$('newDraft').disabled=busy||loading;$('newCard').disabled=busy||loading;}
+function renderResult(){renderMarkdown($('result'),resultText,currentRow?'unfinished':'blank');if(busy)$('result').innerHTML=emptyHTML('wait');updateNav();}
+function newDraft(){if(busy||loading)throw Error(t('locked'));currentRow=0;resultText='';renderForm('createForm');renderResult();}
+async function browseRow(n){if(busy||loading||n<1||n>recordCount)return;loading=true;updateNav();try{const v=await getRecord(n);currentRow=n;resultText=v['生成结果'];renderForm('createForm',v);renderResult();}finally{loading=false;updateNav();}}
+async function loadSummary(obj){obj['源内容']=await api('GetCellValue',TABLE,'源内容/'+obj.row);obj['制作要求']=await api('GetCellValue',TABLE,'制作要求/'+obj.row);}
+async function loadData(){const values=await Promise.all([api('GetRecordCount'),api('GetTableCSV',TABLE,FIELDS.join(',')),api('GetTableCSV',TABLE,'目标平台'),api('GetTableCSV',TABLE,'卡片形式')]);recordCount=Number(values[0]);if(!Number.isFinite(recordCount))throw Error('Invalid record count');const parsed=parseCSV(values[1]);const next=[];for(let i=0;i<parsed.length;i++){const obj={row:i+1};FIELDS.forEach((f,j)=>obj[f]=parsed[i][j]||'');next.push(obj);}await Promise.all(next.map(obj=>loadSummary(obj)));rows=next;const platforms=parseCSV(values[2]);const live=parseCSV(values[3]);window.statCounts=[recordCount,platforms.filter(r=>(r[0]||'').includes('小红书')).length,platforms.filter(r=>(r[0]||'').includes('微信公众号')).length,live.filter(r=>OPTIONS['卡片形式'].slice(1,5).includes(r[0])).length];dataReady=true;renderData();updateNav();}
+function renderStats(){$('stats').innerHTML=['total','xhs','wechat','live'].map((k,i)=>'<div class="stat"><span class="eyebrow">0'+(i+1)+'</span><strong>'+(window.statCounts?window.statCounts[i]:'—')+'</strong><span class="muted">'+t(k)+'</span></div>').join('');}
+function card(obj,recent=false){const el=document.createElement('article');el.className='card';const thumb=files(obj['素材文件']).find(isImage);el.innerHTML='<button class="cardbody" type="button">'+files(obj['目标平台']).map(v=>'<span class="badge">'+esc(t(v))+'</span>').join('')+(thumb?'<img class="thumb" loading="lazy" src="'+esc(fileURL(thumb))+'" alt="">':'')+'<h3>'+esc(t(obj['卡片形式']))+'</h3><small>'+esc(t(obj['视觉风格']))+' / '+esc(t(obj['画面比例']))+'</small><p>'+esc(obj['源内容'].slice(0,recent?80:60))+'</p><p class="muted">'+esc(obj['制作要求'].slice(0,40))+'</p><small>'+esc(t(obj['配图来源']))+'</small></button>';el.querySelector('button').onclick=run(()=>showDetail(obj.row));if(!recent){const actions=document.createElement('div');actions.className='actions';for(const [label,fn] of [['view',showDetail],['edit',editRecord],['remake',remakeRecord],['remove',deleteRecord]]){const b=document.createElement('button');b.textContent=t(label);b.disabled=busy&&label!=='view';b.onclick=run(()=>fn(obj.row));actions.append(b);}el.append(actions);}return el;}
+function like(value,pattern){const re=pattern.split('%').map(p=>p.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('.*');return new RegExp('^'+re+'$','i').test(value);}
+function renderData(){renderStats();$('recent').replaceChildren();rows.slice(0,6).forEach(r=>$('recent').append(card(r,true)));if(!rows.length)$('recent').innerHTML=emptyHTML(dataReady?'empty':'loading');renderCollection();}
+function renderFilters(){const previous={};$('filters').querySelectorAll('input,select').forEach(e=>previous[e.name]=e.value);$('filters').innerHTML='<input id="search" name="search" aria-label="'+esc(t('search'))+'" placeholder="'+esc(t('search'))+'">'+['目标平台','卡片形式','视觉风格','配图来源'].map((field,i)=>'<select id="filter-'+i+'" name="'+field+'" aria-label="'+esc(t(field))+'"><option value="">'+t(field)+' · '+t('any')+'</option>'+OPTIONS[field].map(v=>'<option value="'+v+'">'+t(v)+'</option>').join('')+'</select>').join('');$('filters').querySelectorAll('input,select').forEach(e=>{e.value=previous[e.name]||'';e.oninput=()=>{limit=12;renderCollection();};});}
+function renderCollection(){if(!$('search'))return;const q=$('search').value.trim().toLowerCase(),filters=Array.from($('filters').querySelectorAll('select'));const found=rows.filter(r=>(!q||(r['源内容']+'\n'+r['制作要求']).toLowerCase().includes(q))&&filters.every(e=>!e.value||(e.name==='目标平台'?like(r[e.name],'%'+e.value+'%'):r[e.name]===e.value)));$('collection').replaceChildren();found.slice(0,limit).forEach(r=>$('collection').append(card(r)));if(!found.length)$('collection').innerHTML=emptyHTML(dataReady?(rows.length?'noMatch':'empty'):'loading');$('countLabel').textContent=lang==='en'?found.length+' works':found.length+' 件作品';$('more').hidden=found.length<=limit;}
+async function showDetail(row){if(busy||loading)throw Error(t('locked'));currentRow=row;updateNav();const content=modal(t('view'),true);content.textContent=t('loading');try{const v=await getRecord(row);resultText=v['生成结果'];renderForm('createForm',v);renderResult();content.innerHTML='<div class="detail"><dl></dl><div><h3>'+t('生成结果')+'</h3><div class="markdown"></div></div></div><div class="actions detailactions"></div>';const dl=content.querySelector('dl');for(const f of FIELDS){const dt=document.createElement('dt');dt.textContent=t(f);const dd=document.createElement('dd');if(f==='素材文件'){for(const name of files(v[f])){const b=document.createElement('button');b.textContent=name;b.onclick=run(()=>openFile(name));const a=document.createElement('a');a.textContent=' '+t('download');a.href=fileURL(name);a.target='_blank';a.rel='noopener';dd.append(b,a,document.createElement('br'));}}else dd.textContent=OPTIONS[f]?files(v[f]).map(t).join(', '):v[f];dl.append(dt,dd);}renderMarkdown(content.querySelector('.markdown'),v['生成结果']);for(const [label,fn] of [['close',()=>closeModal()],['edit',()=>{closeModal();return editRecord(row);}],['remake',()=>{closeModal();return remakeRecord(row);}],['remove',()=>deleteRecord(row)]]){const b=document.createElement('button');b.textContent=t(label);b.disabled=busy&&label!=='close';b.onclick=run(fn);content.querySelector('.detailactions').append(b);}}catch(e){content.textContent=t('error')+(e.message||e);}}
+async function editRecord(row){if(busy)throw Error(t('locked'));currentRow=row;updateNav();const content=modal(t('edit')+' · '+t('app'));const item=modals.at(-1);content.textContent=t('loading');const v=await getRecord(row,false);content.innerHTML='<form id="editForm"></form>';renderForm('editForm',v);$('editForm').onsubmit=run(async e=>{e.preventDefault();const values=formValues('editForm');validate(values);item.locked=true;const form=$('editForm');form.querySelectorAll('input,textarea,button').forEach(e=>e.disabled=true);try{for(const f of FIELDS)await api('SetCellValue',TABLE,f+'/'+row+'/'+values[f]);item.locked=false;closeModal();await loadData();$('globalStatus').textContent=t('saved');}catch(error){showError(Error((error.message||error)+' '+t('partial')));}finally{item.locked=false;if(form.isConnected){form.querySelectorAll('input,textarea,button').forEach(e=>e.disabled=false);updateForm('editForm');}}});}
+async function remakeRecord(row){if(busy)throw Error(t('locked'));const v=await getRecord(row,false);newDraft();renderForm('createForm',v);navigate('studio');}
+async function deleteRecord(row){if(busy)throw Error(t('locked'));if(!window.confirm(t('confirm')))return;await api('DeleteRecord',TABLE,row.toString());while(modals.length)closeModal();newDraft();await loadData();}
+async function submitCreate(e){e.preventDefault();if(busy)return;const v=formValues('createForm');validate(v);busy=true;$('language').disabled=true;renderData();$('createForm').querySelectorAll('input,textarea,button').forEach(e=>e.disabled=true);renderResult();try{await api('SubmitRecord','社交卡片',JSON.stringify(v));currentRow=1;recordCount++;updateNav();const deadline=Date.now()+1800000;while(Date.now()<deadline){await new Promise(resolve=>setTimeout(resolve,1000));const remaining=deadline-Date.now();if(remaining<=0)break;let timer;let output;try{output=await Promise.race([api('GetCellValue',TABLE,'生成结果/1'),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error(t('timeout'))),remaining);})]);}finally{clearTimeout(timer);}if(output.trim()){resultText=output;return;}}throw Error(t('timeout'));}finally{busy=false;$('language').disabled=false;$('createForm').querySelectorAll('input,textarea,button').forEach(e=>e.disabled=false);updateForm('createForm');renderResult();try{await loadData();}catch(error){showError(error);}}}
+function applyLanguage(){document.documentElement.lang=lang==='en'?'en':'zh-CN';document.title=t('app');document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));$('language').textContent=lang==='en'?'中文':'EN';const v=$('createForm').elements.length?formValues('createForm'):{};renderForm('createForm',v);renderFilters();renderData();renderResult();document.querySelectorAll('[data-page]').forEach(e=>e.classList.toggle('active',e.dataset.page===page));fitNav();}
+async function initialize(){lang=getLanguage();applyLanguage();$('brand').onclick=run(()=>parent.closeFullHtml(false));document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>navigate(b.dataset.page));$('hamburger').onclick=()=>{$('nav').classList.toggle('open');$('hamburger').setAttribute('aria-expanded',String($('nav').classList.contains('open')));};document.addEventListener('click',e=>{if(!$('nav').contains(e.target))closeMenu();});$('language').onclick=()=>{if(busy)return;lang=lang==='cn'?'en':'cn';try{localStorage.setItem('iThinkAir_UiLanguage',lang);}catch{}closeMenu();applyLanguage();};$('createForm').onsubmit=run(submitCreate);$('newDraft').onclick=run(()=>newDraft());$('newCard').onclick=run(()=>{newDraft();navigate('studio');});$('prev').onclick=run(()=>browseRow(currentRow-1));$('next').onclick=run(()=>browseRow(currentRow+1));$('more').onclick=()=>{limit+=12;renderCollection();};$('refresh').onclick=run(async()=>{$('refresh').disabled=true;try{await loadData();$('globalStatus').textContent='';}finally{$('refresh').disabled=false;}});window.addEventListener('resize',fitNav);document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(modals.length)closeModal();else closeMenu();}if(e.key==='Tab'&&modals.length){const dialog=modals.at(-1).overlay;const focusable=Array.from(dialog.querySelectorAll('button,a,input,textarea,select,iframe,[tabindex="0"]')).filter(x=>!x.disabled&&x.getClientRects().length);const first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&(document.activeElement===first||!focusable.includes(document.activeElement))){e.preventDefault();last?.focus();}else if(!e.shiftKey&&(document.activeElement===last||!focusable.includes(document.activeElement))){e.preventDefault();first?.focus();}}});const reveal=()=>{const el=document.activeElement;if(el&&/INPUT|TEXTAREA|SELECT/.test(el.tagName))setTimeout(()=>el.scrollIntoView({block:'center',behavior:'smooth'}),200);};document.addEventListener('focusin',reveal);window.visualViewport?.addEventListener('resize',()=>{document.body.classList.toggle('keyboard',window.innerHeight-window.visualViewport.height>120);reveal();});const settled=await Promise.allSettled([callAppBridge({type:'模式'}).then(mode=>document.body.classList.toggle('dark',mode.trim()==='暗色')),loadData()]);for(const result of settled)if(result.status==='rejected')showError(result.reason);}
+(async () => { await initialize(); })();
+</script></body></html>

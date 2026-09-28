@@ -1,0 +1,149 @@
+/* ============================================================
+   huashu-report 承重排版基座
+   复制进项目直接用（内嵌进 build.py 的 CSS 段或 <link> 引入）。
+
+   分两层：
+   · 「承重」段 —— 页面几何、分页规则、表格防粘连。不许改，
+     改了就会复现已经踩过的坑（列粘连/标题孤立页底/表头不重复/版心塌陷）。
+   · 「调味」段 —— 颜色、字体、字号变量。按视觉方向库换值，只换变量不改选择器。
+
+   页面模式二选一（见 生产流水线.md「版式基座契约」）：
+   A. A4 竖版（默认）：页边距由 render.py 的 margin 参数唯一决定，
+      本文件不写 @page，body 不加水平 margin/padding。
+   B. 全出血/deck：解开文件底部「模式 B」注释块，@page margin:0，
+      呼吸空间全靠 .page 容器 padding，下限写死在那里。
+   ============================================================ */
+
+/* ── 调味：设计令牌（按视觉方向换值） ─────────────────── */
+:root {
+  --ink:   #231f20;   /* 正文近黑。可换 #30353a 冷黑 / #3c3c3b 中性灰黑 */
+  --mute:  #6b6b6b;   /* 图注、数据源、页眉页脚 */
+  --rule:  #d8d8d8;   /* 分隔线 */
+  --rule-soft: #e8ecee;
+  --brand: #14505e;   /* 品牌色：只出现在图表、章节标记、强调数字 */
+  --accent:#a4551f;   /* 语义负向/第二强调 */
+  --paper: #ffffff;   /* 纸色。暖纸本方向换 #faf7f2 */
+
+  /* 中文字号基线（A4 竖版）。依据见 视觉系统.md——42 份英文报告实测
+     是 8–10pt，中文同视觉密度需上浮，实际交付 9.4pt 被读者反馈偏小。 */
+  --fs-body: 10pt;    --lh-body: 1.72;
+  --fs-table: 9pt;    --lh-table: 1.55;
+  --fs-caption: 7.8pt;--lh-caption: 1.5;   /* 图注/数据源，下限 7.2pt */
+  --fs-h2: 24pt;      /* 章标题 */
+  --fs-h3: 14pt;      /* 节/页标题，与正文至少 1.3 倍 */
+  --fs-figtitle: 11pt;
+
+  /* 西文/数字字体前置：数字用西文字形并支持表格数字。
+     衬线（学术/调查）与无衬线（企业/deck）二选一赋给 --font-body。 */
+  --font-serif: 'Times New Roman','Songti SC','Source Han Serif SC',serif;
+  --font-sans:  'Helvetica Neue','PingFang SC','Source Han Sans SC',sans-serif;
+  --font-body:  var(--font-sans);
+  --font-head:  var(--font-sans);
+}
+
+/* ── 承重：基础文本 ───────────────────────────────────── */
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+p { margin: 0 0 .65em; orphans: 2; widows: 2; }
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  line-height: 1.28;
+  page-break-after: avoid; break-after: avoid;   /* 标题不许孤立在页底 */
+}
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+
+/* ── 承重：分页容器（一个容器 = 一章） ───────────────── */
+table.pagewrap { width: 100%; border-collapse: collapse;
+                 page-break-after: always; table-layout: auto; }
+table.pagewrap > thead { display: table-header-group; }
+table.pagewrap > thead .crumb {
+  font-size: 6.8pt; color: var(--mute); letter-spacing: .04em;
+  padding-bottom: 3mm; border-bottom: .4pt solid var(--rule-soft);
+}
+
+/* ── 承重：数据表防粘连四件套 ─────────────────────────── */
+table:not(.pagewrap) {
+  width: 100%; border-collapse: collapse;
+  table-layout: fixed;                    /* 长内容不撑破列宽 */
+  page-break-inside: auto;                /* 长表允许跨页 */
+  font-size: var(--fs-table); line-height: var(--lh-table);
+  font-variant-numeric: tabular-nums;     /* 上下行数字对齐 */
+}
+table:not(.pagewrap) thead { display: table-header-group; }  /* 跨页表头重复 */
+table:not(.pagewrap) tr { page-break-inside: avoid; }        /* 单行不劈开 */
+table:not(.pagewrap) td, table:not(.pagewrap) th {
+  overflow-wrap: anywhere;
+  text-align: left;                       /* 混排表不右对齐、不两端对齐 */
+  vertical-align: top;
+  padding: 1.8mm 3.4mm;                   /* 足量 gutter */
+}
+table:not(.pagewrap) td + td,
+table:not(.pagewrap) th + th { border-left: .5px solid var(--rule-soft); }
+table:not(.pagewrap) th { border-bottom: .7pt solid var(--ink); }
+table:not(.pagewrap) td { border-bottom: .4pt solid var(--rule-soft); }
+
+/* ── 承重：长串必须能断行（否则整本书被缩到 66%） ────────
+   踩过的坑，而且它伪装成别的问题：附录里一条 93 字符的 URL 断不了行，
+   把 body 的 scrollWidth 撑到 393mm（纸宽 210mm），Chromium 打印时
+   就把**整个文档**缩放去适配纸张——每一页都变小，封面满版底色只铺三分之二，
+   正文字号看起来小一号。症状看起来是「封面出血坏了」和「字太小」，
+   根因是一条 URL。凡是可能出现 URL、DOI、长编号的容器都要加。
+   同理：任何满版元素都不许写死 width（写 width:210mm 会撑宽文档流），
+   用 width:auto + min-height:100vh。 */
+body, p, li, h2, h3, .side, .src, .caption, .dat, .toc { overflow-wrap: anywhere; }
+
+/* ── 承重：flex 两栏——给两边都写 min-width ──────────────
+   ⚠️ 这条是本库里最隐蔽的一个。出事的写法是：左栏 flex:1（等于
+   grow 1 / basis 0），右栏带 overflow-wrap:anywhere 且没有 min-width。
+   左栏抢走全部剩余空间，右栏被压到它的 min-content——而 anywhere 让
+   min-content 等于「一个字」。结果是右栏整段**竖排成一列**。
+   附录里三条中招（数值长、陈述短的那些），而且它还让附录多出 16 页。
+   两边都给 min-width，装不下时靠 flex-wrap 把右栏整段挪到下一行。 */
+.row2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3mm; }
+.row2 > .a { flex: 1 1 55%; min-width: 62mm; }
+.row2 > .b { flex: 1 1 30%; min-width: 46mm; }
+
+/* ── 承重：视觉锚数字不许被拦腰折断 ─────────────────────
+   「626,155磅」折成「626,15 / 5磅」比不放这个块还糟，而且机械自检
+   查不出来。.n 必须 nowrap；容器必须 wrap，一行装不下时换行排而不是溢出。 */
+.bignums { display: flex; flex-wrap: wrap; gap: 7mm 12mm; break-inside: avoid; }
+.bignums .n { white-space: nowrap; word-break: keep-all; }
+
+/* ── 承重：章末孤儿段 ───────────────────────────────────
+   实测：370 页的书里有两页只印了一句话，其余全白。机械自检能报
+   「内容极少的页」，但修不了——那是排版决策不是内容问题。
+   对章内最后两段禁止在其之前分页，引擎会把它们和上一段一起挪走。 */
+.pagewrap td > p:last-child,
+.pagewrap td > p:nth-last-child(2) { break-before: avoid; page-break-before: avoid; }
+
+/* ── 承重：图表与方框 ─────────────────────────────────── */
+.fig, .box { page-break-inside: avoid; }
+.fig svg { display: block; max-width: 100%; }
+.figtitle { font-size: var(--fs-figtitle); font-weight: 700; margin: 0 0 1.6mm; }
+.src, .caption {
+  font-size: var(--fs-caption); line-height: var(--lh-caption);
+  color: var(--mute); margin-top: 1.4mm;
+}
+
+/* ============================================================
+   模式 B：全出血 / deck。默认注释掉；用的时候整块解开，
+   并把 render.py 的 margin 参数全部设为 0。
+   padding 下限是契约（见 生产流水线.md），塞不下砍内容不砍留白。
+
+@page { size: 338.7mm 190.5mm; margin: 0; }        横版 deck；竖版全出血用 210mm 297mm
+.page {
+  width: 338.7mm; height: 190.5mm;
+  box-sizing: border-box; overflow: hidden;         内容超了裁掉，几何自检能抓到顶格
+  padding: 11mm 16mm 12mm;                          横版下限；竖版全出血 ≥ 16mm 18mm 16mm
+  page-break-after: always;
+  display: flex; flex-direction: column;
+}
+   ============================================================ */

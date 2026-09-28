@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT-5.6 研究简报</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172026;
+      --muted: #60707c;
+      --line: #d8e0e5;
+      --paper: #f7f9fb;
+      --panel: #ffffff;
+      --teal: #0f766e;
+      --red: #b42318;
+      --gold: #a15c07;
+      --blue: #2456c5;
+      --shadow: 0 18px 50px rgba(19, 35, 48, .10);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Noto Sans SC", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.65;
+    }
+
+    header {
+      background: #101820;
+      color: #fff;
+      padding: 56px 24px 42px;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .kicker {
+      margin: 0 0 12px;
+      color: #9bd8d0;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 7vw, 72px);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 860px;
+      margin: 22px 0 0;
+      color: #d8e5eb;
+      font-size: clamp(17px, 2vw, 22px);
+    }
+
+    main { padding: 28px 0 54px; }
+
+    .status {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-top: -42px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #f1c6c0;
+      color: var(--red);
+      background: #fff4f2;
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    p { margin: 0 0 12px; }
+    a { color: var(--blue); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 22px 0;
+    }
+
+    .tier {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      min-height: 210px;
+    }
+
+    .tier strong {
+      display: block;
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .price {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+    .fact {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .fact b {
+      display: block;
+      color: var(--teal);
+      font-size: 22px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    section {
+      margin-top: 28px;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 28px 0;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li { margin-bottom: 8px; }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 14px;
+      padding: 14px;
+      background: #f8fbfc;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .date {
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    .note {
+      border-left: 4px solid var(--teal);
+      background: #eefaf8;
+      padding: 14px 16px;
+      border-radius: 4px;
+    }
+
+    footer {
+      padding: 26px 0 44px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 820px) {
+      header { padding-top: 38px; }
+      .status, .split, .grid, .facts {
+        grid-template-columns: 1fr;
+      }
+      .status { margin-top: -24px; }
+      .step { grid-template-columns: 1fr; }
+      .panel, .tier, .fact { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="kicker">OpenAI Model Research Brief</p>
+      <h1>GPT-5.6：受限预览中的新一代模型家族</h1>
+      <p class="lead">基于 OpenAI 官方发布页与开发者文档整理。重点结论：GPT-5.6 已发布预览，但截至 2026-06-28 仍只向部分可信伙伴开放；普通开发者当前仍应以 GPT-5.5 作为复杂推理与编码的默认起点。</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap status">
+      <article class="panel">
+        <span class="badge">当前状态：Limited Preview</span>
+        <h2 style="margin-top:14px">一句话结论</h2>
+        <p>GPT-5.6 不是一个已经全面开放的单一模型，而是由 Sol、Terra、Luna 三个能力层组成的新命名体系。OpenAI 表示会在未来数周扩大到 ChatGPT、Codex 与 API，但预览期先通过 API 和 Codex 提供给少量可信伙伴。</p>
+      </article>
+      <article class="panel">
+        <h2>为什么值得关注</h2>
+        <p>OpenAI 将 GPT-5.6 Sol 描述为其最强模型，并强调在编码、生物学工作流、网络安全任务、深度推理和多代理复杂工作上的提升。同时，发布重点明显放在“能力增长”和“安全护栏”同步推进。</p>
+      </article>
+    </div>
+
+    <div class="wrap">
+      <div class="facts">
+        <div class="fact"><b>2026-06-26</b>OpenAI 发布 GPT-5.6 Sol 预览说明。</div>
+        <div class="fact"><b>3 个层级</b>Sol 旗舰、Terra 平衡、Luna 快速低成本。</div>
+        <div class="fact"><b>API + Codex</b>预览期优先面向可信伙伴和组织。</div>
+        <div class="fact"><b>GPT-5.5</b>官方模型页仍建议不确定时从它开始。</div>
+      </div>
+    </div>
+
+    <section>
+      <div class="wrap">
+        <h2>模型家族结构</h2>
+        <div class="grid">
+          <article class="tier">
+            <strong>Sol</strong>
+            <p>旗舰模型，面向最高能力需求。官方强调其在编码、长程安全任务、生物学分析和复杂代理任务上的提升。</p>
+            <div class="price">价格：$5 / 输入 MTok，$30 / 输出 MTok</div>
+          </article>
+          <article class="tier">
+            <strong>Terra</strong>
+            <p>平衡型模型，定位为日常工作与成本控制之间的主力选择。官方称其性能接近 GPT-5.5，成本约为其一半。</p>
+            <div class="price">价格：$2.50 / 输入 MTok，$15 / 输出 MTok</div>
+          </article>
+          <article class="tier">
+            <strong>Luna</strong>
+            <p>快速、低成本模型，适合高吞吐和价格敏感场景。官方将其描述为 GPT-5.6 系列中的最低成本能力层。</p>
+            <div class="price">价格：$1 / 输入 MTok，$6 / 输出 MTok</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap split">
+        <article>
+          <h2>主要能力变化</h2>
+          <ul>
+            <li>新增 <code>max</code> 推理强度，让 Sol 在复杂问题上投入更多推理时间。</li>
+            <li>新增 <code>ultra</code> 模式，通过子代理处理超出单一代理能力边界的复杂工作。</li>
+            <li>编码方面，OpenAI 称 Sol 在 Terminal-Bench 2.1 上达到新的领先水平。</li>
+            <li>生物学工作流方面，在 GeneBench v1 上相对 GPT-5.5 更强且消耗更少 token。</li>
+            <li>网络安全方面，Sol 被描述为 OpenAI 当前最强的安全任务模型，但也因此配套更严格的护栏和分阶段发布。</li>
+          </ul>
+        </article>
+        <article>
+          <h2>安全与发布策略</h2>
+          <p>OpenAI 表示 GPT-5.6 使用分层安全栈：模型内拒答训练、生成时实时检查、账号级风险信号、差异化访问、监控与持续测试。预览期中，合法的双用途安全工作可能遇到更慢响应或误拦截。</p>
+          <p class="note">官方称 Sol 未跨过其 Preparedness Framework 的 Cyber Critical 阈值；在 Chromium 和 Firefox 评测中能发现漏洞与利用原语，但没有在测试条件下自主生成完整攻击链。</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>时间线与可用性</h2>
+        <div class="timeline">
+          <div class="step">
+            <div class="date">2026-06-26</div>
+            <div>OpenAI 发布 GPT-5.6 Sol 预览文章，说明 Sol、Terra、Luna 三个层级与有限预览安排。</div>
+          </div>
+          <div class="step">
+            <div class="date">预览期</div>
+            <div>通过 API 与 Codex 向部分可信伙伴和组织开放；OpenAI 称参与方信息已与美国政府共享。</div>
+          </div>
+          <div class="step">
+            <div class="date">未来数周</div>
+            <div>OpenAI 计划扩大到 ChatGPT、Codex 与 API 的更多用户，但尚未给出确定的全面开放日期。</div>
+          </div>
+          <div class="step">
+            <div class="date">2026-07</div>
+            <div>OpenAI 计划在 Cerebras 上提供 GPT-5.6 Sol，最高可达 750 tokens/s，初期仍限制客户范围。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap split">
+        <article>
+          <h2>对开发者的实际建议</h2>
+          <ul>
+            <li>没有预览资格时，不要把生产系统依赖写死为 GPT-5.6。</li>
+            <li>复杂推理、编码和工具调用场景，官方开发者文档仍建议从 GPT-5.5 开始。</li>
+            <li>如果获得 GPT-5.6 预览资格，应单独评测 Sol、Terra、Luna 的质量、成本、延迟和安全误拦截率。</li>
+            <li>涉及网络安全、生物、长程代理的产品，应预留更严格的审核、日志与用户反馈机制。</li>
+          </ul>
+        </article>
+        <article>
+          <h2>需要继续观察的问题</h2>
+          <ul>
+            <li>全面开放日期、地域限制和账户层级限制。</li>
+            <li>GPT-5.6 系列在公开 API 模型列表中的正式 model id。</li>
+            <li>Sol 的 <code>max</code> 与 <code>ultra</code> 模式在实际产品中的价格、延迟和调用方式。</li>
+            <li>分层安全栈对企业隐私、数据保留和误拦截处理流程的具体影响。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>资料来源：<a href="https://openai.com/index/previewing-gpt-5-6-sol/">OpenAI: Previewing GPT-5.6 Sol</a>；<a href="https://developers.openai.com/api/docs/models">OpenAI API Models</a>；<a href="https://developers.openai.com/api/docs/guides/latest-model">Using GPT-5.5</a>。</p>
+      <p>生成日期：2026-06-28。本文是研究摘要，不代表模型访问权限已经对所有用户开放。</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>梦镜·心析</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css">
+<style>
+:root{color-scheme:dark;--text:#f6f3ff;--muted:#b5b0d2;--card:rgba(21,24,60,.72);--line:rgba(206,194,255,.17);--accent:#aa91ff;--accent2:#78d9e1;--field:rgba(12,16,49,.8);--shade:rgba(6,8,27,.79);--good:#76dfb3;--bad:#fb98aa}
+body.light{color-scheme:light;--text:#212142;--muted:#646482;--card:rgba(255,255,255,.83);--line:rgba(76,67,137,.18);--accent:#6853ba;--accent2:#257e97;--field:#fff;--shade:rgba(26,25,60,.47);--good:#137e58;--bad:#b94362}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:ui-rounded,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:radial-gradient(circle at 15% 15%,#253276 0,transparent 35%),radial-gradient(circle at 82% 20%,#512c77 0,transparent 38%),linear-gradient(145deg,#080e2b,#18103c 70%,#071a32);background-attachment:fixed}body.light{background:radial-gradient(circle at 12% 12%,#d8d7ff 0,transparent 35%),radial-gradient(circle at 80% 18%,#ecd8fc 0,transparent 40%),#e7e9fb}body:before{content:"";pointer-events:none;position:fixed;inset:0;opacity:.36;background-image:radial-gradient(2px 2px at 10% 20%,white 50%,transparent),radial-gradient(2px 2px at 75% 31%,white 50%,transparent),radial-gradient(1px 1px at 55% 77%,white 50%,transparent);background-size:270px 240px;animation:twinkle 7s ease-in-out infinite alternate}@keyframes twinkle{to{opacity:.12}}
+button,input,textarea,select{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}button:disabled{opacity:.55;cursor:wait}a{color:inherit}header{position:relative;z-index:1001;position:sticky;top:0;background:rgba(12,15,43,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}body.light header{background:rgba(242,241,255,.9)}.nav-inner{height:70px;max-width:1200px;margin:auto;padding:0 24px;display:flex;align-items:center;gap:24px}.brand{display:flex;align-items:center;gap:12px;white-space:nowrap;font-weight:800;font-size:1.2rem;cursor:pointer}.brand i{color:#bda8ff;font-size:1.55rem}.nav-links{display:flex;align-items:center;gap:5px;margin-left:auto;white-space:nowrap}.nav-link,.lang-btn,.menu-btn,.mobile-link{border:0;background:none;color:var(--muted);padding:10px 15px;border-radius:12px}.nav-link.active,.mobile-link.active{background:rgba(164,137,255,.19);color:var(--text)}.nav-link:hover,.lang-btn:hover,.mobile-link:hover{color:var(--text);background:rgba(164,137,255,.12)}.menu-btn{display:none;margin-left:auto;color:var(--text);font-size:1.25rem;min-width:48px}.mobile-menu{display:none;position:absolute;top:100%;left:12px;right:12px;padding:10px;background:#211d48;border:1px solid var(--line);border-radius:0 0 18px 18px;box-shadow:0 20px 40px #03051a88}.mobile-menu.open{display:grid}.mobile-link{text-align:left;width:100%}body.light .mobile-menu{background:#fff}.collapsed .nav-links,.collapsed .lang-btn{display:none}.collapsed .menu-btn{display:block}
+main{max-width:1200px;margin:auto;padding:38px 24px 120px;position:relative}.page{display:none}.page.active{display:block}.hero{text-align:center;padding:72px 12px 42px}.eyebrow{color:var(--accent2);letter-spacing:.2em;font-size:.78rem;text-transform:uppercase}.hero h1{font-size:clamp(2.8rem,7vw,5.3rem);letter-spacing:.06em;margin:12px 0;background:linear-gradient(110deg,#fff,#bca9ff 57%,#8de4ef);color:transparent;background-clip:text}body.light .hero h1{background:linear-gradient(110deg,#252154,#745ac4,#298ba2);color:transparent;background-clip:text}.hero p,.lead{color:var(--muted);line-height:1.7}.hero p{font-size:1.15rem}.primary,.secondary,.danger{border:1px solid transparent;border-radius:13px;padding:11px 18px;font-weight:700;color:#fff;background:linear-gradient(115deg,#795dc9,#497dbd);box-shadow:0 8px 24px #302a7d55}.primary:hover{filter:brightness(1.13)}.secondary{color:var(--text);background:rgba(170,145,255,.13);border-color:var(--line);box-shadow:none}.danger{background:rgba(222,80,111,.15);border-color:rgba(222,80,111,.35);color:var(--bad);box-shadow:none}.hero .primary{margin-top:20px;padding:17px 32px;font-size:1.05rem}.section-head,.page-head,.row-between{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.page-head{margin-bottom:25px}.page-head h1,.section-head h2{margin:0}.page-head h1{font-size:2.2rem}.section-head{margin:34px 0 16px}.glass{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 45px #05071f30;backdrop-filter:blur(18px)}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.stat{padding:23px}.stat i{color:var(--accent2)}.stat strong{display:block;font-size:2.2rem;margin:12px 0 2px}.stat span{color:var(--muted)}.recent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.recent{padding:20px;text-align:left;color:var(--text);width:100%;min-height:188px}.recent:hover{border-color:var(--accent)}.recent h3{margin:15px 0 8px}.muted{color:var(--muted)}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:rgba(157,136,244,.16);color:var(--text);font-size:.78rem}.dot{width:7px;height:7px;border-radius:50%;background:#b698ff}.dot.warm{background:#ffd078}.dot.alert{background:#fa9aab}.toolbar{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}.control{width:100%;padding:12px 14px;color:var(--text);background:var(--field);border:1px solid var(--line);border-radius:12px;outline:none}.control:focus{border-color:var(--accent)}.search{flex:2;min-width:220px}.filter-wrap{position:relative;min-width:170px}.filter-trigger{width:100%;text-align:left}.filter-panel{position:absolute;z-index:30;top:calc(100% + 5px);left:0;min-width:200px;padding:12px;max-height:260px;overflow:auto;background:#25214f;border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 32px #0008}.filter-panel[hidden]{display:none}body.light .filter-panel{background:#fff}.filter-panel label{display:block;padding:6px;white-space:nowrap}.table-card{overflow:hidden}.table-scroll{overflow-x:auto;max-width:100%}table{border-collapse:collapse;width:100%;min-width:760px}th,td{text-align:left;padding:16px;border-bottom:1px solid var(--line)}th{font-size:.8rem;color:var(--muted);font-weight:600}tbody tr{cursor:pointer}tbody tr:hover{background:rgba(154,137,243,.08)}td.actions{white-space:nowrap}.icon-btn{border:0;color:var(--muted);background:none;padding:9px;border-radius:9px}.icon-btn:hover{color:var(--text);background:rgba(164,137,255,.16)}.status{font-size:.8rem;color:var(--muted)}.status.ready{color:var(--good)}.empty{padding:35px;text-align:center;color:var(--muted)}.detail-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}.detail-panel{padding:24px;min-width:0}.detail-text{white-space:pre-wrap;line-height:1.85;overflow-wrap:anywhere}.detail-media{max-width:100%;border-radius:14px;margin-top:16px}.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}.markdown-body{color:var(--text);background:transparent;overflow-wrap:anywhere}.markdown-body a{color:var(--accent2)}.form-card{padding:24px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.field{display:block;min-width:0}.field>span,.field>label{display:block;color:var(--muted);font-size:.88rem;margin-bottom:7px}.wide{grid-column:1/-1}.option-group{display:flex;flex-wrap:wrap;gap:9px}.option-group label{padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--field)}.option-group input{accent-color:#9278e8}.preview{max-width:180px;max-height:130px;object-fit:cover;border-radius:12px;display:block;margin-top:10px}.result-image{width:100%;border-radius:16px;margin-top:15px}.modal-backdrop{position:fixed;inset:0;z-index:2000;background:var(--shade);display:none;align-items:center;justify-content:center;padding:20px}.modal-backdrop.open{display:flex}.modal{width:min(700px,100%);max-height:calc(100dvh - 40px);overflow:auto;background:#211d45;border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 90px #0009;padding:25px;overscroll-behavior:contain}body.light .modal{background:#fff}.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.modal-head h2{margin:0}.modal-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}.toast{position:fixed;z-index:3000;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 18px;border-radius:12px;background:#25224c;color:#fff;box-shadow:0 12px 30px #0007;display:none}.loading i{animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.hidden{display:none!important}
+@media(max-width:850px){.recent-grid{grid-template-columns:1fr 1fr}.detail-grid{grid-template-columns:1fr}}@media(max-width:650px){main{padding:25px 15px 35vh}.nav-inner{padding:0 14px}.hero{padding:60px 0 28px}.stat-grid{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:1/-1}.recent-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.modal-backdrop{padding:12px}.modal{padding:18px;max-height:calc(100dvh - 24px);padding-bottom:35vh}.modal.markdown-modal,.modal.html-modal{border-radius:0;padding:16px;max-height:100dvh;height:100dvh}.modal-backdrop:has(.markdown-modal),.modal-backdrop:has(.html-modal){padding:0}.page-head h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<header id="topNav"><div class="nav-inner"><div id="brand" class="brand" role="button" tabindex="0"><i class="fa-solid fa-moon"></i><span data-i18n="app">梦镜·心析</span></div><div id="navLinks" class="nav-links"><button class="nav-link active" data-page="home" data-i18n="home">首页</button><button class="nav-link" data-page="dreams" data-i18n="dreams">梦境记录</button><button class="nav-link" data-page="stats" data-i18n="stats">统计分析</button></div><button id="langButton" class="lang-btn" type="button">EN</button><button id="menuButton" class="menu-btn" type="button" aria-label="Menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button></div><div id="mobileMenu" class="mobile-menu"><button class="mobile-link" data-page="home" data-i18n="home">首页</button><button class="mobile-link" data-page="dreams" data-i18n="dreams">梦境记录</button><button class="mobile-link" data-page="stats" data-i18n="stats">统计分析</button><button id="mobileLang" class="mobile-link" type="button">English</button></div></header>
+<main>
+<section id="pageHome" class="page active"><div class="hero"><div class="eyebrow">DREAM REFLECTION</div><h1 data-i18n="app">梦镜·心析</h1><p data-i18n="tagline">记录与解读你的梦境，探索内心世界。</p><button id="startDream" class="primary"><i class="fa-solid fa-feather-pointed"></i> <span data-i18n="start">开始记录梦境</span></button></div><div class="stat-grid"><div class="glass stat"><i class="fa-solid fa-moon"></i><strong id="totalCount">—</strong><span data-i18n="total">总梦境数</span></div><div class="glass stat"><i class="fa-solid fa-calendar-days"></i><strong id="monthCount">—</strong><span data-i18n="month">本月梦境数</span></div><div class="glass stat"><i class="fa-solid fa-star"></i><strong id="lastWeekCount">—</strong><span data-i18n="lastWeek">上周梦境数</span></div></div><div class="section-head"><h2 data-i18n="recent">最近梦境</h2><button class="secondary" data-page="dreams"><span data-i18n="viewAll">查看全部</span> <i class="fa-solid fa-arrow-right"></i></button></div><div id="recentList" class="recent-grid"></div></section>
+<section id="pageDreams" class="page"><div class="page-head"><div><h1 data-i18n="dreams">梦境记录</h1><p class="lead" data-i18n="dreamLead">管理你的梦境日记，随时记录与回顾。</p></div><button id="newDream" class="primary"><i class="fa-solid fa-plus"></i> <span data-i18n="new">记录新梦境</span></button></div><div class="toolbar"><input id="dreamSearch" class="control search" type="search" data-placeholder="search" placeholder="搜索梦境标题或内容"><div class="filter-wrap"><button id="typeFilterButton" class="control filter-trigger" type="button" data-i18n="typeFilter">梦境类型 </button><div id="typeFilterPanel" class="filter-panel" hidden></div></div><div class="filter-wrap"><button id="moodFilterButton" class="control filter-trigger" type="button" data-i18n="moodFilter">情绪状态 </button><div id="moodFilterPanel" class="filter-panel" hidden></div></div></div><div class="glass table-card"><div class="table-scroll"><table><thead><tr><th data-i18n="date">梦境日期</th><th data-i18n="title">梦境标题</th><th data-i18n="type">梦境类型</th><th data-i18n="mood">情绪状态</th><th data-i18n="ai">AI解析</th><th data-i18n="actions">操作</th></tr></thead><tbody id="dreamRows"></tbody></table></div></div></section>
+<section id="pageDetail" class="page"><button id="backToDreams" class="secondary"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back">返回记录</span></button><div class="page-head" style="margin-top:24px"><div><h1 id="detailTitle"></h1><div id="detailMeta" class="chips"></div></div></div><div class="detail-grid"><article class="glass detail-panel"><h2 data-i18n="content">梦境内容</h2><div id="detailContent" class="detail-text"></div><img id="detailImage" class="detail-media hidden" alt=""><audio id="detailAudio" class="detail-media hidden" controls></audio></article><article class="glass detail-panel"><h2 data-i18n="ai">AI解析</h2><div id="detailAnalysis" class="markdown-body"></div></article></div><div class="detail-actions"><button id="detailEdit" class="secondary"><i class="fa-solid fa-pen"></i> <span data-i18n="edit">编辑</span></button><button id="detailDelete" class="danger"><i class="fa-solid fa-trash"></i> <span data-i18n="delete">删除</span></button><button id="detailStats" class="primary"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="stats">统计分析</span></button></div></section>
+<section id="pageStats" class="page"><div class="page-head"><div><h1 data-i18n="statsTitle">梦境统计</h1><p class="lead" data-i18n="statsLead">多维度分析你的梦境与情绪趋势。</p></div></div><div class="glass form-card"><h2 data-i18n="statsParams">梦境统计参数</h2><form id="statsForm"><input id="statsForm_id" name="统计ID" type="hidden"><div class="form-grid"><label class="field"><span data-i18n="statsName">统计名称</span><input id="statsForm_name" name="统计名称" class="control" required></label><label class="field"><span data-i18n="startDate">开始日期</span><input id="statsForm_start" name="开始日期" class="control" type="date" required></label><label class="field"><span data-i18n="endDate">结束日期</span><input id="statsForm_end" name="结束日期" class="control" type="date" required></label><div class="field wide"><span data-i18n="statsType">统计类型</span><div id="statsTypes" class="option-group"></div></div></div><div class="modal-foot"><button id="statsSubmit" class="primary" type="submit" data-i18n="generate">生成统计图</button></div></form></div><div id="statsResult" class="glass form-card hidden" style="margin-top:20px"><div class="row-between"><h2 id="resultTitle"></h2><span id="statsWaiting" class="muted"></span></div><img id="resultImage" class="result-image hidden" alt=""><div class="detail-actions"><button id="exportImage" class="secondary hidden"><i class="fa-solid fa-download"></i> <span data-i18n="export">导出图片</span></button><button id="showData" class="secondary"><i class="fa-solid fa-table"></i> <span data-i18n="dataTable">查看数据表格</span></button></div><div id="statsData" class="table-scroll hidden"></div></div><div class="section-head"><h2 data-i18n="history">历史统计</h2></div><div class="glass table-card"><div class="table-scroll"><table><thead><tr><th data-i18n="statsName">统计名称</th><th data-i18n="statsType">统计类型</th><th data-i18n="startDate">开始日期</th><th data-i18n="endDate">结束日期</th><th data-i18n="actions">操作</th></tr></thead><tbody id="historyRows"></tbody></table></div></div></section>
+</main>
+<div id="dreamModalBackdrop" class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><div class="modal-head"><h2 id="dreamModalTitle"></h2><button id="closeDreamModal" class="icon-btn" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><form id="dreamForm"><input id="dreamForm_id" name="记录ID" type="hidden"><input id="dreamForm_created" name="创建时间" type="hidden"><input id="dreamForm_modified" name="修改时间" type="hidden"><div class="form-grid"><label class="field"><span data-i18n="date">梦境日期</span><input id="dreamForm_date" name="梦境日期" class="control" type="date" required></label><label class="field"><span data-i18n="title">梦境标题</span><input id="dreamForm_title" name="梦境标题" class="control" required></label><label class="field wide"><span data-i18n="content">梦境内容</span><textarea id="dreamForm_content" name="梦境内容" class="control" rows="6" required></textarea></label><div class="field wide"><span data-i18n="type">梦境类型</span><div id="dreamForm_types" class="option-group"></div></div><div class="field wide"><span data-i18n="mood">情绪状态</span><div id="dreamForm_moods" class="option-group"></div></div><div class="field wide"><span data-i18n="image">图片</span><input id="dreamForm_image" name="图片" type="hidden"><button id="selectImage" class="secondary" type="button" data-i18n="selectImage">选择图片</button> <button id="capturePhoto" class="secondary" type="button" data-i18n="capture">拍照</button><img id="dreamForm_imagePreview" class="preview hidden" alt=""></div><div class="field wide"><span data-i18n="audio">音频</span><input id="dreamForm_audio" name="音频" type="hidden"><button id="recordVoice" class="secondary" type="button" data-i18n="record">录制语音</button> <button id="selectAudio" class="secondary" type="button" data-i18n="selectFile">选择文件</button><audio id="dreamForm_audioPreview" class="hidden" controls style="display:block;max-width:100%;margin-top:10px"></audio></div></div><div class="modal-foot"><button id="cancelDream" class="secondary" type="button" data-i18n="cancel">取消</button><button id="dreamSubmit" class="primary" type="submit"></button></div></form></div></div>
+<div id="confirmBackdrop" class="modal-backdrop"><div class="modal" style="max-width:430px" role="dialog" aria-modal="true"><div class="modal-head"><h2 data-i18n="confirm">确认删除</h2></div><p id="confirmText"></p><div class="modal-foot"><button id="confirmCancel" class="secondary" data-i18n="cancel">取消</button><button id="confirmYes" class="danger" data-i18n="delete">删除</button></div></div></div><div id="toast" class="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script><script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("41e62df848042dce_梦镜·心析")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const $=id=>document.getElementById(id), DREAM='梦境记录/默认表格', STATS='梦境统计/默认表格';
+const types=['飞行','坠落','被追','考试','奇幻','其他'],moods=['开心','恐惧','焦虑','平静','悲伤','愤怒','惊喜'],statTypes=['情绪统计分析','梦境类型统计分析','关键词词云','梦境长度趋势'];
+const dict={cn:{app:'梦镜·心析',home:'首页',dreams:'梦境记录',stats:'统计分析',tagline:'记录与解读你的梦境，探索内心世界。',start:'开始记录梦境',total:'总梦境数',month:'本月梦境数',lastWeek:'上周梦境数',recent:'最近梦境',viewAll:'查看全部',dreamLead:'管理你的梦境日记，随时记录与回顾。',new:'记录新梦境',search:'搜索梦境标题或内容',typeFilter:'梦境类型 ',moodFilter:'情绪状态 ',date:'梦境日期',title:'梦境标题',type:'梦境类型',mood:'情绪状态',ai:'AI解析',actions:'操作',content:'梦境内容',back:'返回记录',edit:'编辑',delete:'删除',statsTitle:'梦境统计',statsLead:'多维度分析你的梦境与情绪趋势。',statsParams:'梦境统计参数',statsName:'统计名称',startDate:'开始日期',endDate:'结束日期',statsType:'统计类型',generate:'生成统计图',export:'导出图片',dataTable:'查看数据表格',history:'历史统计',image:'图片',audio:'音频',selectImage:'选择图片',capture:'拍照',record:'录制语音',finish:'完成录音',selectFile:'选择文件',cancel:'取消',confirm:'确认删除',save:'保存修改',waiting:'解析中...',analyzing:'AI正在解析梦境...',generating:'生成统计图中...',pending:'待解析',ready:'已解析',empty:'暂无记录',timeout:'等待超时，请稍后查看。',error:'操作失败',detail:'查看详情',editStats:'编辑参数',statsNamePlaceholder:'例如：本月情绪分布',none:'无',yes:'是',no:'否'},en:{app:'Dream Mirror',home:'Home',dreams:'Dream Journal',stats:'Insights',tagline:'Record and understand your dreams. Explore your inner world.',start:'Record a dream',total:'Total dreams',month:'This month',lastWeek:'Last week',recent:'Recent dreams',viewAll:'View all',dreamLead:'Keep and revisit your dream journal.',new:'New dream',search:'Search title or content',typeFilter:'Dream type ',moodFilter:'Mood ',date:'Dream date',title:'Title',type:'Dream type',mood:'Mood',ai:'AI insight',actions:'Actions',content:'Dream content',back:'Back to journal',edit:'Edit',delete:'Delete',statsTitle:'Dream insights',statsLead:'Explore your dreams and emotional patterns.',statsParams:'Insight settings',statsName:'Name',startDate:'Start date',endDate:'End date',statsType:'Analysis type',generate:'Generate chart',export:'Export image',dataTable:'View data table',history:'Past insights',image:'Image',audio:'Audio',selectImage:'Choose image',capture:'Take photo',record:'Record voice',finish:'Finish recording',selectFile:'Choose file',cancel:'Cancel',confirm:'Confirm deletion',save:'Save changes',waiting:'Analyzing...',analyzing:'AI is analyzing your dream...',generating:'Generating chart...',pending:'Pending',ready:'Ready',empty:'No records yet',timeout:'Timed out. Please check later.',error:'Operation failed',detail:'Details',editStats:'Edit settings',statsNamePlaceholder:'e.g. This month’s moods',none:'None',yes:'Yes',no:'No'}};
+const typeEN=['Flying','Falling','Chased','Exam','Fantasy','Other'],moodEN=['Happy','Fear','Anxiety','Calm','Sadness','Anger','Surprise'],statEN=['Mood analysis','Dream type analysis','Keyword cloud','Dream length trend'];
+let lang='cn',dreams=[],stats=[],page='home',historyStack=[],currentRow=0,editRow=0,statsEditRow=0,recording=false,busy=false,pollToken=0,confirmAction=null,resultFile='',resultName='',resultRange=null;
+const T=k=>dict[lang][k]||k, el=(tag,cls,txt)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n}, esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function localDate(d=new Date()){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+function localDateTime(d=new Date()){return localDate(d)+' '+[d.getHours(),d.getMinutes(),d.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':')}
+function fileURL(name){return 'http://' + window.location.hostname + ':3130/download/'+encodeURIComponent(name)}
+function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.display='none',4300)}
+async function api(type,data,payload){const req={type};if(data!==undefined)req.data=data;if(payload!==undefined)req.payload=payload;return await callAppBridge(req)}
+async function csv(table,fields){const raw=await api('GetTableCSV',table,fields.join(','));return raw?parseCSV(String(raw)):[]}
+async function cell(table,field,row){return await api('GetCellValue',table,field+'/'+row)}
+async function setCell(table,field,row,value){return await api('SetCellValue',table,field+'/'+row+'/'+String(value??''))}
+function labelValue(value,kind){if(lang==='cn')return value||T('none');const arr=kind==='type'?types:kind==='mood'?moods:statTypes,trans=kind==='type'?typeEN:kind==='mood'?moodEN:statEN;return String(value||'').split(/[,，;；]/).map(v=>{const i=arr.indexOf(v.trim());return i<0?v:trans[i]}).join(', ')||T('none')}
+function dateValue(v){return String(v||'').slice(0,10)}
+function validDate(v){const d=new Date(dateValue(v)+'T00:00:00');return Number.isNaN(d.getTime())?null:d}
+function sortDate(a,b,key){return (validDate(b[key])?.getTime()||0)-(validDate(a[key])?.getTime()||0)||a.row-b.row}
+function openModal(id){$(id).classList.add('open')}
+function closeModal(id){$(id).classList.remove('open')}
+function closeMenu(){$('mobileMenu').classList.remove('open');$('menuButton').setAttribute('aria-expanded','false')}
+function fitNav(){const nav=$('topNav'),inner=nav.querySelector('.nav-inner'),brand=$('brand'),links=$('navLinks'),language=$('langButton');nav.classList.remove('collapsed');const required=brand.scrollWidth+links.scrollWidth+language.scrollWidth+75;nav.classList.toggle('collapsed',inner.clientWidth<required||window.innerWidth<690);if(!nav.classList.contains('collapsed'))closeMenu()}
+function applyLanguage(){document.documentElement.lang=lang==='cn'?'zh-CN':'en';document.querySelectorAll('[data-i18n]').forEach(n=>n.textContent=T(n.dataset.i18n));document.querySelectorAll('[data-placeholder]').forEach(n=>n.placeholder=T(n.dataset.placeholder));$('langButton').textContent=lang==='cn'?'EN':'中文';$('mobileLang').textContent=lang==='cn'?'English':'中文';$('statsForm_name').placeholder=T('statsNamePlaceholder');buildOptions();renderHome();renderDreams();renderHistory();if(page==='detail'&&currentRow)renderDetail();fitNav()}
+function initLanguage(){let languages;try{languages=navigator.languages}catch(e){}lang=!languages||!languages.length||languages.some(v=>String(v).toLowerCase().startsWith('zh'))?'cn':'en';const url=new URL(location.href).searchParams.get('lang');if(url==='cn'||url==='en')lang=url;const saved=localStorage.getItem('iThinkAir_UiLanguage');if(saved)lang=saved==='en'?'en':'cn'}
+function switchLanguage(){lang=lang==='cn'?'en':'cn';localStorage.setItem('iThinkAir_UiLanguage',lang);applyLanguage();closeMenu()}
+function showPage(next,remember=true){if(remember&&next!==page)historyStack.push({page,scroll:scrollY,row:currentRow});page=next;document.querySelectorAll('.page').forEach(n=>n.classList.toggle('active',n.id==='page'+next[0].toUpperCase()+next.slice(1)));document.querySelectorAll('[data-page]').forEach(n=>n.classList.toggle('active',n.dataset.page===next));closeMenu();scrollTo(0,0)}
+function airBack(){for(const id of ['confirmBackdrop','dreamModalBackdrop'])if($(id).classList.contains('open')){closeModal(id);return 'false'}if($('mobileMenu').classList.contains('open')){closeMenu();return 'false'}if(historyStack.length){const prev=historyStack.pop();currentRow=prev.row;showPage(prev.page,false);if(prev.page==='detail')renderDetail();requestAnimationFrame(()=>scrollTo(0,prev.scroll));return 'false'}return 'true'}window.airBack=airBack;
+function buildOptions(){function checkbox(container,items,kind){const selected=new Set([...$(container).querySelectorAll('input:checked')].map(x=>x.value));$(container).replaceChildren();items.forEach((v,i)=>{const label=el('label');const input=el('input');input.type='checkbox';input.name=kind;input.value=v;input.checked=selected.has(v);label.append(input,' '+labelValue(v,kind));$(container).append(label)})}checkbox('dreamForm_types',types,'type');checkbox('dreamForm_moods',moods,'mood');const selected=$('statsTypes').querySelector('input:checked')?.value||statTypes[0];$('statsTypes').replaceChildren();statTypes.forEach(v=>{const label=el('label'),input=el('input');input.type='radio';input.name='统计类型';input.value=v;input.checked=v===selected;label.append(input,' '+labelValue(v,'stat'));$('statsTypes').append(label)});for(const [id,items,kind] of [['typeFilterPanel',types,'type'],['moodFilterPanel',moods,'mood']]){const selected=new Set([...$(id).querySelectorAll('input:checked')].map(x=>x.value));$(id).replaceChildren();items.forEach(v=>{const label=el('label'),input=el('input');input.type='checkbox';input.value=v;input.checked=selected.has(v);input.addEventListener('change',renderDreams);label.append(input,' '+labelValue(v,kind));$(id).append(label)})}}
+async function loadDreams(){const rows=await csv(DREAM,['梦境日期','梦境标题','梦境类型','情绪状态','梦境内容']);dreams=rows.map((r,i)=>({row:i+1,date:r[0]||'',title:r[1]||'',type:r[2]||'',mood:r[3]||'',content:r[4]||'',analysis:null})).sort((a,b)=>sortDate(a,b,'date'));renderDreams();await renderHome()}
+async function renderHome(){if(!dreams.length){$('recentList').innerHTML='<div class="glass empty">'+esc(T('empty'))+'</div>'}else{$('recentList').replaceChildren();for(const d of dreams.slice(0,3)){const b=el('button','glass recent');const date=el('div','muted',dateValue(d.date)?new Intl.DateTimeFormat(lang==='cn'?'zh-CN':'en',{month:'short',day:'numeric'}).format(validDate(d.date)):d.date);const chips=el('div','chips');chips.append(el('span','chip',labelValue(d.type,'type')),el('span','chip',labelValue(d.mood,'mood')));const title=el('h3','',d.title),summary=el('div','muted',d.analysis?d.analysis.slice(0,20):T('waiting'));b.append(date,chips,title,summary);b.addEventListener('click',()=>openDetail(d.row));$('recentList').append(b)}}try{$('totalCount').textContent=await api('GetRecordCount',DREAM)}catch(e){$('totalCount').textContent=dreams.length}const now=new Date(),monthStart=new Date(now.getFullYear(),now.getMonth(),1);const thisMonday=new Date(now.getFullYear(),now.getMonth(),now.getDate());thisMonday.setDate(thisMonday.getDate()-(thisMonday.getDay()+6)%7);const lastMonday=new Date(thisMonday);lastMonday.setDate(lastMonday.getDate()-7);$('monthCount').textContent=dreams.filter(d=>{const v=validDate(d.date);return v&&v>=monthStart&&v<=now}).length;$('lastWeekCount').textContent=dreams.filter(d=>{const v=validDate(d.date);return v&&v>=lastMonday&&v<thisMonday}).length;for(const d of dreams.slice(0,3)){try{d.analysis=await cell(DREAM,'AI解析',d.row)}catch(e){d.analysis=''}}const cards=$('recentList').children;dreams.slice(0,3).forEach((d,i)=>{if(cards[i])cards[i].lastChild.textContent=d.analysis?d.analysis.slice(0,20):T('waiting')})}
+async function loadAnalysisStatuses(){for(const d of dreams){try{d.analysis=await cell(DREAM,'AI解析',d.row)}catch(e){d.analysis=''}}renderDreams()}
+function selectedFilter(id){return [...$(id).querySelectorAll('input:checked')].map(x=>x.value)}
+function matchMulti(value,selected){return !selected.length||selected.some(s=>String(value||'').includes(s))}
+function renderDreams(){const query=$('dreamSearch').value.trim().toLocaleLowerCase(),tf=selectedFilter('typeFilterPanel'),mf=selectedFilter('moodFilterPanel');const list=dreams.filter(d=>(!query||(d.title+' '+d.content).toLocaleLowerCase().includes(query))&&matchMulti(d.type,tf)&&matchMulti(d.mood,mf));$('dreamRows').replaceChildren();if(!list.length){const tr=el('tr'),td=el('td','empty',T('empty'));td.colSpan=6;tr.append(td);$('dreamRows').append(tr);return}list.forEach(d=>{const tr=el('tr');tr.addEventListener('click',()=>openDetail(d.row));for(const value of [dateValue(d.date),d.title,labelValue(d.type,'type'),labelValue(d.mood,'mood')])tr.append(el('td','',value));tr.append(el('td','status '+(d.analysis?'ready':''),d.analysis?T('ready'):T('pending')));const td=el('td','actions');for(const [icon,label,fn] of [['eye','detail',()=>openDetail(d.row)],['pen','edit',()=>openDreamForm(d.row)],['trash','delete',()=>askDelete(DREAM,d.row,async()=>{await loadDreams();await loadAnalysisStatuses()})]]){const b=el('button','icon-btn');b.type='button';b.title=T(label);b.setAttribute('aria-label',T(label));b.innerHTML='<i class="fa-solid fa-'+icon+'"></i>';b.addEventListener('click',e=>{e.stopPropagation();fn()});td.append(b)}tr.append(td);$('dreamRows').append(tr)})}
+async function openDetail(row){currentRow=row;showPage('detail');await renderDetail()}
+function markdown(text){const html=window.marked?marked.parse(text||''):esc(text||'').replace(/\n/g,'<br>');const safe=window.DOMPurify?DOMPurify.sanitize(html):html;$('detailAnalysis').innerHTML=safe;$('detailAnalysis').querySelectorAll('img').forEach(img=>{const raw=img.getAttribute('src')||'';if(raw&&!/^https?:|^data:/i.test(raw))img.src=fileURL(raw);const a=el('a');a.href=img.src;a.target='_blank';a.rel='noopener';img.replaceWith(a);a.append(img)})}
+async function renderDetail(){const row=currentRow,d=dreams.find(x=>x.row===row);if(!d)return;$('detailTitle').textContent=d.title;$('detailMeta').replaceChildren();for(const v of [d.date,labelValue(d.type,'type'),labelValue(d.mood,'mood')])$('detailMeta').append(el('span','chip',v));try{d.content=await cell(DREAM,'梦境内容',row)}catch(e){}$('detailContent').textContent=d.content;const img=await cell(DREAM,'图片',row),audio=await cell(DREAM,'音频',row);$('detailImage').classList.toggle('hidden',!img);if(img)$('detailImage').src=fileURL(img);$('detailAudio').classList.toggle('hidden',!audio);if(audio)$('detailAudio').src=fileURL(audio);d.analysis=await cell(DREAM,'AI解析',row);if(d.analysis)markdown(d.analysis);else{markdown(T('waiting'));pollField(DREAM,'AI解析',row,'detailAnalysis',async value=>{d.analysis=value;markdown(value);renderDreams()})}}
+function randomId(){return String(Date.now())+String(Math.floor(Math.random()*1000000)).padStart(6,'0')}
+function setChecked(container,value){const vals=String(value||'').split(/[,，;；]/).map(x=>x.trim());$(container).querySelectorAll('input').forEach(x=>x.checked=vals.includes(x.value))}
+function checked(container){return [...$(container).querySelectorAll('input:checked')].map(x=>x.value).join(',')}
+async function openDreamForm(row=0){editRow=row;recording=false;$('recordVoice').textContent=T('record');$('dreamModalTitle').textContent=row?T('edit')+' '+T('dreams'):T('new');$('dreamSubmit').textContent=row?T('save'):T('new');$('dreamForm').reset();$('dreamForm_id').value=randomId();$('dreamForm_date').value=localDate();$('dreamForm_created').value=localDateTime();$('dreamForm_modified').value=localDateTime();setChecked('dreamForm_types','');setChecked('dreamForm_moods','');$('dreamForm_image').value='';$('dreamForm_audio').value='';updateMediaPreview();openModal('dreamModalBackdrop');if(row){const fields=[['记录ID','dreamForm_id'],['梦境日期','dreamForm_date'],['梦境标题','dreamForm_title'],['梦境内容','dreamForm_content'],['图片','dreamForm_image'],['音频','dreamForm_audio'],['创建时间','dreamForm_created']];for(const [field,id] of fields)$(id).value=await cell(DREAM,field,row);setChecked('dreamForm_types',await cell(DREAM,'梦境类型',row));setChecked('dreamForm_moods',await cell(DREAM,'情绪状态',row));updateMediaPreview()}}
+function updateMediaPreview(){const img=$('dreamForm_image').value,audio=$('dreamForm_audio').value;$('dreamForm_imagePreview').classList.toggle('hidden',!img);if(img)$('dreamForm_imagePreview').src=fileURL(img);$('dreamForm_audioPreview').classList.toggle('hidden',!audio);if(audio)$('dreamForm_audioPreview').src=fileURL(audio)}
+async function findRowById(table,id){const count=Number(await api('GetRecordCount',table))||0;for(let row=1;row<=count;row++){if(String(await cell(table,table===DREAM?'记录ID':'统计ID',row))===String(id))return row}return 1}
+async function submitDream(e){e.preventDefault();if(busy)return;busy=true;$('dreamSubmit').disabled=true;const data={'记录ID':$('dreamForm_id').value,'梦境日期':$('dreamForm_date').value,'梦境标题':$('dreamForm_title').value,'梦境内容':$('dreamForm_content').value,'梦境类型':checked('dreamForm_types'),'情绪状态':checked('dreamForm_moods'),'图片':$('dreamForm_image').value,'音频':$('dreamForm_audio').value,'创建时间':$('dreamForm_created').value,'修改时间':localDateTime()};try{if(editRow){for(const field of ['梦境日期','梦境标题','梦境内容','梦境类型','情绪状态','图片','音频','修改时间'])await setCell(DREAM,field,editRow,data[field]);currentRow=editRow}else{await api('SubmitRecord',DREAM,JSON.stringify(data));currentRow=1;currentRow=await findRowById(DREAM,data['记录ID'])}closeModal('dreamModalBackdrop');await loadDreams();await loadAnalysisStatuses();await openDetail(currentRow)}catch(err){toast(T('error')+': '+err)}finally{busy=false;$('dreamSubmit').disabled=false}}
+function askDelete(table,row,after){$('confirmText').textContent=table===DREAM?(lang==='cn'?'确定删除这条梦境记录？':'Delete this dream?'):(lang==='cn'?'确定删除这条统计记录？':'Delete this insight?');confirmAction=async()=>{await api('DeleteRecord',table,row.toString());closeModal('confirmBackdrop');await after()};openModal('confirmBackdrop')}
+async function pollField(table,field,row,target,done){const token=++pollToken;const node=$(target);node.textContent=table===DREAM?T('analyzing'):T('generating');node.classList.add('loading');for(let i=0;i<30;i++){if(token!==pollToken)return;try{const v=await cell(table,field,row);if(v){node.classList.remove('loading');await done(v);return}}catch(e){node.classList.remove('loading');toast(T('error')+': '+e);return}await new Promise(resolve=>setTimeout(resolve,2000))}if(token===pollToken){node.classList.remove('loading');node.textContent=T('timeout')}}
+async function loadStats(){const rows=await csv(STATS,['统计名称','统计类型','开始日期','结束日期']);stats=rows.map((r,i)=>({row:i+1,name:r[0]||'',type:r[1]||'',start:r[2]||'',end:r[3]||''}));renderHistory()}
+function renderHistory(){$('historyRows').replaceChildren();if(!stats.length){const tr=el('tr'),td=el('td','empty',T('empty'));td.colSpan=5;tr.append(td);$('historyRows').append(tr);return}stats.forEach(s=>{const tr=el('tr');tr.addEventListener('click',()=>viewStats(s));for(const v of [s.name,labelValue(s.type,'stat'),s.start,s.end])tr.append(el('td','',v));const td=el('td','actions');for(const [icon,label,fn] of [['eye','detail',()=>viewStats(s)],['pen','editStats',()=>editStats(s)],['trash','delete',()=>askDelete(STATS,s.row,loadStats)]]){const b=el('button','icon-btn');b.type='button';b.title=T(label);b.setAttribute('aria-label',T(label));b.innerHTML='<i class="fa-solid fa-'+icon+'"></i>';b.addEventListener('click',e=>{e.stopPropagation();fn()});td.append(b)}tr.append(td);$('historyRows').append(tr)})}
+function statsFormValues(){return {'统计ID':$('statsForm_id').value||randomId(),'统计名称':$('statsForm_name').value,'开始日期':$('statsForm_start').value,'结束日期':$('statsForm_end').value,'统计类型':$('statsTypes').querySelector('input:checked')?.value||statTypes[0]}}
+async function submitStats(e){e.preventDefault();if(busy)return;const data=statsFormValues();if(data['开始日期']>data['结束日期']){toast(lang==='cn'?'开始日期不能晚于结束日期':'Start date must be before end date');return}busy=true;$('statsSubmit').disabled=true;try{const oldRow=statsEditRow;data['统计ID']=randomId();await api('SubmitRecord',STATS,JSON.stringify(data));if(oldRow)await api('DeleteRecord',STATS,(oldRow+1).toString());const row=await findRowById(STATS,data['统计ID']);statsEditRow=0;resultName=data['统计名称'];resultRange={start:data['开始日期'],end:data['结束日期']};$('statsResult').classList.remove('hidden');$('resultTitle').textContent=resultName;$('resultImage').classList.add('hidden');$('exportImage').classList.add('hidden');scrollTo({top:$('statsResult').getBoundingClientRect().top+scrollY-90,behavior:'smooth'});await loadStats();pollField(STATS,'统计结果图片',row,'statsWaiting',async value=>{resultFile=value;$('resultImage').src=fileURL(value);$('resultImage').classList.remove('hidden');$('exportImage').classList.remove('hidden')})}catch(err){toast(T('error')+': '+err)}finally{busy=false;$('statsSubmit').disabled=false}}
+async function viewStats(s){statsEditRow=0;resultName=s.name;resultRange={start:s.start,end:s.end};$('statsResult').classList.remove('hidden');$('resultTitle').textContent=s.name;$('statsData').classList.add('hidden');const image=await cell(STATS,'统计结果图片',s.row);resultFile=image;$('resultImage').classList.toggle('hidden',!image);$('exportImage').classList.toggle('hidden',!image);if(image){$('resultImage').src=fileURL(image);$('statsWaiting').textContent=''}else pollField(STATS,'统计结果图片',s.row,'statsWaiting',async v=>{resultFile=v;$('resultImage').src=fileURL(v);$('resultImage').classList.remove('hidden');$('exportImage').classList.remove('hidden')});scrollTo({top:$('statsResult').getBoundingClientRect().top+scrollY-90,behavior:'smooth'})}
+function editStats(s){statsEditRow=s.row;$('statsForm_id').value=s.row;$('statsForm_name').value=s.name;$('statsForm_start').value=dateValue(s.start);$('statsForm_end').value=dateValue(s.end);$('statsTypes').querySelectorAll('input').forEach(x=>x.checked=x.value===s.type);$('statsSubmit').textContent=lang==='cn'?'重新生成':'Regenerate';scrollTo({top:$('statsForm').getBoundingClientRect().top+scrollY-90,behavior:'smooth'})}
+async function showStatsData(){if(!resultRange)return;const rows=await csv(DREAM,['梦境日期','梦境标题','梦境类型','情绪状态','梦境内容']);const filtered=rows.filter(r=>dateValue(r[0])>=resultRange.start&&dateValue(r[0])<=resultRange.end);const box=$('statsData');box.classList.remove('hidden');const table=el('table'),head=el('thead'),tr=el('tr');for(const key of ['date','title','type','mood','content'])tr.append(el('th','',T(key)));head.append(tr);table.append(head);const body=el('tbody');filtered.forEach(r=>{const row=el('tr');[r[0],r[1],labelValue(r[2],'type'),labelValue(r[3],'mood'),String(r[4]||'').slice(0,100)].forEach(v=>row.append(el('td','',v)));body.append(row)});table.append(body);box.replaceChildren(table)}
+async function initialize(){initLanguage();buildOptions();applyLanguage();$('statsForm_start').value=localDate(new Date(new Date().getFullYear(),new Date().getMonth(),1));$('statsForm_end').value=localDate();$('statsForm_id').value=randomId();document.querySelectorAll('[data-page]').forEach(n=>n.addEventListener('click',()=>{showPage(n.dataset.page);if(n.dataset.page==='stats')loadStats().catch(e=>toast(String(e)))}));$('brand').addEventListener('click',()=>{if(parent&&typeof parent.closeFullHtml==='function')parent.closeFullHtml(false)});$('brand').addEventListener('keydown',e=>{if(e.key==='Enter')$('brand').click()});$('menuButton').addEventListener('click',()=>{const open=$('mobileMenu').classList.toggle('open');$('menuButton').setAttribute('aria-expanded',String(open))});document.addEventListener('click',e=>{if(!$('topNav').contains(e.target))closeMenu();for(const id of ['typeFilterPanel','moodFilterPanel'])if(!$(id).parentElement.contains(e.target))$(id).hidden=true});$('langButton').addEventListener('click',switchLanguage);$('mobileLang').addEventListener('click',switchLanguage);window.addEventListener('resize',fitNav);fitNav();$('startDream').addEventListener('click',()=>{showPage('dreams');openDreamForm()});$('newDream').addEventListener('click',()=>openDreamForm());$('dreamSearch').addEventListener('input',renderDreams);for(const [button,panel] of [['typeFilterButton','typeFilterPanel'],['moodFilterButton','moodFilterPanel']])$(button).addEventListener('click',()=>{$(panel).hidden=!$(panel).hidden});$('backToDreams').addEventListener('click',()=>showPage('dreams'));$('detailEdit').addEventListener('click',()=>{showPage('dreams');openDreamForm(currentRow)});$('detailDelete').addEventListener('click',()=>askDelete(DREAM,currentRow,async()=>{currentRow=0;showPage('dreams');await loadDreams();await loadAnalysisStatuses()}));$('detailStats').addEventListener('click',()=>{const d=dreams.find(x=>x.row===currentRow),date=validDate(d?.date)||new Date(),start=new Date(date),end=new Date(date);start.setDate(start.getDate()-7);end.setDate(end.getDate()+7);showPage('stats');$('statsForm_start').value=localDate(start);$('statsForm_end').value=localDate(end);$('statsTypes').querySelectorAll('input').forEach(x=>x.checked=x.value==='情绪统计分析');loadStats().catch(e=>toast(String(e)))});$('closeDreamModal').addEventListener('click',() => closeModal('dreamModalBackdrop'));$('cancelDream').addEventListener('click',()=>closeModal('dreamModalBackdrop'));$('dreamModalBackdrop').addEventListener('click',e=>{if(e.target===$('dreamModalBackdrop'))closeModal('dreamModalBackdrop')});$('confirmBackdrop').addEventListener('click',e=>{if(e.target===$('confirmBackdrop'))closeModal('confirmBackdrop')});$('confirmCancel').addEventListener('click',()=>closeModal('confirmBackdrop'));$('confirmYes').addEventListener('click',async()=>{try{if(confirmAction)await confirmAction()}catch(e){toast(T('error')+': '+e)}});$('dreamForm').addEventListener('submit',submitDream);$('statsForm').addEventListener('submit',submitStats);for(const [id,type,target] of [['selectImage','SelectImage','dreamForm_image'],['capturePhoto','CapturePhoto','dreamForm_image'],['selectAudio','SelectFile','dreamForm_audio']])$(id).addEventListener('click',async()=>{try{const v=await api(type);if(v){$(target).value=v;updateMediaPreview()}}catch(e){toast(T('error')+': '+e)}});$('recordVoice').addEventListener('click',async()=>{try{if(recording){const file=await api('FinishRecordVoice');recording=false;$('recordVoice').textContent=T('record');if(file){$('dreamForm_audio').value=file;updateMediaPreview()}}else{await api('StartRecordVoice');recording=true;$('recordVoice').textContent=T('finish')}}catch(e){toast(T('error')+': '+e)}});$('exportImage').addEventListener('click',async()=>{if(!resultFile)return;try{await api('ExportFile',resultName,resultFile);const a=el('a');a.href=fileURL(resultFile);a.download=resultFile;a.click()}catch(e){toast(T('error')+': '+e)}});$('showData').addEventListener('click',()=>showStatsData().catch(e=>toast(String(e))));document.addEventListener('focusin',e=>{if(!e.target.matches('input,textarea,select'))return;setTimeout(()=>e.target.scrollIntoView({block:'center',behavior:'smooth'}),250)});if(window.visualViewport)visualViewport.addEventListener('resize',()=>{const active=document.activeElement;if(active?.matches('input,textarea,select'))setTimeout(()=>active.scrollIntoView({block:'center',behavior:'smooth'}),150)});try{await loadDreams();await loadAnalysisStatuses();await loadStats()}catch(e){toast(T('error')+': '+e)}}
+document.addEventListener('DOMContentLoaded',async()=>{const modePromise=callAppBridge({type:'模式'}).then(mode=>document.body.classList.toggle('light',String(mode).trim()==='亮色')).catch(()=>{});await(async()=>{await initialize()})();await modePromise});
+</script>
+</body></html>

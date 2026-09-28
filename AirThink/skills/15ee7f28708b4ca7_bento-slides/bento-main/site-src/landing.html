@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bento — the office suite that fits in a file</title>
+<meta name="description" content="bento: office documents that are single HTML files — data, viewer and editor together. Local-first, AI-native, end-to-end-encrypted live collaboration, works offline forever. slides is here; spaces (notes) and dash (sheets &amp; tables) are coming.">
+<link rel="canonical" href="https://bento.page/">
+<meta name="theme-color" content="#0D1B2E">
+<!-- social share card -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="bento">
+<meta property="og:url" content="https://bento.page/">
+<meta property="og:title" content="bento — the office suite that fits in a file">
+<meta property="og:description" content="One HTML file is the document, the editor and the player at once. Local-first, AI-native, end-to-end-encrypted live collaboration, works offline forever.">
+<meta property="og:image" content="https://bento.page/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="bento — the office suite that fits in a file">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="bento — the office suite that fits in a file">
+<meta name="twitter:description" content="One HTML file is the document, the editor and the player at once. Local-first, AI-native, E2EE live collaboration, works offline forever.">
+<meta name="twitter:image" content="https://bento.page/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2316273E'/%3E%3Crect x='5' y='5' width='7' height='22' rx='2.5' fill='%235E7699'/%3E%3Crect x='14' y='5' width='13' height='10' rx='2.5' fill='%23FF9E8A'/%3E%3Crect x='14' y='17' width='13' height='10' rx='2.5' fill='%23F0EBE0'/%3E%3C/svg%3E">
+<style>
+/* ————— Faces: the SAME type that travels inside every deck ————— */
+@font-face {
+  font-family: 'Fraunces';
+  font-weight: 900;
+  font-display: swap;
+  src: url(__FRAUNCES__) format('woff2');
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(__INSTRUMENT__) format('woff2');
+}
+
+/* ————— Midnight & peach — the showcase deck's palette, verbatim ————— */
+:root {
+  --ink: #0D1B2E;
+  --panel: #16273E;
+  --paper: #F2F0EA;
+  --tile-paper: #F0EBE0;
+  --peach: #FF9E8A;
+  --peach-soft: #FFBCA8;
+  --peach-deep: #C25A43;
+  --steel: #5E7699;
+  --steel-soft: #8FA3BF;
+  --mist: rgba(182, 193, 210, 0.92);
+  --mist-dim: rgba(182, 193, 210, 0.55);
+  --ink-soft: rgba(20, 34, 54, 0.75);
+  --hair-light: rgba(255, 255, 255, 0.13);
+  --hair-dark: rgba(13, 27, 46, 0.14);
+  --glow: rgba(255, 238, 214, 0.22);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--mist);
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: var(--peach); color: var(--ink); }
+
+h1, h2, .display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; position: relative; }
+
+/* furniture — kickers, hairlines, ghost numerals, keycaps (deck grammar) */
+.kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--peach);
+}
+.paper .kicker { color: var(--peach-deep); }
+.hairline { border: 0; border-top: 1px solid var(--hair-light); margin: 18px 0 0; }
+.paper .hairline { border-top-color: var(--hair-dark); }
+.ghost {
+  position: absolute;
+  top: 8px;
+  right: -10px;
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(160px, 26vw, 300px);
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.045);
+  user-select: none;
+  pointer-events: none;
+}
+.paper .ghost { color: rgba(13, 27, 46, 0.05); }
+.keys { display: flex; gap: 22px; flex-wrap: wrap; align-items: center; }
+.key { display: flex; gap: 9px; align-items: center; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mist-dim); }
+.keycap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 24px;
+  padding: 0 7px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-bottom-width: 2.5px;
+  border-radius: 6px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* grain — the deck's feTurbulence texture as a body-wide veil */
+.grain {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* aurora + bokeh — hero atmosphere */
+.sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+}
+.aurora.amber { width: 720px; height: 720px; right: -220px; top: -260px; background: radial-gradient(circle, rgba(255, 158, 138, 0.34), rgba(255, 158, 138, 0.05) 60%, transparent 72%); }
+.aurora.blue { width: 640px; height: 640px; left: -240px; bottom: -300px; background: radial-gradient(circle, rgba(94, 118, 153, 0.4), rgba(94, 118, 153, 0.06) 60%, transparent 72%); }
+.bokeh { position: absolute; border-radius: 50%; filter: blur(2px); animation: drift var(--t, 26s) ease-in-out infinite alternate; }
+@keyframes drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(var(--dx, 30px), var(--dy, -40px)); }
+}
+
+/* ————— header ————— */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid transparent;
+  transition: background 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease;
+}
+/* translucent bar fades in only after a little scroll — at the very top the
+   header floats transparent over the hero so it doesn't crowd the headline */
+header.scrolled { background: rgba(10, 15, 25, 0.72); backdrop-filter: blur(14px) saturate(1.2); border-bottom-color: rgba(255, 255, 255, 0.08); }
+.hbar { display: flex; align-items: center; justify-content: space-between; max-width: 1120px; margin: 0 auto; padding: 15px 28px; }
+.mark { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 18.5px; color: #fff; text-decoration: none; }
+.mark .slash { color: var(--peach); }
+/* compact persistent CTAs in the bar (the hero keeps the full-size pair) */
+.nav-cta { display: flex; align-items: center; gap: 10px; }
+.nav-cta .btn { padding: 9px 18px; font-size: 14px; }
+@media (max-width: 640px) { .nav-cta .nav-ghost { display: none; } .hbar { padding: 13px 18px; } }
+.open-app {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--mist);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  padding: 8px 18px;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+.open-app:hover { color: #fff; border-color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.05); }
+
+/* ————— hero ————— */
+.hero { position: relative; padding: 60px 0 84px; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: 40px; align-items: center; }
+.hero h1 { font-size: clamp(44px, 6vw, 78px); color: #fff; margin: 14px 0 18px; }
+.hero h1 .accent { color: var(--peach); }
+.hero .sub { font-size: clamp(17px, 1.7vw, 20px); max-width: 30em; color: var(--mist); }
+.hero .sub b { color: #fff; font-weight: 600; }
+.ctas { display: flex; gap: 14px; margin: 28px 0 40px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 15px 30px;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+.btn.primary {
+  color: var(--ink);
+  background: linear-gradient(180deg, #FFB29B, #ED8266);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4), 0 0 42px var(--glow);
+}
+.btn.primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(0, 0, 0, 0.46), 0 0 56px var(--glow); }
+.btn.ghost-btn { color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
+.btn.ghost-btn:hover { background: rgba(255, 255, 255, 0.06); transform: translateY(-2px); }
+.btn.live { color: #fff; border: 1px solid rgba(255, 255, 255, 0.32); background: rgba(255, 255, 255, 0.04); }
+.btn.live:hover { background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.55); transform: translateY(-2px); }
+.btn.live .pulse { width: 9px; height: 9px; border-radius: 50%; background: #34a866; animation: pulse 2.2s ease-in-out infinite; }
+/* Guestbook pill: never wrap to two lines — shed the gloss, then the long
+   label, as the viewport narrows (short label swaps in below 380px). */
+.btn.live { white-space: nowrap; }
+.gb-short { display: none; }
+@media (max-width: 520px) { .btn.live .gb-note { display: none; } }
+@media (max-width: 380px) { .btn.live .gb-full { display: none; } .btn.live .gb-short { display: inline; } }
+/* Hero CTAs never wrap internally; the Download pill sheds its size gloss on
+   narrow screens so it stays one line. */
+.ctas .btn { white-space: nowrap; }
+@media (max-width: 460px) { .dl-note { display: none; } }
+.btn small { font-weight: 500; opacity: 0.75; font-size: 12.5px; }
+
+/* the living mark — three tiles that morph like the deck's cast */
+.tiles { position: relative; width: min(320px, 74vw); aspect-ratio: 1; margin-left: auto; }
+.tiles .frame {
+  position: absolute;
+  inset: -9%;
+  border-radius: 22%; /* the app icon's rx (7/32), scaled */
+  background: var(--panel);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), 0 0 60px var(--glow);
+}
+/* fixed px radius: percentage radii turn elliptical as the tiles morph */
+.tile { position: absolute; border-radius: 22px; animation: var(--anim) 9s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.tile.steel { background: linear-gradient(180deg, #6C86AB, #536C8E); --anim: t-steel; }
+.tile.peach { background: linear-gradient(180deg, #FFB29B, #ED8266); --anim: t-peach; }
+.tile.paper-t { background: linear-gradient(180deg, #F5F1E6, #E7E0D0); --anim: t-paper; }
+@keyframes t-steel {
+  0%, 34%  { left: 4%;  top: 4%;  width: 26%; height: 92%; }
+  46%, 84% { left: 4%;  top: 4%;  width: 92%; height: 40%; }
+  96%, 100%{ left: 4%;  top: 4%;  width: 26%; height: 92%; }
+}
+@keyframes t-peach {
+  0%, 34%  { left: 36%; top: 4%;  width: 60%; height: 44%; }
+  46%, 84% { left: 4%;  top: 50%; width: 44%; height: 46%; }
+  96%, 100%{ left: 36%; top: 4%;  width: 60%; height: 44%; }
+}
+@keyframes t-paper {
+  0%, 34%  { left: 36%; top: 54%; width: 60%; height: 42%; }
+  46%, 84% { left: 54%; top: 50%; width: 42%; height: 46%; }
+  96%, 100%{ left: 36%; top: 54%; width: 60%; height: 42%; }
+}
+
+/* ————— sections ————— */
+section { position: relative; padding: 120px 0; overflow: hidden; }
+section.paper { background: var(--paper); color: var(--ink-soft); }
+section.paper h2 { color: var(--ink); }
+section h2 { font-size: clamp(40px, 5.4vw, 72px); color: #fff; margin: 22px 0 22px; }
+.lede { font-size: 18.5px; max-width: 34em; }
+.lede b { font-weight: 600; }
+section.paper .lede b { color: var(--ink); }
+section:not(.paper) .lede b { color: #fff; }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 46px; align-items: center; margin-top: 26px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 44px; }
+.card {
+  border-radius: 16px;
+  padding: 26px 24px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(30, 42, 58, 0.12);
+}
+.card .tick { width: 44px; height: 6px; border-radius: 3px; background: var(--peach); margin-bottom: 16px; }
+.card h3 { font-size: 16.5px; font-weight: 700; color: var(--ink); margin-bottom: 7px; }
+.card p { font-size: 14.5px; line-height: 1.6; }
+.card ol { margin: 8px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.55; }
+.card ol li { margin: 5px 0; }
+.card .prompt {
+  margin: 11px 0 3px; padding: 11px 13px; border-radius: 10px;
+  background: rgba(13, 27, 46, 0.05); border: 1px solid rgba(13, 27, 46, 0.10);
+  font-size: 13px; line-height: 1.5; color: #33465e; font-style: italic;
+}
+.card code { background: rgba(13, 27, 46, 0.07); border-radius: 4px; padding: 1px 5px; font-size: 12.5px; font-family: ui-monospace, Menlo, monospace; }
+.card .cmd {
+  margin: 12px 0 4px; padding: 13px 15px; border-radius: 10px;
+  background: #0D1B2E; color: #E7ECF3;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.card .cmd code { background: rgba(255,255,255,0.12); color: #FFC7B8; }
+.card .num { color: var(--peach); font-weight: 800; font-style: normal; }
+section:not(.paper) .card { background: var(--panel); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35); }
+section:not(.paper) .card h3 { color: #fff; }
+section:not(.paper) .card p { color: var(--mist); }
+
+/* morph demo — two layouts the tiles glide between */
+.morphbox {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  background: var(--ink);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.morphbox .m { position: absolute; border-radius: 10px; animation: var(--m) 7s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.m1 { background: linear-gradient(180deg, #FFB29B, #ED8266); --m: m1; }
+.m2 { background: #5E7699; --m: m2; }
+.m3 { background: #F0EBE0; --m: m3; }
+@keyframes m1 {
+  0%, 38%  { left: 7%;  top: 12%; width: 34%; height: 30%; border-radius: 10px; }
+  50%, 88% { left: 59%; top: 56%; width: 26%; height: 26%; border-radius: 50%; }
+  100%     { left: 7%;  top: 12%; width: 34%; height: 30%; border-radius: 10px; }
+}
+@keyframes m2 {
+  0%, 38%  { left: 7%;  top: 52%; width: 20%; height: 34%; }
+  50%, 88% { left: 7%;  top: 14%; width: 48%; height: 20%; }
+  100%     { left: 7%;  top: 52%; width: 20%; height: 34%; }
+}
+@keyframes m3 {
+  0%, 38%  { left: 48%; top: 24%; width: 42%; height: 50%; }
+  50%, 88% { left: 12%; top: 44%; width: 36%; height: 42%; }
+  100%     { left: 48%; top: 24%; width: 42%; height: 50%; }
+}
+
+/* chart vignette — drawn in-house, like everything else */
+.chartbox {
+  border-radius: 18px;
+  background: #fff;
+  padding: 26px 22px 14px;
+  box-shadow: 0 20px 50px rgba(30, 42, 58, 0.16);
+}
+.chartbox svg { width: 100%; height: auto; display: block; }
+.spark { stroke-dasharray: 620; stroke-dashoffset: 620; }
+.in .spark { animation: draw 1.9s cubic-bezier(0.5, 0, 0.2, 1) 0.25s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.chartbox .tip {
+  display: inline-block;
+  margin: 10px 0 6px 8px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 12.5px;
+  padding: 6px 11px;
+  box-shadow: 0 8px 20px rgba(30, 42, 58, 0.3);
+}
+.chartbox .tip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; background: var(--peach); margin-right: 6px; }
+
+/* live section — presence row */
+.presence { display: flex; align-items: center; gap: 0; margin: 34px 0 10px; }
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+  margin-left: -10px;
+}
+.avatar:first-child { margin-left: 0; }
+.avatar.a1 { background: var(--peach); }
+.avatar.a2 { background: #7FC8A9; }
+.avatar.a3 { background: #E8C468; }
+.avatar.live-chip {
+  width: auto;
+  border-radius: 999px;
+  padding: 0 16px;
+  background: var(--panel);
+  color: var(--mist);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.avatar.live-chip .pulse { width: 8px; height: 8px; border-radius: 50%; background: #34a866; margin-right: 8px; animation: pulse 2.2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(52, 168, 102, 0.5); } 55% { box-shadow: 0 0 0 7px rgba(52, 168, 102, 0); } }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+.chip {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--mist);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 7px 15px;
+}
+.chip b { color: var(--peach-soft); font-weight: 700; }
+.chip.soon { color: var(--mist-dim); border-color: rgba(255, 255, 255, 0.1); }
+.paper .chip { color: var(--ink-soft); border-color: rgba(13, 27, 46, 0.22); }
+.paper .chip b { color: #C25B3F; }
+
+/* gallery — four template posters, each in its own art direction */
+.gal { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
+.gcard {
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
+  transition: transform 0.35s cubic-bezier(0.2, 0.6, 0.2, 1), box-shadow 0.35s;
+}
+.gcard:hover { transform: translateY(-5px); box-shadow: 0 28px 64px rgba(0, 0, 0, 0.52); }
+.gposter { position: relative; aspect-ratio: 16 / 9; overflow: hidden; display: block; }
+.gposter * { position: absolute; }
+.gmeta { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 18px 16px; }
+.gmeta h3 { font-size: 15.5px; font-weight: 700; color: #fff; }
+.gmeta p { font-size: 12.5px; color: var(--mist-dim); margin-top: 3px; line-height: 1.45; }
+.gacts { display: flex; gap: 8px; flex-shrink: 0; }
+.gbtn {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--mist);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  padding: 7px 14px;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s, transform 0.2s;
+}
+.gbtn:hover { color: #fff; border-color: rgba(255, 255, 255, 0.5); transform: translateY(-1px); }
+/* signal poster — mirrors sig-cover: full-bleed press photo under an ink scrim,
+   bone masthead + hairline, a towering Fraunces-black title, and the red date bar
+   (OCT 12—14 reversed to bone) with the programme line to its right */
+.gp-signal { background: #141310 url(__PH_PRESS__) center/cover; }
+.gp-signal .ov { inset: 0; background: rgba(20, 19, 16, 0.62); }
+.gp-signal .k { left: 7.5%; top: 11.5%; font-size: 8px; font-weight: 700; letter-spacing: 0.22em; color: #EFEDE4; }
+.gp-signal .hr { left: 7.5%; right: 7.5%; top: 16.5%; height: 1.5px; background: rgba(239, 237, 228, 0.7); }
+.gp-signal .t { left: 6.5%; top: 18.5%; font-family: Fraunces, Georgia, serif; font-weight: 900; font-size: 56px; line-height: 0.92; color: #EFEDE4; text-shadow: 0 2px 14px rgba(20, 19, 16, 0.45); }
+.gp-signal .bar { left: 7.5%; top: 72%; width: 25%; height: 12.5%; background: #E8442E; }
+.gp-signal .oct { left: 7.5%; width: 25%; top: 76.2%; text-align: center; font-family: 'Instrument Sans', sans-serif; font-weight: 800; font-size: 12.5px; letter-spacing: 0.08em; color: #EFEDE4; }
+.gp-signal .sub { left: 35%; right: 7%; top: 73%; font-size: 8px; line-height: 1.5; color: rgba(239, 237, 228, 0.85); }
+.gp-signal .foot { left: 7.5%; right: 7.5%; bottom: 7.5%; font-size: 6.5px; font-weight: 600; letter-spacing: 0.14em; color: rgba(239, 237, 228, 0.6); }
+/* terra poster — split cover, photo panel right (mirrors the deck's ter-cover slide:
+   headline on white, goat-vase photo owns the right edge, two vessel pills straddle
+   the seam, faint celadon orbs drift behind) */
+.gp-terra { background: #F7F5F0; }
+.gp-terra .panel { right: 0; top: 0; width: 37.5%; height: 100%; background: url(__PH_VASE2__) 50% 60%/cover; }
+.gp-terra .shade { right: 0; top: 0; width: 37.5%; height: 100%; background: rgba(42, 39, 36, 0.08); }
+.gp-terra .orb { border-radius: 50%; background: radial-gradient(circle at 40% 35%, rgba(141, 147, 118, 0.20), rgba(141, 147, 118, 0.05) 70%); }
+.gp-terra .o1 { left: 24%; top: 14%; width: 33%; aspect-ratio: 1; }
+.gp-terra .o2 { left: 41%; top: 34%; width: 22%; aspect-ratio: 1; }
+.gp-terra .k { left: 7.5%; top: 12.5%; font-size: 8.5px; font-weight: 700; letter-spacing: 0.22em; color: #C96F4A; }
+.gp-terra .t { left: 7%; top: 20%; max-width: 46%; font-family: Fraunces, Georgia, serif; font-weight: 900; font-size: 24px; line-height: 1.05; color: #2A2724; }
+.gp-terra .sub { left: 7.5%; top: 60%; font-size: 8px; line-height: 1.5; color: rgba(42, 39, 36, 0.55); }
+.gp-terra .foot { left: 7.5%; bottom: 9%; font-size: 7px; font-weight: 600; letter-spacing: 0.18em; color: rgba(42, 39, 36, 0.5); }
+.gp-terra .v1 { right: 29%; top: 15.3%; width: 14.8%; height: 39%; border-radius: 999px; background: url(__PH_VASE1__) center/cover; border: 2.5px solid #C96F4A; box-shadow: 0 10px 24px rgba(42, 39, 36, 0.3); }
+.gp-terra .v2 { right: 37%; top: 61%; width: 11%; height: 28%; border-radius: 999px; background: url(__PH_VASE3__) center/cover; border: 2.5px solid #D9C9B4; box-shadow: 0 8px 20px rgba(42, 39, 36, 0.25); }
+/* orbital poster — mirrors orb-cover: sunlit-Earth-from-ISS photo on the void
+   under a top/bottom-dark scrim, a cyan orbit ring centred a touch high, a glowing
+   cyan→violet dot riding the top of the ring, the letter-spaced ORBITAL wordmark
+   across the ring's middle (wider than the ring), and two mono readouts below */
+.gp-orbital { background: #05060E url(__PH_STARS__) center 62%/cover; }
+.gp-orbital .ov { inset: 0; background: linear-gradient(180deg, rgba(5, 6, 14, 0.72) 0%, rgba(5, 6, 14, 0.3) 46%, rgba(5, 6, 14, 0.78) 100%); }
+.gp-orbital .ring { left: 50%; top: 44%; width: 34%; aspect-ratio: 1; transform: translate(-50%, -50%); border: 1.5px solid #38E1FF; border-radius: 50%; box-shadow: 0 0 30px rgba(56, 225, 255, 0.38), inset 0 0 22px rgba(56, 225, 255, 0.12); }
+.gp-orbital .dot { left: 50%; top: 13.5%; width: 6%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: linear-gradient(140deg, #38E1FF, #7A5CFF); box-shadow: 0 0 16px rgba(56, 225, 255, 0.85); }
+.gp-orbital .t { left: 0; right: 0; top: 44%; transform: translateY(-52%); font-family: 'Instrument Sans', sans-serif; font-weight: 800; font-size: 27px; letter-spacing: 0.34em; text-indent: 0.34em; text-align: center; color: #EAF4FF; text-shadow: 0 0 18px rgba(56, 225, 255, 0.4); }
+.gp-orbital .sub { left: 0; right: 0; top: 55.5%; text-align: center; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 6px; letter-spacing: 0.16em; color: rgba(178, 196, 224, 0.62); }
+.gp-orbital .foot { left: 0; right: 0; bottom: 9%; text-align: center; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 6px; letter-spacing: 0.18em; color: rgba(178, 196, 224, 0.42); }
+.gp-orbital .s1, .gp-orbital .s2, .gp-orbital .s3 { width: 2.5px; height: 2.5px; border-radius: 50%; background: rgba(233, 246, 255, 0.9); box-shadow: 0 0 5px rgba(120, 215, 255, 0.85); }
+.gp-orbital .s1 { left: 16%; top: 26%; } .gp-orbital .s2 { left: 83%; top: 60%; } .gp-orbital .s3 { left: 26%; top: 76%; }
+/* picnic poster — scrapbook: kodachrome under the sunshine wash, hard-shadow
+   stickers a few degrees askew, a polaroid pinned lower-centre (mirrors the
+   pic-cover slide: title top-left, blue tile + pink dot + green wedge, date tag) */
+.gp-picnic { background: #FFD43A url(__PH_FAIRWIDE__) center/cover; }
+.gp-picnic .ov { inset: 0; background: rgba(255, 212, 58, 0.5); }
+.gp-picnic .t { left: 7%; top: 15%; font-weight: 900; font-size: 34px; line-height: 0.92; letter-spacing: -0.01em; color: #201A31; transform: rotate(-2deg); }
+.gp-picnic .sub { left: 7.5%; top: 62%; max-width: 38%; font-size: 10.5px; font-weight: 700; line-height: 1.3; color: #201A31; transform: rotate(-2deg); }
+.gp-picnic .date { right: 7%; top: 47%; font-size: 9.5px; font-weight: 800; letter-spacing: 0.04em; color: #201A31; transform: rotate(3deg); }
+.gp-picnic .c1 { right: 8%; top: 11%; width: 18%; aspect-ratio: 1; border-radius: 50%; background: #FF7BAC; border: 2.5px solid #201A31; box-shadow: 5px 6px 0 #201A31; transform: rotate(4deg); }
+.gp-picnic .c2 { left: 43%; top: 13%; width: 15%; aspect-ratio: 1; border-radius: 24%; background: #4DC9F0; border: 2.5px solid #201A31; box-shadow: 5px 6px 0 #201A31; transform: rotate(-8deg); }
+.gp-picnic .c3 { right: 7%; top: 56%; width: 15%; aspect-ratio: 1.12; clip-path: polygon(50% 0, 100% 100%, 0 100%); background: #7BE382; filter: drop-shadow(5px 6px 0 rgba(32, 26, 49, 0.95)); transform: rotate(7deg); }
+.gp-picnic .pol { left: 48%; top: 50%; width: 19%; height: 42%; border-radius: 8px; background: #fff; border: 2.5px solid #201A31; box-shadow: 5px 6px 0 #201A31; transform: rotate(-5deg); }
+.gp-picnic .polp { left: 49.5%; top: 53%; width: 16%; height: 30%; border-radius: 3px; background: url(__PH_FAIR__) center/cover; transform: rotate(-5deg); }
+.gp-picnic .cap { left: 48%; top: 84.5%; width: 19%; text-align: center; font-size: 8px; font-weight: 800; color: #201A31; transform: rotate(-5deg); }
+
+/* code vignette — the honest document */
+.codebox {
+  border-radius: 16px;
+  background: #0A1524;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 22px 24px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #8FA3BF;
+  white-space: pre;
+  overflow-x: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.codebox .k { color: var(--peach-soft); }
+.codebox .s { color: #cfe0c5; }
+.codebox .c { color: rgba(143, 163, 191, 0.55); }
+
+/* final call ————— */
+.finale { text-align: center; padding: 150px 0 140px; }
+.finale h2 { font-size: clamp(46px, 7vw, 96px); }
+.finale .ctas { justify-content: center; }
+.finale .fine { font-size: 13px; color: var(--mist-dim); letter-spacing: 0.04em; }
+
+footer {
+  border-top: 1px solid var(--hair-light);
+  padding: 44px 0 60px;
+  font-size: 13px;
+  color: var(--mist-dim);
+}
+footer .wrap { display: grid; gap: 10px; }
+footer b { color: var(--mist); font-weight: 600; }
+
+/* konami deck mode — the page presents itself */
+body.kdeck { overflow: hidden; }
+body.kdeck section { display: none; }
+body.kdeck section.kactive { display: flex; align-items: center; position: fixed; inset: 0; z-index: 90; overflow: auto; padding: 60px 0; background: var(--ink); }
+body.kdeck section.kactive.paper { background: var(--paper); }
+body.kdeck section.kactive .wrap { width: 100%; }
+body.kdeck header, body.kdeck footer { display: none; }
+.kchip { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 95; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--mist); background: rgba(13, 27, 46, 0.85); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 999px; padding: 8px 18px; pointer-events: none; }
+
+/* reveal choreography */
+.rv { opacity: 0; transform: translateY(26px); transition: opacity 0.8s cubic-bezier(0.2, 0.6, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1); }
+.rv.in { opacity: 1; transform: none; }
+.rv.d1 { transition-delay: 0.08s; }
+.rv.d2 { transition-delay: 0.16s; }
+.rv.d3 { transition-delay: 0.24s; }
+
+@media (max-width: 880px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .tiles { margin: 30px auto 0; }
+  section { padding: 84px 0; }
+  .ghost { font-size: 130px; right: 0; }
+  .gal { grid-template-columns: 1fr; }
+  .gmeta { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tile, .m, .bokeh, .avatar.live-chip .pulse, .in .spark { animation: none !important; }
+  .spark { stroke-dashoffset: 0; }
+  .rv { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header>
+  <div class="hbar">
+    <a class="mark" href="/">
+      <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#16273E"/><rect x="5" y="5" width="7" height="22" rx="2.5" fill="#5E7699"/><rect x="14" y="5" width="13" height="10" rx="2.5" fill="#FF9E8A"/><rect x="14" y="17" width="13" height="10" rx="2.5" fill="#F0EBE0"/></svg>
+      <span>bento<span class="slash">/</span>.</span>
+    </a>
+    <div class="nav-cta">
+      <a class="btn ghost-btn nav-ghost" href="/help">Help</a>
+      <a class="btn ghost-btn nav-ghost" href="https://github.com/nyblnet/bento" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true" style="margin-right:1px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+      <a class="btn ghost-btn nav-ghost" href="/releases/slides/Bento_Slides.bento.html" download="Bento_Slides.bento.html">⤓&nbsp; Download</a>
+      <a class="btn primary" href="/slides/">▶&nbsp; Try it</a>
+    </div>
+  </div>
+</header>
+
+<!-- ———————————————————— hero ———————————————————— -->
+<section class="hero">
+  <div class="sky" aria-hidden="true">
+    <div class="aurora amber"></div>
+    <div class="aurora blue"></div>
+    <div class="bokeh" style="left:12%; top:24%; width:10px; height:10px; background:rgba(255,238,214,.7); --t:16s; --dx:76px; --dy:-52px"></div>
+    <div class="bokeh" style="left:30%; top:64%; width:6px;  height:6px;  background:rgba(255,238,214,.5); --t:21s; --dx:-62px; --dy:-80px"></div>
+    <div class="bokeh" style="left:56%; top:16%; width:14px; height:14px; background:rgba(255,190,160,.5); --t:19s; --dx:54px; --dy:88px"></div>
+    <div class="bokeh" style="left:72%; top:70%; width:8px;  height:8px;  background:rgba(190,205,225,.55); --t:23s; --dx:-78px; --dy:-44px"></div>
+    <div class="bokeh" style="left:86%; top:38%; width:5px;  height:5px;  background:rgba(255,238,214,.6); --t:17s; --dx:-50px; --dy:64px"></div>
+    <div class="bokeh" style="left:8%;  top:82%; width:12px; height:12px; background:rgba(190,205,225,.4); --t:24s; --dx:88px; --dy:-68px"></div>
+    <div class="bokeh" style="left:20%; top:42%; width:7px;  height:7px;  background:rgba(255,190,160,.45); --t:18s; --dx:-58px; --dy:70px"></div>
+    <div class="bokeh" style="left:44%; top:80%; width:9px;  height:9px;  background:rgba(255,238,214,.45); --t:22s; --dx:66px; --dy:-84px"></div>
+    <div class="bokeh" style="left:64%; top:48%; width:5px;  height:5px;  background:rgba(190,205,225,.6); --t:15s; --dx:48px; --dy:56px"></div>
+    <div class="bokeh" style="left:80%; top:12%; width:11px; height:11px; background:rgba(255,238,214,.4); --t:20s; --dx:-70px; --dy:60px"></div>
+    <div class="bokeh" style="left:38%; top:8%;  width:6px;  height:6px;  background:rgba(190,205,225,.5); --t:17s; --dx:60px; --dy:74px"></div>
+    <div class="bokeh" style="left:93%; top:62%; width:8px;  height:8px;  background:rgba(255,190,160,.4); --t:21s; --dx:-64px; --dy:-58px"></div>
+    <div class="bokeh" style="left:50%; top:34%; width:4px;  height:4px;  background:rgba(255,238,214,.55); --t:14s; --dx:-44px; --dy:-66px"></div>
+    <div class="bokeh" style="left:4%;  top:52%; width:9px;  height:9px;  background:rgba(255,190,160,.35); --t:23s; --dx:82px; --dy:48px"></div>
+  </div>
+  <div class="wrap">
+    <div>
+      <div class="kicker rv in">bento/. · local-first, AI-native</div>
+      <hr class="hairline rv in" style="max-width:220px">
+      <h1 class="rv in">The boring deck<br>is dead.<br><span class="accent">One file killed it.</span></h1>
+      <p class="sub rv in d1">Real <b>animation, video, live charts</b> and web-grade design, all in <b>one HTML file</b> that's the document, the editor and the player at once. Drop in a tired PowerPoint and let <b>AI rebuild it for the modern web</b>; perfect the details in the editor. No account, no cloud. <b>It saves itself.</b></p>
+      <div class="ctas rv in d2" style="margin-bottom:14px">
+        <a class="btn primary" href="/slides/">▶&nbsp; Try it in your browser</a>
+        <a class="btn ghost-btn" href="/releases/slides/Bento_Slides.bento.html" download="Bento_Slides.bento.html">⤓&nbsp; Download <small class="dl-note">one file · ~__SHELL_KB__ KB</small></a>
+      </div>
+      <div class="ctas rv in d3" style="margin:0 0 40px">
+        <a class="btn live" href="/guestbook/"><span class="pulse"></span><span class="gb-full">Join the public Guestbook</span><span class="gb-short">Guestbook</span></a>
+        <a class="btn live" href="#get-skill"><span style="color:var(--peach)">✦</span><span class="gb-full">Get the AI skill</span><span class="gb-short">AI skill</span></a>
+      </div>
+      <div class="chips rv in d3" style="margin-top:0">
+        <span class="chip"><b>slides</b> · the first app, here now</span>
+        <span class="chip soon">spaces · notes, coming soon</span>
+        <span class="chip soon">dash · sheets &amp; tables, coming soon</span>
+      </div>
+    </div>
+    <div class="tiles rv in d2" aria-hidden="true">
+      <div class="frame"></div>
+      <div class="tile steel"></div>
+      <div class="tile peach"></div>
+      <div class="tile paper-t"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————————— 01 · ships inside ———————————————— -->
+<section class="paper">
+  <div class="wrap">
+    <div class="ghost" aria-hidden="true">01</div>
+    <div class="kicker rv">Everything ships inside</div>
+    <hr class="hairline rv" style="max-width:220px">
+    <h2 class="rv">The file <span class="accent">is</span> the software.</h2>
+    <p class="lede rv d1">No account. No cloud. No “please update to open this”. A Bento deck is an ordinary HTML file that carries its own viewer, presenter and editor, plus your document as <b>readable JSON you can open in any text editor</b>. Nothing to install, break, or expire.</p>
+    <div class="cards">
+      <div class="card rv"><div class="tick"></div><h3>View-source honest</h3><p>Your data sits in a plain, legible block at the top of the file. No binary formats, no lock-in, ever.</p></div>
+      <div class="card rv d1"><div class="tick" style="background:var(--steel)"></div><h3>Fonts &amp; assets travel</h3><p>Typefaces, images and charts are embedded. A deck looks the same on any machine, forever.</p></div>
+      <div class="card rv d2"><div class="tick"></div><h3>Any copy opens alone</h3><p>Email it, AirDrop it, archive it for a decade. Every copy is the complete product.</p></div>
+      <div class="card rv d3"><div class="tick" style="background:var(--steel)"></div><h3>Updates you apply</h3><p>Cryptographically signed releases, offered in-app. You choose when, and the old file stays as rollback.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————————— 02 · gallery ———————————————— -->
+<section>
+  <div class="wrap">
+    <div class="ghost" aria-hidden="true">02</div>
+    <div class="kicker rv">The gallery</div>
+    <hr class="hairline rv" style="max-width:220px">
+    <h2 class="rv">Start from something beautiful.</h2>
+    <p class="lede rv d1">Four templates, four art directions, and each one is a <b>complete working file</b>. Open one: it boots straight into the app. Save it and it becomes your own deck, fresh identity and all. Every deck below was <b>designed and written by an AI agent</b> editing the document directly.</p>
+    <div class="gal">
+      <div class="gcard rv">
+        <a class="gposter gp-signal" href="/gallery/signal-editorial-type.bento.html" target="_blank" rel="noopener" aria-label="Open the Signal template in a new tab">
+          <span class="ov"></span>
+          <span class="k">SIGNAL — A FESTIVAL OF GRAPHIC IDEAS</span>
+          <span class="hr"></span>
+          <span class="t">Loud<br>letters.</span>
+          <span class="bar"></span>
+          <span class="oct">OCT 12—14</span>
+          <span class="sub">Three days on typography, grids, and the confidence to be simple.</span>
+          <span class="foot">HALL 6 · MAKETOWN · TICKETS AT THE DOOR · PHOTO: LIBRARY OF CONGRESS, 1942</span>
+        </a>
+        <div class="gmeta">
+          <div><h3>Signal</h3><p>Editorial type: one paper, one ink, one violent red.</p></div>
+          <div class="gacts">
+            <a class="gbtn" href="/gallery/signal-editorial-type.bento.html" target="_blank" rel="noopener">Open ↗</a>
+            <a class="gbtn" href="/gallery/signal-editorial-type.bento.html" download="Signal.bento.html">⤓ Get</a>
+          </div>
+        </div>
+      </div>
+      <div class="gcard rv d1">
+        <a class="gposter gp-terra" href="/gallery/terra-premium-product.bento.html" target="_blank" rel="noopener" aria-label="Open the Terra template in a new tab">
+          <span class="o1 orb"></span><span class="o2 orb"></span>
+          <span class="panel"></span><span class="shade"></span>
+          <span class="k">TERRA OBJECTS — COLLECTION N°4</span>
+          <span class="t">Quiet things,<br>well made.</span>
+          <span class="sub">Thrown, glazed and fired<br>in one workshop.</span>
+          <span class="foot">SPRING 2026 · EDITION OF 41</span>
+          <span class="v1"></span><span class="v2"></span>
+        </a>
+        <div class="gmeta">
+          <div><h3>Terra</h3><p>Premium minimal: warm neutrals, morphing product cards.</p></div>
+          <div class="gacts">
+            <a class="gbtn" href="/gallery/terra-premium-product.bento.html" target="_blank" rel="noopener">Open ↗</a>
+            <a class="gbtn" href="/gallery/terra-premium-product.bento.html" download="Terra.bento.html">⤓ Get</a>
+          </div>
+        </div>
+      </div>
+      <div class="gcard rv d1">
+        <a class="gposter gp-orbital" href="/gallery/orbital-dark-immersive.bento.html" target="_blank" rel="noopener" aria-label="Open the Orbital template in a new tab">
+          <span class="ov"></span>
+          <span class="s1"></span><span class="s2"></span><span class="s3"></span>
+          <span class="ring"></span>
+          <span class="dot"></span>
+          <span class="t">ORBITAL</span>
+          <span class="sub">LOW-ORBIT DATA · A FICTIONAL COMPANY FOR A REAL TEMPLATE</span>
+          <span class="foot">— PRESS → TO ENTER THE SYSTEM —</span>
+        </a>
+        <div class="gmeta">
+          <div><h3>Orbital</h3><p>Dark immersive: neon systems with clickable states.</p></div>
+          <div class="gacts">
+            <a class="gbtn" href="/gallery/orbital-dark-immersive.bento.html" target="_blank" rel="noopener">Open ↗</a>
+            <a class="gbtn" href="/gallery/orbital-dark-immersive.bento.html" download="Orbital.bento.html">⤓ Get</a>
+          </div>
+        </div>
+      </div>
+      <div class="gcard rv d2">
+        <a class="gposter gp-picnic" href="/gallery/picnic-playful.bento.html" target="_blank" rel="noopener" aria-label="Open the Pixel Picnic template in a new tab">
+          <span class="ov"></span>
+          <span class="c1"></span><span class="c2"></span><span class="c3"></span>
+          <span class="pol"></span><span class="polp"></span><span class="cap">last picnic!!</span>
+          <span class="t">PIXEL<br>PICNIC</span>
+          <span class="sub">a two-day jam for games,<br>toys &amp; useless websites</span>
+          <span class="date">AUG 22–23</span>
+        </a>
+        <div class="gmeta">
+          <div><h3>Pixel Picnic</h3><p>Playful: stickers, wobbles, hard zero-blur shadows.</p></div>
+          <div class="gacts">
+            <a class="gbtn" href="/gallery/picnic-playful.bento.html" target="_blank" rel="noopener">Open ↗</a>
+            <a class="gbtn" href="/gallery/picnic-playful.bento.html" download="Pixel_Picnic.bento.html">⤓ Get</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————————— 03 · AI ———————————————— -->
+<section class="paper">
+  <div class="wrap">
+    <div class="ghost" aria-hidden="true">03</div>
+    <div class="grid2">
+      <div>
+        <div class="kicker rv">Local-first · AI-native</div>
+        <hr class="hairline rv" style="max-width:220px">
+        <h2 class="rv">Built for AI.<br>Works fine without it.</h2>
+        <p class="lede rv d1">Bento is local-first <b>and</b> built for the AI era. The whole app and its data are one file with plain JSON inside, so you can <b>just drop it into a new chat or project</b> (Cowork, Codex, Gemini…) and it edits the deck, or point a coding agent at it on disk. That's how the gallery above was made. No converters, no uploads, no .pptx to fight with. <b>Far leaner</b> than driving PowerPoint with a bot. Bringing an old deck across? Hand the <b>.pptx</b> to any AI alongside <b>bento.page/agents.md</b> and ask it to rebuild. You get real Bento slides (morph, live charts), <b>re-authored, not lossily imported</b>. And if you never touch AI, nothing here ever will either.</p>
+        <div class="chips rv d2">
+          <span class="chip"><b>The format is the API</b></span>
+          <span class="chip">No binary .pptx to decode</span>
+          <span class="chip">Nothing phones home</span>
+          <span class="chip">You choose the AI to use</span>
+        </div>
+        <p class="rv d2" style="margin-top:22px">
+          <a class="btn primary" href="/agents.md" style="text-decoration:none">The agent guide → bento.page/agents.md</a>
+        </p>
+      </div>
+      <div class="codebox rv d1" aria-label="The document format, as it appears inside every file"><span class="c">&lt;!-- inside every .bento.html --&gt;</span>
+&lt;script type=<span class="s">"application/bento+json"</span> id=<span class="s">"bento-doc"</span>&gt;
+{
+  <span class="k">"format"</span>: <span class="s">"bento/slides"</span>,
+  <span class="k">"title"</span>: <span class="s">"Q4 All-hands"</span>,
+  <span class="k">"slides"</span>: [
+    { <span class="k">"id"</span>: <span class="s">"s1"</span>, <span class="k">"transition"</span>: <span class="s">"morph"</span>,
+      <span class="k">"elements"</span>: [ … ] }
+  ]
+}
+&lt;/script&gt;
+
+<span class="c">// and in the console:</span>
+window.bento.doc          <span class="c">// read</span>
+window.bento.loadDoc(json) <span class="c">// write, undoable</span></div>
+    </div>
+
+    <!-- how to actually drive it with AI -->
+    <h3 class="rv" style="margin-top:52px;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#C25B3F">Ways to build it with AI</h3>
+    <div class="cards rv">
+      <div class="card">
+        <div class="tick"></div>
+        <h3>Drop the file in a chat or project</h3>
+        <p>The whole app <i>and</i> its data are one <code>.bento.html</code>, so any assistant that takes a file has everything it needs. Attach it in <b>Cowork</b>, <b>Codex</b>, <b>Gemini</b> or a <b>ChatGPT&nbsp;project</b>, say what you want, get the edited file back.</p>
+        <div class="prompt">“Here's my deck (<code>Deck.bento.html</code>). Following <b>bento.page/agents.md</b>, add a slide comparing Q3 vs Q4 signups as a bar chart that morphs from the previous slide.”</div>
+      </div>
+      <div class="card">
+        <div class="tick"></div>
+        <h3>Let a coding agent edit it on disk</h3>
+        <p>Claude Code, Cursor, Aider or your own harness, pointed straight at the file. Run a <b>local, open-weight model</b> (Ollama, llama.cpp, LM Studio) and <b>nothing ever leaves your machine</b>:</p>
+        <div class="prompt">“Read <b>bento.page/agents.md</b>, then edit <code>Deck.bento.html</code>: turn the pricing table into a chart and add speaker notes to every slide.”</div>
+        <p style="margin-top:10px">It rewrites just the <code>#bento-doc</code> JSON block. The app around it is untouched. No export, no re-import.</p>
+      </div>
+      <div class="card">
+        <div class="tick"></div>
+        <h3>Chat-only? Paste the JSON</h3>
+        <p>For an assistant with no file support, round-trip the document by hand:</p>
+        <ol>
+          <li>Open the <b>Save ▾</b> menu → <b>Copy document JSON</b></li>
+          <li>Paste it into the chat with your ask</li>
+          <li>Bring the edited JSON back via <b>Save ▾ → Replace from JSON…</b> (⌘Z undoes)</li>
+        </ol>
+      </div>
+      <div class="card">
+        <div class="tick"></div>
+        <h3>The <code>agents.md</code> recipe</h3>
+        <p>One page the model reads first. It maps your material to the right feature (numbers → a <b>chart</b>, a comparison → a <b>table</b>, “before/after” → a <b>morph</b>, a drill-down → a <b>state slide</b>), so you get a real deck, not a wall of text.</p>
+      </div>
+      <div class="card" id="get-skill" style="grid-column:1/-1;scroll-margin-top:84px">
+        <div class="tick"></div>
+        <h3>Get the <code>bento-slides</code> skill</h3>
+        <p>Install once and your assistant handles the rest — it even <b>downloads the latest Bento app by itself</b>, so "make me a deck about…" goes from a blank folder to a finished, opened <code>.bento.html</code> in one pass. It triggers automatically whenever you ask for slides (or run <code>/bento-slides</code>).</p>
+        <p style="margin:14px 0 4px"><b>Claude Code</b> — from the plugin store:</p>
+        <div class="cmd">/plugin marketplace add nyblnet/bento
+/plugin install bento-slides@bento</div>
+        <p style="margin:10px 0 4px;font-size:13.5px;color:#5a6b82">…or as a plain personal skill, one line:</p>
+        <div class="cmd">mkdir -p ~/.claude/skills/bento-slides &amp;&amp; curl -fsSL https://bento.page/skills/bento-slides/SKILL.md -o ~/.claude/skills/bento-slides/SKILL.md</div>
+        <p style="margin:14px 0 0"><b>Claude.ai &amp; Claude Desktop</b> — <a href="/skills/bento-slides.zip" download style="color:#C25B3F;font-weight:600">download the skill (.zip)</a>, then upload it under <i>Settings → Skills</i>.</p>
+        <p style="margin:10px 0 0"><b>ChatGPT · Codex · Gemini</b> — no install needed: attach <a href="/agents.md" style="color:#C25B3F;font-weight:600">bento.page/agents.md</a> to a ChatGPT project, drop it beside your deck as <code>AGENTS.md</code> for Codex, or add it to a Gem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————————— 04 · morph ———————————————— -->
+<section>
+  <div class="wrap">
+    <div class="ghost" aria-hidden="true">04</div>
+    <div class="grid2">
+      <div>
+        <div class="kicker rv">The native transition</div>
+        <hr class="hairline rv" style="max-width:220px">
+        <h2 class="rv">Morph.</h2>
+        <p class="lede rv d1">Elements that share an id <b>animate between slides</b>: position, size, color, even gradients. Duplicate a slide, move things around, and the motion designs itself.</p>
+      </div>
+      <div class="morphbox rv d1" aria-hidden="true">
+        <div class="m m1"></div>
+        <div class="m m2"></div>
+        <div class="m m3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————————— 05 · charts ———————————————— -->
+<section class="paper">
+  <div class="wrap">
+    <div class="ghost" aria-hidden="true">05</div>
+    <div class="grid2">
+      <div class="chartbox rv d1">
+        <svg viewBox="0 0 560 300" role="img" aria-label="An area chart drawn by Bento's built-in chart engine">
+          <g stroke="rgba(13,27,46,0.09)" stroke-width="1">
+            <line x1="40" y1="40"  x2="540" y2="40"/><line x1="40" y1="100" x2="540" y2="100"/>
+            <line x1="40" y1="160" x2="540" y2="160"/><line x1="40" y1="220" x2="540" y2="220"/>
+          </g>
+          <defs><linearGradient id="fillg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FF9E8A" stop-opacity="0.35"/><stop offset="1" stop-color="#FF9E8A" stop-opacity="0"/>
+          </linearGradient></defs>
+          <path d="M40,236 C110,228 150,206 205,196 C260,186 300,150 355,128 C410,106 460,74 540,52 L540,260 L40,260 Z" fill="url(#fillg)"/>
+          <path class="spark" d="M40,236 C110,228 150,206 205,196 C260,186 300,150 355,128 C410,106 460,74 540,52" fill="none" stroke="#ED8266" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="540" cy="52" r="6" fill="#ED8266"/>
+          <g font-family="Instrument Sans, sans-serif" font-size="12" fill="rgba(13,27,46,0.45)">
+            <text x="40" y="282">Q1</text><text x="205" y="282">Q2</text><text x="365" y="282">Q3</text><text x="524" y="282">Q4</text>
+          </g>
+        </svg>
+        <span class="tip"><span class="dot"></span>Q4 · momentum <b>+975%</b></span>
+      </div>
+      <div>
+        <div class="kicker rv">Alive on the slide</div>
+        <hr class="hairline rv" style="max-width:220px">
+        <h2 class="rv">Charts, video &amp;&nbsp;sound.</h2>
+        <p class="lede rv d1">Bar, line, pie, scatter, all drawn by Bento's own engine, <b>live while you present</b>: tooltips, zooming, and data that morphs when a bar chart becomes a pie. Drop in <b>video and audio</b> too. They play right on the slide, autoplay on cue, no third-party embed. Short clips ride inside the file; big ones link out, so it stays lean.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————————— 06 · live ———————————————— -->
+<section>
+  <div class="wrap">
+    <div class="ghost" aria-hidden="true">06</div>
+    <div class="kicker rv">Together, live</div>
+    <hr class="hairline rv" style="max-width:220px">
+    <h2 class="rv">More private<br>than any&nbsp;cloud.</h2>
+    <p class="lede rv d1">Start a live session and <b>the file itself is the invitation</b>. Anyone who opens a copy joins, and a real <b>CRDT</b> engine merges every change conflict-free: edits land in real time, offline work reconciles back cleanly on return. Keys live in your file, never our servers, so <b>the relay only ever sees ciphertext</b>. There's no database of your slides to breach. And access is real <b>cryptographic RBAC</b>: a read-only copy is signed to <i>read</i> but not <i>write</i>, enforced at the edge by signatures, not a permissions checkbox someone can misconfigure.</p>
+    <div class="presence rv d1" aria-hidden="true">
+      <div class="avatar a1">A</div><div class="avatar a2">B</div><div class="avatar a3">C</div>
+      <div class="avatar live-chip"><span class="pulse"></span> Live · 3 connected</div>
+    </div>
+    <div class="chips rv d2">
+      <span class="chip"><b>E2EE</b>: AES-GCM, keys never leave your file</span>
+      <span class="chip"><b>Blind relay</b>: stores ciphertext, learns nothing</span>
+      <span class="chip"><b>Cryptographic RBAC</b>: read-only enforced by signatures, no server to trust</span>
+      <span class="chip"><b>CRDT engine</b>: offline forks reconcile both ways, conflict-free</span>
+    </div>
+    <div class="ctas rv d3" style="margin: 34px 0 0">
+      <a class="btn live" href="/guestbook/"><span class="pulse"></span><span class="gb-full">Join the public Guestbook</span><span class="gb-short">Guestbook</span><small class="gb-note" style="opacity:.85">· one live deck, everyone</small></a>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————————— 07 · yours ———————————————— -->
+<section class="paper">
+  <div class="wrap">
+    <div class="ghost" aria-hidden="true">07</div>
+    <div class="kicker rv">Local-first, provably</div>
+    <hr class="hairline rv" style="max-width:220px">
+    <h2 class="rv">You don't need the cloud.<br>Or us.</h2>
+    <p class="lede rv d1">Flip on <b>Offline mode</b> and nothing ever leaves your computer. Updates and online collaboration are hard-blocked, and the app says so in plain words. The file is the durable artifact; everything else is optional convenience.</p>
+    <div class="cards">
+      <div class="card rv"><div class="tick"></div><h3>Yours to keep</h3><p>Decks survive us. If bento.page vanished tomorrow, every file keeps opening, editing and presenting.</p></div>
+      <div class="card rv d1"><div class="tick" style="background:var(--steel)"></div><h3>Open source, MIT</h3><p>Bento's own engines, and the runtime it bundles (reveal.js, Moveable, Selecto), are all MIT-licensed. Auditable, forkable, no lock-in ever.</p></div>
+      <div class="card rv d2"><div class="tick"></div><h3>No telemetry</h3><p>Update checks send nothing about you or your document. No ids, no analytics, no phoning home.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————————— finale ———————————————— -->
+<section class="finale">
+  <div class="sky" aria-hidden="true">
+    <div class="aurora amber" style="left:50%; right:auto; transform:translateX(-50%); top:auto; bottom:-380px; opacity:.4"></div>
+  </div>
+  <div class="wrap">
+    <h2 class="rv" style="color:#fff">One file.<br><span style="color:var(--peach)">Yours. Forever.</span></h2>
+    <div class="ctas rv d1" style="margin-top:44px">
+      <a class="btn primary" href="/slides/">▶&nbsp; Try it in your browser</a>
+      <a class="btn ghost-btn" href="/releases/slides/Bento_Slides.bento.html" download="Bento_Slides.bento.html">⤓&nbsp; Download the app</a>
+      <a class="btn ghost-btn" href="/help">Help &amp; guide</a>
+    </div>
+    <p class="fine rv d2">Free · no account · the download <em>is</em> the product</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>Privacy, precisely:</b> this page loads nothing from anyone. The optional collaboration relay sees ciphertext, connection timing, and a hash of your room key. Never your content, never your name.</div>
+    <div>Set in <b>Fraunces</b> &amp; <b>Instrument Sans</b> (OFL), the same faces that travel inside every deck. Built on reveal.js, Moveable, Selecto (MIT) and engines of our own.</div>
+    <div><b>Open source, MIT.</b> All of Bento's software is MIT-licensed, © 2026 The Bento authors. Auditable and forkable. · <a href="https://github.com/nyblnet/bento" style="color:var(--peach,#FF9E8A);font-weight:600;text-decoration:none" target="_blank" rel="noopener">GitHub &#8599;</a></div>
+    <div><a href="/agents.md" style="color:var(--mist);text-decoration:none">agents.md</a> · <a href="/guestbook/" style="color:var(--mist);text-decoration:none">the Guestbook</a></div>
+    <div>© 2026 bento.page · <b>bento/slides</b> is the first app. <b>bento/spaces</b> (notes), <b>bento/dash</b> (sheets &amp; tables) and <b>bento/vault</b> are in the works.</div>
+  </div>
+</footer>
+
+<script>
+// scroll choreography — one observer, honest to prefers-reduced-motion
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.rv').forEach((n) => n.classList.add('in'))
+    return
+  }
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) }
+  }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' })
+  document.querySelectorAll('.rv:not(.in)').forEach((n) => io.observe(n))
+})()
+
+// sticky-header backdrop — fades in once past the hero's first sliver
+;(() => {
+  const h = document.querySelector('header')
+  const sync = () => h.classList.toggle('scrolled', scrollY > 24)
+  addEventListener('scroll', sync, { passive: true })
+  sync()
+})()
+
+// easter egg: ↑↑↓↓←→←→BA presents this page as a deck. Of course it does.
+;(() => {
+  const seq = ['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a']
+  let ki = 0, on = false, i = 0
+  const sections = () => [...document.querySelectorAll('section')]
+  const chip = document.createElement('div')
+  chip.className = 'kchip'
+  const show = (n) => {
+    const ss = sections()
+    i = Math.max(0, Math.min(ss.length - 1, n))
+    ss.forEach((s, j) => s.classList.toggle('kactive', j === i))
+    ss[i].querySelectorAll('.rv').forEach((r) => r.classList.add('in'))
+    chip.textContent = `${i + 1} / ${ss.length} — this page is a deck now · esc exits`
+  }
+  const start = () => { on = true; document.body.classList.add('kdeck'); document.body.appendChild(chip); show(0) }
+  const end = () => { on = false; document.body.classList.remove('kdeck'); chip.remove(); sections().forEach((s) => s.classList.remove('kactive')) }
+  addEventListener('keydown', (e) => {
+    const k = e.key.toLowerCase()
+    if (!on) {
+      ki = k === seq[ki] ? ki + 1 : (k === seq[0] ? 1 : 0)
+      if (ki === seq.length) { ki = 0; start(); e.preventDefault() }
+      return
+    }
+    if (k === 'escape') end()
+    else if (k === 'arrowright' || k === ' ') { e.preventDefault(); i < sections().length - 1 ? show(i + 1) : end() }
+    else if (k === 'arrowleft') { e.preventDefault(); show(i - 1) }
+  })
+})()
+</script>
+</body>
+</html>

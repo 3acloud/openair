@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT 5.6 新闻搜索与汇总</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #14171f;
+      --muted: #5f6878;
+      --line: #dfe4ee;
+      --accent: #146b6f;
+      --accent-2: #8a4b16;
+      --soft: #edf6f6;
+      --warn: #fff4df;
+      --shadow: 0 14px 35px rgba(32, 42, 58, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .hero {
+      min-height: 62vh;
+      display: grid;
+      align-items: end;
+      padding: 64px 20px 36px;
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(8, 16, 24, 0.25), rgba(8, 16, 24, 0.86)),
+        radial-gradient(circle at 18% 18%, rgba(255, 191, 102, 0.55), transparent 28%),
+        linear-gradient(135deg, #12333a 0%, #155f62 48%, #7d4a18 100%);
+    }
+
+    .hero-inner, main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,0.38);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 920px;
+      margin: 18px 0 14px;
+      font-size: clamp(38px, 6vw, 76px);
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 820px;
+      margin: 0;
+      color: rgba(255,255,255,0.86);
+      font-size: clamp(17px, 2.2vw, 22px);
+    }
+
+    main {
+      padding: 32px 20px 64px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    section, .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    section {
+      grid-column: span 12;
+      padding: 24px;
+    }
+
+    .span-7 { grid-column: span 7; }
+    .span-5 { grid-column: span 5; }
+    .span-4 { grid-column: span 4; }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    p { margin: 0 0 12px; }
+    ul { margin: 0; padding-left: 20px; }
+    li + li { margin-top: 8px; }
+
+    .kicker {
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .model {
+      padding: 18px;
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      min-height: 166px;
+    }
+
+    .model strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 9px;
+      color: var(--muted);
+      background: #fff;
+      font-size: 13px;
+    }
+
+    .summary {
+      background: var(--soft);
+      border-color: #c6dddd;
+    }
+
+    .watch {
+      background: var(--warn);
+      border-color: #efd49f;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      gap: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .event:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .date {
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .source {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+
+    .source-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .source-title span {
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 840px) {
+      .hero { min-height: 56vh; padding-top: 48px; }
+      .span-7, .span-5, .span-4 { grid-column: span 12; }
+      .cards { grid-template-columns: 1fr; }
+      .event { grid-template-columns: 1fr; gap: 4px; }
+      .source-title { display: block; }
+      .source-title span { display: block; margin-top: 2px; }
+      section { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">新闻搜索报告 · 更新至 2026-06-27</div>
+      <h1>GPT 5.6：受限预览中的新一代模型套件</h1>
+      <p class="lead">多家媒体报道，OpenAI 推出 GPT-5.6 Sol、Terra、Luna，但在美国政府要求下先面向受信任伙伴进行受限预览，核心争议集中在网络安全能力、政府预发布审查和后续开放节奏。</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <section class="summary span-7">
+        <div class="kicker">核心结论</div>
+        <h2>这不是一次普通模型发布，而是一次带有政策压力测试性质的发布。</h2>
+        <p>截至 2026-06-27，公开报道的共识是：GPT-5.6 已以有限预览形式发布，包含三个面向不同成本和性能需求的模型。访问范围暂时被限制在少数经政府知悉或批准的伙伴之内，OpenAI 预计在数周内扩大可用性。</p>
+        <p>报道同时显示，美国政府正在把前沿 AI 模型的网络安全能力纳入更严格的发布前关注范围。OpenAI 表示配合短期安排，但不希望这种访问审批成为长期默认模式。</p>
+      </section>
+
+      <section class="watch span-5">
+        <div class="kicker">需要谨慎看待</div>
+        <h2>仍未完全清晰的信息</h2>
+        <ul>
+          <li>正式公开可用日期尚未有统一、可核验的精确时间表。</li>
+          <li>不同媒体对首批访问伙伴数量和审批机制的描述略有差异。</li>
+          <li>模型能力、价格与安全评估细节主要来自发布相关报道，仍需等待官方文档和开发者平台落地验证。</li>
+        </ul>
+      </section>
+
+      <section>
+        <div class="kicker">模型结构</div>
+        <h2>Sol、Terra、Luna 的定位</h2>
+        <div class="cards">
+          <article class="model">
+            <strong>GPT-5.6 Sol</strong>
+            <p>旗舰模型，被报道为该套件中能力最强，重点覆盖编码、网络安全、生物科学和长期 agentic 任务。</p>
+            <div class="pill-row"><span class="pill">旗舰</span><span class="pill">高推理</span><span class="pill">高风险任务监控</span></div>
+          </article>
+          <article class="model">
+            <strong>GPT-5.6 Terra</strong>
+            <p>面向日常和高效工作负载的平衡版本，强调性能、效率与成本之间的折中。</p>
+            <div class="pill-row"><span class="pill">均衡</span><span class="pill">效率</span><span class="pill">通用工作</span></div>
+          </article>
+          <article class="model">
+            <strong>GPT-5.6 Luna</strong>
+            <p>定位为快速、低成本、高吞吐场景的模型，适合大规模调用和对响应速度敏感的任务。</p>
+            <div class="pill-row"><span class="pill">快速</span><span class="pill">低成本</span><span class="pill">高容量</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="span-7">
+        <div class="kicker">时间线</div>
+        <h2>关键进展</h2>
+        <div class="timeline">
+          <div class="event">
+            <div class="date">2026-06-26</div>
+            <div>多家媒体报道 OpenAI 发布 GPT-5.6 系列，并因美国政府要求采用受限预览。</div>
+          </div>
+          <div class="event">
+            <div class="date">发布初期</div>
+            <div>访问范围面向少数受信任伙伴；Axios 报道称约 20 家公司处于有限预览范围。</div>
+          </div>
+          <div class="event">
+            <div class="date">未来数周</div>
+            <div>OpenAI 预计更广泛开放，但开放节奏取决于预览结果、政府流程和安全评估。</div>
+          </div>
+          <div class="event">
+            <div class="date">2026-08 前后</div>
+            <div>Axios 报道，美国行政命令相关流程可能推动建立更明确的前沿模型网络能力评估机制。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="span-5">
+        <div class="kicker">影响判断</div>
+        <h2>对开发者和企业意味着什么</h2>
+        <ul>
+          <li>短期内，GPT-5.6 不是所有开发者都能立即接入的常规公开模型。</li>
+          <li>企业客户需要关注访问资格、地域限制、合规审查和高风险用例监控。</li>
+          <li>如果政府审查流程制度化，未来前沿模型发布可能从“产品节奏”变成“产品加监管节奏”。</li>
+        </ul>
+      </section>
+
+      <section>
+        <div class="kicker">主要信源</div>
+        <h2>检索到的代表性报道</h2>
+        <div class="source-list">
+          <div class="source">
+            <div class="source-title"><a href="https://www.businessinsider.com/openai-gpt-5-6-limited-preview-us-government-ai-security-2026-6">Business Insider：OpenAI says access to its new GPT-5.6 model is limited at the US government's request</a><span>2026-06-26</span></div>
+            <p class="note">报道受限预览、Sol/Terra/Luna 三个模型和更广泛开放预期。</p>
+          </div>
+          <div class="source">
+            <div class="source-title"><a href="https://www.axios.com/2026/06/26/openai-gpt-sol-terra-luna-trump">Axios：OpenAI releases powerful new GPT-5.6 model under restrictions</a><span>2026-06-26</span></div>
+            <p class="note">强调政府审查、约 20 家公司有限访问，以及后续“covered frontier models”流程。</p>
+          </div>
+          <div class="source">
+            <div class="source-title"><a href="https://www.theverge.com/ai-artificial-intelligence/957845/openai-gpt-5-6-trump-administration-ai-preview">The Verge：OpenAI unveils GPT-5.6 amid US AI regulatory drama</a><span>2026-06-26</span></div>
+            <p class="note">补充模型能力、价格、Sol 的 max/ultra 模式和安全测试描述。</p>
+          </div>
+          <div class="source">
+            <div class="source-title"><a href="https://www.theguardian.com/technology/2026/jun/26/openai-ai-model-release-trump-us-sam-altman-gpt-anthropic-mythos">The Guardian：OpenAI staggers AI model release after Trump administration request</a><span>2026-06-26</span></div>
+            <p class="note">提供政府机构参与、地域访问和 OpenAI 对长期审批模式态度的背景。</p>
+          </div>
+          <div class="source">
+            <div class="source-title"><a href="https://m.economictimes.com/tech/artificial-intelligence/openai-unveils-gpt-5-6-ai-models-with-phased-rollout-and-stronger-safety-checks/articleshow/132032380.cms">Economic Times：OpenAI unveils GPT-5.6 AI models with phased rollout and stronger safety checks</a><span>2026-06-27</span></div>
+            <p class="note">延续报道三模型套件、分阶段发布和安全检查。</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>本报告基于 2026-06-27 可检索新闻结果整理；如用于决策，应以后续官方文档和服务控制台实际可用性为准。</footer>
+  </main>
+</body>
+</html>

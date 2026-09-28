@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>四季森林番茄钟</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script src="https://code.highcharts.com/highcharts.js"></script>
+<style>
+:root{--bg:#f4f7ef;--paper:#fffef9;--text:#19352b;--muted:#65796f;--green:#317654;--line:#dbe5d9;--soft:#e9f3e8;--shadow:0 12px 35px #21402b13}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}body.dark{--bg:#13221e;--paper:#1d3029;--text:#eff8ef;--muted:#b1c7b9;--green:#75caa0;--line:#385348;--soft:#294337;--shadow:0 14px 35px #0005}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box;background:var(--paper);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px 12px;max-width:100%}button{cursor:pointer;border:0;border-radius:12px;padding:10px 15px;background:var(--soft);color:var(--text);font-weight:650}button:hover{filter:brightness(.96)}button:disabled{opacity:.5;cursor:not-allowed}.primary{background:var(--green);color:white}.danger{background:#b94b45;color:white}.ghost{background:transparent;border:1px solid var(--line)}.icon{padding:8px 10px}header{position:relative;z-index:1001}header .bar{position:fixed;top:0;left:0;right:0;z-index:1001;background:var(--paper);border-bottom:1px solid var(--line);height:68px;display:flex;align-items:center;gap:18px;padding:0 max(18px,calc((100vw - 1320px)/2));box-shadow:var(--shadow)}.brand{display:flex;gap:10px;align-items:center;white-space:nowrap;font-weight:800;font-size:18px;cursor:pointer}.brand i{background:var(--green);color:#fff;padding:10px;border-radius:12px}.nav{display:flex;gap:3px;margin-left:auto;white-space:nowrap}.nav button{background:transparent;font-size:14px;padding:8px 10px}.nav button.active{color:var(--green);background:var(--soft)}#langToggle{white-space:nowrap}#menuButton{display:none;margin-left:auto}.mobile-menu{display:none;position:fixed;top:68px;right:12px;left:12px;background:var(--paper);border:1px solid var(--line);border-radius:0 0 16px 16px;padding:8px;box-shadow:var(--shadow);z-index:1002}.mobile-menu.open{display:grid}.mobile-menu button{text-align:left;background:transparent}.mobile-menu button.active{background:var(--soft)}main{max-width:1320px;margin:auto;padding:92px 22px 100px}.page{display:none}.page.active{display:block}.hero{border-radius:28px;padding:clamp(32px,6vw,80px);min-height:350px;display:flex;align-items:center;position:relative;overflow:hidden;background:linear-gradient(120deg,#214b3a,#598e5b);color:white}.hero.spring{background:linear-gradient(120deg,#266b56,#a9c57b 70%,#e9b9c2)}.hero.summer{background:linear-gradient(120deg,#174a33,#558f4e 75%,#e9d18a)}.hero.autumn{background:linear-gradient(120deg,#77462b,#c28739 75%,#e3ba71)}.hero.winter{background:linear-gradient(120deg,#1c5b62,#79a9a3 75%,#e2ebdf)}.hero:after{content:'';position:absolute;right:7%;bottom:-60px;font-size:260px;opacity:.48}.hero h1{font-size:clamp(35px,5vw,68px);line-height:1.1;margin:0 0 18px}.hero p{font-size:18px;max-width:530px}.hero button{margin:8px 8px 0 0}.section-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin:34px 0 17px}.section-head h1,.section-head h2{margin:0}.subtitle{color:var(--muted);margin:3px 0 20px}.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(5,minmax(0,1fr))}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);min-width:0}.stat-label{color:var(--muted);font-size:13px}.stat-value{font-size:30px;font-weight:800;margin-top:10px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}.toolbar input{min-width:220px;flex:1}.forest{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:13px}.tree{border-radius:18px;background:var(--soft);padding:20px;text-align:center;cursor:pointer;min-width:0}.tree .art{font-size:48px;line-height:1.3}.tree strong,.tree small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tree small{color:var(--muted)}.tree.locked{opacity:.48}.list-row{width:100%;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:14px 0;border-bottom:1px solid var(--line);text-align:left;background:none;border-radius:0}.list-row:last-child{border:0}.list-row small{color:var(--muted)}.table-wrap{overflow-x:auto;max-width:100%;border-radius:16px;border:1px solid var(--line)}table{border-collapse:collapse;width:100%;white-space:nowrap;background:var(--paper)}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left}th{background:var(--soft);cursor:pointer}tr:last-child td{border:0}td button{margin-right:5px}.timer-layout{display:grid;grid-template-columns:minmax(300px,1.2fr) minmax(300px,1fr);gap:18px}.timer-card{text-align:center}.dial{width:min(300px,75vw);height:min(300px,75vw);border-radius:50%;border:14px solid var(--green);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:22px auto;background:var(--soft);box-shadow:inset 0 0 0 7px var(--paper)}#clock{font-size:clamp(45px,6vw,70px);font-weight:850;line-height:1}.chip-row{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}.chip-row button.selected{background:var(--green);color:white}.spec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}.spec{border:2px solid var(--line);border-radius:16px;padding:15px;cursor:pointer;background:var(--paper)}.spec.selected{border-color:var(--green)}.spec.locked{opacity:.5}.spec .swatch{height:45px;border-radius:12px;margin-bottom:10px}.chart{height:290px}.modal-back{position:fixed;inset:0;background:#0b1d18a8;display:none;align-items:center;justify-content:center;padding:24px;z-index:2000}.modal-back.open{display:flex}.modal{background:var(--paper);color:var(--text);border-radius:22px;width:min(640px,100%);max-height:calc(100dvh - 48px);overflow:auto;padding:24px;box-shadow:0 25px 80px #0005}.modal.wide{width:min(900px,100%)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}.modal-head h2{margin:0}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{display:grid;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:13px;font-weight:700}.field textarea{min-height:100px;resize:vertical}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:22px}.detail{display:grid;grid-template-columns:150px 1fr;gap:9px 15px}.detail dt{color:var(--muted)}.detail dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--paper);border-radius:12px;padding:12px 18px;z-index:3000;display:none;max-width:min(90vw,650px)}.empty{color:var(--muted);padding:18px;text-align:center}.mobile-spacer{height:10px}@media(max-width:1000px){.stats{grid-template-columns:repeat(3,1fr)}.nav,#langToggle{display:none}#menuButton{display:block}}@media(max-width:680px){main{padding:86px 14px 160px}.stats{grid-template-columns:repeat(2,1fr)}.two,.three,.timer-layout{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.hero{min-height:340px}.hero:after{right:-15%;font-size:200px}.modal-back{padding:0}.modal{width:100%;height:100dvh;max-height:none;border-radius:0;padding:20px 18px 50vh}.detail{grid-template-columns:1fr}.detail dt{font-weight:700}.detail dd{padding-bottom:8px;border-bottom:1px solid var(--line)}}
+</style></head><body>
+<header><div class="bar"><div id="brand" class="brand"><i class="fa-solid fa-seedling"></i><span data-i="app">四季森林番茄钟</span></div><nav class="nav" id="nav"></nav><button id="langToggle" class="ghost">EN</button><button id="menuButton" class="icon" aria-label="Menu"><i class="fa-solid fa-bars"></i></button></div><div id="mobileMenu" class="mobile-menu"></div></header>
+<main>
+<section id="home" class="page active"><div id="hero" class="hero"><div style="position:relative;z-index:1"><h1 data-i="app">四季森林番茄钟</h1><p data-i="hero">每一次专注都会种下一棵树，让时间长成一片会变换季节的森林。</p><button class="primary" data-go="focus" data-i="startFocus">开始一次专注</button><button class="ghost" data-go="forest" data-i="myForest">查看我的森林</button></div></div><div id="homeStats" class="grid stats" style="margin-top:20px"></div><div class="section-head"><h2 data-i="todayForest">今日森林</h2></div><div id="todayTrees" class="forest"></div><div class="section-head"><h2 data-i="recent">最近专注</h2></div><div id="recentList" class="card"></div></section>
+<section id="focus" class="page"><div class="section-head"><div><h1 data-i="focus">开始专注</h1><p class="subtitle" data-i="focusSub">选择树种和专注时长，保持专注直到树木成长。</p></div></div><div class="timer-layout"><div class="card timer-card"><div class="chip-row" id="durations"></div><div class="dial"><div id="clock">25:00</div><small id="stageLabel">种子</small></div><p id="focusHint" class="subtitle"></p><div id="timerActions" class="chip-row"></div></div><div class="card"><h2 data-i="chooseTree">选择树种</h2><div id="focusSpecies" class="spec-grid"></div></div></div></section>
+<section id="forest" class="page"><div class="section-head"><div><h1 data-i="myForest">我的森林</h1><p class="subtitle" data-i="forestSub">查看所有专注长出的树木，按季节、树种和完成状态筛选。</p></div></div><div class="toolbar"><input id="treeSearch" data-ph="searchTree" placeholder="搜索树木编号或树种"><select id="seasonFilter"></select><select id="statusFilter"></select><select id="speciesFilter"></select></div><div id="forestZones"></div><div class="section-head"><h2 data-i="treeRecords">专注树木记录</h2></div><div id="treeTable"></div></section>
+<section id="species" class="page"><div class="section-head"><div><h1 data-i="species">树种图鉴</h1><p class="subtitle" data-i="speciesSub">管理树种信息、查看解锁条件和当前解锁进度。</p></div><button class="primary" data-new="树种信息"><i class="fa-solid fa-plus"></i> <span data-i="addSpecies">添加树种</span></button></div><div id="speciesStats" class="grid three"></div><div class="toolbar"><input id="speciesSearch" data-ph="searchSpecies" placeholder="搜索树种名称或类型"><select id="typeFilter"></select><select id="defaultFilter"></select><select id="unlockFilter"></select><button id="speciesView" class="ghost"></button></div><div id="speciesContent"></div></section>
+<section id="stats" class="page"><div class="section-head"><div><h1 data-i="stats">统计成果</h1><p class="subtitle" data-i="statsSub">用图表查看专注时间、树木成长、果实徽章和连续专注趋势。</p></div><button class="primary" data-new="专注统计"><i class="fa-solid fa-plus"></i> <span data-i="add">新增</span></button></div><div class="toolbar"><select id="rangeFilter"></select></div><div id="achievementStats" class="grid stats"></div><div class="grid two" style="margin-top:18px"><div class="card"><h3 data-i="dailyChart">每日专注分钟</h3><div id="dailyChart" class="chart"></div></div><div class="card"><h3 data-i="seasonChart">季节树木分布</h3><div id="seasonChart" class="chart"></div></div><div class="card"><h3 data-i="speciesChart">树种完成数量</h3><div id="speciesChart" class="chart"></div></div><div class="card"><h3 data-i="interruptChart">打断趋势</h3><div id="interruptChart" class="chart"></div></div></div><div class="section-head"><h2 data-i="badges">果实徽章墙</h2><select id="badgeFilter"></select></div><div id="badgeWall" class="forest"></div><div class="section-head"><h2 data-i="statDetails">统计明细</h2></div><div id="statTable"></div></section>
+<section id="friends" class="page"><div class="section-head"><div><h1 data-i="friends">好友森林</h1><p class="subtitle" data-i="friendsSub">保存好友分享的森林，比较彼此的专注成果。</p></div><button class="primary" data-new="好友森林"><i class="fa-solid fa-plus"></i> <span data-i="addFriend">添加好友森林</span></button></div><div class="toolbar"><button id="exportShare"><i class="fa-solid fa-file-export"></i> <span data-i="export">生成我的分享文件</span></button><button id="importShare"><i class="fa-solid fa-file-import"></i> <span data-i="import">导入好友分享文件</span></button></div><div id="friendCards" class="grid three"></div></section>
+<div class="mobile-spacer"></div></main>
+<div id="modalBack" class="modal-back"><div id="modal" class="modal"><div class="modal-head"><h2 id="modalTitle"></h2><button id="modalClose" class="icon" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div id="modalBody"></div></div></div><div id="toast" class="toast"></div>
+<script>
+
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("60f36935115eb781_四季森林番茄钟")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const schemas={
+'专注树木':[['树木编号','id'],['树种名称','relation','树种信息'],['专注日期','date'],['开始时间','datetime'],['结束时间','datetime'],['计划分钟','select',['25','45','60']],['实际专注分钟','number'],['生长阶段','select',['种子','破土','幼苗','小树','成树','开花结果','枯萎']],['完成状态','select',['进行中','已完成','已暂停','已打断','已枯萎']],['打断次数','number'],['离开应用秒数','number'],['季节','select',['春','夏','秋','冬']],['收集果实数量','number'],['当日专注详情','textarea']],
+'专注统计':[['统计编号','id'],['统计日期','date'],['总专注分钟','number'],['完成树木数量','number'],['枯萎树木数量','number'],['连续专注天数','number'],['累计果实数量','number'],['最后专注时间','datetime']],
+'果实徽章':[['徽章名称','text'],['树木编号','relation','专注树木'],['获得时间','datetime'],['徽章类型','select',['果实','花朵','鸟群','连续专注','累计专注']],['徽章描述','textarea']],
+'树种信息':[['树种名称','text'],['树种类型','select',['松树','樱花','橡树','银杏','枫树','苹果树','其他']],['解锁所需累计分钟','number'],['主色','text'],['树干颜色','text'],['花果颜色','text'],['是否默认解锁','boolean'],['树种描述','textarea']],
+'树种解锁记录':[['解锁编号','id'],['树种名称','relation','树种信息'],['解锁时间','datetime'],['解锁时累计分钟','number'],['是否已解锁','boolean']],
+'好友森林':[['分享代码','id'],['好友昵称','text'],['森林树木数量','number'],['森林累计分钟','number'],['森林数据JSON','textarea'],['添加时间','datetime'],['最后同步时间','datetime']]};
+const pages=['home','focus','forest','species','stats','friends'];
+const zh={app:'四季森林番茄钟',home:'首页',focus:'开始专注',forest:'我的森林',species:'树种图鉴',stats:'统计成果',friends:'好友森林',hero:'每一次专注都会种下一棵树，让时间长成一片会变换季节的森林。',startFocus:'开始一次专注',myForest:'查看我的森林',todayForest:'今日森林',recent:'最近专注',focusSub:'选择树种和专注时长，保持专注直到树木成长。',chooseTree:'选择树种',forestSub:'查看所有专注长出的树木，按季节、树种和完成状态筛选。',treeRecords:'专注树木记录',speciesSub:'管理树种信息、查看解锁条件和当前解锁进度。',addSpecies:'添加树种',statsSub:'用图表查看专注时间、树木成长、果实徽章和连续专注趋势。',dailyChart:'每日专注分钟',seasonChart:'季节树木分布',speciesChart:'树种完成数量',interruptChart:'打断趋势',badges:'果实徽章墙',statDetails:'统计明细',friendsSub:'保存好友分享的森林，比较彼此的专注成果。',addFriend:'添加好友森林',export:'生成我的分享文件',import:'导入好友分享文件',add:'新增',edit:'编辑',del:'删除',detail:'详情',view:'查看森林',sync:'同步文件',save:'保存',cancel:'取消',all:'全部',empty:'暂无记录',loading:'正在读取…',error:'读取失败',start:'开始种树',pause:'暂停',resume:'继续',abandon:'放弃',finish:'完成',searchTree:'搜索树木编号或树种',searchSpecies:'搜索树种名称或类型',cards:'卡片视图',table:'表格视图',unlock:'查看解锁记录',minute:'分钟'};
+const en={app:'Four Seasons Forest Pomodoro',home:'Home',focus:'Focus',forest:'My Forest',species:'Tree Guide',stats:'Achievements',friends:'Friends’ Forests',hero:'Every focus session plants a tree. Grow a forest through the seasons.',startFocus:'Start focusing',myForest:'View my forest',todayForest:'Today’s forest',recent:'Recent sessions',focusSub:'Choose a tree and duration, then let it grow as you focus.',chooseTree:'Choose a tree',forestSub:'Explore your trees by season, species and status.',treeRecords:'Focus trees',speciesSub:'Manage species and track unlock progress.',addSpecies:'Add species',statsSub:'See focus time, growth, badges and streaks.',dailyChart:'Daily focus minutes',seasonChart:'Trees by season',speciesChart:'Completed trees by species',interruptChart:'Interruptions',badges:'Fruit badges',statDetails:'Statistics',friendsSub:'Save shared forests and compare focus achievements.',addFriend:'Add friend forest',export:'Export my forest',import:'Import shared forest',add:'Add',edit:'Edit',del:'Delete',detail:'Details',view:'View forest',sync:'Sync file',save:'Save',cancel:'Cancel',all:'All',empty:'No records',loading:'Loading…',error:'Failed to load',start:'Plant tree',pause:'Pause',resume:'Resume',abandon:'Abandon',finish:'Finish',searchTree:'Search tree ID or species',searchSpecies:'Search species or type',cards:'Cards',table:'Table',unlock:'Unlock records',minute:'min'};
+const state={lang:'cn',page:'home',history:[],data:{},selectedSpecies:'',duration:25,timer:null,remaining:1500,elapsed:0,paused:false,treeRow:0,treeId:'',interrupts:0,awaySeconds:0,awayStart:0,lastStage:'种子',speciesTable:false,sort:{},modal:null,busy:false};
+const $=id=>document.getElementById(id), L=k=>(state.lang==='en'?en:zh)[k]||k, esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])), num=v=>Number(v)||0, src=t=>t+'/默认表格';
+function dateStr(d=new Date(),time=false){const pad=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+(time?' '+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds()):'')}
+function season(){let m=new Date().getMonth()+1;return m>=3&&m<=5?'春':m<=8&&m>=6?'夏':m<=11&&m>=9?'秋':'冬'}
+function friendly(v){return /^\d{4}-\d\d-\d\d/.test(v||'')&&state.lang==='cn'?String(v).replace(/^(\d{4})-(\d\d)-(\d\d)/,'$1年$2月$3日'):v}
+function notify(msg){const e=$('toast');e.textContent=msg;e.style.display='block';clearTimeout(notify.t);notify.t=setTimeout(()=>e.style.display='none',4000)}
+async function api(req){try{return await callAppBridge(req)}catch(e){notify(String(e));throw e}}
+async function fetchTable(t,fields){let f=fields||schemas[t].map(x=>x[0]);let raw=await api({type:'GetTableCSV',data:src(t),payload:f.join(',')});return parseCSV(raw||'').filter(r=>r.some(v=>v!=='' )).map((r,i)=>Object.fromEntries([...f.map((x,j)=>[x,r[j]??'']),['_row',i+1]]))}
+async function cell(t,f,row){return await api({type:'GetCellValue',data:src(t),payload:f+'/'+row})}
+async function setCell(t,f,row,v){return await api({type:'SetCellValue',data:src(t),payload:f+'/'+row+'/'+String(v??'')})}
+async function submit(t,obj){return await api({type:'SubmitRecord',data:src(t),payload:JSON.stringify(obj)})}
+async function reload(){const tables=Object.keys(schemas);const results=await Promise.allSettled(tables.map(t=>fetchTable(t)));results.forEach((r,i)=>{if(r.status==='fulfilled')state.data[tables[i]]=r.value;else{state.data[tables[i]]=[];notify(L('error')+': '+tables[i])}});renderAll()}
+function rows(t){return state.data[t]||[]}
+function defaultLang(){let q=new URLSearchParams(location.search).get('lang'),stored=localStorage.getItem('iThinkAir_UiLanguage');if(stored!==null&&stored!=='')return stored==='en'?'en':'cn';if(q==='en'||q==='cn')return q;let l=navigator.languages;return !l||!l.length||l.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en'}
+function translate(){document.documentElement.lang=state.lang==='cn'?'zh-CN':'en';document.querySelectorAll('[data-i]').forEach(e=>e.textContent=L(e.dataset.i));document.querySelectorAll('[data-ph]').forEach(e=>e.placeholder=L(e.dataset.ph));$('langToggle').textContent=state.lang==='cn'?'EN':'中文';renderNav();renderAll()}
+function renderNav(){for(const id of ['nav','mobileMenu']){$(id).innerHTML=pages.map(p=>`<button data-go="${p}" class="${state.page===p?'active':''}">${L(p)}</button>`).join('')+(id==='mobileMenu'?`<button id="mobileLang">${state.lang==='cn'?'English':'中文'}</button>`:'')}}
+function go(page,push=true){if(!pages.includes(page))return;if(push&&page!==state.page)state.history.push({page:state.page,y:scrollY});state.page=page;document.querySelectorAll('.page').forEach(e=>e.classList.toggle('active',e.id===page));$('mobileMenu').classList.remove('open');renderNav();scrollTo(0,0);if(page==='stats')setTimeout(renderCharts,50)}
+function closeModal(){if(state.modal){state.modal=null;$('modalBack').classList.remove('open');$('modalBody').innerHTML='';return true}return false}
+function openModal(title,body,wide=false){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modal').classList.toggle('wide',wide);$('modalBack').classList.add('open');state.modal={title};return $('modalBody')}
+function airBack(){if(closeModal())return 'false';let h=state.history.pop();if(h){go(h.page,false);setTimeout(()=>scrollTo(0,h.y),30);return 'false'}return 'true'}window.airBack=airBack;
+function statCard(label,value){return `<div class="card"><div class="stat-label">${esc(label)}</div><div class="stat-value">${esc(value)}</div></div>`}
+function treeArt(s){let c=s?.['主色']||'#468b53',tr=s?.['树干颜色']||'#77553b',flower=s?.['花果颜色']||'#f7c56b';return `<svg viewBox="0 0 80 90" width="70" height="78" aria-hidden="true"><rect x="36" y="53" width="9" height="31" rx="2" fill="${esc(tr)}"/><circle cx="40" cy="35" r="28" fill="${esc(c)}"/><circle cx="27" cy="30" r="5" fill="${esc(flower)}"/><circle cx="51" cy="39" r="4" fill="${esc(flower)}"/></svg>`}
+function speciesOf(name){return rows('树种信息').find(x=>x['树种名称']===name)}
+function unlocked(s){return s['是否默认解锁']==='是'||rows('树种解锁记录').some(x=>x['树种名称']===s['树种名称']&&x['是否已解锁']==='是')}
+function totalMinutes(){return rows('专注统计').reduce((a,r)=>a+num(r['总专注分钟']),0)}
+function showTree(row){showDetail('专注树木',row)}
+function renderHome(){let today=dateStr(),trees=rows('专注树木'),stats=rows('专注统计').slice().sort((a,b)=>String(b['统计日期']).localeCompare(String(a['统计日期'])));$('hero').className='hero '+({春:'spring',夏:'summer',秋:'autumn',冬:'winter'}[season()]);$('homeStats').innerHTML=[['今日专注分钟',trees.filter(r=>r['专注日期']===today&&r['完成状态']==='已完成').reduce((a,r)=>a+num(r['实际专注分钟']),0)],['累计专注分钟',totalMinutes()],['完成树木',trees.filter(r=>r['完成状态']==='已完成').length],['连续专注天数',stats[0]?.['连续专注天数']||0],['累计果实',stats[0]?.['累计果实数量']||0]].map(x=>statCard(...x)).join('');let todays=trees.filter(r=>r['专注日期']===today&&r['完成状态']==='已完成').sort((a,b)=>String(b['开始时间']||b['树木编号']).localeCompare(String(a['开始时间']||a['树木编号'])));$('todayTrees').innerHTML=todays.length?todays.map(r=>treeCard(r)).join(''):`<div class="empty">${L('empty')}</div>`;let recent=trees.slice().sort((a,b)=>String(b['开始时间']).localeCompare(String(a['开始时间']))).slice(0,5);$('recentList').innerHTML=recent.length?recent.map(r=>`<button class="list-row" data-detail="专注树木:${r._row}"><span><strong>${esc(r['树种名称'])}</strong><br><small>${esc(friendly(r['专注日期']))} · ${esc(r['生长阶段'])} · ${esc(r['完成状态'])}</small></span><small>${esc(r['实际专注分钟'])}/${esc(r['计划分钟'])} ${L('minute')}</small></button>`).join(''):`<div class="empty">${L('empty')}</div>`}
+function treeCard(r){let s=speciesOf(r['树种名称']);return `<div class="tree" data-detail="专注树木:${r._row}"><div class="art">${treeArt(s)}</div><strong>${esc(r['树种名称'])}</strong><small>${esc(r['完成状态'])} · ${esc(r['实际专注分钟'])} ${L('minute')}</small></div>`}
+function options(id,values,first=L('all')){let e=$(id),old=e.value;e.innerHTML=`<option value="">${esc(first)}</option>`+[...new Set(values.filter(Boolean))].map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');e.value=old||''}
+function filteredTrees(){let q=$('treeSearch').value.toLowerCase(),se=$('seasonFilter').value,st=$('statusFilter').value,sp=$('speciesFilter').value;return rows('专注树木').filter(r=>(!q||String(r['树木编号']).toLowerCase().includes(q)||String(r['树种名称']).toLowerCase().includes(q))&&(!se||r['季节']===se)&&(!st||r['完成状态']===st)&&(!sp||r['树种名称']===sp))}
+function table(t,data,display){if(!data.length)return `<div class="card empty">${L('empty')}</div>`;let sort=state.sort[t];if(sort)data=data.slice().sort((a,b)=>String(a[sort.field]||'').localeCompare(String(b[sort.field]||''),state.lang==='cn'?'zh':'en',{numeric:true})*sort.dir);return `<div class="table-wrap"><table><thead><tr>${display.map(f=>`<th data-sort="${esc(t)}:${esc(f)}">${esc(f)} <i class="fa-solid fa-sort"></i></th>`).join('')}<th>${L('detail')}</th></tr></thead><tbody>${data.map(r=>`<tr data-edit="${esc(t)}:${r._row}">${display.map(f=>`<td>${esc(friendly(r[f]))}</td>`).join('')}<td><button data-edit="${esc(t)}:${r._row}">${L('edit')}</button><button data-detail="${esc(t)}:${r._row}">${L('detail')}</button><button class="danger" data-delete="${esc(t)}:${r._row}">${L('del')}</button></td></tr>`).join('')}</tbody></table></div>`}
+function renderForest(){options('seasonFilter',['春','夏','秋','冬']);options('statusFilter',['进行中','已完成','已暂停','已打断','已枯萎']);options('speciesFilter',rows('树种信息').map(r=>r['树种名称']));let data=filteredTrees();$('forestZones').innerHTML=['春','夏','秋','冬'].map(s=>`<div class="section-head"><h2>${s}</h2></div><div class="forest">${data.filter(r=>r['季节']===s).map(treeCard).join('')||`<div class="empty">${L('empty')}</div>`}</div>`).join('');$('treeTable').innerHTML=table('专注树木',data,['树种名称','专注日期','计划分钟','实际专注分钟','生长阶段','完成状态','季节','收集果实数量'])}
+function renderFocus(){const total=totalMinutes();$('durations').innerHTML=[25,45,60].map(v=>`<button class="${state.duration===v?'selected':''}" data-duration="${v}" ${state.timer?'disabled':''}>${v} ${L('minute')}</button>`).join('');$('focusSpecies').innerHTML=rows('树种信息').map(s=>{let ok=unlocked(s),name=s['树种名称'];return `<div class="spec ${ok?'':'locked'} ${state.selectedSpecies===name?'selected':''}" data-spec="${esc(name)}"><div class="swatch" style="background:${esc(s['主色']||'#4a8c5b')}"></div><strong>${esc(name)}</strong><div class="subtitle">${esc(s['树种类型'])} · ${esc(s['解锁所需累计分钟'])} ${L('minute')}</div><small>${esc(s['树种描述'])}</small>${ok?'':`<p><small>${state.lang==='cn'?'还需':'Need'} ${Math.max(0,num(s['解锁所需累计分钟'])-total)} ${L('minute')}</small></p>`}</div>`}).join('')||`<div class="empty">${state.lang==='cn'?'请先添加树种':'Add a species to begin'}</div>`;$('focusHint').textContent=state.selectedSpecies||'';$('stageLabel').textContent=state.lastStage;$('clock').textContent=String(Math.floor(state.remaining/60)).padStart(2,'0')+':'+String(state.remaining%60).padStart(2,'0');$('timerActions').innerHTML=state.treeRow?`<button data-timer="${state.paused?'resume':'pause'}">${L(state.paused?'resume':'pause')}</button><button class="danger" data-timer="abandon">${L('abandon')}</button><button class="primary" data-timer="finish">${L('finish')}</button>`:`<button class="primary" data-timer="start">${L('start')}</button>`}
+function renderSpecies(){let ss=rows('树种信息'),un=ss.filter(unlocked),next=ss.filter(x=>!unlocked(x)).sort((a,b)=>num(a['解锁所需累计分钟'])-num(b['解锁所需累计分钟']))[0];$('speciesStats').innerHTML=statCard('总树种数',ss.length)+statCard('已解锁树种数',un.length)+statCard('下一棵可解锁树',next?next['树种名称']+' · '+Math.max(0,num(next['解锁所需累计分钟'])-totalMinutes())+' '+L('minute'):'—');options('typeFilter',ss.map(x=>x['树种类型']));options('defaultFilter',['是','否']);options('unlockFilter',['已解锁','未解锁']);$('speciesView').textContent=L(state.speciesTable?'cards':'table');let q=$('speciesSearch').value.toLowerCase(),type=$('typeFilter').value,def=$('defaultFilter').value,lock=$('unlockFilter').value;let data=ss.filter(r=>(!q||r['树种名称'].toLowerCase().includes(q)||r['树种类型'].toLowerCase().includes(q))&&(!type||r['树种类型']===type)&&(!def||r['是否默认解锁']===def)&&(!lock||(unlocked(r)?'已解锁':'未解锁')===lock));$('speciesContent').innerHTML=state.speciesTable?table('树种信息',data,['树种名称','树种类型','解锁所需累计分钟','主色','是否默认解锁','树种描述']):`<div class="spec-grid">${data.map(r=>`<div class="spec"><div class="swatch" style="background:${esc(r['主色']||'#4a8c5b')}"></div><h3>${esc(r['树种名称'])}</h3><p class="subtitle">${esc(r['树种类型'])} · ${esc(r['解锁所需累计分钟'])} ${L('minute')}</p><p>${esc(r['树种描述'])}</p><small>${unlocked(r)?' '+(state.lang==='cn'?'已解锁':'Unlocked'):state.lang==='cn'?'未解锁':'Locked'}</small><div class="toolbar"><button data-edit="树种信息:${r._row}">${L('edit')}</button><button class="danger" data-delete="树种信息:${r._row}">${L('del')}</button><button data-unlock="${r._row}">${L('unlock')}</button></div></div>`).join('')||`<div class="card empty">${L('empty')}</div>`}</div>`}
+function rangeRows(){let v=$('rangeFilter').value,now=new Date(),start=new Date(now);if(v==='7')start.setDate(now.getDate()-6);else if(v==='30')start.setDate(now.getDate()-29);else if(v==='quarter')start=new Date(now.getFullYear(),Math.floor(now.getMonth()/3)*3,1);else return rows('专注统计');let d=dateStr(start);return rows('专注统计').filter(r=>r['统计日期']>=d)}
+function renderStats(){options('rangeFilter',['7','30','quarter'],state.lang==='cn'?'全部':'All');for(const [v,label] of [['7',state.lang==='cn'?'最近7天':'Last 7 days'],['30',state.lang==='cn'?'最近30天':'Last 30 days'],['quarter',state.lang==='cn'?'本季度':'This quarter']])$('rangeFilter').querySelector(`[value="${v}"]`).textContent=label;let r=rangeRows(),latest=rows('专注统计').slice().sort((a,b)=>String(b['统计日期']).localeCompare(String(a['统计日期'])))[0];$('achievementStats').innerHTML=[['总专注分钟',r.reduce((a,x)=>a+num(x['总专注分钟']),0)],['完成树木数量',r.reduce((a,x)=>a+num(x['完成树木数量']),0)],['枯萎树木数量',r.reduce((a,x)=>a+num(x['枯萎树木数量']),0)],['累计果实数量',latest?.['累计果实数量']||0],['最长连续专注天数',Math.max(0,...r.map(x=>num(x['连续专注天数']))) ]].map(x=>statCard(...x)).join('');options('badgeFilter',rows('果实徽章').map(x=>x['徽章类型']));renderBadges();$('statTable').innerHTML=table('专注统计',rows('专注统计'),['统计日期','总专注分钟','完成树木数量','枯萎树木数量','连续专注天数','累计果实数量','最后专注时间']);if(state.page==='stats')renderCharts()}
+function renderBadges(){let f=$('badgeFilter').value;$('badgeWall').innerHTML=rows('果实徽章').filter(x=>!f||x['徽章类型']===f).sort((a,b)=>String(b['获得时间']).localeCompare(String(a['获得时间']))).map(x=>`<div class="tree" data-badge="${x._row}"><div class="art"></div><strong>${esc(x['徽章名称'])}</strong><small>${esc(x['徽章类型'])} · ${esc(friendly(x['获得时间']))}</small></div>`).join('')||`<div class="empty">${L('empty')}</div>`}
+function renderCharts(){if(typeof Highcharts==='undefined')return;let s=rangeRows().slice().sort((a,b)=>String(a['统计日期']).localeCompare(String(b['统计日期']))),trees=rows('专注树木').filter(x=>x['完成状态']==='已完成'),dark=document.body.classList.contains('dark'),base={chart:{backgroundColor:'transparent',style:{color:dark?'#eff8ef':'#19352b'}},title:{text:null},credits:{enabled:false},legend:{itemStyle:{color:dark?'#eff8ef':'#19352b'}},xAxis:{labels:{style:{color:dark?'#eff8ef':'#19352b'}}},yAxis:{title:{text:null}},accessibility:{enabled:false}};try{Highcharts.chart('dailyChart',{...base,chart:{...base.chart,type:'line'},xAxis:{categories:s.map(x=>x['统计日期'])},series:[{name:L('dailyChart'),data:s.map(x=>num(x['总专注分钟']))}]});Highcharts.chart('seasonChart',{...base,chart:{...base.chart,type:'pie'},plotOptions:{pie:{innerSize:'55%'}},series:[{name:L('seasonChart'),data:['春','夏','秋','冬'].map(n=>({name:n,y:trees.filter(x=>x['季节']===n).length}))}]});let names=[...new Set(trees.map(x=>x['树种名称']))];Highcharts.chart('speciesChart',{...base,chart:{...base.chart,type:'column'},xAxis:{categories:names},series:[{name:L('speciesChart'),data:names.map(n=>trees.filter(x=>x['树种名称']===n).length)}]});let dates=[...new Set(rows('专注树木').map(x=>x['专注日期']))].sort();Highcharts.chart('interruptChart',{...base,chart:{...base.chart,type:'bar'},xAxis:{categories:dates},series:[{name:'打断次数',data:dates.map(d=>rows('专注树木').filter(x=>x['专注日期']===d).reduce((a,x)=>a+num(x['打断次数']),0))},{name:'离开应用秒数',data:dates.map(d=>rows('专注树木').filter(x=>x['专注日期']===d).reduce((a,x)=>a+num(x['离开应用秒数']),0))}]})}catch(e){notify(String(e))}}
+function renderFriends(){$('friendCards').innerHTML=rows('好友森林').map(r=>`<div class="card"><h3><i class="fa-solid fa-tree"></i> ${esc(r['好友昵称'])}</h3><p>${esc(r['森林树木数量'])}  · ${esc(r['森林累计分钟'])} ${L('minute')}</p><small>${esc(friendly(r['添加时间']))}<br>${esc(friendly(r['最后同步时间']))}</small><div class="toolbar"><button data-friend="${r._row}">${L('view')}</button><button data-edit="好友森林:${r._row}">${L('edit')}</button><button data-sync="${r._row}">${L('sync')}</button><button class="danger" data-delete="好友森林:${r._row}">${L('del')}</button></div></div>`).join('')||`<div class="card empty">${L('empty')}</div>`}
+function renderAll(){renderHome();renderFocus();renderForest();renderSpecies();renderStats();renderFriends()}
+function randomId(){return String(Date.now())+String(Math.floor(Math.random()*9000)+1000)}
+function initial(t){let o={};for(const [f,k] of schemas[t])o[f]=k==='id'?randomId():k==='date'?dateStr():k==='datetime'?dateStr(new Date(),true):k==='number'?'0':k==='boolean'?'否':'';if(t==='专注树木'){Object.assign(o,{'计划分钟':String(state.duration),'树种名称':state.selectedSpecies,'生长阶段':'种子','完成状态':'进行中','季节':season()})}if(t==='好友森林')o['最后同步时间']=dateStr(new Date(),true);return o}
+async function openForm(t,row=0,prefill={}){if(!schemas[t])return;let values=row?{}:{...initial(t),...prefill};if(row){for(const [f] of schemas[t])values[f]=await cell(t,f,row)}let formId='form_'+Object.keys(schemas).indexOf(t),html=`<form id="${formId}"><div class="form-grid">`;for(const [f,k,extra] of schemas[t]){let id=formId+'_'+schemas[t].findIndex(x=>x[0]===f),value=values[f]??'',hidden=k==='id'||(t==='专注树木'&&['专注日期','开始时间','结束时间'].includes(f))||(t==='好友森林'&&f==='添加时间')||(t==='专注统计'&&f==='统计日期');if(hidden){html+=`<input type="hidden" id="${id}" name="${esc(f)}" value="${esc(value)}">`;continue}let control='';if(k==='select'||k==='boolean'){let opts=k==='boolean'?['是','否']:extra;control=`<select id="${id}" name="${esc(f)}">${opts.map(x=>`<option value="${esc(x)}" ${value===x?'selected':''}>${esc(x)}</option>`).join('')}</select>`}else if(k==='relation'){let rr=rows(extra);let key=extra==='树种信息'?'树种名称':'树木编号';control=`<select id="${id}" name="${esc(f)}"><option value="">—</option>${rr.map(x=>`<option value="${esc(x[key])}" ${value===x[key]?'selected':''}>${esc(x[key])}</option>`).join('')}</select>`}else if(k==='textarea')control=`<textarea id="${id}" name="${esc(f)}">${esc(value)}</textarea>`;else control=`<input id="${id}" name="${esc(f)}" type="${k==='number'?'number':'text'}" value="${esc(value)}">`;html+=`<div class="field ${k==='textarea'?'full':''}"><label for="${id}">${esc(f)}</label>${control}</div>`}html+=`</div><div class="form-actions"><button type="button" id="formCancel">${L('cancel')}</button><button class="primary" type="submit" id="formSave" ${row===0&&false?'disabled':''}>${L('save')}</button></div></form>`;openModal((row?L('edit'):L('add'))+' '+t,html);$('formCancel').onclick=closeModal;$(formId).onsubmit=async e=>{e.preventDefault();if(state.busy)return;let obj=Object.fromEntries(new FormData(e.currentTarget));if(t==='树种信息'&&!obj['树种名称']||t==='好友森林'&&!obj['好友昵称']){notify(state.lang==='cn'?'请填写必填字段':'Fill required fields');return}state.busy=true;$('formSave').disabled=true;try{if(row){for(const [f] of schemas[t])await setCell(t,f,row,obj[f]);}else await submit(t,obj);closeModal();await reload();notify(state.lang==='cn'?'已保存':'Saved')}catch(e){notify(String(e))}finally{state.busy=false;if($('formSave'))$('formSave').disabled=false}}}
+async function showDetail(t,row){let obj={};for(const [f] of schemas[t])obj[f]=await cell(t,f,row);let extra=t==='专注树木'?speciesOf(obj['树种名称']):null;let html='<dl class="detail">'+Object.entries(obj).map(([f,v])=>`<dt>${esc(f)}</dt><dd>${esc(friendly(v))}</dd>`).join('')+(extra?`<dt>树种描述</dt><dd>${esc(extra['树种描述'])}</dd>`:'')+'</dl><div class="form-actions"><button data-edit="'+esc(t)+':'+row+'">'+L('edit')+'</button></div>';openModal(t,html,true)}
+async function deleteRow(t,row){if(!confirm(state.lang==='cn'?'确定删除此记录？':'Delete this record?'))return;try{await api({type:'DeleteRecord',data:src(t),payload:row.toString()});await reload();notify(state.lang==='cn'?'已删除':'Deleted')}catch(e){notify(String(e))}}
+async function showUnlock(row){let s=rows('树种信息').find(x=>x._row===row);if(!s)return;let list=rows('树种解锁记录').filter(x=>x['树种名称']===s['树种名称']);openModal(s['树种名称']+' · '+L('unlock'),`<div class="toolbar"><button class="primary" data-unlock-new="${esc(s['树种名称'])}">${L('add')}</button></div>${list.map(x=>`<div class="list-row"><span>${esc(friendly(x['解锁时间']))} · ${esc(x['解锁时累计分钟'])} ${L('minute')} · ${esc(x['是否已解锁'])}</span><span><button data-edit="树种解锁记录:${x._row}">${L('edit')}</button><button class="danger" data-delete="树种解锁记录:${x._row}">${L('del')}</button></span></div>`).join('')||`<div class="empty">${L('empty')}</div>`}`)}
+async function startTimer(){if(state.treeRow)return;let s=speciesOf(state.selectedSpecies);if(!s||!unlocked(s)){notify(state.lang==='cn'?'请选择已解锁树种':'Choose an unlocked tree');return}let o=initial('专注树木');o['开始时间']=dateStr(new Date(),true);state.busy=true;try{await submit('专注树木',o);state.treeRow=1;state.treeId=o['树木编号'];state.remaining=state.duration*60;state.elapsed=0;state.interrupts=0;state.awaySeconds=0;state.lastStage='种子';state.paused=false;state.timer=setInterval(tick,1000);await reload()}finally{state.busy=false}}
+async function tick(){if(state.paused||!state.treeRow)return;state.remaining=Math.max(0,state.remaining-1);state.elapsed++;let p=state.elapsed/(state.duration*60),stage=['种子','破土','幼苗','小树','成树','开花结果'][Math.min(5,Math.floor(p*6))];if(stage!==state.lastStage){state.lastStage=stage;try{await setCell('专注树木','生长阶段',state.treeRow,stage)}catch(e){notify(String(e))}}renderFocus();if(state.remaining<=0)await endTimer(true)}
+async function pauseTimer(){if(!state.treeRow)return;state.paused=true;await setCell('专注树木','完成状态',state.treeRow,'已暂停');renderFocus()}
+async function resumeTimer(){if(!state.treeRow)return;state.paused=false;await setCell('专注树木','完成状态',state.treeRow,'进行中');renderFocus()}
+async function endTimer(done){if(!state.treeRow||state.busy)return;state.busy=true;if(!done)state.interrupts++;clearInterval(state.timer);state.timer=null;let row=state.treeRow,actual=Math.min(state.duration,Math.floor(state.elapsed/60)),fruits=done?(actual>=60?3:actual>=45?2:actual>=25?1:0):0,status=done?'已完成':'已枯萎',details=`${state.selectedSpecies} · 计划${state.duration}分钟 · 实际${actual}分钟 · ${status} · 打断${state.interrupts}次 · ${season()} · ${done?'愿每一分钟都开花结果。':'下一次继续生长。'}`;try{for(const [f,v] of Object.entries({'结束时间':dateStr(new Date(),true),'实际专注分钟':actual,'生长阶段':done?'开花结果':'枯萎','完成状态':status,'打断次数':state.interrupts,'离开应用秒数':state.awaySeconds,'收集果实数量':fruits,'当日专注详情':details}))await setCell('专注树木',f,row,v);if(done){await updateDaily(actual,fruits,false);await submit('果实徽章',{'徽章名称':season()+'日'+state.selectedSpecies+(fruits?'果实':'花朵'),'树木编号':state.treeId,'获得时间':dateStr(new Date(),true),'徽章类型':fruits?'果实':'花朵','徽章描述':details});await checkUnlock()}else await updateDaily(0,0,true);state.treeRow=0;state.remaining=state.duration*60;await reload();notify(done?(state.lang==='cn'?'专注完成！':'Focus complete!'):(state.lang==='cn'?'已放弃':'Abandoned'))}catch(e){notify(String(e))}finally{state.busy=false;renderFocus()}}
+async function updateDaily(minutes,fruits,withered){let today=dateStr(),raw=await api({type:'GetRecordRow',data:src('专注统计'),payload:'统计日期/'+today}),row=Number(raw)||0,all=rows('专注统计'),prev=all.slice().sort((a,b)=>String(b['统计日期']).localeCompare(String(a['统计日期'])))[0],yesterday=dateStr(new Date(Date.now()-86400000)),streak=prev?.['统计日期']===today?num(prev['连续专注天数']):prev?.['统计日期']===yesterday?num(prev['连续专注天数'])+1:1;if(row>0){let old={};for(const f of ['总专注分钟','完成树木数量','枯萎树木数量','累计果实数量'])old[f]=num(await cell('专注统计',f,row));for(const [f,v] of Object.entries({'总专注分钟':old['总专注分钟']+minutes,'完成树木数量':old['完成树木数量']+(withered?0:1),'枯萎树木数量':old['枯萎树木数量']+(withered?1:0),'连续专注天数':streak,'累计果实数量':old['累计果实数量']+fruits,'最后专注时间':dateStr(new Date(),true)}))await setCell('专注统计',f,row,v)}else await submit('专注统计',{'统计编号':randomId(),'统计日期':today,'总专注分钟':minutes,'完成树木数量':withered?0:1,'枯萎树木数量':withered?1:0,'连续专注天数':streak,'累计果实数量':num(prev?.['累计果实数量'])+fruits,'最后专注时间':dateStr(new Date(),true)})}
+async function checkUnlock(){let total=totalMinutes()+Math.floor(state.elapsed/60);for(const s of rows('树种信息')){if(s['是否默认解锁']==='是'||unlocked(s)||total<num(s['解锁所需累计分钟']))continue;await submit('树种解锁记录',{'解锁编号':randomId(),'树种名称':s['树种名称'],'解锁时间':dateStr(new Date(),true),'解锁时累计分钟':total,'是否已解锁':'是'})}}
+function parseShare(raw){let o=JSON.parse(raw);if(!o||typeof o!=='object')throw Error('JSON format error');let trees=o.trees||o['专注树木'];let statistics=o.statistics||o['专注统计'];if(!Array.isArray(trees)||!Array.isArray(statistics))throw Error('JSON format error');return {o,trees,statistics}}
+async function importShare(row=0){try{let file=await api({type:'SelectFile'});if(!file)return;let raw=await api({type:'ReadFile',data:file}),p=parseShare(raw),prefill={'森林树木数量':String(p.trees.length),'森林累计分钟':String(p.statistics.reduce((a,x)=>a+num(x['总专注分钟']),0)),'森林数据JSON':raw,'最后同步时间':dateStr(new Date(),true)};if(row){for(const [f,v] of Object.entries(prefill))await setCell('好友森林',f,row,v);await reload();notify(state.lang==='cn'?'同步完成':'Synced')}else await openForm('好友森林',0,prefill)}catch(e){notify((state.lang==='cn'?'导入JSON格式错误或读取失败：':'Import error: ')+String(e))}}
+async function exportShare(){try{let o={app:'四季森林番茄钟',version:1,exportedAt:dateStr(new Date(),true),trees:rows('专注树木').map(({_row,...x})=>x),statistics:rows('专注统计').map(({_row,...x})=>x),badges:rows('果实徽章').map(({_row,...x})=>x),species:rows('树种信息').map(({_row,...x})=>x)},name='forest-share-'+randomId()+'.json';await api({type:'WriteFile',data:name,payload:JSON.stringify(o,null,2)});await api({type:'ExportFile',data:name,payload:'我的四季森林分享'});notify(state.lang==='cn'?'分享文件已生成':'Share file generated')}catch(e){notify(String(e))}}
+function friendPreview(row){let r=rows('好友森林').find(x=>x._row===row);if(!r)return;try{let p=parseShare(r['森林数据JSON']);openModal(r['好友昵称'],`<p>${esc(r['森林树木数量'])}  · ${esc(r['森林累计分钟'])} ${L('minute')}</p><div class="forest">${p.trees.map(x=>`<div class="tree"><div class="art">${treeArt((p.o.species||[]).find(s=>s['树种名称']===x['树种名称']))}</div><strong>${esc(x['树种名称'])}</strong><small>${esc(x['季节'])} · ${esc(x['完成状态'])}</small></div>`).join('')}</div>`,true)}catch(e){notify('JSON: '+String(e))}}
+async function showBadge(row){let b=rows('果实徽章').find(x=>x._row===row);if(!b)return;let r=rows('专注树木').find(x=>x['树木编号']===b['树木编号']);if(r)await showDetail('专注树木',r._row);else notify(state.lang==='cn'?'关联树木不存在':'Linked tree not found')}
+document.addEventListener('click',async e=>{let x=e.target.closest('[data-go],[data-new],[data-edit],[data-delete],[data-detail],[data-duration],[data-spec],[data-timer],[data-unlock],[data-unlock-new],[data-friend],[data-sync],[data-badge],[data-sort]');if(!x)return;e.stopPropagation();try{if(x.dataset.go)go(x.dataset.go);else if(x.dataset.new)await openForm(x.dataset.new);else if(x.dataset.edit){let [t,r]=x.dataset.edit.split(':');await openForm(t,Number(r))}else if(x.dataset.delete){let [t,r]=x.dataset.delete.split(':');await deleteRow(t,Number(r))}else if(x.dataset.detail){let [t,r]=x.dataset.detail.split(':');await showDetail(t,Number(r))}else if(x.dataset.duration){state.duration=Number(x.dataset.duration);state.remaining=state.duration*60;renderFocus()}else if(x.dataset.spec){let s=speciesOf(x.dataset.spec);if(s&&unlocked(s)&&!state.treeRow){state.selectedSpecies=x.dataset.spec;renderFocus()}}else if(x.dataset.timer){let a=x.dataset.timer;if(a==='start')await startTimer();if(a==='pause')await pauseTimer();if(a==='resume')await resumeTimer();if(a==='abandon')await endTimer(false);if(a==='finish')await endTimer(true)}else if(x.dataset.unlock)await showUnlock(Number(x.dataset.unlock));else if(x.dataset.unlockNew)await openForm('树种解锁记录',0,{'树种名称':x.dataset.unlockNew});else if(x.dataset.friend)friendPreview(Number(x.dataset.friend));else if(x.dataset.sync)await importShare(Number(x.dataset.sync));else if(x.dataset.badge)await showBadge(Number(x.dataset.badge));else if(x.dataset.sort){let [t,f]=x.dataset.sort.split(':'),s=state.sort[t];state.sort[t]={field:f,dir:s?.field===f?-s.dir:1};renderAll()}}catch(err){notify(String(err))}});
+function bind(){for(const id of ['treeSearch','seasonFilter','statusFilter','speciesFilter'])$(id).addEventListener(id==='treeSearch'?'input':'change',renderForest);for(const id of ['speciesSearch','typeFilter','defaultFilter','unlockFilter'])$(id).addEventListener(id==='speciesSearch'?'input':'change',renderSpecies);$('speciesView').onclick=()=>{state.speciesTable=!state.speciesTable;renderSpecies()};$('rangeFilter').onchange=renderStats;$('badgeFilter').onchange=renderBadges;$('exportShare').onclick=exportShare;$('importShare').onclick=()=>importShare();$('brand').onclick=()=>{try{parent.closeFullHtml(false)}catch(e){notify(String(e))}};$('menuButton').onclick=e=>{e.stopPropagation();$('mobileMenu').classList.toggle('open')};$('langToggle').onclick=toggleLang;$('mobileMenu').addEventListener('click',e=>{if(e.target.closest('#mobileLang'))toggleLang()});document.addEventListener('click',e=>{if(!e.target.closest('#mobileMenu,#menuButton'))$('mobileMenu').classList.remove('open')});$('modalClose').onclick=closeModal;$('modalBack').onclick=e=>{if(e.target===$('modalBack'))closeModal()};document.addEventListener('focusin',e=>{if(e.target.matches('input,textarea,select'))setTimeout(()=>e.target.scrollIntoView({block:'center',behavior:'smooth'}),260)});if(window.visualViewport)visualViewport.addEventListener('resize',()=>{let e=document.activeElement;if(e&&e.matches('input,textarea,select'))setTimeout(()=>e.scrollIntoView({block:'center'}),100)});document.addEventListener('visibilitychange',async()=>{if(!state.treeRow)return;if(document.hidden){state.awayStart=Date.now();state.interrupts++;await setCell('专注树木','打断次数',state.treeRow,state.interrupts);if(state.interrupts>3)notify(state.lang==='cn'?'打断超过3次，树木可能枯萎':'More than 3 interruptions may wither the tree')}else if(state.awayStart){state.awaySeconds+=Math.floor((Date.now()-state.awayStart)/1000);state.awayStart=0;await setCell('专注树木','离开应用秒数',state.treeRow,state.awaySeconds)}})}
+function toggleLang(){state.lang=state.lang==='cn'?'en':'cn';localStorage.setItem('iThinkAir_UiLanguage',state.lang);translate()}
+async function initialize(){state.lang=defaultLang();try{let mode=await callAppBridge({type:'模式'});document.body.classList.toggle('dark',mode==='暗色')}catch(e){}bind();translate();await reload();if(!rows('树种信息').length)notify(state.lang==='cn'?'请先添加树种':'Add a species to start')}
+document.addEventListener('DOMContentLoaded',async()=>{await initialize()});
+</script></body></html>

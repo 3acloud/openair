@@ -1,0 +1,974 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>公众号长文写作</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+<style>
+:root{color-scheme:light;--bg:#f6f7f5;--surface:#fff;--surface2:#f8faf8;--text:#1d2d25;--muted:#77867d;--line:#e6ebe6;--green:#168454;--green2:#0d7045;--greenSoft:#e9f5ee;--shadow:0 12px 38px rgba(22,50,32,.055);--header:72px}
+html[data-theme="dark"]{color-scheme:dark;--bg:#101714;--surface:#1b2520;--surface2:#202e27;--text:#edf4ef;--muted:#a4b5a9;--line:#34443a;--green:#57c88d;--green2:#79dba5;--greenSoft:#223c2d;--shadow:0 12px 38px rgba(0,0,0,.16)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans SC",system-ui,sans-serif;line-height:1.55}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}a{color:var(--green)}
+.topbar{position:relative;z-index:1001;position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--line);height:var(--header)}.topbar-inner{max-width:1440px;height:100%;margin:auto;padding:0 36px;display:flex;align-items:center;gap:24px}.brand{border:0;background:none;padding:0;display:flex;align-items:center;gap:12px;color:var(--text);font-weight:700;font-size:19px;white-space:nowrap}.brand-icon{display:grid;place-items:center;width:38px;height:38px;background:var(--green);color:white;border-radius:11px}.nav-spacer{flex:1}.desktop-nav{display:flex;align-items:center;gap:5px;white-space:nowrap}.nav-button,.lang-button,.menu-toggle{border:0;background:transparent;color:var(--muted);padding:10px 15px;border-radius:9px;white-space:nowrap}.nav-button.active{color:var(--green);background:var(--greenSoft);font-weight:700}.nav-button:hover,.lang-button:hover,.menu-toggle:hover{background:var(--surface2);color:var(--text)}.lang-switch{display:flex;align-items:center;border-left:1px solid var(--line);padding-left:12px;white-space:nowrap}.lang-button.active{color:var(--green);font-weight:700}.menu-toggle{display:none;font-size:20px;padding:8px 12px}.mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:var(--shadow);padding:10px 18px 16px}.mobile-menu.open{display:block}.mobile-menu .nav-button{display:block;width:100%;text-align:left;margin:3px 0}.mobile-menu .mobile-language{display:flex;align-items:center;gap:6px;border-top:1px solid var(--line);margin-top:9px;padding-top:10px}.mobile-language .lang-button{flex:1}
+main{max-width:1440px;margin:auto;padding:54px 36px 120px}.page[hidden]{display:none!important}.page-head{margin-bottom:28px}.eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);font-weight:700}.page-head h1{font-family:"Noto Serif SC",serif;font-size:clamp(31px,3vw,43px);line-height:1.25;letter-spacing:-.035em;margin:10px 0 9px}.page-head p{margin:0;color:var(--muted);font-size:15px}.workspace{display:grid;grid-template-columns:minmax(0, .9fr) minmax(0,1.1fr);gap:26px;align-items:start}.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);min-width:0}.form-panel{padding:28px}.panel-heading{display:flex;align-items:center;gap:12px;padding-bottom:20px;margin-bottom:22px;border-bottom:1px solid var(--line)}.heading-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--greenSoft);color:var(--green)}.panel-heading h2{font-size:18px;margin:0}.field{display:block;margin:0 0 20px}.field-label{display:block;font-size:13px;font-weight:700;margin-bottom:9px}.field-label .optional{color:var(--muted);font-weight:400}.field textarea,.field select,.search-box input{width:100%;border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:10px;outline:0;transition:border-color .2s,box-shadow .2s}.field textarea{min-height:104px;padding:13px 14px;resize:vertical;line-height:1.7}.field textarea.tall{min-height:150px}.field select{height:46px;padding:0 12px}.field textarea:focus,.field select:focus,.search-box input:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--greenSoft)}.field textarea::placeholder,.search-box input::placeholder{color:var(--muted)}.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);min-height:42px;padding:10px 16px;font-size:13px;font-weight:700;transition:transform .15s,background .15s}.button:hover:not(:disabled){transform:translateY(-1px);background:var(--surface2)}.button.primary{background:var(--green);border-color:var(--green);color:#fff}.button.primary:hover:not(:disabled){background:var(--green2)}.button.ghost{border-color:transparent;background:var(--surface2)}.button.danger{color:#bb493f}.submit-button{width:100%;height:51px;margin-top:4px;font-size:15px}.fineprint{font-size:12px;color:var(--muted);text-align:center;margin:13px 0 0}.preview-panel{min-height:640px;overflow:hidden}.preview-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:22px 26px;border-bottom:1px solid var(--line)}.preview-toolbar h2{margin:0;font-size:17px}.preview-toolbar p{font-size:12px;color:var(--muted);margin:3px 0 0}.toolbar-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.preview-body{padding:36px 42px 60px;min-height:520px}.empty-preview{min-height:430px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted)}.empty-preview-icon{display:grid;place-items:center;width:72px;height:72px;border-radius:20px;background:var(--greenSoft);color:var(--green);font-size:30px;margin-bottom:18px}.empty-preview h3{color:var(--text);font-family:"Noto Serif SC",serif;font-size:23px;margin:0 0 7px}.empty-preview p{max-width:300px;margin:0}.status{display:flex;align-items:center;gap:10px;color:var(--green);font-size:14px;font-weight:600}.status.error{color:#c65549}.preview-status{padding:20px 28px;border-bottom:1px solid var(--line)}.preview-status[hidden]{display:none}.markdown{font-family:"Noto Serif SC",Georgia,serif;font-size:16px;line-height:1.95;overflow-wrap:anywhere}.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{color:var(--text);line-height:1.45;margin:1.8em 0 .7em}.markdown h1{font-size:2em;margin-top:0}.markdown h2{font-size:1.55em;border-bottom:1px solid var(--line);padding-bottom:.35em}.markdown h3{font-size:1.25em}.markdown p{margin:0 0 1.25em}.markdown blockquote{margin:1.5em 0;padding:.4em 1.3em;border-left:4px solid var(--green);background:var(--surface2);color:var(--muted)}.markdown img{max-width:100%;height:auto;border-radius:8px}.markdown pre{overflow:auto;padding:18px;background:var(--surface2);border-radius:9px;line-height:1.5}.markdown code{font-family:Consolas,monospace;font-size:.88em}.markdown :not(pre)>code{background:var(--surface2);padding:.15em .35em;border-radius:4px}.markdown table{display:block;max-width:100%;overflow:auto;border-collapse:collapse;margin:1.5em 0}.markdown th,.markdown td{border:1px solid var(--line);padding:8px 12px}.markdown hr{border:0;border-top:1px solid var(--line);margin:2em 0}.markdown a img{cursor:download}
+.library-header{display:flex;justify-content:space-between;align-items:end;gap:24px}.stat-card{min-width:180px;padding:17px 23px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.stat-card span{display:block;font-size:12px;color:var(--muted)}.stat-card strong{font-size:30px;line-height:1.4;color:var(--green)}.library-tools{display:flex;gap:12px;align-items:center;margin:20px 0 23px}.search-box{position:relative;max-width:420px;flex:1}.search-box i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--muted)}.search-box input{height:43px;padding:0 13px 0 42px}.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.article-card{background:var(--surface);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow);padding:23px;display:flex;flex-direction:column;min-width:0;min-height:240px}.type-tag{display:inline-flex;align-self:flex-start;padding:5px 10px;border-radius:100px;background:var(--greenSoft);color:var(--green);font-size:11px;font-weight:700}.article-card h3{font-size:18px;line-height:1.5;margin:18px 0 10px;overflow-wrap:anywhere}.article-card p{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 24px;overflow-wrap:anywhere}.article-actions{display:flex;gap:8px;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}.article-actions .button{min-height:37px}.list-state{grid-column:1/-1;padding:60px 20px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:15px}.load-more{display:flex;margin:25px auto 0}.load-more[hidden]{display:none}
+.modal-backdrop{position:fixed;z-index:2000;inset:0;padding:22px;background:rgba(10,25,16,.58);display:flex;align-items:center;justify-content:center}.modal-backdrop[hidden]{display:none}.reader-dialog{width:min(920px,100%);max-height:calc(100dvh - 44px);display:flex;flex-direction:column;min-height:200px;border-radius:17px;background:var(--surface);box-shadow:0 24px 80px rgba(0,0,0,.25);overflow:hidden}.reader-head{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:16px 23px;border-bottom:1px solid var(--line)}.reader-head h2{font-size:16px;margin:0}.reader-scroll{overflow:auto;padding:35px clamp(20px,6vw,66px) 80px;overscroll-behavior:contain}.reader-scroll .markdown{max-width:720px;margin:auto}.reader-actions{display:flex;align-items:center;gap:9px}.toast{position:fixed;z-index:3000;bottom:28px;left:50%;transform:translateX(-50%);background:#213b2b;color:#fff;padding:10px 18px;border-radius:9px;box-shadow:var(--shadow);font-size:13px;max-width:calc(100vw - 30px)}.toast[hidden]{display:none}
+@media(max-width:1050px){.workspace{grid-template-columns:1fr}.preview-panel{min-height:480px}.card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:680px){:root{--header:62px}.topbar-inner{padding:0 17px}.brand{font-size:16px}.brand-icon{width:34px;height:34px}main{padding:31px 16px 170px}.page-head h1{font-size:30px}.workspace{gap:18px}.form-panel{padding:21px}.preview-toolbar{padding:17px 18px;align-items:flex-start}.preview-toolbar h2{font-size:15px}.toolbar-actions{gap:5px}.toolbar-actions .button{font-size:12px;padding:8px 10px;min-height:35px}.preview-body{padding:25px 21px 70px;min-height:430px}.library-header{align-items:start}.stat-card{min-width:118px;padding:10px 13px}.stat-card strong{font-size:23px}.card-grid{grid-template-columns:1fr}.article-card{min-height:210px}.modal-backdrop{padding:0}.reader-dialog{width:100%;max-height:100dvh;height:100dvh;border-radius:0}.reader-scroll{padding:26px 20px 180px}.reader-head{padding:12px 15px}.reader-head h2{font-size:14px}}@media(max-width:430px){.library-header{flex-direction:column}.stat-card{width:100%}.preview-toolbar{flex-direction:column}.toolbar-actions{justify-content:flex-start}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <button class="brand" id="brandButton" type="button"><span class="brand-icon"><i class="fa-solid fa-feather-pointed" aria-hidden="true"></i></span><span data-i18n="appName">公众号长文写作</span></button>
+    <div class="nav-spacer"></div>
+    <nav class="desktop-nav" id="desktopNav" aria-label="Main"><button class="nav-button active" type="button" data-page="studio" data-i18n="studio">创作台</button><button class="nav-button" type="button" data-page="library" data-i18n="library">文章库</button></nav>
+    <div class="lang-switch" id="langSwitch"><button class="lang-button" type="button" data-lang="cn">中</button><button class="lang-button" type="button" data-lang="en">EN</button></div>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><i class="fa-solid fa-bars"></i></button>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile"><button class="nav-button active" type="button" data-page="studio" data-i18n="studio">创作台</button><button class="nav-button" type="button" data-page="library" data-i18n="library">文章库</button><div class="mobile-language"><button class="lang-button" type="button" data-lang="cn">中文</button><button class="lang-button" type="button" data-lang="en">English</button></div></nav>
+</header>
+<main>
+  <section class="page" id="studioPage">
+    <div class="page-head"><span class="eyebrow">WECHAT ARTICLE STUDIO</span><h1 data-i18n="studioTitle">AI长文创作</h1><p data-i18n="studioDescription">输入素材与灵感，一键生成符合公众号排版风格的长文。</p></div>
+    <div class="workspace">
+      <section class="panel form-panel" aria-labelledby="creationHeading"><div class="panel-heading"><span class="heading-icon"><i class="fa-solid fa-pen-nib"></i></span><h2 id="creationHeading" data-i18n="createArticle">创作长文</h2></div>
+        <form id="creationForm">
+          <label class="field"><span class="field-label" data-i18n="material">素材内容</span><textarea class="tall" id="creationForm_material" name="素材内容" data-placeholder="materialPlaceholder" required></textarea></label>
+          <label class="field"><span class="field-label" data-i18n="viewpoint">核心观点</span><textarea id="creationForm_viewpoint" name="核心观点" data-placeholder="viewpointPlaceholder"></textarea></label>
+          <label class="field"><span class="field-label" data-i18n="experience">个人经历</span><textarea id="creationForm_experience" name="个人经历" data-placeholder="experiencePlaceholder"></textarea></label>
+          <label class="field"><span class="field-label" data-i18n="emotion">情绪节点</span><textarea id="creationForm_emotion" name="情绪节点" data-placeholder="emotionPlaceholder"></textarea></label>
+          <label class="field"><span class="field-label" data-i18n="archetype">文章原型</span><select id="creationForm_archetype" name="文章原型" required><option value="" data-i18n="selectType">请选择文章原型</option><option value="调查实验型" data-i18n="typeInvestigation">调查实验型</option><option value="产品体验型" data-i18n="typeProduct">产品体验型</option><option value="现象解读型" data-i18n="typeAnalysis">现象解读型</option><option value="工具分享型" data-i18n="typeTools">工具分享型</option><option value="方法论分享型" data-i18n="typeMethods">方法论分享型</option></select></label>
+          <label class="field"><span class="field-label" data-i18n="requirements">写作要求</span><textarea id="creationForm_requirements" name="写作要求" data-placeholder="requirementsPlaceholder"></textarea></label>
+          <button class="button primary submit-button" id="submitButton" type="submit"><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="generate">开始生成长文</span></button><p class="fineprint" data-i18n="generationHint">生成需要一些时间，请保持页面打开。</p>
+        </form>
+      </section>
+      <section class="panel preview-panel" aria-labelledby="previewHeading"><div class="preview-toolbar"><div><h2 id="previewHeading" data-i18n="preview">长文预览区</h2><p data-i18n="previewHint">灵感在此成为文章</p></div><div class="toolbar-actions"><button class="button ghost" id="copyButton" type="button" hidden><i class="fa-regular fa-copy"></i><span data-i18n="copy">复制全文</span></button><button class="button" id="newButton" type="button"><i class="fa-solid fa-plus"></i><span data-i18n="newCreation">新建创作</span></button></div></div><div class="status preview-status" id="previewStatus" hidden></div><div class="preview-body" id="previewBody"><div class="empty-preview" id="emptyPreview"><span class="empty-preview-icon"><i class="fa-solid fa-file-pen"></i></span><h3 data-i18n="emptyTitle">您的下一篇好文章，从这里开始</h3><p data-i18n="emptyDescription">填写左侧的素材与想法，生成后即可在这里沉浸阅读。</p></div><article class="markdown" id="previewMarkdown" hidden></article></div></section>
+    </div>
+  </section>
+  <section class="page" id="libraryPage" hidden><div class="library-header"><div class="page-head"><span class="eyebrow">YOUR WRITING ARCHIVE</span><h1 data-i18n="libraryTitle">历史文章库</h1><p data-i18n="libraryDescription">管理和查看您之前生成的所有公众号长文。</p></div><div class="stat-card"><span data-i18n="totalArticles">累计创作篇数</span><strong id="articleCount">—</strong></div></div><div class="library-tools"><label class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="librarySearch" type="search" data-placeholder="searchPlaceholder" aria-label="Search articles"></label><button class="button" id="refreshButton" type="button"><i class="fa-solid fa-rotate"></i><span data-i18n="refresh">刷新</span></button></div><div class="card-grid" id="articleGrid"></div><button class="button load-more" id="loadMoreButton" type="button" hidden data-i18n="loadMore">查看更多</button></section>
+</main>
+<div class="modal-backdrop" id="readerBackdrop" hidden><div class="reader-dialog" role="dialog" aria-modal="true" aria-labelledby="readerHeading"><div class="reader-head"><h2 id="readerHeading" data-i18n="fullArticle">阅读全文</h2><div class="reader-actions"><button class="button ghost" id="readerCopyButton" type="button" hidden><i class="fa-regular fa-copy"></i><span data-i18n="copy">复制全文</span></button><button class="button ghost" id="readerCloseButton" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div></div><div class="reader-scroll" id="readerScroll"><article class="markdown" id="readerMarkdown"></article></div></div></div><div class="toast" id="toast" role="status" hidden></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("82e60e21ff9bfd7e_公众号长文写作")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const TABLE = '长文写作/默认表格';
+const FORM_TABLE = '长文写作';
+const translations = {
+  cn:{appName:'公众号长文写作',studio:'创作台',library:'文章库',studioTitle:'AI长文创作',studioDescription:'输入素材与灵感，一键生成符合公众号排版风格的长文。',createArticle:'创作长文',material:'素材内容',viewpoint:'核心观点',experience:'个人经历',emotion:'情绪节点',archetype:'文章原型',requirements:'写作要求',materialPlaceholder:'粘贴资料、记录灵感或写下故事背景……',viewpointPlaceholder:'您最想表达的观点是什么？',experiencePlaceholder:'分享与主题相关的真实经历……',emotionPlaceholder:'希望读者在哪些地方产生共鸣？',requirementsPlaceholder:'例如：文章语气、篇幅、目标读者……',selectType:'请选择文章原型',typeInvestigation:'调查实验型',typeProduct:'产品体验型',typeAnalysis:'现象解读型',typeTools:'工具分享型',typeMethods:'方法论分享型',generate:'开始生成长文',generationHint:'生成需要一些时间，请保持页面打开。',preview:'长文预览区',previewHint:'灵感在此成为文章',copy:'复制全文',newCreation:'新建创作',emptyTitle:'您的下一篇好文章，从这里开始',emptyDescription:'填写左侧的素材与想法，生成后即可在这里沉浸阅读。',waiting:'AI卡兹克正在为您撰写文章，请稍候...',submitting:'正在提交素材…',timeout:'等待生成超时，请稍后到文章库查看。',libraryTitle:'历史文章库',libraryDescription:'管理和查看您之前生成的所有公众号长文。',totalArticles:'累计创作篇数',searchPlaceholder:'搜索观点、原型或情绪节点',refresh:'刷新',loadMore:'查看更多',read:'阅读全文',delete:'删除',fullArticle:'阅读全文',loading:'正在加载…',emptyLibrary:'还没有创作文章。',noResults:'没有匹配的文章。',emptyContent:'文章内容暂时为空。',deleteConfirm:'确定删除这篇文章吗？',deleteDone:'文章已删除',copied:'已复制到剪贴板',copyFailed:'复制失败，请重试',newDuringWait:'生成仍在进行，请稍候。',loadFailed:'加载失败：',submitFailed:'提交失败：',readFailed:'读取失败：',deleteFailed:'删除失败：'},
+  en:{appName:'Longform Writer',studio:'Studio',library:'Library',studioTitle:'AI longform writing',studioDescription:'Turn your notes and ideas into a polished WeChat article.',createArticle:'Create an article',material:'Source material',viewpoint:'Core point',experience:'Personal experience',emotion:'Emotional moments',archetype:'Article format',requirements:'Writing requirements',materialPlaceholder:'Paste research, notes or story ideas…',viewpointPlaceholder:'What is the main point you want to make?',experiencePlaceholder:'Share a relevant personal experience…',emotionPlaceholder:'Where should readers feel a connection?',requirementsPlaceholder:'For example: tone, length and target readers…',selectType:'Choose a format',typeInvestigation:'Investigation / experiment',typeProduct:'Product experience',typeAnalysis:'Trend analysis',typeTools:'Tool guide',typeMethods:'Methodology',generate:'Generate article',generationHint:'Generation takes a little time. Keep this page open.',preview:'Article preview',previewHint:'Where ideas become an article',copy:'Copy article',newCreation:'New article',emptyTitle:'Your next great article starts here',emptyDescription:'Enter your notes on the left to begin writing.',waiting:'AI is writing your article. Please wait…',submitting:'Submitting your notes…',timeout:'Generation timed out. Check the library later.',libraryTitle:'Article library',libraryDescription:'Manage and read all your previously generated articles.',totalArticles:'Articles created',searchPlaceholder:'Search points, formats or moments',refresh:'Refresh',loadMore:'Load more',read:'Read article',delete:'Delete',fullArticle:'Full article',loading:'Loading…',emptyLibrary:'No articles yet.',noResults:'No matching articles.',emptyContent:'The article is currently empty.',deleteConfirm:'Delete this article?',deleteDone:'Article deleted',copied:'Copied to clipboard',copyFailed:'Could not copy. Please try again.',newDuringWait:'Generation is still running. Please wait.',loadFailed:'Could not load: ',submitFailed:'Could not submit: ',readFailed:'Could not read: ',deleteFailed:'Could not delete: '}
+};
+const state={lang:'cn',page:'studio',history:[],rows:[],visibleCount:9,previewText:'',readerText:'',polling:false,pollToken:0,toastTimer:null,libraryLoaded:false};
+const $=id=>document.getElementById(id);
+const t=key=>translations[state.lang][key]||key;
+function chooseLanguage(){let stored;try{stored=localStorage.getItem('iThinkAir_UiLanguage')}catch(e){}if(stored)return stored==='en'?'en':'cn';const query=new URLSearchParams(location.search).get('lang');if(query==='cn'||query==='en')return query;const langs=navigator.languages;if(!langs||!langs.length)return 'cn';return langs.some(language=>String(language).toLowerCase().startsWith('zh'))?'cn':'en'}
+function applyLanguage(lang){state.lang=lang;document.documentElement.lang=lang==='cn'?'zh-CN':'en';document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.dataset.i18n)});document.querySelectorAll('[data-placeholder]').forEach(el=>{el.placeholder=t(el.dataset.placeholder)});document.querySelectorAll('[data-lang]').forEach(el=>el.classList.toggle('active',el.dataset.lang===lang));renderLibrary();if(!state.previewText&&!state.polling)showEmptyPreview();try{localStorage.setItem('iThinkAir_UiLanguage',lang)}catch(e){}}
+function showToast(message){const el=$('toast');el.textContent=message;el.hidden=false;clearTimeout(state.toastTimer);state.toastTimer=setTimeout(()=>el.hidden=true,3500)}
+function setStatus(key,isError=false){const el=$('previewStatus');if(!key){el.hidden=true;el.textContent='';return}el.hidden=false;el.classList.toggle('error',isError);el.innerHTML='';if(!isError){const icon=document.createElement('i');icon.className='fa-solid fa-circle-notch fa-spin';el.appendChild(icon)}el.appendChild(document.createTextNode(t(key)))}
+function updateNav(){document.querySelectorAll('[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===state.page));$('studioPage').hidden=state.page!=='studio';$('libraryPage').hidden=state.page!=='library'}
+function navigate(page,save=true){if(page===state.page){closeMenu();return}if(save)state.history.push({page:state.page,scroll:window.scrollY});state.page=page;updateNav();closeMenu();window.scrollTo(0,0);if(page==='library')loadLibrary()}
+function closeMenu(){$('mobileMenu').classList.remove('open');$('menuToggle').setAttribute('aria-expanded','false')}
+function fitNavigation(){const inner=document.querySelector('.topbar-inner');const brand=$('brandButton');const nav=$('desktopNav');const lang=$('langSwitch');nav.style.display='flex';lang.style.display='flex';const available=inner.clientWidth-parseFloat(getComputedStyle(inner).paddingLeft)-parseFloat(getComputedStyle(inner).paddingRight);const needed=brand.scrollWidth+nav.scrollWidth+lang.scrollWidth+55;const compact=needed>available;nav.style.display=compact?'none':'flex';lang.style.display=compact?'none':'flex';$('menuToggle').style.display=compact?'block':'none';if(!compact)closeMenu()}
+function safeMarkdown(source){if(!window.marked||!window.DOMPurify){const wrapper=document.createElement('div');wrapper.textContent=source;return wrapper.innerHTML.replace(/\n/g,'<br>')}marked.setOptions({gfm:true,breaks:false});return DOMPurify.sanitize(marked.parse(source||''),{ADD_ATTR:['target']})}
+function decorateMarkdown(container){container.querySelectorAll('img').forEach(img=>{let source=img.getAttribute('src')||'';if(!source)return;let url;try{url=/^https?:\/\//i.test(source)?new URL(source):new URL('http://' + window.location.hostname + ':3130/download/'+encodeURIComponent(source))}catch(e){return}if(!/^https?:$/.test(url.protocol))return;img.src=url.href;if(!img.closest('a')){const link=document.createElement('a');link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';link.download='';img.replaceWith(link);link.appendChild(img)}});container.querySelectorAll('a').forEach(link=>{link.target='_blank';link.rel='noopener noreferrer'})}
+function renderMarkdown(container,content){container.innerHTML=safeMarkdown(content);decorateMarkdown(container)}
+function showEmptyPreview(){$('emptyPreview').hidden=false;$('previewMarkdown').hidden=true;$('previewMarkdown').innerHTML='';$('copyButton').hidden=true}
+function showPreview(content){state.previewText=content;$('emptyPreview').hidden=true;$('previewMarkdown').hidden=false;renderMarkdown($('previewMarkdown'),content);$('copyButton').hidden=false;setStatus('')}
+async function copyText(value){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value)}else{const area=document.createElement('textarea');area.value=value;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();if(!document.execCommand('copy'))throw new Error('Copy failed');area.remove()}showToast(t('copied'))}catch(e){showToast(t('copyFailed'))}}
+function beginWaiting(){state.polling=true;state.pollToken++;$('submitButton').disabled=true;$('newButton').disabled=true;setStatus('waiting');$('emptyPreview').hidden=false;$('previewMarkdown').hidden=true;$('copyButton').hidden=true}
+function endWaiting(){state.polling=false;$('submitButton').disabled=false;$('newButton').disabled=false}
+async function pollArticle(token){const deadline=Date.now()+1800000;while(state.polling&&token===state.pollToken&&Date.now()<deadline){try{const result=await callAppBridge({type:'轮询',data:FORM_TABLE,payload:'公众号长文'});if(token!==state.pollToken)return;if(String(result||'').trim()){endWaiting();showPreview(String(result));return}}catch(e){if(token!==state.pollToken)return;endWaiting();setStatus('loadFailed',true);showToast(t('loadFailed')+String(e));return}await new Promise(resolve=>setTimeout(resolve,1000))}if(token===state.pollToken){endWaiting();setStatus('timeout',true)}}
+async function submitCreation(event){event.preventDefault();if(state.polling)return;const form=$('creationForm');if(!form.reportValidity())return;const payload={};for(const field of form.elements){if(field.name)payload[field.name]=field.value}beginWaiting();setStatus('submitting');try{await callAppBridge({type:'SubmitRecord',data:FORM_TABLE,payload:JSON.stringify(payload)});state.libraryLoaded=false;setStatus('waiting');await pollArticle(state.pollToken)}catch(e){endWaiting();setStatus('submitFailed',true);showToast(t('submitFailed')+String(e))}}
+function newCreation(){if(state.polling){showToast(t('newDuringWait'));return}$('creationForm').reset();state.previewText='';setStatus('');showEmptyPreview();window.scrollTo({top:0,behavior:'smooth'})}
+function summary(value,max=110){const text=String(value||'').replace(/\s+/g,' ').trim();return text.length>max?text.slice(0,max)+'…':text}
+function card(row){const item=document.createElement('article');item.className='article-card';const type=document.createElement('span');type.className='type-tag';const typeKey={'调查实验型':'typeInvestigation','产品体验型':'typeProduct','现象解读型':'typeAnalysis','工具分享型':'typeTools','方法论分享型':'typeMethods'}[row.archetype];type.textContent=typeKey?t(typeKey):(row.archetype||'—');const title=document.createElement('h3');title.textContent=row.viewpoint||'—';const detail=document.createElement('p');detail.textContent=summary(row.emotion)||' ';const actions=document.createElement('div');actions.className='article-actions';const read=document.createElement('button');read.type='button';read.className='button primary';read.innerHTML='<i class="fa-regular fa-file-lines"></i> ';read.appendChild(document.createTextNode(t('read')));read.addEventListener('click',()=>openReader(row.index));const remove=document.createElement('button');remove.type='button';remove.className='button danger';remove.innerHTML='<i class="fa-regular fa-trash-can"></i> ';remove.appendChild(document.createTextNode(t('delete')));remove.addEventListener('click',()=>deleteArticle(row.index));actions.append(read,remove);item.append(type,title,detail,actions);return item}
+function renderLibrary(){const grid=$('articleGrid');grid.replaceChildren();const query=$('librarySearch').value.trim().toLocaleLowerCase();const matches=state.rows.filter(row=>[row.archetype,row.viewpoint,row.emotion].some(value=>String(value||'').toLocaleLowerCase().includes(query)));if(!matches.length){const empty=document.createElement('div');empty.className='list-state';empty.textContent=t(state.rows.length?'noResults':'emptyLibrary');grid.appendChild(empty)}else{for(const row of matches.slice(0,state.visibleCount))grid.appendChild(card(row))}$('loadMoreButton').hidden=matches.length<=state.visibleCount}
+async function loadLibrary(){const grid=$('articleGrid');grid.innerHTML='<div class="list-state"><i class="fa-solid fa-circle-notch fa-spin"></i></div>';try{const [countText,csv]=await Promise.all([callAppBridge({type:'GetRecordCount',data:TABLE}),callAppBridge({type:'GetTableCSV',data:TABLE,payload:'文章原型,核心观点,情绪节点'})]);$('articleCount').textContent=String(countText||'0');state.rows=parseCSV(String(csv||'')).map((cells,index)=>({index:index+1,archetype:cells[0]||'',viewpoint:cells[1]||'',emotion:cells[2]||''}));state.visibleCount=9;state.libraryLoaded=true;renderLibrary()}catch(e){grid.replaceChildren();const error=document.createElement('div');error.className='list-state';error.textContent=t('loadFailed')+String(e);grid.appendChild(error)}}
+async function openReader(row){$('readerBackdrop').hidden=false;document.body.style.overflow='hidden';$('readerMarkdown').textContent=t('loading');$('readerCopyButton').hidden=true;$('readerScroll').scrollTop=0;try{const content=await callAppBridge({type:'GetCellValue',data:TABLE,payload:'公众号长文/'+row});if($('readerBackdrop').hidden)return;state.readerText=String(content||'');renderMarkdown($('readerMarkdown'),state.readerText||t('emptyContent'));$('readerCopyButton').hidden=!state.readerText}catch(e){$('readerMarkdown').textContent=t('readFailed')+String(e)}}
+function closeReader(){$('readerBackdrop').hidden=true;document.body.style.overflow='';state.readerText=''}
+async function deleteArticle(row){if(!window.confirm(t('deleteConfirm')))return;try{await callAppBridge({type:'DeleteRecord',data:TABLE,payload:row.toString()});showToast(t('deleteDone'));await loadLibrary()}catch(e){showToast(t('deleteFailed')+String(e))}}
+function airBack(){if(!$('readerBackdrop').hidden){closeReader();return 'false'}if($('mobileMenu').classList.contains('open')){closeMenu();return 'false'}const previous=state.history.pop();if(previous){state.page=previous.page;updateNav();if(state.page==='library'&&!state.libraryLoaded)loadLibrary();requestAnimationFrame(()=>window.scrollTo(0,previous.scroll));return 'false'}return 'true'}
+window.airBack=airBack;
+function ensureFocusedVisible(target){if(!target.matches('input,textarea,select'))return;setTimeout(()=>{target.scrollIntoView({block:'center',behavior:'smooth'})},250)}
+async function initialize(){state.lang=chooseLanguage();applyLanguage(state.lang);try{const mode=await callAppBridge({type:'模式'});document.documentElement.dataset.theme=String(mode).trim()==='暗色'?'dark':'light'}catch(e){document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}fitNavigation();window.addEventListener('resize',fitNavigation);if(window.ResizeObserver)new ResizeObserver(fitNavigation).observe($('topbar'));document.querySelectorAll('[data-page]').forEach(el=>el.addEventListener('click',()=>navigate(el.dataset.page)));document.querySelectorAll('[data-lang]').forEach(el=>el.addEventListener('click',()=>{applyLanguage(el.dataset.lang);fitNavigation();closeMenu()}));$('menuToggle').addEventListener('click',()=>{const open=$('mobileMenu').classList.toggle('open');$('menuToggle').setAttribute('aria-expanded',String(open))});document.addEventListener('pointerdown',event=>{if(!event.target.closest('#topbar'))closeMenu()});$('brandButton').addEventListener('click',()=>{if(parent&&typeof parent.closeFullHtml==='function')parent.closeFullHtml(false)});$('creationForm').addEventListener('submit',submitCreation);$('newButton').addEventListener('click',newCreation);$('copyButton').addEventListener('click',()=>copyText(state.previewText));$('readerCopyButton').addEventListener('click',()=>copyText(state.readerText));$('readerCloseButton').addEventListener('click',closeReader);$('readerBackdrop').addEventListener('pointerdown',event=>{if(event.target===$('readerBackdrop'))closeReader()});$('refreshButton').addEventListener('click',loadLibrary);$('librarySearch').addEventListener('input',()=>{state.visibleCount=9;renderLibrary()});$('loadMoreButton').addEventListener('click',()=>{state.visibleCount+=9;renderLibrary()});document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(!$('readerBackdrop').hidden)closeReader();else closeMenu()}});document.addEventListener('focusin',event=>ensureFocusedVisible(event.target));if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>{const active=document.activeElement;if(active&&active.matches('input,textarea,select'))ensureFocusedVisible(active)})}
+document.addEventListener('DOMContentLoaded', () => { (async () => { await initialize(); })(); });
+</script>
+</body>
+</html>

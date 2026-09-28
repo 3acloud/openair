@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>英文句子主干提取器</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+<style>
+:root{color-scheme:light;--bg:#f3f7f7;--surface:#fff;--surface2:#f8fbfb;--ink:#17333a;--muted:#617781;--line:#dbe7e8;--brand:#116777;--brand2:#174e8a;--amber:#b97815;--danger:#ba4d50;--shadow:0 15px 42px rgba(22,55,65,.09)}
+body.dark{color-scheme:dark;--bg:#101d24;--surface:#1b2c34;--surface2:#21343d;--ink:#e7f0f1;--muted:#aac0c6;--line:#36505b;--brand:#60bfca;--brand2:#98b8ff;--amber:#f2bc66;--danger:#ff9091;--shadow:0 18px 46px rgba(0,0,0,.25)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button{cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}a{color:var(--brand)}
+#topNav{position:fixed;top:0;left:0;right:0;z-index:1001;display:flex;align-items:center;gap:18px;min-height:68px;padding:0 max(20px,calc((100vw - 1260px)/2));background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 2px 16px rgba(0,0,0,.035)}.brand{display:flex;align-items:center;gap:12px;min-width:0;white-space:nowrap;border:0;background:none;color:var(--ink);font-weight:760;font-size:18px;padding:9px 0}.brand i{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:11px;color:white;background:linear-gradient(135deg,#126b75,#273c8d)}#desktopTabs{display:flex;gap:4px;margin-left:auto;white-space:nowrap}.nav-tab{border:0;background:transparent;color:var(--muted);padding:8px 13px;border-radius:9px;font-weight:650;white-space:nowrap}.nav-tab:hover,.nav-tab.active{background:var(--surface2);color:var(--brand)}#languageButton,#menuButton{border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink);padding:7px 11px;white-space:nowrap}#menuButton{display:none;margin-left:auto}#mobileMenu{display:none;position:absolute;top:100%;right:16px;left:16px;padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:0 0 14px 14px;box-shadow:var(--shadow)}#mobileMenu.open,#mobileTabs{display:grid;gap:3px}#mobileMenu .nav-tab{text-align:left}#mobileLanguage{border-top:1px solid var(--line);padding-top:7px;margin-top:4px}
+main{max-width:1260px;margin:auto;padding:103px 20px 80px}.page{display:none}.page.active{display:block}.eyebrow{color:var(--brand);font-weight:750;letter-spacing:.08em;text-transform:uppercase;font-size:12px}.hero{padding:32px 35px 36px;background:linear-gradient(115deg,#0e5968,#263e7d);color:#fff;border-radius:22px;box-shadow:var(--shadow)}.hero h1{font-size:clamp(30px,4.5vw,48px);line-height:1.18;margin:9px 0}.hero p{max-width:760px;color:#e0f0f5;margin:0 0 23px}.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:23px}.page-head h1{font-size:clamp(27px,3vw,35px);line-height:1.2;margin:4px 0 5px}.page-head p{margin:0;color:var(--muted)}.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:9px 15px;font-weight:650;white-space:nowrap}.btn:hover{filter:brightness(.96)}.btn.primary{border-color:#116777;background:#116777;color:#fff}.btn.danger{color:var(--danger);border-color:var(--danger)}.btn.small{padding:5px 9px;font-size:12px}.btn.ghost{background:transparent}.btn-row{display:flex;align-items:center;flex-wrap:wrap;gap:9px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}.stat{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:19px;box-shadow:var(--shadow)}.stat i{color:var(--brand);font-size:18px}.stat .num{display:block;font-size:29px;font-weight:800;line-height:1.3;margin-top:7px}.stat .label{color:var(--muted);font-size:13px}.card{background:var(--surface);border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow);overflow:hidden}.card-head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}.card-head h2{font-size:17px;margin:0}.card-body{padding:20px}.two-col{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}.field{margin-bottom:15px}.field label{display:block;font-weight:650;margin-bottom:6px}.field input,.field textarea,.field select,.toolbar input,.toolbar select{width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:10px 11px;color:var(--ink);outline:none}.field input:focus,.field textarea:focus,.field select:focus,.toolbar input:focus,.toolbar select:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(17,103,119,.14)}textarea{resize:vertical;min-height:100px}.checks{display:flex;flex-wrap:wrap;gap:9px}.checks label{display:inline-flex;align-items:center;gap:5px;margin:0;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface2);font-weight:500}.checks input{width:auto}.empty{display:grid;place-items:center;min-height:260px;text-align:center;color:var(--muted)}.empty i{font-size:32px;color:var(--brand);margin-bottom:8px}.muted{color:var(--muted)}.result-head{margin-bottom:12px}.result-head h3{margin:0 0 6px}.tag{display:inline-block;padding:3px 8px;margin:2px 4px 2px 0;border-radius:6px;background:var(--surface2);color:var(--brand);font-size:12px;font-weight:650;border:1px solid var(--line)}.markdown-body{background:transparent!important;color:var(--ink)!important;max-width:100%;overflow-wrap:anywhere}.markdown-body pre{overflow:auto}.markdown-body img{max-width:100%}.list{padding:0;margin:0;list-style:none}.list li+li{border-top:1px solid var(--line)}.list-item{width:100%;padding:14px 20px;display:block;text-align:left;border:0;background:transparent;color:var(--ink)}.list-item:hover,.list-item.selected{background:var(--surface2)}.item-top{display:flex;justify-content:space-between;gap:8px}.item-top strong{font-size:15px}.item-top small{white-space:nowrap;color:var(--muted)}.item-sub{color:var(--muted);font-size:13px;margin-top:3px;overflow-wrap:anywhere}.toolbar{display:grid;grid-template-columns:minmax(180px,1.6fr) repeat(3,minmax(135px,1fr));gap:10px;margin-bottom:16px}.table-scroll{width:100%;overflow-x:auto;overscroll-behavior-x:contain}.data-table{border-collapse:collapse;width:100%;min-width:1020px;font-size:13px}.data-table th,.data-table td{border-bottom:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}.data-table th{white-space:nowrap;background:var(--surface2);color:var(--muted);font-weight:700}.data-table td.actions{white-space:nowrap}.data-table td.actions .btn{margin:2px}.data-table tr:last-child td{border-bottom:0}.sort-btn{border:0;background:none;color:inherit;font-weight:inherit;cursor:pointer}.review-stats{grid-template-columns:repeat(3,1fr)}.review-layout{grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr)}.review-toggle{display:flex;gap:5px;flex-wrap:wrap}.review-toggle .btn.active{background:var(--brand);border-color:var(--brand);color:white}.review-body{max-height:650px;overflow:auto}.review-detail{min-height:450px}.kv{display:grid;grid-template-columns:110px 1fr;gap:7px 12px;margin:0 0 20px}.kv dt{color:var(--muted)}.kv dd{margin:0;overflow-wrap:anywhere}.section-label{font-size:14px;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:7px;margin:20px 0 12px}.message{margin:10px 0;color:var(--muted);font-size:13px}.message.error{color:var(--danger)}.pager{display:flex;justify-content:center;align-items:center;gap:8px;padding:15px}
+.overlay{position:fixed;inset:0;z-index:2000;background:rgba(10,26,35,.58);display:none;align-items:center;justify-content:center;padding:24px}.overlay.open{display:flex}.dialog{background:var(--surface);color:var(--ink);width:min(700px,100%);max-height:calc(100dvh - 48px);border-radius:17px;box-shadow:0 25px 70px rgba(0,0,0,.27);display:flex;flex-direction:column;overflow:hidden}.dialog.wide{width:min(870px,100%)}.dialog-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}.dialog-head h2{margin:0;font-size:19px}.icon-btn{border:0;background:transparent;color:var(--ink);font-size:19px}.dialog-content{overflow:auto;padding:20px;overscroll-behavior:contain}.dialog-actions{padding:13px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.dialog .field{margin-bottom:13px}.hidden{display:none!important}
+@media(max-width:950px){.two-col{grid-template-columns:1fr}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.review-layout{grid-template-columns:1fr}.review-body{max-height:400px}}@media(max-width:760px){#desktopTabs,#languageButton{display:none}#menuButton{display:block}main{padding:90px 13px 180px}.stats{grid-template-columns:repeat(2,1fr)}.page-head{flex-wrap:wrap}.hero{padding:27px 22px}.overlay.markdown-dialog,.overlay.html-dialog{padding:0}.markdown-dialog .dialog,.html-dialog .dialog{width:100%;height:100dvh;max-height:100dvh;border-radius:0}.dialog-content{padding-bottom:45vh}.kv{grid-template-columns:95px 1fr}}@media(max-width:470px){.toolbar{grid-template-columns:1fr}.stats{gap:9px}.stat{padding:14px}.item-top{display:block}.item-top small{display:block}.brand{font-size:15px}.brand i{width:32px;height:32px}}
+</style>
+</head>
+<body>
+<nav id="topNav" aria-label="Main navigation"><button id="brandButton" class="brand" type="button"><i class="fa-solid fa-diagram-project"></i><span data-i18n="app"></span></button><div id="desktopTabs"></div><button id="languageButton" type="button"></button><button id="menuButton" type="button" aria-label="Menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button><div id="mobileMenu"><div id="mobileTabs"></div><div id="mobileLanguage"></div></div></nav>
+<main>
+<section id="homePage" class="page active"><div class="hero"><span class="eyebrow">SYNTAX  STRUCTURE  CLARITY</span><h1 data-i18n="app"></h1><p data-i18n="homeDesc"></p><button id="startButton" class="btn primary" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="start"></span></button></div><div class="stats" id="homeStats"></div><div class="card"><div class="card-head"><h2 data-i18n="recent"></h2><button id="homeAllButton" class="btn small" type="button" data-i18n="viewAll"></button></div><ul class="list" id="homeRecent"></ul></div></section>
+<section id="analyzePage" class="page"><div class="page-head"><div><div class="eyebrow">ANALYSIS</div><h1 data-i18n="analyze"></h1><p data-i18n="analyzeDesc"></p></div><button id="analyzeRecordsButton" class="btn" type="button" data-i18n="viewRecords"></button></div><div class="two-col"><div class="card"><div class="card-head"><h2 data-i18n="newTask"></h2></div><div class="card-body"><form id="newForm"><div class="field"><label for="newForm_title" data-i18n="title"></label><input id="newForm_title" name="任务标题" autocomplete="off"></div><div class="field"><label for="newForm_sentence" data-i18n="sentence"></label><textarea id="newForm_sentence" name="英文句子" required rows="6"></textarea></div><div class="field"><label for="newForm_source" data-i18n="source"></label><input id="newForm_source" name="句子来源"></div><div class="field"><label data-i18n="target"></label><div class="checks" id="newForm_targets"></div></div><div class="field"><label for="newForm_difficulty" data-i18n="difficulty"></label><select id="newForm_difficulty" name="难度等级"></select></div><div class="btn-row"><button id="analyzeSubmit" class="btn primary" type="submit"><i class="fa-solid fa-magnifying-glass-chart"></i> <span data-i18n="analyzeSentence"></span></button><button id="clearButton" class="btn" type="button" data-i18n="clear"></button></div><div id="analyzeMessage" class="message" role="status"></div></form></div></div><div class="card"><div class="card-head"><h2 data-i18n="preview"></h2></div><div class="card-body" id="analysisResult"></div></div></div><div class="card" style="margin-top:18px"><div class="card-head"><h2 data-i18n="recentThree"></h2></div><ul class="list" id="analysisRecent"></ul></div></section>
+<section id="recordsPage" class="page"><div class="page-head"><div><div class="eyebrow">ARCHIVE</div><h1 data-i18n="records"></h1><p data-i18n="recordsDesc"></p></div><button id="recordsNewButton" class="btn primary" type="button"><i class="fa-solid fa-plus"></i> <span data-i18n="newAnalysis"></span></button></div><div class="toolbar"><input id="recordSearch" type="search" aria-label="Search"><select id="targetFilter"></select><select id="difficultyFilter"></select><select id="reviewFilter"></select></div><div class="card"><div class="table-scroll"><table class="data-table"><thead id="recordsHead"></thead><tbody id="recordsBody"></tbody></table></div><div id="recordsPager" class="pager"></div></div></section>
+<section id="reviewPage" class="page"><div class="page-head"><div><div class="eyebrow">REVIEW</div><h1 data-i18n="review"></h1><p data-i18n="reviewDesc"></p></div></div><div class="stats review-stats" id="reviewStats"></div><div class="two-col review-layout"><div class="card"><div class="card-head"><h2 data-i18n="reviewQueue"></h2></div><div class="card-body review-toggle" id="reviewToggle"></div><div class="review-body"><ul class="list" id="reviewList"></ul></div></div><div class="card"><div class="card-head"><h2 data-i18n="reviewDetail"></h2></div><div class="card-body review-detail" id="reviewDetail"></div></div></div></section>
+</main>
+<div id="detailOverlay" class="overlay markdown-dialog" role="dialog" aria-modal="true"><div class="dialog wide"><div class="dialog-head"><h2 data-i18n="details"></h2><button id="detailClose" class="icon-btn" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div class="dialog-content" id="detailContent"></div></div></div>
+<div id="editOverlay" class="overlay" role="dialog" aria-modal="true"><div class="dialog"><div class="dialog-head"><h2 data-i18n="editTask"></h2><button id="editClose" class="icon-btn" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><form id="editForm"><div class="dialog-content"><div class="field"><label for="editForm_title" data-i18n="title"></label><input id="editForm_title" name="任务标题"></div><div class="field"><label for="editForm_sentence" data-i18n="sentence"></label><textarea id="editForm_sentence" name="英文句子" required rows="5"></textarea></div><div class="field"><label for="editForm_source" data-i18n="source"></label><input id="editForm_source" name="句子来源"></div><div class="field"><label data-i18n="target"></label><div class="checks" id="editForm_targets"></div></div><div class="field"><label for="editForm_difficulty" data-i18n="difficulty"></label><select id="editForm_difficulty" name="难度等级"></select></div><input type="hidden" id="editForm_created" name="创建时间"><div class="field"><label for="editForm_reviewed" data-i18n="reviewed"></label><select id="editForm_reviewed" name="是否已复核"></select></div><div class="field"><label for="editForm_note" data-i18n="note"></label><textarea id="editForm_note" name="复核备注" rows="3"></textarea></div><div id="editWarning" class="message"></div><div id="editMessage" class="message error" role="status"></div></div><div class="dialog-actions"><button id="editCancel" class="btn" type="button" data-i18n="cancel"></button><button id="editSubmit" class="btn primary" type="submit" data-i18n="save"></button></div></form></div></div>
+<div id="confirmOverlay" class="overlay" role="alertdialog" aria-modal="true"><div class="dialog" style="width:min(440px,100%)"><div class="dialog-head"><h2 data-i18n="confirmDelete"></h2><button id="confirmClose" class="icon-btn" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div class="dialog-content" data-i18n="deleteQuestion"></div><div class="dialog-actions"><button id="confirmCancel" class="btn" type="button" data-i18n="cancel"></button><button id="confirmDelete" class="btn danger" type="button" data-i18n="delete"></button></div></div></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("5735a05eb24b5fa9_英文句子主干提取器")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+const SOURCE='句子提取任务/默认表格', TABLE='句子提取任务';
+const FIELDS=['任务标题','英文句子','句子来源','提取目标','难度等级','创建时间','是否已复核','复核备注'];
+const DETAIL_FIELDS=['任务标题','英文句子','句子来源','提取目标','难度等级','主干提取结果','创建时间','是否已复核','复核备注'];
+const TARGETS=['主谓宾','主系表','主谓'], DIFFICULTIES=['基础','中等','复杂'];
+const L={cn:{app:'英文句子主干提取器',home:'首页',analyze:'句子分析',records:'任务记录',review:'复核中心',homeDesc:'输入英文句子，快速识别主语、谓语、宾语或表语，辅助英语阅读、语法学习和文本分析。',start:'开始分析',recent:'最近分析',viewAll:'查看全部',analyzeDesc:'录入英文句子并选择提取目标，系统将自动生成主干分析结果。',viewRecords:'查看任务记录',newTask:'新建句子提取任务',title:'任务标题',sentence:'英文句子',source:'句子来源',target:'提取目标',difficulty:'难度等级',analyzeSentence:'分析句子',clear:'清空',preview:'分析结果',recentThree:'最近 3 条分析',recordsDesc:'浏览、筛选、编辑和删除所有句子主干提取任务。',newAnalysis:'新建分析',reviewDesc:'集中复核 AI 生成的句子主干提取结果，补充教师或学习备注。',reviewQueue:'复核任务',reviewDetail:'复核详情',details:'任务详情',editTask:'编辑句子提取任务',reviewed:'是否已复核',note:'复核备注',cancel:'取消',save:'保存修改',confirmDelete:'确认删除',deleteQuestion:'确定删除这条任务记录吗？此操作无法撤销。',delete:'删除',total:'总任务数',reviewedCount:'已复核数量',complexCount:'复杂句数量',todayCount:'今日新增',pendingCount:'未复核任务数',doneCount:'已复核任务数',complexPending:'复杂待复核数',all:'全部',pending:'未复核',done:'已复核',yes:'是',no:'否',actions:'操作',created:'创建时间',detailsBtn:'查看详情',edit:'编辑',mark:'标记复核',unmark:'取消复核',saveNote:'保存备注',markDone:'标记为已复核',removeReview:'取消复核',deleteRecord:'删除记录',waiting:'等待输入英文句子',polling:'正在分析句子结构...',noData:'暂无记录',noSelection:'请选择左侧任务',emptyResult:'结果尚未生成',search:'搜索任务标题、英文句子或句子来源',sortCreated:'创建时间',sortTitle:'任务标题',prev:'上一页',next:'下一页',page:'页',error:'操作失败',timeout:'等待分析超时（30 分钟），请稍后在任务详情中查看。',editHint:'保存后将更新基础信息，若需要重新生成主干结果请新建一条分析任务',required:'请输入英文句子',saved:'已保存',selectTarget:'请选择至少一个提取目标',difficultyBase:'基础',difficultyMid:'中等',difficultyComplex:'复杂'},en:{app:'English Sentence Core Extractor',home:'Home',analyze:'Analyze',records:'Tasks',review:'Review',homeDesc:'Enter an English sentence to identify its subject, predicate, object, or complement for reading, grammar study, and text analysis.',start:'Start analysis',recent:'Recent analyses',viewAll:'View all',analyzeDesc:'Enter an English sentence and choose a target to generate a core structure analysis.',viewRecords:'View tasks',newTask:'New sentence task',title:'Task title',sentence:'English sentence',source:'Source',target:'Extraction target',difficulty:'Difficulty',analyzeSentence:'Analyze sentence',clear:'Clear',preview:'Analysis result',recentThree:'3 recent analyses',recordsDesc:'Browse, filter, edit, and delete sentence analysis tasks.',newAnalysis:'New analysis',reviewDesc:'Review AI generated analyses and add teacher or study notes.',reviewQueue:'Review queue',reviewDetail:'Review details',details:'Task details',editTask:'Edit sentence task',reviewed:'Reviewed',note:'Review notes',cancel:'Cancel',save:'Save changes',confirmDelete:'Delete task',deleteQuestion:'Delete this task permanently?',delete:'Delete',total:'Total tasks',reviewedCount:'Reviewed',complexCount:'Complex sentences',todayCount:'Added today',pendingCount:'Pending review',doneCount:'Reviewed',complexPending:'Complex pending',all:'All',pending:'Pending',done:'Reviewed',yes:'Yes',no:'No',actions:'Actions',created:'Created',detailsBtn:'Details',edit:'Edit',mark:'Mark reviewed',unmark:'Undo review',saveNote:'Save note',markDone:'Mark reviewed',removeReview:'Undo review',deleteRecord:'Delete task',waiting:'Waiting for an English sentence',polling:'Analyzing sentence structure...',noData:'No tasks yet',noSelection:'Select a task from the list',emptyResult:'The result has not been generated yet',search:'Search title, sentence, or source',sortCreated:'Created',sortTitle:'Title',prev:'Previous',next:'Next',page:'Page',error:'Operation failed',timeout:'Analysis timed out after 30 minutes. Check the task details later.',editHint:'Saving updates basic information. Create a new task to regenerate the analysis.',required:'Enter an English sentence',saved:'Saved',selectTarget:'Select at least one target',difficultyBase:'Basic',difficultyMid:'Intermediate',difficultyComplex:'Complex'}};
+const $=id=>document.getElementById(id); let lang='cn',records=[],currentRow=0,activePage='home',historyStack=[],polling=false,pollToken=0,editRow=0,deleteRow=0,reviewRow=0,reviewMode='pending',sortKey='创建时间',sortDir=-1,recordPage=1,detailToken=0;
+const t=k=>L[lang][k]||k, esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function localDateTime(){const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`}
+function dateOnly(){return localDateTime().slice(0,10)}
+function clip(s,n){s=String(s||'');return s.length>n?s.slice(0,n)+'…':s}
+function showError(id,e){$(id).textContent=t('error')+': '+String(e?.message||e);$(id).classList.add('error')}
+function option(value,label){return `<option value="${esc(value)}">${esc(label)}</option>`}
+function setupChoices(){for(const prefix of ['newForm','editForm']){$(prefix+'_targets').innerHTML=TARGETS.map((x,i)=>`<label><input id="${prefix}_target_${i}" name="提取目标" type="checkbox" value="${esc(x)}">${esc(lang==='cn'?x:({主谓宾:'SVO',主系表:'SVC',主谓:'SV'}[x]))}</label>`).join('');$(prefix+'_difficulty').innerHTML=DIFFICULTIES.map((x,i)=>option(x,[t('difficultyBase'),t('difficultyMid'),t('difficultyComplex')][i])).join('')} $('editForm_reviewed').innerHTML=option('否',t('no'))+option('是',t('yes'));$('targetFilter').innerHTML=option('',t('all'))+TARGETS.map(x=>option(x,lang==='cn'?x:({主谓宾:'SVO',主系表:'SVC',主谓:'SV'}[x]))).join('');$('difficultyFilter').innerHTML=option('',t('all'))+DIFFICULTIES.map((x,i)=>option(x,[t('difficultyBase'),t('difficultyMid'),t('difficultyComplex')][i])).join('');$('reviewFilter').innerHTML=option('',t('all'))+option('是',t('done'))+option('否',t('pending'))}
+function renderNav(){const pages=['home','analyze','records','review'];const html=pages.map(p=>`<button type="button" class="nav-tab ${p===activePage?'active':''}" data-page="${p}">${esc(t(p))}</button>`).join('');$('desktopTabs').innerHTML=html;$('mobileTabs').innerHTML=html;$('languageButton').textContent=lang==='cn'?'EN':'中文';$('mobileLanguage').innerHTML=`<button class="nav-tab" type="button" id="mobileLanguageButton"><i class="fa-solid fa-language"></i> ${lang==='cn'?'English':'中文'}</button>`;$('mobileLanguageButton').onclick=toggleLanguage;document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>navigate(b.dataset.page));fitNav()}
+function fitNav(){const narrow=window.innerWidth<760 || $('brandButton').offsetWidth+$('desktopTabs').scrollWidth+$('languageButton').offsetWidth+100>window.innerWidth;$('desktopTabs').style.display=narrow?'none':'flex';$('languageButton').style.display=narrow?'none':'block';$('menuButton').style.display=narrow?'block':'none';if(!narrow)closeMenu()}
+function closeMenu(){$('mobileMenu').classList.remove('open');$('menuButton').setAttribute('aria-expanded','false')}
+function setLanguage(next){lang=next;document.documentElement.lang=next==='cn'?'zh-CN':'en';localStorage.setItem('iThinkAir_UiLanguage',next);document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));$('recordSearch').placeholder=t('search');setupChoices();renderNav();renderAll()}
+function toggleLanguage(){setLanguage(lang==='cn'?'en':'cn');closeMenu()}
+function navigate(page,back=false){if(page!==activePage){if(!back)historyStack.push({page:activePage,y:window.scrollY});activePage=page;document.querySelectorAll('.page').forEach(el=>el.classList.toggle('active',el.id===page+'Page'));renderNav();window.scrollTo(0,0)}closeMenu()}
+function modalOpen(id){$(id).classList.add('open');document.body.style.overflow='hidden'}function modalClose(id){$(id).classList.remove('open');if(!document.querySelector('.overlay.open'))document.body.style.overflow=''}
+function airBack(){const top=['confirmOverlay','editOverlay','detailOverlay'].find(id=>$(id).classList.contains('open'));if(top){modalClose(top);return 'false'}if($('mobileMenu').classList.contains('open')){closeMenu();return 'false'}if(historyStack.length){const item=historyStack.pop();navigate(item.page,true);requestAnimationFrame(()=>window.scrollTo(0,item.y));return 'false'}return 'true'}window.airBack=airBack;
+async function getCSV(fields){const csv=await callAppBridge({type:'GetTableCSV',data:SOURCE,payload:fields.join(',')});return String(csv||'').trim()?parseCSV(String(csv)).map((row,i)=>Object.fromEntries(fields.map((f,j)=>[f,row[j]||''])).valueOf()).map((obj,i)=>({...obj,_row:i+1})):[]}
+async function getCell(field,row){return await callAppBridge({type:'GetCellValue',data:SOURCE,payload:`${field}/${row}`})}
+async function setCell(field,row,value){return await callAppBridge({type:'SetCellValue',data:SOURCE,payload:`${field}/${row}/${String(value??'')}`})}
+async function resolveRow(record){let n=Number(await callAppBridge({type:'GetRecordRow',data:SOURCE,payload:`任务标题/${record['任务标题']}`}));if(n>0){const title=await getCell('任务标题',n);if(title===record['任务标题'])return n}return record._row}
+async function getDetail(row){const obj={_row:row};for(const f of DETAIL_FIELDS)obj[f]=await getCell(f,row);return obj}
+function stat(icon,label,value){return `<div class="stat"><i class="fa-solid ${icon}"></i><span class="num">${esc(value)}</span><span class="label">${esc(t(label))}</span></div>`}
+function newest(data){return [...data].sort((a,b)=>String(b['创建时间']).localeCompare(String(a['创建时间']))||a._row-b._row)}
+function listItem(r){return `<button class="list-item" type="button" data-row="${r._row}"><span class="item-top"><strong>${esc(r['任务标题']||clip(r['英文句子'],30))}</strong><small>${esc(r['创建时间'])}</small></span><span class="item-sub">${esc(clip(r['英文句子'],120))}</span><span class="tag">${esc(r['提取目标'])}</span><span class="tag">${esc(r['难度等级'])}</span><span class="tag">${esc(r['是否已复核']==='是'?t('done'):t('pending'))}</span></button>`}
+function renderHome(){const r=records;$('homeStats').innerHTML=stat('fa-list-check','total',window.totalCount??r.length)+stat('fa-circle-check','reviewedCount',r.filter(x=>x['是否已复核']==='是').length)+stat('fa-puzzle-piece','complexCount',r.filter(x=>x['难度等级']==='复杂').length)+stat('fa-calendar-day','todayCount',r.filter(x=>x['创建时间'].startsWith(dateOnly())).length);$('homeRecent').innerHTML=newest(r).slice(0,5).map(x=>`<li>${listItem(x)}</li>`).join('')||`<li class="list-item muted">${t('noData')}</li>`;$('homeRecent').querySelectorAll('[data-row]').forEach(el=>el.onclick=()=>{navigate('records');openDetail(Number(el.dataset.row))})}
+function renderAnalyzeRecent(){$('analysisRecent').innerHTML=newest(records).slice(0,3).map(x=>`<li>${listItem(x)}</li>`).join('')||`<li class="list-item muted">${t('noData')}</li>`;$('analysisRecent').querySelectorAll('[data-row]').forEach(el=>el.onclick=()=>loadResult(Number(el.dataset.row)))}
+function resultHTML(d){return `<div class="result-head"><h3>${esc(d['任务标题']||'')}</h3><span class="tag">${esc(d['难度等级']||'')}</span><span class="tag">${esc(d['提取目标']||'')}</span></div><div class="markdown-body">${markdown(d['主干提取结果']||t('emptyResult'))}</div>`}
+function markdown(raw){let html=window.marked?.parse?marked.parse(String(raw||''),{gfm:true,breaks:true}):`<p>${esc(raw).replace(/\n/g,'<br>')}</p>`;html=window.DOMPurify?DOMPurify.sanitize(html):esc(raw).replace(/\n/g,'<br>');const tmp=document.createElement('div');tmp.innerHTML=html;tmp.querySelectorAll('img').forEach(img=>{const a=document.createElement('a');let src=img.getAttribute('src')||'';if(!/^https?:|^data:/i.test(src))src='http://' + window.location.hostname + ':3130/download/'+encodeURIComponent(src);img.src=src;a.href=src;a.download='';img.replaceWith(a);a.appendChild(img)});tmp.querySelectorAll('a').forEach(a=>{a.target='_blank';a.rel='noopener noreferrer'});return tmp.innerHTML}
+function emptyHTML(key,icon='fa-align-left'){return `<div class="empty"><div><i class="fa-solid ${icon}"></i><div>${esc(t(key))}</div></div></div>`}
+function renderRecords(){const query=$('recordSearch').value.trim().toLocaleLowerCase(),target=$('targetFilter').value,difficulty=$('difficultyFilter').value,review=$('reviewFilter').value;let rows=records.filter(r=>(!query||['任务标题','英文句子','句子来源'].some(f=>r[f].toLocaleLowerCase().includes(query)))&&(!target||r['提取目标'].includes(target))&&(!difficulty||r['难度等级']===difficulty)&&(!review||r['是否已复核']===review));rows.sort((a,b)=>sortDir*(String(a[sortKey]).localeCompare(String(b[sortKey]),'zh-CN')||(a._row-b._row)));const pages=Math.max(1,Math.ceil(rows.length/10));recordPage=Math.min(recordPage,pages);const shown=rows.slice((recordPage-1)*10,recordPage*10);$('recordsHead').innerHTML=`<tr>${FIELDS.map(f=>`<th>${f==='任务标题'||f==='创建时间'?`<button class="sort-btn" type="button" data-sort="${f}">${esc(t(f==='任务标题'?'sortTitle':'sortCreated'))} ${sortKey===f?(sortDir===1?'↑':'↓'):''}</button>`:esc(({英文句子:t('sentence'),句子来源:t('source'),提取目标:t('target'),难度等级:t('difficulty'),是否已复核:t('reviewed'),复核备注:t('note')}[f]||f))}</th>`).join('')}<th>${t('actions')}</th></tr>`;$('recordsHead').querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{sortDir=sortKey===b.dataset.sort?-sortDir:(b.dataset.sort==='创建时间'?-1:1);sortKey=b.dataset.sort;renderRecords()});$('recordsBody').innerHTML=shown.map(r=>`<tr>${FIELDS.map(f=>`<td title="${esc(r[f])}">${esc(f==='英文句子'?clip(r[f],100):f==='复核备注'?clip(r[f],65):r[f])}</td>`).join('')}<td class="actions"><button class="btn small" data-action="detail" data-row="${r._row}">${t('detailsBtn')}</button><button class="btn small" data-action="edit" data-row="${r._row}">${t('edit')}</button><button class="btn small danger" data-action="delete" data-row="${r._row}">${t('delete')}</button><button class="btn small" data-action="review" data-row="${r._row}">${r['是否已复核']==='是'?t('unmark'):t('mark')}</button></td></tr>`).join('')||`<tr><td colspan="9" class="muted">${t('noData')}</td></tr>`;$('recordsBody').querySelectorAll('[data-action]').forEach(b=>b.onclick=async()=>{const row=Number(b.dataset.row),action=b.dataset.action;if(action==='detail')openDetail(row);if(action==='edit')openEdit(row);if(action==='delete')openDelete(row);if(action==='review')toggleReview(row)});$('recordsPager').innerHTML=`<button class="btn small" id="prevPage" ${recordPage<=1?'disabled':''}>${t('prev')}</button><span>${t('page')} ${recordPage} / ${pages}</span><button class="btn small" id="nextPage" ${recordPage>=pages?'disabled':''}>${t('next')}</button>`;$('prevPage').onclick=()=>{recordPage--;renderRecords()};$('nextPage').onclick=()=>{recordPage++;renderRecords()}}
+function renderReview(){const r=records;$('reviewStats').innerHTML=stat('fa-hourglass-half','pendingCount',r.filter(x=>x['是否已复核']!=='是').length)+stat('fa-circle-check','doneCount',r.filter(x=>x['是否已复核']==='是').length)+stat('fa-triangle-exclamation','complexPending',r.filter(x=>x['难度等级']==='复杂'&&x['是否已复核']!=='是').length);$('reviewToggle').innerHTML=['pending','done','all'].map(m=>`<button class="btn small ${m===reviewMode?'active':''}" data-mode="${m}">${t(m)}</button>`).join('');$('reviewToggle').querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{reviewMode=b.dataset.mode;renderReview()});const filtered=newest(r).filter(x=>reviewMode==='all'||(reviewMode==='done'?x['是否已复核']==='是':x['是否已复核']!=='是'));$('reviewList').innerHTML=filtered.map(x=>`<li>${listItem(x)}</li>`).join('')||`<li class="list-item muted">${t('noData')}</li>`;$('reviewList').querySelectorAll('[data-row]').forEach(el=>el.onclick=()=>selectReview(Number(el.dataset.row)));if(!reviewRow)$('reviewDetail').innerHTML=emptyHTML('noSelection','fa-clipboard-check')}
+function renderAll(){renderHome();renderAnalyzeRecent();renderRecords();renderReview()}
+async function refreshAll(){const [rows,count]=await Promise.all([getCSV(FIELDS),callAppBridge({type:'GetRecordCount',data:SOURCE})]);records=rows;window.totalCount=Number(count)||rows.length;renderAll()}
+function detailMeta(d){return `<dl class="kv">${FIELDS.map(f=>`<dt>${esc(({任务标题:t('title'),英文句子:t('sentence'),句子来源:t('source'),提取目标:t('target'),难度等级:t('difficulty'),创建时间:t('created'),是否已复核:t('reviewed'),复核备注:t('note')}[f]||f))}</dt><dd>${esc(d[f]||'—')}</dd>`).join('')}</dl>`}
+async function openDetail(index){const token=++detailToken;modalOpen('detailOverlay');$('detailContent').innerHTML=emptyHTML('polling','fa-spinner fa-spin');try{const rec=records.find(x=>x._row===index);if(!rec)throw Error(t('noData'));const row=await resolveRow(rec);const d=await getDetail(row);if(token!==detailToken)return;$('detailContent').innerHTML=detailMeta(d)+`<h3 class="section-label">${esc(lang==='cn'?'主干提取结果':'Core analysis')}</h3><div class="markdown-body">${markdown(d['主干提取结果']||t('emptyResult'))}</div><div class="btn-row" style="margin-top:20px"><button id="detailEdit" class="btn" type="button">${t('edit')}</button></div>`;$('detailEdit').onclick=()=>{modalClose('detailOverlay');openEdit(index)}}catch(e){if(token===detailToken)$('detailContent').textContent=t('error')+': '+String(e)}}
+function valuesFrom(formId){const form=$(formId),v={};for(const f of FIELDS){if(f==='提取目标')v[f]=[...form.querySelectorAll('input[name="提取目标"]:checked')].map(x=>x.value).join(',');else v[f]=form.elements.namedItem(f)?.value||''}return v}
+function setForm(formId,d){const form=$(formId);for(const f of FIELDS){if(f==='提取目标'){form.querySelectorAll('input[name="提取目标"]').forEach(c=>c.checked=(d[f]||'').includes(c.value))}else if(form.elements.namedItem(f))form.elements.namedItem(f).value=d[f]||''}}
+async function openEdit(index){modalOpen('editOverlay');$('editMessage').textContent='';$('editWarning').textContent='';try{const rec=records.find(x=>x._row===index);if(!rec)throw Error(t('noData'));editRow=await resolveRow(rec);const d=await getDetail(editRow);setForm('editForm',d);$('editForm').dataset.original=JSON.stringify(d)}catch(e){showError('editMessage',e)}}
+async function saveEdit(e){e.preventDefault();if(!editRow)return;const v=valuesFrom('editForm'),original=JSON.parse($('editForm').dataset.original||'{}');if(!v['英文句子'].trim()){showError('editMessage',t('required'));return}if(!v['提取目标']){showError('editMessage',t('selectTarget'));return}if(['英文句子','提取目标','难度等级'].some(f=>v[f]!==original[f]))$('editWarning').textContent=t('editHint');$('editSubmit').disabled=true;try{for(const f of FIELDS)await setCell(f,editRow,v[f]);await refreshAll();modalClose('editOverlay');if(reviewRow===editRow)await selectReview(editRow)}catch(err){showError('editMessage',err)}finally{$('editSubmit').disabled=false}}
+function openDelete(index){const rec=records.find(x=>x._row===index);if(!rec)return;deleteRow=0;modalOpen('confirmOverlay');resolveRow(rec).then(row=>deleteRow=row).catch(e=>{modalClose('confirmOverlay');alert(t('error')+': '+String(e))})}
+async function confirmDelete(){if(!deleteRow)return;$('confirmDelete').disabled=true;try{await callAppBridge({type:'DeleteRecord',data:SOURCE,payload:deleteRow.toString()});if(reviewRow===deleteRow){reviewRow=0;$('reviewDetail').innerHTML=emptyHTML('noSelection')}currentRow=0;await refreshAll();modalClose('confirmOverlay')}catch(e){alert(t('error')+': '+String(e))}finally{$('confirmDelete').disabled=false}}
+async function toggleReview(index){try{const rec=records.find(x=>x._row===index);if(!rec)return;const row=await resolveRow(rec);await setCell('是否已复核',row,rec['是否已复核']==='是'?'否':'是');await refreshAll();if(reviewRow===row)await selectReview(row)}catch(e){alert(t('error')+': '+String(e))}}
+async function selectReview(index){const rec=records.find(x=>x._row===index);if(!rec)return;$('reviewDetail').innerHTML=emptyHTML('polling','fa-spinner fa-spin');try{reviewRow=await resolveRow(rec);const d=await getDetail(reviewRow);$('reviewDetail').innerHTML=detailMeta(d)+`<h3 class="section-label">${esc(lang==='cn'?'主干提取结果':'Core analysis')}</h3><div class="markdown-body">${markdown(d['主干提取结果']||t('emptyResult'))}</div><div class="field" style="margin-top:20px"><label for="reviewNote">${t('note')}</label><textarea id="reviewNote" name="复核备注" rows="4">${esc(d['复核备注'])}</textarea></div><div class="btn-row"><button class="btn primary" type="button" id="saveReviewNote">${t('saveNote')}</button><button class="btn" type="button" id="markReview">${t('markDone')}</button><button class="btn" type="button" id="unmarkReview">${t('removeReview')}</button><button class="btn danger" type="button" id="deleteReview">${t('deleteRecord')}</button></div><div id="reviewMessage" class="message" role="status"></div>`;$('saveReviewNote').onclick=async()=>{try{await setCell('复核备注',reviewRow,$('reviewNote').value);await refreshAll();$('reviewMessage').textContent=t('saved')}catch(e){showError('reviewMessage',e)}};$('markReview').onclick=()=>changeReview('是');$('unmarkReview').onclick=()=>changeReview('否');$('deleteReview').onclick=()=>{const item=records.find(x=>x._row===index);if(item)openDelete(index)}}catch(e){$('reviewDetail').textContent=t('error')+': '+String(e)}}
+async function changeReview(value){try{await setCell('是否已复核',reviewRow,value);await refreshAll();await selectReview(reviewRow)}catch(e){if($('reviewMessage'))showError('reviewMessage',e)}}
+async function loadResult(index){$('analysisResult').innerHTML=emptyHTML('polling','fa-spinner fa-spin');try{const rec=records.find(x=>x._row===index);if(!rec)throw Error(t('noData'));const row=await resolveRow(rec);const d=await getDetail(row);$('analysisResult').innerHTML=resultHTML(d)}catch(e){$('analysisResult').textContent=t('error')+': '+String(e)}}
+async function submitNew(e){e.preventDefault();if(polling)return;const v=valuesFrom('newForm');v['英文句子']=v['英文句子'].trim();if(!v['英文句子']){showError('analyzeMessage',t('required'));return}if(!v['提取目标']){showError('analyzeMessage',t('selectTarget'));return}v['任务标题']=v['任务标题'].trim()||v['英文句子'].slice(0,30);v['创建时间']=localDateTime();v['是否已复核']='否';v['复核备注']='';polling=true;const token=++pollToken;$('analyzeSubmit').disabled=true;$('analyzeMessage').textContent=t('polling');$('analysisResult').innerHTML=`<div class="result-head"><h3>${esc(v['任务标题'])}</h3><span class="tag">${esc(v['难度等级'])}</span><span class="tag">${esc(v['提取目标'])}</span></div>${emptyHTML('polling','fa-spinner fa-spin')}`;try{await callAppBridge({type:'SubmitRecord',data:TABLE,payload:JSON.stringify(v)});currentRow=1;await refreshAll();const deadline=Date.now()+1800000;while(token===pollToken&&Date.now()<deadline){const content=await getCell('主干提取结果',1);if(String(content||'').trim()){if(token===pollToken){$('analysisResult').innerHTML=resultHTML({...v,'主干提取结果':content});$('analyzeMessage').textContent=''}return}await new Promise(resolve=>setTimeout(resolve,1000))}if(token===pollToken){$('analyzeMessage').textContent=t('timeout');$('analysisResult').innerHTML=emptyHTML('emptyResult')}}catch(err){if(token===pollToken){showError('analyzeMessage',err);$('analysisResult').innerHTML=emptyHTML('emptyResult')}}finally{if(token===pollToken){polling=false;$('analyzeSubmit').disabled=false;await refreshAll().catch(()=>{})}}}
+function clearAnalysis(){if(polling)return;$('newForm').reset();$('analyzeMessage').textContent='';$('analysisResult').innerHTML=emptyHTML('waiting');currentRow=0}
+function bindEvents(){$('brandButton').onclick=()=>{if(parent&&typeof parent.closeFullHtml==='function')parent.closeFullHtml(false)};$('menuButton').onclick=()=>{const open=$('mobileMenu').classList.toggle('open');$('menuButton').setAttribute('aria-expanded',String(open))};document.addEventListener('pointerdown',e=>{if(!$('topNav').contains(e.target))closeMenu()});$('languageButton').onclick=toggleLanguage;$('startButton').onclick=()=>navigate('analyze');$('homeAllButton').onclick=()=>navigate('records');$('analyzeRecordsButton').onclick=()=>navigate('records');$('recordsNewButton').onclick=()=>{clearAnalysis();navigate('analyze')};$('newForm').onsubmit=submitNew;$('clearButton').onclick=clearAnalysis;$('editForm').onsubmit=saveEdit;for(const [id,overlay] of [['detailClose','detailOverlay'],['editClose','editOverlay'],['editCancel','editOverlay'],['confirmClose','confirmOverlay'],['confirmCancel','confirmOverlay']])$(id).onclick=()=>modalClose(overlay);for(const id of ['detailOverlay','editOverlay','confirmOverlay'])$(id).addEventListener('pointerdown',e=>{if(e.target===$(id))modalClose(id)});$('confirmDelete').onclick=confirmDelete;for(const id of ['recordSearch','targetFilter','difficultyFilter','reviewFilter'])$(id).addEventListener(id==='recordSearch'?'input':'change',()=>{recordPage=1;renderRecords()});window.addEventListener('resize',fitNav);document.addEventListener('keydown',e=>{if(e.key==='Escape')airBack()});document.addEventListener('focusin',e=>{if(!e.target.matches('input,textarea,select'))return;setTimeout(()=>e.target.scrollIntoView({block:'center',behavior:'smooth'}),250)});if(window.visualViewport)visualViewport.addEventListener('resize',()=>{const a=document.activeElement;if(a?.matches?.('input,textarea,select'))setTimeout(()=>a.scrollIntoView({block:'center'}),120)})}
+async function initialize(){let languages=navigator.languages;if(!languages||!languages.length)lang='cn';else lang=languages.some(x=>String(x).toLowerCase().startsWith('zh'))?'cn':'en';const urlLang=new URLSearchParams(location.search).get('lang');if(urlLang==='cn'||urlLang==='en')lang=urlLang;const stored=localStorage.getItem('iThinkAir_UiLanguage');if(stored)lang=stored==='en'?'en':'cn';try{const mode=await callAppBridge({type:'模式'});document.body.classList.toggle('dark',String(mode).trim()==='暗色')}catch(e){}bindEvents();setLanguage(lang);clearAnalysis();try{await refreshAll()}catch(e){$('homeRecent').innerHTML=`<li class="list-item muted">${esc(t('error')+': '+String(e))}</li>`}}
+document.addEventListener('DOMContentLoaded',()=>{(async () => { await initialize(); })();});
+</script>
+</body>
+</html>

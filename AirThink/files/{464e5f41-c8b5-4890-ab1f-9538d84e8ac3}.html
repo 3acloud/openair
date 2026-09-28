@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>热带雨林 · 手绘演示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&amp;display=swap');
+        
+        :root {
+            --paper: #f8f1e3;
+            --ink: #1e3a5f;
+        }
+        
+        body {
+            background-color: #e8d9c2;
+            font-family: 'Caveat', cursive;
+        }
+        
+        .paper {
+            background-color: #f8f1e3;
+            background-image: 
+                linear-gradient(#d4c3a8 1px, transparent 1px),
+                linear-gradient(90deg, #d4c3a8 1px, transparent 1px);
+            background-size: 24px 24px;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.15),
+                inset 0 0 80px rgba(255,255,255,0.6),
+                inset 0 0 20px rgba(139, 115, 85, 0.1);
+            border: 1px solid #d4c3a8;
+        }
+        
+        .handwritten {
+            font-family: 'Caveat', cursive;
+            font-weight: 700;
+            color: #1e3a5f;
+            line-height: 1.3;
+        }
+        
+        .slide {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 4px 6px 0 #c5b39a;
+        }
+        
+        .hand-border {
+            border: 2px solid #1e3a5f;
+            border-radius: 3px;
+            box-shadow: 2px 2px 0 #1e3a5f;
+            position: relative;
+        }
+        
+        .hand-border::after {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border: 2px solid #1e3a5f;
+            border-radius: 3px;
+            opacity: 0.3;
+            transform: translate(3px, 3px);
+        }
+        
+        .section-title {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #1e3a5f;
+            text-shadow: 2px 2px 0 #c5b39a;
+        }
+        
+        .content-text {
+            font-size: 1.15rem;
+            line-height: 1.45;
+        }
+        
+        .nav-btn {
+            transition: all 0.2s ease;
+            font-family: 'Caveat', cursive;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .sketch-line {
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                #1e3a5f,
+                #1e3a5f 6px,
+                transparent 6px,
+                transparent 12px
+            );
+        }
+        
+        .slide-container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4 flex items-center justify-center">
+    <div class="slide-container w-full max-w-[980px]">
+        <!-- 标题栏 -->
+        <div class="flex items-center justify-between mb-6 px-2">
+            <div>
+                <h1 class="handwritten text-5xl text-[#1e3a5f]">热带雨林</h1>
+                <p class="handwritten text-xl text-[#4a3f2e] -mt-1">地球之肺的秘密</p>
+            </div>
+            <div class="handwritten text-[#4a3f2e] text-right">
+                <div class="text-lg">手绘笔记版</div>
+                <div id="page-indicator" class="text-sm">01 / 08</div>
+            </div>
+        </div>
+        
+        <!-- 幻灯片容器 -->
+        <div id="slide-container" 
+             class="paper hand-border w-full h-[520px] p-10 relative overflow-hidden rounded-xl">
+            
+            <!-- 幻灯片内容将通过 JS 动态渲染 -->
+            <div id="slide-content" class="h-full flex flex-col"></div>
+            
+        </div>
+        
+        <!-- 翻页控制 -->
+        <div class="flex justify-between items-center mt-6 px-4">
+            <button onclick="prevSlide()" 
+                    class="nav-btn px-6 py-2 bg-[#f8f1e3] border-2 border-[#1e3a5f] text-[#1e3a5f] rounded-full handwritten text-xl flex items-center gap-x-2 shadow">
+                <span>←</span> 
+                <span>上一页</span>
+            </button>
+            
+            <div class="flex gap-x-1">
+                <div onclick="goToSlide(0)" class="w-2 h-2 bg-[#1e3a5f] rounded-full cursor-pointer"></div>
+                <div onclick="goToSlide(1)" class="w-2 h-2 bg-[#1e3a5f] rounded-full cursor-pointer"></div>
+                <div onclick="goToSlide(2)" class="w-2 h-2 bg-[#1e3a5f] rounded-full cursor-pointer"></div>
+                <div onclick="goToSlide(3)" class="w-2 h-2 bg-[#1e3a5f] rounded-full cursor-pointer"></div>
+                <div onclick="goToSlide(4)" class="w-2 h-2 bg-[#1e3a5f] rounded-full cursor-pointer"></div>
+                <div onclick="goToSlide(5)" class="w-2 h-2 bg-[#1e3a5f] rounded-full cursor-pointer"></div>
+                <div onclick="goToSlide(6)" class="w-2 h-2 bg-[#1e3a5f] rounded-full cursor-pointer"></div>
+                <div onclick="goToSlide(7)" class="w-2 h-2 bg-[#1e3a5f] rounded-full cursor-pointer"></div>
+            </div>
+            
+            <button onclick="nextSlide()" 
+                    class="nav-btn px-6 py-2 bg-[#1e3a5f] text-[#f8f1e3] rounded-full handwritten text-xl flex items-center gap-x-2 shadow">
+                <span>下一页</span> 
+                <span>→</span>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // 幻灯片数据
+        const slides = [
+            {
+                title: "热带雨林",
+                subtitle: "地球上最古老的生态系统",
+                content: `
+                    <div class="flex flex-col justify-center h-full">
+                        <div class="max-w-md">
+                            <div class="sketch-line w-20 mb-6"></div>
+                            <p class="content-text text-2xl leading-tight">
+                                占地球陆地面积不到6%，<br>
+                                却拥有全球约50%的动植物物种。
+                            </p>
+                            <div class="mt-8 text-[#4a3f2e]">
+                                <div class="handwritten">主要分布在赤道附近的高温多雨地区</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "气候与生物多样性",
+                content: `
+                    <div class="space-y-8">
+                        <div>
+                            <div class="uppercase text-xs tracking-widest mb-1 text-[#4a3f2e]">CLIMATE</div>
+                            <div class="content-text text-xl">全年高温（25-28℃）<br>年降水量超过2000毫米</div>
+                        </div>
+                        <div>
+                            <div class="uppercase text-xs tracking-widest mb-1 text-[#4a3f2e]">BIODIVERSITY</div>
+                            <div class="content-text text-xl">包含全球一半的动植物物种<br>如美洲豹、树懒、巨嘴鸟、兰花</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "垂直层次结构",
+                content: `
+                    <div class="grid grid-cols-3 gap-5 h-full pt-2">
+                        <div class="hand-border p-4">
+                            <div class="font-bold mb-1 text-lg">冠层</div>
+                            <div class="text-sm">30-50米高的树木形成“绿色天花板”</div>
+                        </div>
+                        <div class="hand-border p-4">
+                            <div class="font-bold mb-1 text-lg">林下层</div>
+                            <div class="text-sm">光线较弱，适应阴湿环境的动植物栖息</div>
+                        </div>
+                        <div class="hand-border p-4">
+                            <div class="font-bold mb-1 text-lg">地面层</div>
+                            <div class="text-sm">腐殖质丰富，分解者活跃</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "地理分布",
+                content: `
+                    <div class="grid grid-cols-2 gap-x-8 gap-y-6 pt-3">
+                        <div><span class="font-bold">南美洲</span><br>亚马逊雨林（全球最大）</div>
+                        <div><span class="font-bold">非洲</span><br>刚果盆地雨林</div>
+                        <div><span class="font-bold">东南亚</span><br>婆罗洲、苏门答腊雨林</div>
+                        <div><span class="font-bold">大洋洲</span><br>澳大利亚昆士兰潮湿热带区</div>
+                    </div>
+                `
+            },
+            {
+                title: "生态系统服务",
+                content: `
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div> 调节气候与水循环</div>
+                            <div> 储存约20%陆地碳</div>
+                        </div>
+                        <div class="space-y-4">
+                            <div> 防止水土流失</div>
+                            <div> 25%现代药物源自雨林</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "面临的威胁",
+                content: `
+                    <div class="space-y-5 pt-2">
+                        <div class="flex gap-x-3 items-start">
+                            <div class="w-2 h-2 bg-[#1e3a5f] mt-2.5 rounded-full flex-shrink-0"></div>
+                            <div>每年约10万平方公里雨林消失</div>
+                        </div>
+                        <div class="flex gap-x-3 items-start">
+                            <div class="w-2 h-2 bg-[#1e3a5f] mt-2.5 rounded-full flex-shrink-0"></div>
+                            <div>气候变化导致干旱与火灾增加</div>
+                        </div>
+                        <div class="flex gap-x-3 items-start">
+                            <div class="w-2 h-2 bg-[#1e3a5f] mt-2.5 rounded-full flex-shrink-0"></div>
+                            <div>物种灭绝速度远超自然速率</div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "保护措施",
+                content: `
+                    <div class="grid grid-cols-2 gap-x-8 gap-y-5 pt-2">
+                        <div>国际合作：巴黎协定、REDD+</div>
+                        <div>可持续开发与生态旅游</div>
+                        <div>建立保护区网络</div>
+                        <div>支持FSC环保认证产品</div>
+                    </div>
+                `
+            },
+            {
+                title: "有趣的事实",
+                content: `
+                    <div class="space-y-6 pt-1">
+                        <div class="content-text"> 雨林氧气主要来自海洋浮游生物</div>
+                        <div class="content-text"> 大量昆虫和植物尚未被命名</div>
+                        <div class="content-text"> 原住民拥有独特的生态知识</div>
+                    </div>
+                `
+            }
+        ]
+        
+        let currentSlide = 0
+        
+        function renderSlide(index) {
+            const container = document.getElementById('slide-content')
+            const slide = slides[index]
+            
+            container.innerHTML = `
+                <div class="h-full flex flex-col">
+                    <div>
+                        <div class="section-title handwritten">${slide.title}</div>
+                        ${slide.subtitle ? `<div class="handwritten text-2xl mt-1 text-[#4a3f2e]">${slide.subtitle}</div>` : ''}
+                    </div>
+                    
+                    <div class="flex-1 mt-6">
+                        ${slide.content}
+                    </div>
+                </div>
+            `
+            
+            // 更新页码
+            document.getElementById('page-indicator').innerHTML = 
+                `${String(index + 1).padStart(2, '0')} / 08`
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length
+            renderSlide(currentSlide)
+        }
+        
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length
+            renderSlide(currentSlide)
+        }
+        
+        function goToSlide(index) {
+            currentSlide = index
+            renderSlide(currentSlide)
+        }
+        
+        // 键盘控制
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide()
+            if (e.key === 'ArrowLeft') prevSlide()
+        })
+        
+        // 初始化
+        function init() {
+            renderSlide(0)
+            
+            // 初始页码
+            document.getElementById('page-indicator').innerHTML = '01 / 08'
+            
+            // 添加纸张轻微抖动效果（手绘质感）
+            const paper = document.getElementById('slide-container')
+            setTimeout(() => {
+                paper.style.boxShadow = '4px 8px 0 #c5b39a, 0 10px 30px rgba(0,0,0,0.12)'
+            }, 800)
+        }
+        
+        window.onload = init
+    </script>
+</body>
+</html>

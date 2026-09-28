@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>云途 · 旅行规划器</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+<style>
+:root{--ink:#173e50;--muted:#607985;--paper:#fffdf8;--line:#d7e2e3;--accent:#e97843;--accent-hover:#d16030;--sea:#d8ebee;--gold:#eed4a0;--bg-top:#fff0d5;--bg-bottom:#dfedf0;--shadow:0 10px 32px #244a5910;--keyboard:0px;font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--ink);background:var(--bg-bottom)}
+:root[data-theme=dark]{--ink:#e3edf0;--muted:#a3bac3;--paper:#1e3541;--line:#36515d;--accent:#f08b58;--accent-hover:#f5a376;--sea:#2d505d;--gold:#765f39;--bg-top:#2e302f;--bg-bottom:#102b39;--shadow:0 12px 32px #0003}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,var(--bg-top),var(--bg-bottom));min-height:100vh}body:before{content:"";position:fixed;inset:12% 5%;pointer-events:none;opacity:.045;background:radial-gradient(ellipse at 22% 26%,var(--ink) 0 11%,transparent 12%),radial-gradient(ellipse at 35% 60%,var(--ink) 0 8%,transparent 9%),radial-gradient(ellipse at 64% 33%,var(--ink) 0 20%,transparent 21%),radial-gradient(ellipse at 80% 72%,var(--ink) 0 7%,transparent 8%);z-index:0}button,input,select,textarea{font:inherit}input,select,textarea{box-sizing:border-box}button,a,input,select{ -webkit-tap-highlight-color:transparent}button,a{touch-action:manipulation}button{cursor:pointer}button:disabled{opacity:.48;cursor:not-allowed}button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}[hidden]{display:none!important}a{color:var(--accent)}
+.header{position:fixed;inset:0 0 auto;z-index:1001;background:#173e50f2;border-bottom:1px solid #efd39b;backdrop-filter:blur(18px);color:#fff}.nav{position:relative;z-index:1001;max-width:1240px;margin:auto;height:76px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:flex;align-items:center;gap:11px;flex-shrink:0;background:none;border:0;color:#fff;padding:0;text-align:left}.brand-mark{position:relative;font-size:29px;color:#f4d49a}.brand-mark .fa-paper-plane{position:absolute;right:-6px;bottom:-1px;font-size:13px;color:#fff}.brand-text{font-size:18px;font-weight:700;letter-spacing:1px}.nav-items{display:flex;gap:7px;align-items:center;white-space:nowrap}.nav-item,.language,.menu-toggle{border:0;background:transparent;color:#d6e5e9;padding:11px 16px;border-radius:10px;white-space:nowrap}.nav-item.active{color:#ffdbab;background:#ffffff12}.nav-item:hover,.language:hover,.menu-toggle:hover{background:#ffffff19}.language{border:1px solid #ffffff38;margin-left:12px}.menu-toggle{font-size:20px}.nav.compact>.nav-items{visibility:hidden;position:absolute;pointer-events:none;width:max-content;right:0;top:0}.mobile-menu{position:absolute;top:100%;left:12px;right:12px;padding:12px;background:#173e50;border:1px solid #efcf9455;box-shadow:var(--shadow);border-radius:0 0 16px 16px}.mobile-menu button{display:block;width:100%;text-align:left;margin:0 0 5px}
+main{position:relative;max-width:1184px;margin:auto;padding:114px 28px 90px}.hero{text-align:center;padding:48px 0 44px;position:relative}.eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:12px}.eyebrow:before,.eyebrow:after{content:"";width:44px;border-top:1px solid var(--accent)}h1{font-size:clamp(28px,4.4vw,48px);line-height:1.35;letter-spacing:1px;margin:21px 0 18px;font-weight:750}h2{font-size:23px;letter-spacing:.5px;margin:0}h3{margin:0;font-size:18px}.hero p{max-width:660px;margin:0 auto 27px;line-height:1.9;color:var(--muted);font-size:15px}.hero:after{content:"";position:absolute;left:8%;right:8%;height:110px;top:80px;border:1px dashed var(--muted);border-radius:50%;opacity:.13;transform:rotate(-9deg);pointer-events:none}.btn{border:1px solid transparent;border-radius:11px;padding:11px 17px;display:inline-flex;gap:9px;align-items:center;justify-content:center;font-weight:600;transition:transform .2s,background .2s;background:var(--accent);color:#fff}.btn:hover:enabled{background:var(--accent-hover);transform:translateY(-2px)}.btn.secondary{border-color:var(--line);background:var(--paper);color:var(--ink)}.btn.secondary:hover:enabled{background:var(--sea)}.btn.small{padding:8px 11px;font-size:12px}.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)}.btn.danger{background:#ba4c40;color:white}.hero .btn{padding:15px 27px;box-shadow:0 8px 22px #e978432b}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:2px 0 38px}.ticket{background:var(--paper);border:1px solid var(--line);border-radius:19px;box-shadow:var(--shadow);position:relative;overflow:hidden}.ticket:before{content:"";position:absolute;left:0;top:21px;bottom:21px;width:4px;background:var(--accent);border-radius:0 4px 4px 0}.stat{padding:23px 26px;display:flex;gap:18px;align-items:center}.stat-icon{background:var(--sea);border-radius:14px;width:47px;height:47px;display:grid;place-items:center;color:var(--ink);font-size:19px}.stat:nth-child(2) .stat-icon{background:var(--gold)}.stat strong{font-size:30px;display:block;margin-bottom:3px;font-weight:650}.stat span{font-size:13px;color:var(--muted)}.section-head,.page-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:21px}.section-head .muted{font-size:12px;letter-spacing:1px}.page-head{margin:10px 0 29px}.page-head h1{font-size:32px;margin:0 0 9px}.page-head p{margin:0;color:var(--muted);line-height:1.7}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.trip{transition:transform .22s,box-shadow .22s}.trip:hover{transform:translateY(-4px);box-shadow:0 15px 36px #23485820}.trip-body{padding:24px 23px 18px;cursor:pointer;outline-offset:-4px}.trip-heading{display:flex;align-items:start;justify-content:space-between;gap:12px}.trip h3{font-size:23px;overflow-wrap:anywhere}.trip .flight{color:var(--accent);font-size:15px;margin-bottom:17px;transition:transform .3s}.trip:hover .flight{transform:translate(8px,-5px) rotate(-12deg)}.badge{border-radius:6px;padding:5px 8px;font-size:11px;white-space:nowrap;background:#dce3e7;color:#3b596b}.badge.comfort{background:#d5e9ec;color:#376776}.badge.luxury{background:#f4e1b6;color:#806332}.dates{font-size:12px;color:var(--muted);margin:12px 0 18px;line-height:1.8}.trip-facts{display:flex;gap:15px;border-top:1px dashed var(--line);padding-top:15px;font-size:13px;flex-wrap:wrap}.trip-facts i{color:var(--muted);margin-right:5px}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}.chip{font-size:11px;padding:4px 8px;border-radius:6px;background:var(--sea);color:var(--ink)}.diet{font-size:12px;color:var(--muted);margin:12px 0 0}.trip-actions{border-top:1px dashed var(--line);display:flex;gap:8px;padding:13px 20px}.trip-actions button{flex:1}.muted{color:var(--muted)}.empty{text-align:center;padding:55px 22px;color:var(--muted);grid-column:1/-1}.empty i{font-size:48px;color:var(--accent);opacity:.65;display:block;margin:0 auto 22px}.empty p{line-height:1.8}.planner{display:grid;grid-template-columns:minmax(300px, .95fr) minmax(0,1.2fr);gap:26px;align-items:start}.panel{padding:27px}.panel-heading{padding-bottom:19px;border-bottom:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.panel-heading h2{font-size:19px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 16px}.field{min-width:0}.field.full{grid-column:1/-1}.field>label,.field legend{display:block;font-size:13px;font-weight:650;margin-bottom:9px}.required{color:var(--accent)}input,select,textarea{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);outline:none;min-width:0}input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #e9784315}input::placeholder{color:var(--muted);opacity:.8}.preferences{display:flex;flex-wrap:wrap;gap:8px}.preferences label{cursor:pointer;position:relative}.preferences input{position:absolute;opacity:0;width:1px;min-height:0;height:1px}.preferences span{display:block;padding:9px 12px;border:1px solid var(--line);border-radius:9px;font-size:12px}.preferences input:checked+span{border-color:var(--accent);color:var(--accent);background:#e9784310}.preferences input:focus-visible+span{outline:2px solid var(--accent)}fieldset{padding:0;margin:0;border:0}.form-note{font-size:12px;color:var(--muted);line-height:1.7;margin:16px 0}.submit{width:100%;margin-top:22px;padding:14px}.result-panel{min-height:590px}.result-tools{display:flex;gap:7px;flex-wrap:wrap}.result-panel .panel-heading{align-items:start;flex-wrap:wrap}.route-art{width:145px;height:145px;border:1px dashed var(--muted);border-radius:50%;margin:45px auto 25px;display:grid;place-items:center;position:relative}.route-art i{font-size:48px;transform:rotate(-18deg);margin:0}.route-art:before,.route-art:after{content:"";position:absolute;width:13px;height:13px;border-radius:50%;background:var(--gold);top:6px;left:22px}.route-art:after{top:auto;left:auto;right:17px;bottom:12px;background:var(--sea)}.loading{padding:28px 15px;text-align:center;color:var(--muted);line-height:1.9}.loading i{color:var(--accent);font-size:28px}.filters{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;gap:13px;margin-bottom:24px;padding:20px}.filters label{font-size:11px;display:block;margin-bottom:7px;color:var(--muted)}.list-meta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:0 0 18px;font-size:13px}.error-bar{border:1px solid #c36551;background:var(--paper);padding:13px 16px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.footer{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--muted);font-size:11px;letter-spacing:2px;margin-top:50px}.modal{position:fixed;inset:0;z-index:2000;background:#071b2b99;display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(5px)}.dialog{background:var(--paper);border:1px solid var(--line);border-radius:22px;width:min(680px,100%);max-height:calc(100dvh - 48px);display:flex;flex-direction:column;box-shadow:0 24px 90px #0004;overflow:hidden}.dialog.large{width:min(1050px,100%);height:calc(100dvh - 48px)}.dialog-head{display:flex;align-items:center;justify-content:space-between;padding:20px 25px;border-bottom:1px solid var(--line);gap:20px}.dialog-head h2{font-size:21px}.close{background:var(--sea);color:var(--ink);border:0;border-radius:50%;width:35px;height:35px;flex-shrink:0}.dialog-body{padding:25px;overflow:auto;overscroll-behavior:contain;scroll-padding-bottom:120px}.dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px;flex-wrap:wrap}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:26px;padding-bottom:25px;border-bottom:1px dashed var(--line)}.summary dt{font-size:12px;color:var(--muted);margin-bottom:6px}.summary dd{margin:0;overflow-wrap:anywhere;font-size:14px}.markdown{line-height:1.85;font-size:14px;overflow-wrap:anywhere;min-width:0}.markdown h1,.markdown h2,.markdown h3{line-height:1.5;margin:1.35em 0 .65em;letter-spacing:0}.markdown h1{font-size:27px}.markdown h2{font-size:22px;border-bottom:1px solid var(--line);padding-bottom:8px}.markdown h3{font-size:18px}.markdown img{max-width:100%;height:auto;border-radius:10px;cursor: pointer}.markdown pre{padding:16px;overflow:auto;background:var(--sea);border-radius:10px}.markdown code{background:var(--sea);border-radius:4px;padding:2px 4px}.markdown pre code{padding:0}.markdown blockquote{margin:15px 0;padding:8px 18px;border-left:3px solid var(--accent);background:var(--sea)}.markdown table{border-collapse:collapse;width:max-content;min-width:100%;max-width:100%}.markdown td,.markdown th{border:1px solid var(--line);padding:9px 12px}.table-scroll{overflow-x:auto;max-width:100%}.markdown input[type=checkbox]{width:auto;min-height:0}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:12px 19px;z-index:4000;border-radius:12px;width:max-content;max-width:calc(100% - 32px);font-size:13px}.download-link{display:inline-flex;margin:14px 0;font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(min-width:1100px){#recent-grid{grid-template-columns:repeat(4,minmax(0,1fr))}#recent-grid .trip-body{padding:22px 19px}#recent-grid h3{font-size:21px}}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.filters .search{grid-column:1/-1}.planner{grid-template-columns:1fr}.result-panel{min-height:380px}.stats{gap:12px}.stat{padding:18px 16px;gap:12px}.stat-icon{width:38px;height:38px;flex-shrink:0}}
+@media(max-width:600px){.nav{height:66px;padding:0 18px;gap:12px}.brand-text{font-size:15px;letter-spacing:0}.brand-mark{font-size:25px}main{padding:90px 18px calc(160px + var(--keyboard))}.hero{padding:24px 0 31px}.hero h1{font-size:30px}.hero p{font-size:14px}.eyebrow{font-size:9px;letter-spacing:2px}.stats{gap:8px;margin-bottom:30px}.stat{display:block;text-align:center;padding:16px 5px}.stat-icon{margin:0 auto 10px;width:32px;height:32px;font-size:14px;border-radius:10px}.stat strong{font-size:25px}.stat span{font-size:11px}.grid{grid-template-columns:1fr}.section-head h2{font-size:20px}.page-head{align-items:start;flex-direction:column;gap:15px}.page-head h1{font-size:28px}.page-head p{font-size:13px}.panel{padding:22px 18px}.form-grid{gap:18px 12px}.filters{padding:16px;gap:12px}.modal{padding:14px}.dialog{max-height:calc(100dvh - 28px);border-radius:16px}.modal.detail-modal{padding:0}.detail-modal .dialog{height:100dvh;max-height:100dvh;width:100%;border:0;border-radius:0}.dialog-head{padding:18px}.dialog-body{padding:20px 18px calc(150px + var(--keyboard))}.summary{grid-template-columns:repeat(2,1fr)}input,select,textarea{font-size:16px}.trip-actions .btn{font-size:13px}.footer{letter-spacing:1px}.result-tools .btn{font-size:11px}.toast{bottom:20px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="header"><nav id="top-nav" class="nav" aria-label="Main navigation">
+<button id="brand" class="brand"><span class="brand-mark"><i class="fa-regular fa-compass"></i><i class="fa-solid fa-paper-plane"></i></span><span class="brand-text" data-cn="云途 · 旅行规划器" data-en="Cloudway · Travel Planner"></span></button>
+<div id="desktop-nav" class="nav-items"><button class="nav-item active" data-page="home" data-cn="首页" data-en="Home"></button><button class="nav-item" data-page="plan" data-cn="规划行程" data-en="Plan a trip"></button><button class="nav-item" data-page="trips" data-cn="我的行程" data-en="My trips"></button><button class="language" data-language>EN / 中文</button></div>
+<button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" hidden><i class="fa-solid fa-bars"></i><span class="sr-only" data-cn="打开菜单" data-en="Open menu"></span></button>
+<div id="mobile-menu" class="mobile-menu" hidden><button class="nav-item" data-page="home" data-cn="首页" data-en="Home"></button><button class="nav-item" data-page="plan" data-cn="规划行程" data-en="Plan a trip"></button><button class="nav-item" data-page="trips" data-cn="我的行程" data-en="My trips"></button><button class="language" data-language>EN / 中文</button></div>
+</nav></header>
+<main>
+<div id="load-error" class="error-bar" hidden><span id="load-error-text"></span><button id="retry" class="btn small secondary" data-cn="重新加载" data-en="Retry"></button></div>
+<section id="page-home">
+<div class="hero"><div class="eyebrow"><i class="fa-solid fa-plane"></i><span data-cn="每一段旅程，都值得期待" data-en="Every journey begins with possibility"></span></div><h1 data-cn="把下一趟旅途，交给会规划的旅伴" data-en="Your next adventure, thoughtfully planned."></h1><p data-cn="填写目的地、天数与出行偏好，AI 智能体为你生成含每日行程、住宿、美食、交通与预算的完整方案" data-en="Share your destination, dates and travel preferences. Your AI companion will plan each day, with stays, food, transport and a complete budget."></p><button class="btn" data-page="plan"><span data-cn="开始规划行程" data-en="Start planning"></span><i class="fa-solid fa-arrow-right"></i></button></div>
+<div class="stats"><div class="ticket stat"><div class="stat-icon"><i class="fa-solid fa-suitcase-rolling"></i></div><div><strong id="stat-total">—</strong><span data-cn="总行程数" data-en="Total trips"></span></div></div><div class="ticket stat"><div class="stat-icon"><i class="fa-solid fa-plane-departure"></i></div><div><strong id="stat-upcoming">—</strong><span data-cn="即将出发" data-en="Upcoming"></span></div></div><div class="ticket stat"><div class="stat-icon"><i class="fa-regular fa-calendar-check"></i></div><div><strong id="stat-month">—</strong><span data-cn="本月规划" data-en="This month"></span></div></div></div>
+<div class="section-head"><h2 data-cn="最近行程" data-en="Recent journeys"></h2><button class="btn small ghost" data-page="trips"><span data-cn="查看全部" data-en="View all"></span><i class="fa-solid fa-arrow-right"></i></button></div><div id="recent-grid" class="grid" aria-live="polite"></div>
+</section>
+<section id="page-plan" hidden><div class="page-head"><div><h1 data-cn="规划新行程" data-en="Plan a new journey"></h1><p data-cn="告诉我你想去哪，其余交给旅伴" data-en="Tell us where you want to go. Leave the details to your companion."></p></div><button class="btn secondary" data-page="trips" data-cn="查看我的行程" data-en="View my trips"></button></div>
+<div class="planner"><div class="ticket panel"><div class="panel-heading"><h2><i class="fa-regular fa-compass"></i> <span data-cn="旅行计划" data-en="Your travel wish list"></span></h2><span class="muted" style="font-size:11px">01 / PLAN</span></div><form id="plan-form"><div id="plan-fields" class="form-grid"></div><p class="form-note" data-cn="选择至少一项兴趣偏好，让旅途更合心意。" data-en="Choose at least one interest to make this journey yours."></p><button id="generate" class="btn submit" type="submit" disabled><i class="fa-solid fa-wand-magic-sparkles"></i><span data-cn="生成完整行程" data-en="Generate full itinerary"></span></button></form></div>
+<div class="ticket panel result-panel"><div class="panel-heading"><h2 data-cn="行程方案详情" data-en="Your itinerary"></h2><div class="result-tools"><button id="reset-plan" class="btn small secondary" data-cn="重新规划" data-en="Start over"></button><button id="download-plan" class="btn small secondary" disabled><i class="fa-solid fa-download"></i><span data-cn="下载行程" data-en="Download"></span></button></div></div><div id="generation-status" role="status" aria-live="polite"></div><div id="result-empty" class="empty"><div class="route-art"><i class="fa-regular fa-paper-plane"></i></div><h3 data-cn="下一站，心之所向" data-en="Next stop: somewhere wonderful"></h3><p data-cn="填好左侧心愿单，生成后航线会出现在这里" data-en="Complete your wish list. Your journey will appear here once it is ready."></p></div><article id="plan-result" class="markdown" hidden></article><div id="download-area"></div></div></div></section>
+<section id="page-trips" hidden><div class="page-head"><div><h1 data-cn="我的行程" data-en="My journeys"></h1><p data-cn="所有已经规划过的航线，随时回看、改期或删除" data-en="All your planned adventures, ready to revisit, reschedule or remove."></p></div><button class="btn" data-page="plan"><i class="fa-solid fa-plus"></i><span data-cn="规划新行程" data-en="Plan a new trip"></span></button></div>
+<div class="ticket filters"><div class="search"><label for="trip-search" data-cn="搜索行程" data-en="Search trips"></label><input id="trip-search" type="search" data-placeholder-cn="搜索目的地、旅行风格、兴趣偏好" data-placeholder-en="Destination, travel style or interests"></div><div><label for="filter-style" data-cn="旅行风格" data-en="Travel style"></label><select id="filter-style"></select></div><div><label for="filter-diet" data-cn="饮食限制" data-en="Diet"></label><select id="filter-diet"></select></div><div><label for="filter-from" data-cn="最早出发" data-en="Depart after"></label><input id="filter-from" type="date"></div><div><label for="filter-to" data-cn="最晚出发" data-en="Depart before"></label><input id="filter-to" type="date"></div></div>
+<div class="list-meta"><span id="list-count" class="muted"></span><button id="clear-filters" class="btn small ghost" data-cn="清除筛选" data-en="Clear filters"></button></div><div id="trips-grid" class="grid" aria-live="polite"></div><div style="text-align:center;margin-top:24px"><button id="load-more" class="btn secondary" hidden data-cn="查看更多" data-en="Show more"></button></div>
+</section><footer class="footer"><i class="fa-regular fa-compass"></i><span data-cn="云途 · 带着期待出发" data-en="CLOUDWAY · TRAVEL WITH POSSIBILITY"></span></footer>
+</main><div id="modal-root"></div><div id="toast" class="toast" role="status" hidden></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("7c758bd5aa3d131c_旅行规划器")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+</script>
+<script>
+const SOURCE='旅行计划/默认表格',TABLE='旅行计划';
+const FIELDS=['目的地','天数','出发日期','返回日期','预算','旅行风格','同行人数','兴趣偏好','饮食限制'];
+const EN={'目的地':'Destination','天数':'Days','出发日期':'Departure date','返回日期':'Return date','预算':'Budget','旅行风格':'Travel style','同行人数':'Travelers','兴趣偏好':'Interests','饮食限制':'Dietary needs','行程方案':'Itinerary','经济型':'Economy','舒适型':'Comfort','豪华型':'Luxury','美食':'Food','文化':'Culture','自然':'Nature','购物':'Shopping','亲子':'Family','不限制':'No restrictions','素食':'Vegetarian','清真':'Halal'};
+const OPTIONS={'旅行风格':['经济型','舒适型','豪华型'],'兴趣偏好':['美食','文化','自然','购物','亲子'],'饮食限制':['不限制','素食','清真']};
+let lang='cn',page='home',historyStack=[],currentRow=0,records=[],loaded=false,loadFailed=false,visibleCount=12,busy=false,mutating=false,reading=false,planMarkdown='',generationState='',generationError='',modals=[],loadPromise=null,toastTimer;
+const $=id=>document.getElementById(id),t=(cn,en)=>lang==='cn'?cn:en,label=v=>lang==='cn'?v:(EN[v]||v);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function dateString(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function localDate(v){const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(v||'');if(!m)return null;const d=new Date(+m[1],+m[2]-1,+m[3]);return dateString(d)===m[0]?d:null;}
+function getLanguage(){let stored=null;try{stored=localStorage.getItem('iThinkAir_UiLanguage');}catch(e){}if(stored)return stored==='en'?'en':'cn';const param=new URLSearchParams(location.search).get('lang');if(param==='cn'||param==='en')return param;const ls=navigator.languages;return !ls||!ls.length||ls.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en';}
+function translate(root=document){root.querySelectorAll('[data-cn]').forEach(el=>el.textContent=el.dataset[lang]);root.querySelectorAll('[data-placeholder-cn]').forEach(el=>el.placeholder=el.dataset[lang==='cn'?'placeholderCn':'placeholderEn']);}
+function notify(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,6000);}
+function errorText(e){return e instanceof Error?e.message:String(e);}
+async function request(type,data,payload){const result=await callAppBridge({type,...(data!==undefined?{data}:{}),...(payload!==undefined?{payload}: {})});const s=String(result??'');if(/^(error\b|错误[：:]|失败[：:])/i.test(s.trim()))throw new Error(s);try{const o=JSON.parse(s);if(o&&typeof o==='object'&&(o.success===false||o.error))throw new Error(o.message||o.error);}catch(e){if(!(e instanceof SyntaxError))throw e;}return s;}
+function closeMenu(){$('mobile-menu').hidden=true;$('menu-toggle').setAttribute('aria-expanded','false');}
+function fitNav(){const nav=$('top-nav'),style=getComputedStyle(nav),available=nav.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);const compact=$('brand').offsetWidth+$('desktop-nav').scrollWidth+24>available;nav.classList.toggle('compact',compact);$('menu-toggle').hidden=!compact;if(!compact)closeMenu();}
+function navigate(next,remember=true,scroll=0){closeMenu();if(next===page)return;if(remember)historyStack.push({page,scroll:window.scrollY});page=next;['home','plan','trips'].forEach(p=>$('page-'+p).hidden=p!==page);document.querySelectorAll('.nav-item').forEach(b=>{b.classList.toggle('active',b.dataset.page===page);if(b.dataset.page===page)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});window.scrollTo(0,scroll);if(next==='trips'&&!loaded)void refreshData();}
+window.airBack=function(){if(modals.length){closeModal();return 'false';}if(!$('mobile-menu').hidden){closeMenu();return 'false';}if(historyStack.length){const prev=historyStack.pop();navigate(prev.page,false,prev.scroll);return 'false';}return 'true';};
+function preferenceValues(v){return String(v||'').split(/[,，;；、|\n]+/).map(x=>x.trim()).filter(Boolean);}
+function formMarkup(prefix,values={}){return FIELDS.map((field,index)=>{const id=prefix+'-field-'+index,value=values[field]??({'同行人数':'1','旅行风格':'舒适型','饮食限制':'不限制'}[field]??''),required=['目的地','天数','出发日期'].includes(field);let control='';if(field==='兴趣偏好'){return `<fieldset class="field full"><legend>${esc(label(field))} <span class="required">*</span></legend><div class="preferences">${OPTIONS[field].map((option,i)=>`<label for="${id}-${i}"><input id="${id}-${i}" type="checkbox" name="${field}" value="${option}" ${preferenceValues(value).includes(option)?'checked':''}><span>${esc(label(option))}</span></label>`).join('')}</div></fieldset>`;}if(OPTIONS[field]){control=`<select id="${id}" name="${field}">${OPTIONS[field].map(o=>`<option value="${o}" ${o===value?'selected':''}>${esc(label(o))}</option>`).join('')}</select>`;}else{const type=['出发日期','返回日期'].includes(field)?'date':['天数','同行人数','预算'].includes(field)?'number':'text';control=`<input id="${id}" name="${field}" type="${type}" value="${esc(value)}" ${required?'required':''} ${['天数','同行人数'].includes(field)?'min="1" step="1"':field==='预算'?'min="0" step="0.01"':''} ${field==='目的地'?`maxlength="200" placeholder="${t('例如：京都 / 冰岛 / 清迈','e.g. Kyoto / Iceland / Chiang Mai')}"`:field==='预算'?`placeholder="${t('整趟行程总预算','Total budget for the trip')}"`:''}>`; }return `<div class="field ${field==='目的地'?'full':''}"><label for="${id}">${esc(label(field))}${required?' <span class="required">*</span>':''}</label>${control}</div>`;}).join('');}
+function formValues(form){const data={};for(const field of FIELDS){data[field]=field==='兴趣偏好'?Array.from(form.querySelectorAll('input[name="兴趣偏好"]:checked'),el=>el.value).join(','):form.elements.namedItem(field).value.trim();}return data;}
+function autoReturn(form){const d=localDate(form.elements.namedItem('出发日期').value),days=Number(form.elements.namedItem('天数').value);if(d&&Number.isInteger(days)&&days>=1&&days<=36500){d.setDate(d.getDate()+days-1);form.elements.namedItem('返回日期').value=dateString(d);}}
+function bindForm(form){form.addEventListener('input',e=>{if(['出发日期','天数'].includes(e.target.name))autoReturn(form);if(form.id==='plan-form')updateControls();});form.addEventListener('change',e=>{if(['出发日期','天数'].includes(e.target.name))autoReturn(form);if(form.id==='plan-form')updateControls();});}
+function validate(form){if(!form.reportValidity())return null;const data=formValues(form);if(!data['目的地']||!Number.isInteger(+data['天数'])||+data['天数']<1||!localDate(data['出发日期'])){notify(t('请填写有效的目的地、天数和出发日期。','Enter a destination, valid day count and departure date.'));return null;}if(!data['兴趣偏好']){notify(t('请至少选择一项兴趣偏好。','Choose at least one interest.'));form.querySelector('input[name="兴趣偏好"]').focus();return null;}if(data['返回日期']&&(!localDate(data['返回日期'])||data['返回日期']<data['出发日期'])){notify(t('返回日期不能早于出发日期。','Return date must not be before departure.'));return null;}return data;}
+function updateControls(){const data=formValues($('plan-form'));$('generate').disabled=busy||mutating||reading||!data['目的地']||!data['天数']||!data['出发日期'];$('reset-plan').disabled=busy||mutating;$('download-plan').disabled=!planMarkdown||busy;for(const el of $('plan-form').querySelectorAll('input,select'))el.disabled=busy;document.querySelectorAll('[data-mutates]').forEach(el=>el.disabled=busy||mutating||reading);}
+function emptyMarkup(filtered=false){if(!loaded)return `<div class="empty"><i class="fa-solid ${loadFailed?'fa-cloud-arrow-down':'fa-circle-notch fa-spin'}"></i><p>${t(loadFailed?'暂时无法加载行程，请点击上方重新加载。':'正在读取你的行程…',loadFailed?'Trips could not be loaded. Use Retry above.':'Loading your journeys…')}</p></div>`;return `<div class="ticket empty"><i class="fa-regular fa-map"></i><h3>${t(filtered?'没有匹配的行程':'旅途，从一个心愿开始',filtered?'No matching journeys':'Every journey starts with a wish')}</h3><p>${t(filtered?'试试其他关键词或清除筛选条件。':'尚无行程，规划你的第一段航线吧。',filtered?'Try another keyword or clear your filters.':'No journeys yet. Plan your first adventure.')}</p>${filtered?'':`<button class="btn" data-page="plan">${t('去规划第一趟旅行','Plan your first trip')}</button>`}</div>`;}
+function card(record,actions){const r=record.values,style=r['旅行风格'],interests=preferenceValues(r['兴趣偏好']);return `<article class="ticket trip"><div class="trip-body" tabindex="0" role="button" data-detail="${record.row}" aria-label="${esc(t('查看行程：','View trip: ')+r['目的地'])}"><i class="fa-solid fa-plane flight"></i><div class="trip-heading"><h3>${esc(r['目的地']||t('未命名行程','Untitled journey'))}</h3><span class="badge ${style==='舒适型'?'comfort':style==='豪华型'?'luxury':''}">${esc(label(style))}</span></div><p class="dates">${esc(r['出发日期'])} → ${esc(r['返回日期'])}<br>${esc(r['天数'])} ${t('天','days')}</p><div class="trip-facts"><span><i class="fa-solid fa-wallet"></i>${esc(r['预算']||'—')}</span><span><i class="fa-regular fa-user"></i>${esc(r['同行人数']||'—')} ${t('人','travelers')}</span></div><div class="chips">${interests.map(v=>`<span class="chip">${esc(label(v))}</span>`).join('')}</div><p class="diet"><i class="fa-solid fa-utensils"></i> ${esc(label(r['饮食限制']))}</p></div>${actions?`<div class="trip-actions"><button class="btn small secondary" data-detail="${record.row}">${t('查看详情','Details')}</button><button class="btn small secondary" data-edit="${record.row}" data-mutates>${t('编辑','Edit')}</button><button class="btn small ghost" data-delete="${record.row}" data-mutates>${t('删除','Delete')}</button></div>`:''}</article>`;}
+function like(value,term){return String(value).toLocaleLowerCase().includes(term.toLocaleLowerCase());}
+function filteredRecords(){const term=$('trip-search').value.trim(),style=$('filter-style').value,diet=$('filter-diet').value,from=$('filter-from').value,to=$('filter-to').value;return records.filter(({values:r})=>{const searchable=[r['目的地'],r['旅行风格'],label(r['旅行风格']),r['兴趣偏好'],...preferenceValues(r['兴趣偏好']).map(label)].join(' ');return (!term||like(searchable,term))&&(!style||r['旅行风格']===style)&&(!diet||r['饮食限制']===diet)&&(!from||r['出发日期'].slice(0,10)>=from)&&(!to||(!!r['出发日期']&&r['出发日期'].slice(0,10)<=to));});}
+function renderLists(){const recent=[...records].sort((a,b)=>b.values['出发日期'].localeCompare(a.values['出发日期'])||a.row-b.row).slice(0,4);$('recent-grid').innerHTML=recent.length?recent.map(r=>card(r,false)).join(''):emptyMarkup();const matches=filteredRecords();$('trips-grid').innerHTML=matches.length?matches.slice(0,visibleCount).map(r=>card(r,true)).join(''):emptyMarkup(records.length>0);$('list-count').textContent=loaded?t(`共 ${matches.length} 条行程`,` ${matches.length} journeys`):'';$('load-more').hidden=matches.length<=visibleCount;updateControls();}
+async function refreshData(){if(loadPromise)return loadPromise;loadPromise=(async()=>{const results=await Promise.allSettled([request('GetTableCSV',SOURCE,FIELDS.join(',')),request('GetRecordCount',SOURCE),request('GetTableCSV',SOURCE,'出发日期')]);let errors=[];if(results[0].status==='fulfilled'){records=parseCSV(results[0].value).map((row,i)=>({row:i+1,values:Object.fromEntries(FIELDS.map((field,j)=>[field,row[j]??'']))}));loaded=true;loadFailed=false;}else{loadFailed=true;errors.push(errorText(results[0].reason));}if(results[1].status==='fulfilled'&&/^\d+$/.test(results[1].value.trim()))$('stat-total').textContent=results[1].value.trim();else{$('stat-total').textContent='—';errors.push(t('总行程数加载失败','Trip count unavailable'));}if(results[2].status==='fulfilled'){const today=dateString(new Date()),month=today.slice(0,7),dates=parseCSV(results[2].value).map(row=>row[0].slice(0,10)).filter(v=>localDate(v));$('stat-upcoming').textContent=dates.filter(v=>v>=today).length;$('stat-month').textContent=dates.filter(v=>v.slice(0,7)===month).length;}else{errors.push(errorText(results[2].reason));$('stat-upcoming').textContent='—';$('stat-month').textContent='—';}$('load-error').hidden=!errors.length;$('load-error-text').textContent=t('数据未完全加载：','Some data could not be loaded: ')+errors.join(' · ');renderLists();})();try{await loadPromise;}finally{loadPromise=null;}}
+function renderMarkdown(el,markdown){el.replaceChildren();if(!window.marked||!window.DOMPurify){const p=document.createElement('p');p.textContent=t('Markdown 渲染库加载失败，以下为原文。','Markdown renderer unavailable. Showing the original text.');const pre=document.createElement('pre');pre.textContent=markdown;el.append(p,pre);return;}el.innerHTML=DOMPurify.sanitize(marked.parse(markdown,{gfm:true,breaks:false}));el.querySelectorAll('img').forEach(img=>{const src=img.getAttribute('src')||'';if(!/^(https?:|data:)/i.test(src))img.src='http://' + window.location.hostname + ':3130/download/'+encodeURIComponent(src.replace(/^\//,''));img.tabIndex=0;img.title=t('点击下载图片','Click to download image');const download=()=>{const a=document.createElement('a');a.href=img.src;a.target='_blank';a.rel='noopener';a.download='';a.click();};img.addEventListener('click',e=>{e.preventDefault();download();});img.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();download();}});});el.querySelectorAll('a').forEach(a=>{a.target='_blank';a.rel='noopener noreferrer';});el.querySelectorAll('table').forEach(table=>{const wrap=document.createElement('div');wrap.className='table-scroll';table.replaceWith(wrap);wrap.append(table);});}
+function renderGeneration(){const status=$('generation-status');status.replaceChildren();$('result-empty').hidden=busy||!!planMarkdown; $('plan-result').hidden=!planMarkdown;if(planMarkdown)renderMarkdown($('plan-result'),planMarkdown);if(busy){status.innerHTML=`<div class="loading"><i class="fa-solid fa-compass fa-spin"></i><p>${t('旅伴正在为你绘制航线、挑选住宿与美食，请稍候…','Your companion is mapping your route and selecting stays and food. Please wait…')}</p><small>${t('请保持页面打开，生成期间无法重复提交。','Keep this page open. Submission is locked while generating.')}</small></div>`;}else if(generationState==='error'){const p=document.createElement('p');p.className='form-note';p.textContent=generationError;status.append(p);{const b=document.createElement('button');b.className='btn small secondary';b.textContent=t('前往我的行程查看','Check My trips');b.onclick=()=>{navigate('trips');void refreshData();};status.append(b);}}updateControls();}
+async function readRecord(row,includePlan=true){const values={};for(const field of includePlan?[...FIELDS,'行程方案']:FIELDS)values[field]=await request('GetCellValue',SOURCE,`${field}/${row}`);return values;}
+function openModal(title,body,{large=false,detail=false,locked=false}={}){const previous=document.activeElement,overlay=document.createElement('div');overlay.className='modal'+(detail?' detail-modal':'');overlay.style.zIndex=2000+modals.length;const headingId='dialog-title-'+(Date.now())+'-'+modals.length;overlay.innerHTML=`<div class="dialog ${large?'large':''}" role="dialog" aria-modal="true" aria-labelledby="${headingId}"><div class="dialog-head"><h2 id="${headingId}">${esc(title)}</h2><button class="close" aria-label="${t('关闭','Close')}"><i class="fa-solid fa-xmark"></i></button></div><div class="dialog-body"></div></div>`;overlay.querySelector('.dialog-body').append(body);const modal={overlay,previous,locked};modals.push(modal);$('modal-root').append(overlay);document.body.style.overflow='hidden';overlay.querySelector('.close').onclick=()=>closeModal();overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});overlay.querySelector('.close').focus();return modal;}
+function closeModal(){const modal=modals.at(-1);if(!modal)return;if(modal.locked){notify(t('正在保存，请稍候。','Saving. Please wait.'));return;}modals.pop();modal.overlay.remove();if(!modals.length)document.body.style.overflow='';if(modal.previous?.isConnected)modal.previous.focus({preventScroll:true});}
+function closeAllModals(){while(modals.length&&!modals.at(-1).locked)closeModal();}
+async function showDetails(row){if(mutating||reading)return;reading=true;updateControls();const body=document.createElement('div');body.className='muted';body.textContent=t('正在读取行程详情…','Loading trip details…');const modal=openModal(t('行程详情','Journey details'),body,{large:true,detail:true});try{currentRow=row;const values=await readRecord(row);if(!modal.overlay.isConnected)return;modal.overlay.querySelector('h2').textContent=values['目的地']||t('行程详情','Journey details');body.className='';body.innerHTML=`<dl class="summary">${FIELDS.map(f=>`<div><dt>${esc(label(f))}</dt><dd>${esc(f==='兴趣偏好'?preferenceValues(values[f]).map(label).join(' · '):label(values[f]))||'—'}</dd></div>`).join('')}</dl><article class="markdown"></article><div class="dialog-actions"><button class="btn secondary" data-close-detail>${t('关闭','Close')}</button><button class="btn" data-regenerate data-mutates><i class="fa-solid fa-wand-magic-sparkles"></i>${t('重新生成行程','Regenerate itinerary')}</button></div>`;const article=body.querySelector('.markdown');if(values['行程方案'].trim())renderMarkdown(article,values['行程方案']);else article.textContent=t('行程方案尚未生成，可稍后重新打开详情查看。','The itinerary is not ready yet. Reopen this journey later to check.');body.querySelector('[data-close-detail]').onclick=()=>closeModal();body.querySelector('[data-regenerate]').onclick=()=>{if(busy||mutating)return;closeAllModals();navigate('plan');$('plan-fields').innerHTML=formMarkup('plan-form',values);void generateTrip(Object.fromEntries(FIELDS.map(f=>[f,values[f]])));};}catch(e){body.textContent=t('读取失败：','Unable to load: ')+errorText(e);}finally{reading=false;updateControls();}}
+async function editRecord(row){if(busy||mutating||reading)return;reading=true;updateControls();const body=document.createElement('div');body.textContent=t('正在读取当前记录…','Loading the current record…');const modal=openModal(t('编辑行程','Edit journey'),body);try{currentRow=row;const values=await readRecord(row,false);if(!modal.overlay.isConnected)return;body.innerHTML=`<form id="edit-form"><div class="form-grid">${formMarkup('edit-form',values)}</div><p class="form-note">${t('保存仅更新旅行偏好；如需更新 AI 方案，请在详情中重新生成行程。','Saving updates your preferences. Regenerate from trip details to create an updated AI itinerary.')}</p><p class="form-note" id="edit-error" role="alert"></p><div class="dialog-actions"><button type="button" class="btn secondary" id="edit-cancel">${t('取消','Cancel')}</button><button type="submit" class="btn" id="edit-save" data-mutates>${t('保存更改','Save changes')}</button></div></form>`;const form=$('edit-form');bindForm(form);$('edit-cancel').onclick=()=>closeModal();form.onsubmit=async e=>{e.preventDefault();if(busy||mutating)return;const data=validate(form);if(!data)return;mutating=true;modal.locked=true;updateControls();Array.from(form.elements).forEach(el=>el.disabled=true);let saved=0;try{for(const f of FIELDS){await request('SetCellValue',SOURCE,`${f}/${row}/${data[f]}`);saved++;}modal.locked=false;closeModal();notify(t('行程已更新','Journey updated'));}catch(err){$('edit-error').textContent=t(`保存失败（已更新 ${saved} 个字段），可重试：`,`Save failed (${saved} fields updated). You may retry: `)+errorText(err);}finally{modal.locked=false;mutating=false;if(form.isConnected)Array.from(form.elements).forEach(el=>el.disabled=false);await refreshData();updateControls();}};}catch(e){body.textContent=t('读取失败：','Unable to load: ')+errorText(e);}finally{reading=false;updateControls();}}
+function confirmDelete(row){if(busy||mutating||reading)return;const rec=records.find(r=>r.row===row);if(!rec)return;const body=document.createElement('div');body.innerHTML=`<p>${esc(t(`确认删除这条去往「${rec.values['目的地']}」的行程吗？`,`Delete this journey to “${rec.values['目的地']}”?`))}</p><p class="form-note">${t('删除后无法恢复。','This cannot be undone.')}</p><div class="dialog-actions"><button class="btn secondary" data-cancel>${t('取消','Cancel')}</button><button class="btn danger" data-confirm>${t('确认删除','Delete journey')}</button></div>`;const modal=openModal(t('删除行程','Delete journey'),body);body.querySelector('[data-cancel]').onclick=()=>closeModal();body.querySelector('[data-confirm]').onclick=async()=>{if(busy||mutating)return;mutating=true;modal.locked=true;body.querySelector('[data-confirm]').disabled=true;updateControls();try{await request('DeleteRecord',SOURCE,row.toString());currentRow=0;modal.locked=false;closeModal();notify(t('行程已删除','Journey deleted'));await refreshData();}catch(e){notify(t('删除失败：','Delete failed: ')+errorText(e));}finally{modal.locked=false;mutating=false;if(body.isConnected)body.querySelector('[data-confirm]').disabled=false;updateControls();}};}
+async function pollPlan(row){const deadline=Date.now()+1800000;while(Date.now()<deadline){await new Promise(resolve=>setTimeout(resolve,1000));let timer;const remaining=deadline-Date.now();if(remaining<=0)break;try{const text=await Promise.race([request('GetCellValue',SOURCE,`行程方案/${row}`),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(t('生成等待已超时（30 分钟），稍后可在我的行程中查看。','Generation timed out after 30 minutes. Check My trips later.'))),remaining);})]);if(text.trim())return text;}finally{clearTimeout(timer);}}throw new Error(t('生成等待已超时（30 分钟），稍后可在我的行程中查看。','Generation timed out after 30 minutes. Check My trips later.'));}
+async function generateTrip(values){if(busy||mutating)return;busy=true;planMarkdown='';generationError='';generationState='submitting';$('download-area').replaceChildren();renderGeneration();let submitted=false;try{await request('SubmitRecord',TABLE,JSON.stringify(values));currentRow=1;submitted=true;generationState='polling';void refreshData();planMarkdown=await pollPlan(1);generationState='complete';}catch(e){generationState='error';generationError=(submitted?t('计划已保存，','Your trip was saved. '):t('提交未确认，请先查看我的行程再重试，以免重复创建。','Submission was not confirmed. Check My trips before retrying to avoid duplicates. '))+errorText(e);if(!submitted)currentRow=0;}finally{busy=false;renderGeneration();void refreshData();}}
+async function downloadPlan(){if(!planMarkdown)return;const button=$('download-plan');button.disabled=true;try{const response=(await request('WriteFile','行程方案.md',planMarkdown)).trim();let filename=response||'行程方案.md';try{const parsed=JSON.parse(response);if(typeof parsed==='string')filename=parsed;else if(parsed&&typeof parsed==='object')filename=parsed.filename||parsed.fileName||parsed.data||'行程方案.md';}catch(e){}if(['true','ok','success','成功'].includes(String(filename).toLowerCase()))filename='行程方案.md';const a=document.createElement('a');a.className='download-link';a.textContent=t('点击下载行程方案.md','Download itinerary.md');a.href='http://' + window.location.hostname + ':3130/download/'+encodeURIComponent(String(filename));a.target='_blank';a.rel='noopener';a.download='行程方案.md';$('download-area').replaceChildren(a);a.click();}catch(e){notify(t('下载失败：','Download failed: ')+errorText(e));}finally{updateControls();}}
+function setupFilters(){for(const [id,field] of [['filter-style','旅行风格'],['filter-diet','饮食限制']]){const prev=$(id).value;$(id).innerHTML=`<option value="">${t('全部','All')}</option>`+OPTIONS[field].map(v=>`<option value="${v}">${label(v)}</option>`).join('');$(id).value=prev;}}
+function switchLanguage(){const values=formValues($('plan-form'));lang=lang==='cn'?'en':'cn';try{localStorage.setItem('iThinkAir_UiLanguage',lang);}catch(e){}document.documentElement.lang=lang==='cn'?'zh-CN':'en';document.title=t('云途 · 旅行规划器','Cloudway · Travel Planner');translate();$('plan-fields').innerHTML=formMarkup('plan-form',values);setupFilters();renderLists();renderGeneration();closeMenu();fitNav();}
+function handleFocus(e){if(!e.target.matches('input,select,textarea'))return;setTimeout(()=>e.target.scrollIntoView({block:'center',behavior:'smooth'}),300);}
+async function initialize(){lang=getLanguage();document.documentElement.lang=lang==='cn'?'zh-CN':'en';document.title=t('云途 · 旅行规划器','Cloudway · Travel Planner');translate();$('plan-fields').innerHTML=formMarkup('plan-form');setupFilters();bindForm($('plan-form'));renderLists();$('brand').onclick=()=>{try{parent.closeFullHtml(false);}catch(e){notify(t('请在应用内使用关闭功能。','Open this page in the app to close it.'));}};$('menu-toggle').onclick=()=>{const open=$('mobile-menu').hidden;$('mobile-menu').hidden=!open;$('menu-toggle').setAttribute('aria-expanded',String(open));};document.querySelectorAll('[data-language]').forEach(b=>b.onclick=switchLanguage);document.addEventListener('click',e=>{if(!$('top-nav').contains(e.target))closeMenu();const nav=e.target.closest('[data-page]');if(nav){navigate(nav.dataset.page);return;}const details=e.target.closest('[data-detail]');if(details){void showDetails(+details.dataset.detail);return;}const edit=e.target.closest('[data-edit]');if(edit){void editRecord(+edit.dataset.edit);return;}const del=e.target.closest('[data-delete]');if(del)confirmDelete(+del.dataset.delete);});document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(modals.length)closeModal();else closeMenu();}if((e.key==='Enter'||e.key===' ')&&e.target.matches('.trip-body')){e.preventDefault();void showDetails(+e.target.dataset.detail);}if(e.key==='Tab'&&modals.length){const all=Array.from(modals.at(-1).overlay.querySelectorAll('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),[tabindex="0"]')).filter(el=>el.getClientRects().length),first=all[0],last=all.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}});$('plan-form').onsubmit=e=>{e.preventDefault();if(busy||mutating)return;const data=validate($('plan-form'));if(data)void generateTrip(data);};$('reset-plan').onclick=()=>{if(busy||mutating)return;$('plan-fields').innerHTML=formMarkup('plan-form');planMarkdown='';currentRow=0;generationState='';generationError='';$('plan-result').replaceChildren();$('download-area').replaceChildren();renderGeneration();};$('download-plan').onclick=()=>void downloadPlan();$('retry').onclick=()=>void refreshData();for(const id of ['trip-search','filter-style','filter-diet','filter-from','filter-to'])$(id).addEventListener('input',()=>{visibleCount=12;renderLists();});$('clear-filters').onclick=()=>{for(const id of ['trip-search','filter-style','filter-diet','filter-from','filter-to'])$(id).value='';visibleCount=12;renderLists();};$('load-more').onclick=()=>{visibleCount+=12;renderLists();};window.addEventListener('resize',fitNav);if(window.ResizeObserver)new ResizeObserver(fitNav).observe($('brand'));fitNav();document.addEventListener('focusin',handleFocus);if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>{const extra=Math.max(0,window.innerHeight-window.visualViewport.height-window.visualViewport.offsetTop);document.documentElement.style.setProperty('--keyboard',extra+'px');if(extra>100&&document.activeElement.matches('input,select,textarea'))document.activeElement.scrollIntoView({block:'center',behavior:'smooth'});});const modeTask=(async()=>{try{const mode=(await request('模式')).trim();document.documentElement.dataset.theme=mode.includes('暗色')?'dark':'light';}catch(e){document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';notify(t('无法读取应用模式，已使用系统主题。','App theme unavailable; using your system theme.'));}})();await Promise.allSettled([modeTask,refreshData()]);}
+(async () => { await initialize(); })();
+</script>
+</body>
+</html>

@@ -1,0 +1,785 @@
+{
+  "id": "04-longform-4gpu-base",
+  "revision": 0,
+  "last_node_id": 13,
+  "last_link_id": 14,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "RayInitializerAdvanced",
+      "pos": [
+        560,
+        60
+      ],
+      "size": [
+        330,
+        500
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "ray_actors_init",
+          "type": "RAY_ACTORS_INIT",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RayInitializerAdvanced",
+        "cnr_id": "raylight"
+      },
+      "widgets_values": [
+        "local",
+        "default",
+        4,
+        "",
+        4,
+        1,
+        false,
+        1,
+        1,
+        false,
+        true,
+        false,
+        "SAGE_AUTO",
+        false,
+        false,
+        2.0,
+        "None",
+        "127.0.0.1:29500"
+      ],
+      "title": "4 карты: USP + FSDP",
+      "color": "#353535",
+      "bgcolor": "#252525"
+    },
+    {
+      "id": 2,
+      "type": "RayUNETLoader",
+      "pos": [
+        560,
+        260
+      ],
+      "size": [
+        330,
+        110
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "ray_actors_init",
+          "type": "RAY_ACTORS_INIT",
+          "link": 1
+        },
+        {
+          "name": "lora",
+          "type": "RAY_LORA",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "ray_actors",
+          "type": "RAY_ACTORS",
+          "links": [
+            2,
+            4
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RayUNETLoader",
+        "cnr_id": "raylight"
+      },
+      "widgets_values": [
+        "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+        "default"
+      ],
+      "title": "База H3",
+      "color": "#353535",
+      "bgcolor": "#252525"
+    },
+    {
+      "id": 3,
+      "type": "CLIPLoader",
+      "pos": [
+        560,
+        310
+      ],
+      "size": [
+        330,
+        110
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            5
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoader",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+        "minimax",
+        "cpu"
+      ],
+      "title": "Текстовый энкодер (CPU)",
+      "color": "#353535",
+      "bgcolor": "#252525"
+    },
+    {
+      "id": 4,
+      "type": "VAELoader",
+      "pos": [
+        560,
+        360
+      ],
+      "size": [
+        330,
+        80
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            6
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors"
+      ],
+      "title": "VAE видео",
+      "color": "#353535",
+      "bgcolor": "#252525"
+    },
+    {
+      "id": 5,
+      "type": "VAELoader",
+      "pos": [
+        560,
+        410
+      ],
+      "size": [
+        330,
+        80
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            7
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "minimax_h3_audio_vae_fp32.safetensors"
+      ],
+      "title": "VAE звука",
+      "color": "#353535",
+      "bgcolor": "#252525"
+    },
+    {
+      "id": 6,
+      "type": "RayBasicScheduler",
+      "pos": [
+        560,
+        460
+      ],
+      "size": [
+        330,
+        140
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "ray_actors",
+          "type": "RAY_ACTORS",
+          "link": 2
+        },
+        {
+          "name": "steps",
+          "type": "INT",
+          "link": 3,
+          "widget": {
+            "name": "steps"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            9
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RayBasicScheduler",
+        "cnr_id": "raylight"
+      },
+      "widgets_values": [
+        "simple",
+        20,
+        1.0
+      ],
+      "title": "Расписание",
+      "color": "#353535",
+      "bgcolor": "#252525"
+    },
+    {
+      "id": 7,
+      "type": "KSamplerSelect",
+      "pos": [
+        560,
+        510
+      ],
+      "size": [
+        330,
+        80
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            8
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerSelect",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "res_multistep"
+      ],
+      "title": "Сэмплер",
+      "color": "#353535",
+      "bgcolor": "#252525"
+    },
+    {
+      "id": 8,
+      "type": "H3Resolution",
+      "pos": [
+        60,
+        60
+      ],
+      "size": [
+        420,
+        80
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            10
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            11
+          ],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3Resolution"
+      },
+      "widgets_values": [
+        "Горизонт 16:9 — 1344x768 (максимум)"
+      ],
+      "title": "РАЗМЕР КАДРА",
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 9,
+      "type": "PrimitiveInt",
+      "pos": [
+        60,
+        170
+      ],
+      "size": [
+        420,
+        90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            3
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveInt",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        20,
+        "fixed"
+      ],
+      "title": "ШАГОВ: 20 — эталон качества",
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 10,
+      "type": "H3MultishotRay",
+      "pos": [
+        60,
+        290
+      ],
+      "size": [
+        420,
+        620
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "ray_actors",
+          "type": "RAY_ACTORS",
+          "link": 4
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5
+        },
+        {
+          "name": "vae_video",
+          "type": "VAE",
+          "link": 6
+        },
+        {
+          "name": "vae_audio",
+          "type": "VAE",
+          "link": 7
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 8
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 9
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 10,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 11,
+          "widget": {
+            "name": "height"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            12
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": [
+            13
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "shots",
+          "type": "INT",
+          "links": [],
+          "slot_index": 2
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": [],
+          "slot_index": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3MultishotRay"
+      },
+      "widgets_values": [
+        "integrated_multimodal_description: First person view walking along a rain-soaked container port at night. Black tactical gloves at the bottom of frame, amber floodlights on wet steel. The camera moves forward steadily and comes to a stop.\n\noverall_soundscape: Rain hitting steel, boots on wet concrete, a distant harbour horn.\n\nnon_diegetic_music: Low industrial drone, slow pulse.\n\n---\n\nintegrated_multimodal_description: The same port, same gloves. A steel container door swings open ahead, harsh white light spilling across the wet ground. The camera walks toward it.\n\noverall_soundscape: Rain, a heavy steel door groaning open, voices echoing inside.\n\nnon_diegetic_music: The drone tightens, a low pulse building.",
+        5.0,
+        1344,
+        768,
+        101,
+        "randomize"
+      ],
+      "title": "СКРИПТ: шоты через ---",
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 11,
+      "type": "CreateVideo",
+      "pos": [
+        960,
+        60
+      ],
+      "size": [
+        300,
+        110
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 12
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 13,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            14
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        24.0,
+        8
+      ],
+      "title": "Сборка ролика",
+      "color": "#353535",
+      "bgcolor": "#252525"
+    },
+    {
+      "id": 12,
+      "type": "SaveVideo",
+      "pos": [
+        960,
+        120
+      ],
+      "size": [
+        300,
+        400
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 14
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "video/H3_long_base",
+        "auto",
+        "auto"
+      ],
+      "title": "Готовый ролик",
+      "color": "#2a363b",
+      "bgcolor": "#3f5159"
+    },
+    {
+      "id": 13,
+      "type": "MarkdownNote",
+      "pos": [
+        60,
+        950
+      ],
+      "size": [
+        460,
+        330
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "color": "#432",
+      "bgcolor": "#653",
+      "widgets_values": [
+        "## Цепочка шотов\n\nМодель выдаёт максимум 362 кадра (15 секунд) за генерацию. Длиннее — только\nцепочкой: последний кадр шота становится первым кадром следующего.\n\n**Скрипт:** промпты шотов, разделённые строкой `---`. Сколько кусков, столько и\nшотов, ограничения на число нет. Длительность задаётся на ОДИН шот: три шота по\n15 секунд дадут 45 секунд ролика.\n\n**Второй шот должен продолжать первый** — та же сцена, то же освещение, движение\nдальше. Шов не виден, если шот заканчивается на замирании движения.\n\n**Стык обрабатывается сам:** дублирующий кадр срезается вместе с его звуком, на\nсклейке звука делается кроссфейд 40 мс.\n\n**Сид** задаётся один, каждый следующий шот берёт сид+1. Перегенерировать\nотдельный шот нельзя — считается вся цепочка."
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "RAY_ACTORS_INIT"
+    ],
+    [
+      2,
+      2,
+      0,
+      6,
+      0,
+      "RAY_ACTORS"
+    ],
+    [
+      3,
+      9,
+      0,
+      6,
+      1,
+      "INT"
+    ],
+    [
+      4,
+      2,
+      0,
+      10,
+      0,
+      "RAY_ACTORS"
+    ],
+    [
+      5,
+      3,
+      0,
+      10,
+      1,
+      "CLIP"
+    ],
+    [
+      6,
+      4,
+      0,
+      10,
+      2,
+      "VAE"
+    ],
+    [
+      7,
+      5,
+      0,
+      10,
+      3,
+      "VAE"
+    ],
+    [
+      8,
+      7,
+      0,
+      10,
+      4,
+      "SAMPLER"
+    ],
+    [
+      9,
+      6,
+      0,
+      10,
+      5,
+      "SIGMAS"
+    ],
+    [
+      10,
+      8,
+      0,
+      10,
+      6,
+      "INT"
+    ],
+    [
+      11,
+      8,
+      1,
+      10,
+      7,
+      "INT"
+    ],
+    [
+      12,
+      10,
+      0,
+      11,
+      0,
+      "IMAGE"
+    ],
+    [
+      13,
+      10,
+      1,
+      11,
+      1,
+      "AUDIO"
+    ],
+    [
+      14,
+      11,
+      0,
+      12,
+      0,
+      "VIDEO"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Обвязка — трогать не нужно",
+      "bounding": [
+        540,
+        20,
+        380,
+        560
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Что менять",
+      "bounding": [
+        40,
+        20,
+        460,
+        930
+      ],
+      "color": "#3f6e3f",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Выход",
+      "bounding": [
+        940,
+        20,
+        340,
+        260
+      ],
+      "color": "#444",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.75,
+      "offset": [
+        420,
+        60
+      ]
+    }
+  },
+  "version": 0.4
+}
