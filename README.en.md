@@ -7,8 +7,6 @@
   <a href="README.en.md"><img src="docs/images/language-en.svg" alt="English" width="112" height="32"></a>
 </p>
 
-<p align="center"><a href="README.md">简体中文</a> · <strong>English</strong></p>
-
 # openair
 
 **Turn Skills into apps, making AI capabilities easier to use and manage.**
