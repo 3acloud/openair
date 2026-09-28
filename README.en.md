@@ -1,3 +1,14 @@
+<p align="center">
+  <img src="docs/images/banner.svg" alt="openair — Turn Skills into apps with AirThink, AirCode and your local Codex" width="100%">
+</p>
+
+<p align="center">
+  <a href="README.md"><img src="docs/images/language-zh.svg" alt="简体中文" width="112" height="32"></a>
+  <a href="README.en.md"><img src="docs/images/language-en.svg" alt="English" width="112" height="32"></a>
+</p>
+
+<p align="center"><a href="README.md">简体中文</a> · <strong>English</strong></p>
+
 # openair
 
 **Turn Skills into apps, making AI capabilities easier to use and manage.**

@@ -1,3 +1,12 @@
+<p align="center">
+  <img src="docs/images/banner.svg" alt="openair — 把 Skill 做成应用，由 AirThink、AirCode 和本机 Codex 驱动" width="100%">
+</p>
+
+<p align="center">
+  <a href="README.md"><img src="docs/images/language-zh.svg" alt="简体中文" width="112" height="32"></a>
+  <a href="README.en.md"><img src="docs/images/language-en.svg" alt="English" width="112" height="32"></a>
+</p>
+
 # openair
 
 **把 Skill 做成应用，让 AI 能力更容易使用和管理。**
