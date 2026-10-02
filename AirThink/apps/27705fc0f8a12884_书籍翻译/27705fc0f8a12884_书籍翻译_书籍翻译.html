@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>墨译阁 · Book Translation</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+<style>
+:root{--paper:#f3eadf;--paper2:#e7dcc8;--page:#fff9ef;--ink:#1a2744;--text:#333b48;--muted:#776d60;--gold:#c6a15b;--red:#9e3b32;--line:#d9cbb5;--shade:0 12px 35px #47352412;--tea:#79634c}
+*{box-sizing:border-box}input,select,textarea{box-sizing:border-box}body{margin:0;color:var(--text);font:15px/1.7 "Microsoft YaHei",system-ui,sans-serif;background:linear-gradient(130deg,var(--paper),var(--paper2));min-height:100vh}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.15;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23958b77' filter='url(%23n)' opacity='.22' d='M0 0h180v180H0z'/%3E%3C/svg%3E")}
+body.dark{--paper:#181b22;--paper2:#252527;--page:#272b32;--ink:#dce2ef;--text:#e2dacc;--muted:#b8ad9b;--line:#4e493f;--shade:0 12px 35px #0004;--tea:#c7ac88;--red:#bd5145}button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}button{cursor:pointer;border:1px solid var(--tea);border-radius:6px;background:transparent;color:var(--tea);padding:8px 15px;transition:.2s}button:hover:not(:disabled){border-color:var(--gold);background:#c6a15b15;transform:translateY(-1px)}button:disabled{opacity:.45;cursor:not-allowed}button.primary{background:var(--red);border-color:var(--red);color:#fff8e9}button.small{padding:5px 10px;font-size:12px}button.icon{padding:7px 12px}a{color:var(--red)}h1,h2,h3,.brand{font-family:"Songti SC",SimSun,Georgia,serif;color:var(--ink)}h1{font-size:clamp(32px,5vw,52px);line-height:1.25;margin:0 0 15px}h2{font-size:26px;margin:0 0 10px}h3{font-size:20px;margin:0 0 10px}p{margin:0 0 16px}small,.muted{color:var(--muted)}[hidden]{display:none!important}.nav-shell{position:fixed;top:0;left:0;right:0;z-index:1001}.nav{position:relative;z-index:1001;background:#1a2744;color:#fff7e8;border-bottom:3px solid var(--gold)}.nav-inner{max-width:1280px;margin:auto;min-height:76px;padding:12px 28px;display:flex;align-items:center;gap:24px}.brand{border:0;color:#f7e9ce;display:flex;align-items:center;gap:12px;white-space:nowrap;font-size:25px;padding:0}.brand-logo{position:relative;font-size:25px}.brand-logo .fa-pen-nib{font-size:13px;position:absolute;bottom:-3px;right:-7px;color:var(--gold)}.desktop-nav{margin-left:auto;display:flex;align-items:center;gap:8px;white-space:nowrap;flex-shrink:0}.nav-tab{border:0;border-radius:0;color:#e9dfcc;padding:10px 22px;border-bottom:2px solid transparent}.nav-tab.active{border-bottom-color:var(--gold);color:#ebc881}.nav .lang{color:#e9cf9c;border-color:#778093}.hamburger{margin-left:auto;color:#f5e6c9;border-color:#67728b}.mobile-menu{position:absolute;top:100%;left:0;right:0;background:#1a2744;border-bottom:2px solid var(--gold);padding:12px 24px;box-shadow:0 12px 20px #0003}.mobile-menu button{display:block;width:100%;text-align:left}.mobile-menu .lang{margin-top:8px}main{max-width:1240px;margin:auto;padding:120px 28px 100px;position:relative}.page-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:28px}.eyebrow{color:var(--tea);letter-spacing:.25em;font-size:12px;margin-bottom:16px}.hero{padding:38px 0 48px;max-width:780px}.hero p{font-size:17px;color:var(--muted);max-width:620px}.hero .primary{margin-top:12px;padding:12px 26px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:32px}.stat{background:var(--page);box-shadow:var(--shade);padding:24px;text-align:left;border:1px solid var(--line)}.stat strong{display:block;font:36px Georgia;color:var(--ink);margin-top:8px}.stat i{float:right;color:var(--gold);font-size:25px}.section{margin-top:30px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.stamps,.actions,.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.stamp{border-radius:3px;border-color:var(--red);color:var(--red);padding:5px 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.book-card{background:var(--page);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:3px 12px 12px 3px;padding:22px;box-shadow:var(--shade);transition:.2s;min-width:0}.book-card:hover{transform:translateY(-3px);border-color:var(--gold)}.card-body{display:block;text-align:left;width:100%;border:0;padding:0;color:var(--text);background:transparent}.card-body:hover:not(:disabled){background:transparent}.filename{font-family:"Songti SC",SimSun,Georgia,serif;font-size:20px;color:var(--ink);overflow-wrap:anywhere;display:block;margin-bottom:10px}.badge{display:inline-block;background:#c6a15b18;color:var(--tea);border:1px solid var(--line);border-radius:3px;font-size:12px;padding:2px 7px;margin:0 6px 10px 0}.snippet{color:var(--muted);overflow-wrap:anywhere;margin:5px 0}.book-card .actions{border-top:1px solid var(--line);margin-top:18px;padding-top:14px}.empty{padding:50px 20px;text-align:center;color:var(--muted);grid-column:1/-1}.seal{width:76px;height:76px;display:grid;place-items:center;border:3px double var(--red);color:var(--red);font:28px SimSun,serif;margin:0 auto 18px;transform:rotate(-7deg)}.open-book{display:grid;grid-template-columns:1fr 1fr;background:var(--page);border:1px solid var(--line);box-shadow:var(--shade);border-radius:7px;overflow:hidden}.leaf{padding:30px;min-width:0}.leaf+.leaf{border-left:1px solid var(--line);box-shadow:inset 12px 0 18px -20px #0008}.leaf-title{padding-bottom:15px;border-bottom:1px solid var(--line);margin-bottom:22px}.cover{border:1px dashed var(--tea);background:#c6a15b08;text-align:center;padding:25px 16px;border-radius:5px;margin-bottom:18px;overflow-wrap:anywhere}.cover>i{font-size:32px;color:var(--gold);margin-bottom:15px}.cover .actions{justify-content:center;margin-top:16px}label{display:block;font-weight:600;margin:18px 0 7px}input,select,textarea{max-width:100%;width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:5px;background:var(--page);color:var(--text);outline:none}textarea{min-height:130px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px #c6a15b20}.chips{margin-top:10px}.chips button{font-size:12px;padding:3px 8px}.form-actions{margin-top:24px}.preview{margin-top:20px;max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:5px;padding:15px}.preview pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}.preview iframe{height:360px}.filters{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px}.filters input{flex:2;min-width:220px}.filters select{flex:1;min-width:150px}.editor{margin-top:30px;background:var(--page);border:1px solid var(--gold);padding:28px;border-radius:6px}.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.notice{padding:12px 15px;border:1px solid var(--gold);border-radius:4px;background:#c6a15b12;margin-bottom:16px;overflow-wrap:anywhere}.notice.error{border-color:var(--red);color:var(--red);background:#9e3b3209}.wait-line{height:2px;background:var(--line);overflow:hidden;margin:22px 0}.wait-line:after{content:"";display:block;height:100%;width:65%;background:var(--gold);animation:ink 7s ease-in-out infinite}@keyframes ink{0%{transform:translateX(-100%)}100%{transform:translateX(160%)}}.markdown{line-height:1.9;overflow-wrap:anywhere;min-width:0}.markdown h1{font-size:28px}.markdown h2{font-size:23px}.markdown h3{font-size:20px}.markdown h1,.markdown h2{border-bottom:1px solid var(--line);padding-bottom:10px;margin-top:25px}.markdown img{max-width:100%;cursor:pointer}.markdown pre{overflow:auto;background:#c6a15b12;padding:16px;border-radius:5px}.markdown code{font-family:Consolas,monospace;font-size:.9em}.markdown blockquote{border-left:3px solid var(--gold);padding:8px 18px;margin-left:0;background:#c6a15b09}.markdown table{border-collapse:collapse;width:100%}.table-wrap{overflow-x:auto;max-width:100%}.markdown th,.markdown td{border:1px solid var(--line);padding:8px;text-align:left}.markdown ul,.markdown ol{padding-left:25px}.markdown a{overflow-wrap:anywhere}.downloads{margin-top:22px}.downloads .actions{margin-top:10px}iframe{width:100%;border:1px solid var(--line);background:#fff;height:450px;border-radius:5px}.overlay{position:fixed;inset:0;z-index:2100;background:#10172599;display:flex;align-items:center;justify-content:center;padding:24px}.dialog{background:var(--page);border:1px solid var(--gold);border-radius:9px;width:min(980px,100%);max-height:calc(100dvh - 48px);display:flex;flex-direction:column;box-shadow:0 20px 80px #0006;overflow:hidden}.dialog-head{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}.dialog-head h2{margin:0;flex:1;font-size:24px;overflow-wrap:anywhere}.dialog-body{padding:24px;overflow:auto;overscroll-behavior:contain}.dialog-foot{padding:15px 24px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}.meta{background:#c6a15b0b;padding:18px;border:1px solid var(--line);margin-bottom:22px;white-space:pre-wrap;overflow-wrap:anywhere}.confirm-dialog{width:min(460px,100%)}.status{position:relative;margin-bottom:20px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}:focus-visible{outline:2px solid var(--gold);outline-offset:4px}.keyboard-space{height:var(--keyboard-gap,0px);flex-shrink:0}
+@media(max-width:760px){main{padding:105px 18px 170px}.nav-inner{padding:14px 18px;min-height:72px}.brand{font-size:23px}.grid,.open-book,.editor-grid{grid-template-columns:1fr}.leaf{padding:23px 20px}.leaf+.leaf{border-left:0;border-top:1px solid var(--line)}.stats{gap:8px}.stat{padding:16px 10px;font-size:12px}.stat strong{font-size:29px}.stat i{float:none;display:block;font-size:18px;margin-bottom:5px}.hero{padding:15px 0 32px}.page-head{flex-wrap:wrap}.editor{padding:20px}.overlay{padding:14px}.dialog{max-height:calc(100dvh - 28px)}.overlay.reading{padding:0}.reading .dialog{max-height:100dvh;height:100dvh;border-radius:0;width:100%}.dialog-head{padding:14px}.dialog-body{padding:18px 16px 160px}.dialog-foot{padding:12px 16px}.filters{gap:8px}.filters input{min-width:100%}.filters select{min-width:120px}.preview iframe,iframe{height:360px}.markdown h1{font-size:24px}.keyboard-space{min-height:80px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="nav-shell"><nav class="nav" id="navigation" aria-label="Main navigation"><div class="nav-inner" id="nav-inner">
+<button class="brand" id="brand"><span class="brand-logo"><i class="fa-solid fa-book-open"></i><i class="fa-solid fa-pen-nib"></i></span><span data-i18n="app">墨译阁</span></button>
+<div class="desktop-nav" id="desktop-nav"><button class="nav-tab active" data-page="home" data-i18n="home"></button><button class="nav-tab" data-page="translate" data-i18n="translate"></button><button class="nav-tab" data-page="library" data-i18n="library"></button><button class="lang" data-action="language">EN / 中文</button></div>
+<button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu" hidden><i class="fa-solid fa-bars"></i></button></div>
+<div class="mobile-menu" id="mobile-menu" hidden><button class="nav-tab" data-page="home" data-i18n="home"></button><button class="nav-tab" data-page="translate" data-i18n="translate"></button><button class="nav-tab" data-page="library" data-i18n="library"></button><button class="lang" data-action="language">EN / 中文</button></div></nav></div>
+<main><div id="status" class="status" role="status" aria-live="polite"></div>
+<section id="page-home"><div class="hero"><div class="eyebrow" data-i18n="eyebrow"></div><h1 data-i18n="app"></h1><p data-i18n="intro"></p><button class="primary" id="home-start"><i class="fa-solid fa-pen-nib"></i> <span data-i18n="begin"></span></button></div>
+<div class="stats"><button class="stat" data-filter="all"><i class="fa-solid fa-book-open"></i><span data-i18n="total"></span><strong id="stat-total">—</strong></button><button class="stat" data-filter="done"><i class="fa-solid fa-check-double"></i><span data-i18n="done"></span><strong id="stat-done">—</strong></button><button class="stat" data-filter="pending"><i class="fa-solid fa-feather-pointed"></i><span data-i18n="pending"></span><strong id="stat-pending">—</strong></button></div>
+<div class="section"><h3 data-i18n="languageStamps"></h3><div id="language-stamps" class="stamps"></div></div><div class="section"><div class="section-head"><h2 data-i18n="recent"></h2><button data-page="library" data-i18n="allBooks"></button></div><div id="recent-list" class="grid"></div></div></section>
+<section id="page-translate" hidden><div class="page-head"><div><h1 data-i18n="translate"></h1><p class="muted" data-i18n="translateIntro"></p></div><button data-page="library" data-i18n="goLibrary"></button></div>
+<div class="open-book"><div class="leaf"><h2 class="leaf-title" data-i18n="source"></h2><form id="translate-form"><div class="cover"><i class="fa-solid fa-book"></i><div id="translate-file-display"></div><input id="translate-form-file" name="书籍文件" type="hidden"><div class="actions"><button type="button" id="select-book" data-i18n="choose"></button><button type="button" id="remove-book" data-i18n="remove"></button></div><div id="translate-file-actions" class="actions" hidden><button type="button" data-file-owner="translate" data-file-action="download" data-i18n="downloadSource"></button><button type="button" data-file-owner="translate" data-file-action="open" data-i18n="openSource"></button><button type="button" data-file-owner="translate" data-file-action="preview" data-i18n="preview"></button></div></div>
+<label for="translate-form-language" data-i18n="target"></label><input id="translate-form-language" name="目标语言" data-placeholder="languagePlaceholder" autocomplete="off"><div class="chips" id="language-chips"></div><label for="translate-form-requirements" data-i18n="requirements"></label><textarea id="translate-form-requirements" name="翻译要求" data-placeholder="requirementsPlaceholder"></textarea><small data-i18n="defaultRules"></small><div class="actions form-actions"><button class="primary" type="submit" id="start-translation" disabled data-i18n="start"></button><button type="button" id="reset-translation" data-i18n="reset"></button></div></form><div id="translate-preview" class="preview" hidden></div><div class="keyboard-space"></div></div>
+<div class="leaf"><h2 class="leaf-title" data-i18n="translated"></h2><div id="translation-output"></div><div class="actions form-actions"><button id="refresh-translation" data-i18n="refresh" disabled></button><button id="archive-translation" data-i18n="archive" disabled></button></div></div></div></section>
+<section id="page-library" hidden><div class="page-head"><div><h1 data-i18n="library"></h1><p class="muted" data-i18n="libraryIntro"></p></div><button class="primary" id="library-new"><i class="fa-solid fa-plus"></i> <span data-i18n="newTranslation"></span></button></div>
+<div class="filters"><input id="search" name="search" data-placeholder="search" aria-label="Search"><select id="status-filter" name="status-filter" aria-label="Status"><option value="all" data-i18n="all"></option><option value="done" data-i18n="done"></option><option value="pending" data-i18n="pending"></option></select><select id="language-filter" name="language-filter" aria-label="Language"></select><button id="clear-filters" data-i18n="clearFilters"></button></div><div id="library-list" class="grid"></div>
+<section id="editor" class="editor" hidden><div class="section-head"><h2 data-i18n="editTitle"></h2><button id="editor-close" data-i18n="cancel"></button></div><div class="editor-grid"><form id="editor-form"><label for="editor-form-file" data-i18n="bookFile"></label><input id="editor-form-file" name="书籍文件" required><div class="actions form-actions"><button type="button" id="editor-select" data-i18n="reselect"></button><button type="button" data-file-owner="editor" data-file-action="download" data-i18n="downloadSource"></button><button type="button" data-file-owner="editor" data-file-action="open" data-i18n="openSource"></button><button type="button" data-file-owner="editor" data-file-action="preview" data-i18n="preview"></button></div><label for="editor-form-language" data-i18n="target"></label><input id="editor-form-language" name="目标语言"><label for="editor-form-requirements" data-i18n="requirements"></label><textarea id="editor-form-requirements" name="翻译要求"></textarea><div class="actions form-actions"><button class="primary" id="editor-save" type="submit" data-i18n="save"></button><button type="button" id="copy-to-translate" data-i18n="copy"></button></div><div id="editor-preview" class="preview" hidden></div><div class="keyboard-space"></div></form><div><h3 data-i18n="readOnly"></h3><div id="editor-result"></div></div></div></section></section>
+</main>
+<div class="overlay reading" id="detail-overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="detail-title" tabindex="-1"><header class="dialog-head"><h2 id="detail-title"></h2><button id="detail-prev" aria-label="Previous">&lt;</button><button id="detail-next" aria-label="Next">&gt;</button><button id="detail-x" class="icon" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></header><div class="dialog-body" id="detail-body"><div class="meta" id="detail-meta"></div><div id="detail-result"></div><div class="keyboard-space"></div></div><footer class="dialog-foot"><button id="detail-download" data-i18n="downloadSource"></button><button id="detail-open" data-i18n="openSource"></button><button id="detail-edit" data-i18n="editThis"></button><button id="detail-delete" data-i18n="delete"></button><button id="detail-close" data-i18n="close"></button></footer></section></div>
+<div class="overlay reading" id="file-overlay" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="file-title" tabindex="-1"><header class="dialog-head"><h2 id="file-title"></h2><button id="file-close" data-i18n="close"></button></header><div class="dialog-body" id="file-body"></div></section></div>
+<div class="overlay" id="confirm-overlay" hidden><section class="dialog confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-title" tabindex="-1"><div class="dialog-body"><h3 id="confirm-title" data-i18n="deleteQuestion"></h3><div class="actions"><button class="primary" id="confirm-delete" data-i18n="delete"></button><button id="confirm-cancel" data-i18n="cancel"></button></div></div></section></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("27705fc0f8a12884_书籍翻译")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+
+</script>
+<script>
+const SOURCE='书籍翻译/默认表格',FIELDS=['书籍文件','目标语言','翻译要求','翻译结果'];
+let currentRow=0;
+const state={page:'home',history:[],rows:[],count:0,language:'cn',busy:false,mutating:false,poll:null,result:'',detail:null,editRow:0,loadVersion:0,detailVersion:0,overlays:[],focus:[],deleteRow:0};
+const words={cn:{app:'墨译阁',home:'书案',translate:'开译',library:'译藏',eyebrow:'全书翻译 · 一卷一世界',intro:'上传全书，指定目标语言和翻译要求，一次译完。留空语言时后台按中文（zh）翻译。',begin:'开卷一译',total:'藏书译稿',done:'已成卷',pending:'仍在誊写',languageStamps:'语言印章',recent:'最近译稿',allBooks:'查看全部',goLibrary:'去译藏',translateIntro:'左页放原卷，右页等译文。译完后查看译后书名、完成情况和各格式下载链接。',source:'原卷',translated:'译卷',choose:'选择书籍',remove:'移除',downloadSource:'下载原书',openSource:'浏览器打开',preview:'预览原文',target:'目标语言',bookFile:'书籍文件',requirements:'翻译要求',languagePlaceholder:'留空则按中文（zh）翻译',requirementsPlaceholder:'例如保留章节号、指定术语表、口语或书面语、不要意译诗题',defaultRules:'留空则按技能默认规则。',start:'开始翻译',reset:'清空重来',refresh:'刷新译文',archive:'收入译藏',libraryIntro:'已提交的译稿都在这里。改的是原卷信息，不会自动重译。',newTranslation:'新开一译',search:'搜索书籍文件名、目标语言、翻译要求',all:'全部',allLanguages:'全部语言',clearFilters:'清除筛选',editTitle:'校改原卷',cancel:'取消',reselect:'重新选择',save:'保存修改',copy:'带到开译页',readOnly:'翻译结果 · 只读',editThis:'编辑此译',edit:'编辑',view:'查看译文',delete:'删除',close:'关闭',deleteQuestion:'确定从译藏撤下这卷译稿？',empty:'尚无译稿',emptySeal:'空卷',goTranslate:'去开译',noMatch:'这架书上没有这一卷',noStamps:'尚未落印',unspecified:'未指定·将按中文',noFile:'尚未置卷',waitingTitle:'译卷待写',unfinished:'译卷未成',backendWaiting:'后台仍在誊写',continueWaiting:'继续等候',waiting:'墨未干。正在保持章节、公式、表格和图片引用，统一术语并生成各格式译文。',timeout:'等候已超过1800秒，请稍后刷新译文或继续等候。',downloads:'译文下载',formatFailure:'部分格式生成失败，请查看卷轴中的原文说明。',previewUnavailable:'此格式不能以文本预览，请下载或在浏览器打开。',truncated:'仅显示前8000字，内容可能已截断。',previewText:'原文文本预览',saved:'已保存。改语言、要求或换书不会自动重译；要重译请新开一译。',deleted:'已撤下译稿。',loading:'正在取卷…',error:'接口操作失败：',missingFile:'请先选择书籍。',busy:'正在等候译文，请待轮询结束后操作。',mutationBusy:'正在保存或删除，请稍候。',noRequirements:'未填写翻译要求',noResult:'尚无译文',submitFailed:'提交失败：',unsupported:'Markdown组件未能加载，请检查网络后重试。',submission:'正在提交原卷…',partialSave:'修改可能只保存了一部分。请重新打开记录核对。',countError:'记录数接口返回无效值。',dataError:'列表接口返回无效的CSV数据。',zh:'中文',en:'英语',ja:'日语',ko:'韩语',fr:'法语',de:'德语',es:'西班牙语',ru:'俄语',ar:'阿拉伯语',pt:'葡萄牙语'},en:{app:'Moyi Pavilion',home:'Writing Desk',translate:'Translate',library:'Library',eyebrow:'BOOK TRANSLATION · A WORLD IN EVERY VOLUME',intro:'Upload a whole book, specify a language and requirements, and translate it in one pass. A blank language defaults to Chinese (zh).',begin:'Open a book & translate',total:'All manuscripts',done:'Completed',pending:'In progress',languageStamps:'Language seals',recent:'Recent manuscripts',allBooks:'View all',goLibrary:'Go to library',translateIntro:'Place your source on the left; the translation appears on the right, with its title, completion details and format downloads.',source:'Source volume',translated:'Translated volume',choose:'Choose book',remove:'Remove',downloadSource:'Download source',openSource:'Open in browser',preview:'Preview source',target:'Target language',bookFile:'Book file',requirements:'Translation requirements',languagePlaceholder:'Leave blank for Chinese (zh)',requirementsPlaceholder:'Keep chapter numbers, specify terminology, choose a formal tone, preserve poem titles…',defaultRules:'Blank uses the default translation rules.',start:'Start translation',reset:'Clear & restart',refresh:'Refresh translation',archive:'View in library',libraryIntro:'All submitted manuscripts are here. Editing source information does not automatically translate again.',newTranslation:'New translation',search:'Search file name, language or requirements',all:'All',allLanguages:'All languages',clearFilters:'Clear filters',editTitle:'Edit source information',cancel:'Cancel',reselect:'Choose another file',save:'Save changes',copy:'Copy to translation page',readOnly:'Translation result · read only',editThis:'Edit manuscript',edit:'Edit',view:'View translation',delete:'Delete',close:'Close',deleteQuestion:'Remove this manuscript from the library?',empty:'No manuscripts yet',emptySeal:'空卷',goTranslate:'Start translating',noMatch:'No matching volume on this shelf',noStamps:'No language seals yet',unspecified:'Unspecified · defaults to Chinese',noFile:'No book selected',waitingTitle:'Awaiting a translation',unfinished:'Translation unfinished',backendWaiting:'The backend is still writing',continueWaiting:'Continue waiting',waiting:'The ink is still wet. Preserving chapters, formulas, tables and image references, unifying terminology and generating translated formats.',timeout:'Waiting exceeded 1800 seconds. Refresh later or continue waiting.',downloads:'Translation downloads',formatFailure:'Some formats could not be generated. See the explanation in the manuscript.',previewUnavailable:'This format cannot be previewed as text. Download it or open it in your browser.',truncated:'Showing the first 8000 characters; content may be truncated.',previewText:'Source text preview',saved:'Saved. Changing the language, requirements or book does not translate again. Start a new translation to do so.',deleted:'Manuscript removed.',loading:'Fetching manuscripts…',error:'Operation failed: ',missingFile:'Choose a book first.',busy:'A translation is being awaited. Please wait until polling ends.',mutationBusy:'Saving or deleting; please wait.',noRequirements:'No requirements specified',noResult:'No translation yet',submitFailed:'Submission failed: ',unsupported:'The Markdown components could not load. Check your connection and retry.',submission:'Submitting the source volume…',partialSave:'Some changes may have been saved. Reopen the record to verify.',countError:'The record count is invalid.',dataError:'The list interface returned invalid CSV.',zh:'Chinese',en:'English',ja:'Japanese',ko:'Korean',fr:'French',de:'German',es:'Spanish',ru:'Russian',ar:'Arabic',pt:'Portuguese'}};
+const $=id=>document.getElementById(id),t=key=>words[state.language][key]||key,esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function say(message,error=false){$('status').innerHTML=message?`<div class="notice ${error?'error':''}">${esc(message)}</div>`:'';if(error&&state.overlays.length){const body=$(state.overlays.at(-1)).querySelector('.dialog-body');body.querySelector('.dialog-feedback')?.remove();const notice=document.createElement('div');notice.className='notice error dialog-feedback';notice.setAttribute('role','alert');notice.textContent=message;body.prepend(notice);notice.scrollIntoView({block:'nearest'});}}
+function langLabel(value){return value.trim()?t(value.trim()) : t('unspecified');}
+function localize(root=document){root.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));root.querySelectorAll('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));document.documentElement.lang=state.language==='cn'?'zh-CN':'en';document.title=t('app');}
+function initialLanguage(){let result='cn';try{if(navigator.languages?.length)result=navigator.languages.some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en';}catch{}try{const stored=localStorage.getItem('iThinkAir_UiLanguage');if(stored)result=stored==='en'?'en':'cn';}catch{}const query=new URLSearchParams(location.search).get('lang');if(query==='cn'||query==='en')result=query;return result;}
+function toggleLanguage(){state.language=state.language==='cn'?'en':'cn';try{localStorage.setItem('iThinkAir_UiLanguage',state.language);}catch{}localize();renderHome();renderLanguageFilter();renderLibrary();renderFileState();renderChips();renderTranslation();if(state.detail)renderDetail();if(state.editRow&&state.detail)renderResult($('editor-result'),state.detail.result);closeMenu();requestAnimationFrame(fitNav);}
+function closeMenu(){$('mobile-menu').hidden=true;$('hamburger').setAttribute('aria-expanded','false');}
+function fitNav(){const inner=$('nav-inner'),desktop=$('desktop-nav');desktop.hidden=false;$('hamburger').hidden=true;const overflow=$('brand').getBoundingClientRect().width+desktop.getBoundingClientRect().width+80>inner.clientWidth;desktop.hidden=overflow;$('hamburger').hidden=!overflow;if(!overflow)closeMenu();}
+function updateNav(){document.querySelectorAll('[data-page]').forEach(b=>{if(b.classList.contains('nav-tab')){b.classList.toggle('active',b.dataset.page===state.page);b.setAttribute('aria-current',b.dataset.page===state.page?'page':'false');}});}
+async function showPage(page,{history=true,scroll=0}={}){if(history&&page!==state.page)state.history.push({page:state.page,scroll:window.scrollY});state.page=page;['home','translate','library'].forEach(p=>$('page-'+p).hidden=p!==page);closeMenu();updateNav();window.scrollTo(0,scroll);if(page==='home'||page==='library')await loadData();}
+function showOverlay(id){if(state.overlays.includes(id))return;state.focus.push(document.activeElement);state.overlays.push(id);$(id).hidden=false;$(id).style.zIndex=2100+state.overlays.length*10;document.body.style.overflow='hidden';$(id).querySelector('.dialog').focus();}
+function closeOverlay(id){if(id==='confirm-overlay'&&state.mutating)return;const index=state.overlays.indexOf(id);if(index<0)return;state.overlays.splice(index,1);$(id).hidden=true;const focus=state.focus.splice(index,1)[0];if(!state.overlays.length)document.body.style.overflow='';if(id==='file-overlay')$('file-body').replaceChildren();if(id==='detail-overlay')state.detailVersion++;focus?.focus?.();}
+window.airBack=function(){if(state.overlays.length){closeOverlay(state.overlays.at(-1));return 'false';}if(!$('mobile-menu').hidden){closeMenu();return 'false';}if(state.history.length){const old=state.history.pop();void showPage(old.page,{history:false,scroll:old.scroll});return 'false';}return 'true';};
+async function api(request){const response=await callAppBridge(request);if(typeof response!=='string')throw new Error('Invalid interface response');if(/^\s*(?:error\b|错误[：:]|失败[：:]|请求失败|操作失败|提交失败|保存失败|删除失败)/i.test(response))throw new Error(response);return response;}
+async function mutate(request){const response=await api(request);if(/^(?:false|failed|failure|失败|错误)$/i.test(response.trim()))throw new Error(response);if(/^\s*\{/.test(response)){let parsed;try{parsed=JSON.parse(response);}catch{}if(parsed&&(parsed.success===false||parsed.ok===false||parsed.error))throw new Error(parsed.message||parsed.error||response);}return response;}
+function guard(){if(state.busy){say(t('busy'),true);return false;}if(state.mutating){say(t('mutationBusy'),true);return false;}return true;}
+async function cell(field,row){return api({type:'GetCellValue',data:SOURCE,payload:field+'/'+row});}
+async function readRecord(row){const values=[];for(const field of FIELDS)values.push(await cell(field,row));return {row,file:values[0],language:values[1],requirements:values[2],result:values[3]};}
+async function getCount(){const raw=await api({type:'GetRecordCount',data:SOURCE});if(!/^\d+$/.test(raw.trim()))throw new Error(t('countError'));return Number(raw.trim());}
+async function loadData(){const version=++state.loadVersion;say(t('loading'));try{const results=await Promise.all([getCount(),api({type:'GetTableCSV',data:SOURCE,payload:FIELDS.join(',')})]);const parsed=parseCSV(results[1]);if(parsed.some(r=>r.length!==4))throw new Error(t('dataError'));const rows=parsed.map((r,i)=>({row:i+1,file:r[0],language:r[1],requirements:r[2],result:r[3],requirementSummary:'',resultSummary:''}));
+// 摘要也读取单元格，保留CSV原始行号；有限并发避免大量请求挤占通信。
+let next=0;async function worker(){while(next<rows.length){const record=rows[next++];record.requirementSummary=await cell('翻译要求',record.row);record.resultSummary=await cell('翻译结果',record.row);}}
+await Promise.all(Array.from({length:Math.min(4,rows.length)},()=>worker()));if(version!==state.loadVersion)return;state.count=results[0];state.rows=rows;renderHome();renderLanguageFilter();renderLibrary();say('');}catch(e){if(version===state.loadVersion)say(t('error')+String(e.message||e),true);}}
+function emptyHTML(key,action){return `<div class="empty"><div class="seal">${esc(t('emptySeal'))}</div><p>${esc(t(key))}</p><button data-action="${action}">${esc(t(action==='clear'?'clearFilters':'goTranslate'))}</button></div>`;}
+function cardHTML(r,recent=false){const limit=recent?40:60;return `<article class="book-card"><button class="card-body" data-row="${r.row}" data-record-action="${recent?'view':'body'}"><span class="filename">${esc(r.file)}</span><span class="badge">${esc(langLabel(r.language))}</span><span class="badge">${esc(t(r.result.trim()?'done':'pending'))}</span><p class="snippet">${esc(r.requirementSummary.slice(0,limit)||t('noRequirements'))}</p><p class="snippet">${esc(r.resultSummary.trim()?r.resultSummary.slice(0,limit):t('pending'))}</p></button><div class="actions">${(recent?['download','open','view']:['view','edit','delete','download','open']).map(action=>`<button class="small" data-row="${r.row}" data-record-action="${action}">${esc(t(({download:'downloadSource',open:'openSource'})[action]||action))}</button>`).join('')}</div></article>`;}
+function renderHome(){$('stat-total').textContent=state.count;$('stat-done').textContent=state.rows.filter(r=>r.result.trim()).length;$('stat-pending').textContent=state.rows.filter(r=>!r.result.trim()).length;const groups=new Map();state.rows.forEach(r=>groups.set(r.language,(groups.get(r.language)||0)+1));$('language-stamps').innerHTML=groups.size?[...groups].map(([lang,n])=>`<button class="stamp" data-language="${esc(lang)}">${esc(langLabel(lang))} · ${n}</button>`).join(''):`<span class="muted">${esc(t('noStamps'))}</span>`;$('recent-list').innerHTML=state.rows.length?state.rows.slice(0,4).map(r=>cardHTML(r,true)).join(''):emptyHTML('empty','new');}
+function renderLanguageFilter(){const select=$('language-filter'),old=select.value||'*';select.replaceChildren(new Option(t('allLanguages'),'*'));[...new Set(state.rows.map(r=>r.language))].forEach(lang=>select.add(new Option(langLabel(lang),'v:'+lang)));if([...select.options].some(o=>o.value===old))select.value=old;}
+function renderLibrary(){const search=$('search').value.toLocaleLowerCase(),filter=$('status-filter').value,language=$('language-filter').value;const rows=state.rows.filter(r=>(!search||[r.file,r.language,r.requirements].some(s=>s.toLocaleLowerCase().includes(search)))&&(filter==='all'||(filter==='done')===!!r.result.trim())&&(language==='*'||language==='v:'+r.language));$('library-list').innerHTML=rows.length?rows.map(r=>cardHTML(r)).join(''):emptyHTML(state.rows.length?'noMatch':'empty',state.rows.length?'clear':'new');}
+function clearFilters(){$('search').value='';$('status-filter').value='all';$('language-filter').value='*';renderLibrary();}
+async function goFiltered(status='all',language='*'){$('search').value='';$('status-filter').value=status;await showPage('library');$('language-filter').value=language;renderLibrary();}
+function renderChips(){$('language-chips').innerHTML=['zh','en','ja','ko','fr','de','es','ru','ar','pt'].map(lang=>`<button type="button" data-lang-code="${lang}">${esc(t(lang))} (${lang})</button>`).join('');}
+function fileURL(file,mode='download'){return 'https://www.ithinkair.com:3031/'+mode+'/'+String(file).split('/').map(encodeURIComponent).join('/');}
+function isHTML(file){return /\.html?(?:[?#].*)?$/i.test(file);}
+function launch(url){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';document.body.append(a);a.click();a.remove();}
+function frameHTML(url){return `<iframe src="${esc(url)}" sandbox="allow-scripts allow-downloads" referrerpolicy="no-referrer" loading="lazy" title="HTML preview"></iframe>`;}
+function openFile(file){if(!file)return;if(isHTML(file)){$('file-title').textContent=file;$('file-body').innerHTML=frameHTML(fileURL(file,'private'));showOverlay('file-overlay');}else launch(fileURL(file,'private'));}
+async function previewFile(file,target){if(!file)return;target.hidden=false;if(isHTML(file)){target.innerHTML=frameHTML(fileURL(file,'private'));return;}target.textContent=t('loading');try{const content=await api({type:'ReadFile',data:file});if(!content||/[\u0000-\u0008\u000e-\u001f]/.test(content)||((content.match(/\uFFFD/g)||[]).length>Math.max(2,content.length*.01))||/^(?:data:[^;]+;base64,|UEsDB|JVBERi0)/.test(content))throw new Error(t('previewUnavailable'));target.innerHTML=`<small>${esc(t('truncated'))}</small><pre>${esc(content.slice(0,8000))}</pre>`;}catch(e){target.innerHTML=`<p>${esc(t('previewUnavailable'))}</p><small>${esc(String(e.message||e))}</small>`;}}
+function renderFileState(){const file=$('translate-form-file').value;$('translate-file-display').textContent=file||t('noFile');$('translate-file-actions').hidden=!file;$('remove-book').disabled=state.busy||!file;$('select-book').disabled=state.busy;$('start-translation').disabled=state.busy||!file;$('reset-translation').disabled=state.busy;$('refresh-translation').disabled=currentRow<1||state.busy;$('archive-translation').disabled=currentRow<1;}
+function resetTranslation(setRow=true){$('translate-form').reset();$('translate-preview').hidden=true;$('translate-preview').replaceChildren();state.result='';if(setRow)currentRow=0;renderFileState();renderTranslation();}
+async function chooseFile(owner){if(!guard())return;try{const file=await api({type:'SelectFile'});if(file){$(owner==='translate'?'translate-form-file':'editor-form-file').value=file;$(owner+'-preview').hidden=true;if(owner==='translate')renderFileState();}}catch(e){say(t('error')+String(e.message||e),true);}}
+function resultTitle(text){const heading=text.match(/^\s{0,3}#{1,2}\s+(.+)$/m)||text.match(/^([^\n]+)\n[=]{3,}\s*$/m)||text.match(/(?:译后书名|译文书名|Translated title)\s*[：:]\s*(.+)/i);return heading?heading[1].replace(/[*_`]/g,'').trim():t('translated');}
+function extractFiles(text){const found=new Map();const urlPattern=/https:\/\/www\.ithinkair\.com:3031\/(?:download|private)\/[^\s<>"'\]\)]+/gi;for(const match of text.matchAll(urlPattern)){const raw=match[0].replace(/[。，；、]+$/,'');let url;try{url=new URL(raw);}catch{continue;}if(!['/download/','/private/'].some(p=>url.pathname.startsWith(p)))continue;const path=url.pathname.replace(/^\/(download|private)\//,'');let name;try{name=decodeURIComponent(path);}catch{name=path;}found.set(name,{name,download:'http://' + window.location.hostname + ':3130/download/'+path,private:'http://' + window.location.hostname + ':3130/private/'+path});}
+// 独立文件名仅在译文/导出/格式相关行中识别，避免把普通书名猜成文件。
+for(const line of text.split('\n')){if(!/(译文|译后|下载|导出|格式|translated|translation|download|export|output|format)/i.test(line))continue;const plain=line.replace(/https?:\/\/[^\s<>"'\]\)]+/gi,'');for(const match of plain.matchAll(/(?:^|[\s`"'：:（(\[])([^\s`"'<>\[\]()：:]+\.(?:docx|pdf|epub|mobi|txt|md|html?|odt|rtf))(?=$|[\s`"'，。,;；)\]])/gi)){const name=match[1];if(!/[\\/]/.test(name)&&!found.has(name))found.set(name,{name,download:fileURL(name),private:fileURL(name,'private')});}}
+return [...found.values()];}
+function renderResult(target,text,{wait=false}={}){target.replaceChildren();if(wait){target.innerHTML=`<div class="notice">${esc(t('waiting'))}</div><div class="wait-line"></div>`;return;}if(!text.trim()){target.innerHTML=`<div class="empty"><div class="seal">${esc(t('emptySeal'))}</div><p>${esc(t('backendWaiting'))}</p><button data-action="wait">${esc(t('continueWaiting'))}</button></div>`;return;}
+if(/(?:失败|未能|无法|未成功|failed|failure|unable|could not|unsuccessful)/i.test(text)&&/(?:格式|生成|导出|format|generat|export|pdf|epub|docx|html)/i.test(text)){const warning=document.createElement('div');warning.className='notice error';warning.textContent=t('formatFailure');target.append(warning);}
+const article=document.createElement('article');article.className='markdown';if(window.marked&&window.DOMPurify){marked.setOptions({gfm:true,breaks:false});article.innerHTML=DOMPurify.sanitize(marked.parse(text));article.querySelectorAll('a').forEach(a=>{a.target='_blank';a.rel='noopener noreferrer';});article.querySelectorAll('img').forEach(img=>{const source=img.getAttribute('src')||'';if(source&&!/^https?:|^data:/i.test(source))img.src=fileURL(source);img.addEventListener('click',()=>{if(/^https?:/i.test(img.src))launch(img.src.replace('/private/','/download/'));});});article.querySelectorAll('table').forEach(table=>{const wrap=document.createElement('div');wrap.className='table-wrap';table.before(wrap);wrap.append(table);});if(window.renderMathInElement)renderMathInElement(article,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false},{left:'$',right:'$',display:false}],throwOnError:false});}else{const warning=document.createElement('div');warning.className='notice error';warning.textContent=t('unsupported');target.append(warning);article.textContent=text;article.style.whiteSpace='pre-wrap';}target.append(article);
+const files=extractFiles(text);if(files.length){const downloads=document.createElement('div');downloads.className='downloads';downloads.innerHTML=`<h3>${esc(t('downloads'))}</h3><div class="actions">${files.map(f=>`<button data-download="${esc(f.download)}">${esc(f.name)}</button>`).join('')}</div>`;target.append(downloads);for(const file of files)if(isHTML(file.name)){const frame=document.createElement('div');frame.className='section';frame.innerHTML=frameHTML(file.private);target.append(frame);}}
+}
+function renderTranslation(){const output=$('translation-output');if(state.busy){renderResult(output,'',{wait:true});return;}if(!state.result.trim()){output.innerHTML=`<div class="empty"><div class="seal">${esc(t('emptySeal'))}</div><h3>${esc(t('waitingTitle'))}</h3></div>`;}else renderResult(output,state.result);}
+async function submitTranslation(event){event.preventDefault();if(!guard())return;const file=$('translate-form-file').value;if(!file){say(t('missingFile'),true);return;}state.busy=true;renderFileState();$('translation-output').innerHTML=`<div class="notice">${esc(t('submission'))}</div>`;try{await mutate({type:'SubmitRecord',data:'书籍翻译',payload:JSON.stringify({'书籍文件':file,'目标语言':$('translate-form-language').value,'翻译要求':$('translate-form-requirements').value})});currentRow=1;state.editRow=0;$('editor').hidden=true;state.result='';state.detail=null;closeOverlay('detail-overlay');state.busy=false;await startPolling(1);}catch(e){state.busy=false;renderFileState();$('translation-output').innerHTML=`<div class="notice error">${esc(t('submitFailed')+String(e.message||e))}</div>`;}}
+async function startPolling(row){if(state.busy||row<1)return;state.busy=true;const token={row,deadline:Date.now()+1800000};state.poll=token;renderFileState();renderTranslation();if(state.detail?.row===row)renderResult($('detail-result'),'',{wait:true});const run=async()=>{if(state.poll!==token)return;try{const remaining=token.deadline-Date.now();if(remaining<=0)throw new Error(t('timeout'));let deadlineTimer;const text=await Promise.race([cell('翻译结果',row),new Promise((_,reject)=>{deadlineTimer=setTimeout(()=>reject(new Error(t('timeout'))),remaining);})]).finally(()=>clearTimeout(deadlineTimer));if(state.poll!==token)return;if(text.trim()){state.busy=false;state.poll=null;currentRow=row;state.result=text;renderFileState();renderTranslation();if(state.detail?.row===row){state.detail.result=text;renderDetail();}if(state.editRow===row)renderResult($('editor-result'),text);await loadData();return;}token.timer=setTimeout(run,Math.min(3000,Math.max(0,token.deadline-Date.now())));}catch(e){state.busy=false;state.poll=null;renderFileState();renderTranslation();if(state.detail?.row===row)renderDetail();say(t('error')+String(e.message||e),true);}};token.timer=setTimeout(run,3000);}
+async function refreshTranslation(){if(currentRow<1||state.busy)return;try{const row=currentRow;state.result=await cell('翻译结果',row);renderTranslation();if(state.detail?.row===row){state.detail.result=state.result;renderDetail();}}catch(e){say(t('error')+String(e.message||e),true);}}
+function renderDetail(){const r=state.detail;if(!r)return;$('detail-title').textContent=r.result.trim()?resultTitle(r.result):t('unfinished');$('detail-meta').textContent=t('bookFile')+'：'+r.file+'\n'+t('target')+'：'+langLabel(r.language)+'\n'+t('requirements')+'：'+(r.requirements||t('noRequirements'));$('detail-prev').disabled=r.row<=1||state.busy||state.mutating;$('detail-next').disabled=state.count===0||r.row>=state.count||state.busy||state.mutating;renderResult($('detail-result'),r.result,{wait:state.busy&&state.poll?.row===r.row});}
+function fillEditor(record){state.editRow=record.row;$('editor-form-file').value=record.file;$('editor-form-language').value=record.language;$('editor-form-requirements').value=record.requirements;$('editor-preview').hidden=true;renderResult($('editor-result'),record.result);$('editor').hidden=false;}
+async function openRecord(row,{detail=true,edit=false}={}){if(state.busy&&row!==state.poll?.row){say(t('busy'),true);return;}if(state.mutating)return;const version=++state.detailVersion;try{say(t('loading'));const r=await readRecord(row);const count=await getCount();if(version!==state.detailVersion)return;currentRow=row;state.detail=r;state.count=count;if(edit||!$('editor').hidden)fillEditor(r);if(detail){renderDetail();showOverlay('detail-overlay');$('detail-body').scrollTop=0;}renderFileState();say('');}catch(e){say(t('error')+String(e.message||e),true);}}
+async function editRecord(row){if(!guard())return;closeOverlay('detail-overlay');await showPage('library');await openRecord(row,{detail:false,edit:true});$('editor').scrollIntoView({behavior:'smooth',block:'start'});}
+async function saveEditor(event){event.preventDefault();if(!guard()||!state.editRow)return;state.mutating=true;$('editor-save').disabled=true;const row=state.editRow;let complete=false;try{for(const [field,id] of [['书籍文件','editor-form-file'],['目标语言','editor-form-language'],['翻译要求','editor-form-requirements']])await mutate({type:'SetCellValue',data:SOURCE,payload:field+'/'+row+'/'+$(id).value});complete=true;await loadData();const record=await readRecord(row);state.detail=record;currentRow=row;if(!$('detail-overlay').hidden)renderDetail();say(t('saved'));}catch(e){say(t('error')+String(e.message||e)+(complete?'':' '+t('partialSave')),true);}finally{state.mutating=false;$('editor-save').disabled=false;}}
+function requestDelete(row){if(!guard())return;state.deleteRow=row;showOverlay('confirm-overlay');}
+async function deleteRecord(){if(!guard()||state.deleteRow<1)return;state.mutating=true;$('confirm-delete').disabled=true;try{await mutate({type:'DeleteRecord',data:SOURCE,payload:state.deleteRow.toString()});currentRow=0;state.editRow=0;state.detail=null;state.result='';$('editor').hidden=true;closeOverlay('detail-overlay');state.mutating=false;closeOverlay('confirm-overlay');renderFileState();renderTranslation();await loadData();say(t('deleted'));}catch(e){say(t('error')+String(e.message||e),true);}finally{state.mutating=false;$('confirm-delete').disabled=false;}}
+async function recordAction(action,row){const r=state.rows.find(r=>r.row===row);if(action==='download'||action==='open'){if(!r)return;action==='download'?launch(fileURL(r.file)):openFile(r.file);return;}if(action==='delete'){requestDelete(row);return;}if(action==='edit'){await editRecord(row);return;}await openRecord(row,{detail:true,edit:action==='body'});}
+async function handleClick(event){const button=event.target.closest('button');if(!button)return;try{if(button.dataset.page){await showPage(button.dataset.page);return;}if(button.dataset.action==='language'){toggleLanguage();return;}if(button.dataset.filter){await goFiltered(button.dataset.filter);return;}if(button.hasAttribute('data-language')){await goFiltered('all','v:'+button.dataset.language);return;}if(button.dataset.langCode){$('translate-form-language').value=button.dataset.langCode;return;}if(button.dataset.recordAction){await recordAction(button.dataset.recordAction,Number(button.dataset.row));return;}if(button.dataset.fileAction){const owner=button.dataset.fileOwner,file=$(owner==='translate'?'translate-form-file':'editor-form-file').value;if(button.dataset.fileAction==='download')launch(fileURL(file));else if(button.dataset.fileAction==='open')openFile(file);else await previewFile(file,$(owner+'-preview'));return;}if(button.dataset.download){launch(button.dataset.download);return;}if(button.dataset.action==='new'){if(guard()){resetTranslation();await showPage('translate');}return;}if(button.dataset.action==='clear'){clearFilters();return;}if(button.dataset.action==='wait'){await startPolling(state.detail&&button.closest('#detail-overlay, #editor-result')?state.detail.row:currentRow);return;}}catch(e){say(t('error')+String(e.message||e),true);}}
+function bind(){document.addEventListener('click',event=>void handleClick(event));$('brand').onclick=()=>{try{parent.closeFullHtml(false);}catch(e){say(t('error')+String(e.message||e),true);}};$('hamburger').onclick=()=>{$('mobile-menu').hidden=!$('mobile-menu').hidden;$('hamburger').setAttribute('aria-expanded',String(!$('mobile-menu').hidden));};document.addEventListener('click',e=>{if(!$('navigation').contains(e.target))closeMenu();});window.addEventListener('resize',fitNav);new ResizeObserver(fitNav).observe($('nav-inner'));
+$('home-start').onclick=()=>{if(guard()){resetTranslation(false);void showPage('translate');}};$('library-new').onclick=()=>{if(guard()){resetTranslation();void showPage('translate');}};$('select-book').onclick=()=>void chooseFile('translate');$('editor-select').onclick=()=>void chooseFile('editor');$('remove-book').onclick=()=>{if(guard()){$('translate-form-file').value='';$('translate-preview').hidden=true;renderFileState();}};$('reset-translation').onclick=()=>{if(guard())resetTranslation();};$('translate-form').onsubmit=submitTranslation;$('refresh-translation').onclick=()=>void refreshTranslation();$('archive-translation').onclick=async()=>{if(currentRow>=1){const row=currentRow;await showPage('library');await openRecord(row);}};
+$('search').oninput=renderLibrary;$('status-filter').onchange=renderLibrary;$('language-filter').onchange=renderLibrary;$('clear-filters').onclick=clearFilters;$('editor-form').onsubmit=saveEditor;$('editor-close').onclick=()=>{if(!state.mutating){$('editor').hidden=true;state.editRow=0;}};$('copy-to-translate').onclick=async()=>{if(!guard())return;const values=[$('editor-form-file').value,$('editor-form-language').value,$('editor-form-requirements').value];resetTranslation();$('translate-form-file').value=values[0];$('translate-form-language').value=values[1];$('translate-form-requirements').value=values[2];state.editRow=0;$('editor').hidden=true;state.detail=null;closeOverlay('detail-overlay');renderFileState();await showPage('translate');};
+['detail-x','detail-close'].forEach(id=>$(id).onclick=()=>closeOverlay('detail-overlay'));$('file-close').onclick=()=>closeOverlay('file-overlay');$('confirm-cancel').onclick=()=>closeOverlay('confirm-overlay');$('confirm-delete').onclick=()=>void deleteRecord();$('detail-prev').onclick=()=>void openRecord(currentRow-1);$('detail-next').onclick=()=>void openRecord(currentRow+1);$('detail-edit').onclick=()=>void editRecord(currentRow);$('detail-delete').onclick=()=>requestDelete(currentRow);$('detail-download').onclick=()=>{if(state.detail)launch(fileURL(state.detail.file));};$('detail-open').onclick=()=>{if(state.detail)openFile(state.detail.file);};['detail-overlay','file-overlay','confirm-overlay'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===$(id))closeOverlay(id);}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(state.overlays.length)closeOverlay(state.overlays.at(-1));else closeMenu();}if(e.key==='Tab'&&state.overlays.length){const root=$(state.overlays.at(-1));const inputs=[...root.querySelectorAll('button:not(:disabled),input,textarea,select,a[href],iframe,[tabindex="0"]')].filter(el=>el.getClientRects().length);const first=inputs[0],last=inputs.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}});
+const focusInput=()=>{const el=document.activeElement;if(el?.matches('input:not([type="hidden"]),textarea,select'))setTimeout(()=>el.scrollIntoView({block:'center',behavior:'smooth'}),120);};document.addEventListener('focusin',e=>{if(e.target.matches('input,textarea,select')&&matchMedia('(max-width:760px)').matches){document.documentElement.style.setProperty('--keyboard-gap','360px');focusInput();}});document.addEventListener('focusout',()=>setTimeout(()=>{if(!document.activeElement.matches('input,textarea,select'))document.documentElement.style.setProperty('--keyboard-gap','0px');},150));window.visualViewport?.addEventListener('resize',()=>{const gap=Math.max(0,window.innerHeight-window.visualViewport.height);document.documentElement.style.setProperty('--keyboard-gap',gap?Math.max(300,gap)+'px':'0px');focusInput();});}
+async function initialize(){state.language=initialLanguage();localize();bind();renderChips();renderFileState();renderTranslation();requestAnimationFrame(fitNav);let modeError='';try{const mode=await api({type:'模式'});document.body.classList.toggle('dark',mode.trim()==='暗色');}catch(e){document.body.classList.toggle('dark',matchMedia('(prefers-color-scheme:dark)').matches);modeError=t('error')+String(e.message||e);}await loadData();if(modeError)say(modeError,true);}
+(async () => { await initialize(); })();
+</script>
+</body>
+</html>
