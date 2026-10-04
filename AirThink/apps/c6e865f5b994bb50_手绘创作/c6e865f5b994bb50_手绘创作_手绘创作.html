@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>手绘造境工坊 · Hand-drawn Atelier</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<style>
+:root{--bg:#F4EFE6;--paper:#FFFBF4;--ink:#1E1914;--red:#C23B2E;--blue:#2C4A6E;--muted:#8A8478;--line:#ded6c9;--shadow:0 8px 28px #1e19140a;--serif:'Noto Serif SC','Songti SC',Georgia,serif;--sans:'Noto Sans SC',system-ui,sans-serif}
+*{box-sizing:border-box}input,select,textarea{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);background-image:repeating-linear-gradient(18deg,transparent 0 3px,#8a847805 3px 4px),radial-gradient(ellipse at 75% 10%,#c4a57414,transparent 50%);line-height:1.65}body.dark{--bg:#201d18;--paper:#2c2720;--ink:#eee4d5;--muted:#b5a996;--line:#484035;--shadow:0 8px 28px #0002;--blue:#91accf}button,input,select,textarea{font:inherit}button{cursor:pointer;color:inherit}button,a,input,select,textarea{outline-offset:4px}button:disabled{opacity:.4;cursor:default}button{border:1px solid var(--line);background:var(--paper);border-radius:4px;padding:8px 14px;transition:transform .2s,background .2s}button:hover:not(:disabled){border-color:var(--red)}a{color:var(--blue)}.primary{background:var(--red);border-color:var(--red);color:#fff}.quiet{border-color:transparent;background:transparent}.small{font-size:.8rem;padding:5px 9px}.eyebrow{letter-spacing:.18em;font-size:.75rem;color:var(--red)}h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.3}h1{font-size:clamp(2.8rem,7vw,5.8rem);margin:20px 0}h2{font-size:1.8rem;margin:0 0 12px}h3{margin:0 0 8px;font-size:1.13rem}p{margin:8px 0 20px}.muted,small{color:var(--muted)}.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:1001;background:#1E1914;color:#FFFBF4;box-shadow:0 2px 12px #0002}.nav{position:relative;z-index:1001;max-width:1360px;margin:auto;padding:13px 28px;display:flex;align-items:center;gap:22px}.brand{display:flex;gap:13px;align-items:center;color:inherit;background:none;border:0;padding:0;white-space:nowrap;font-family:var(--serif);font-size:1.18rem}.seal{background:var(--red);color:#fff;width:37px;height:37px;display:grid;place-items:center;border-radius:50%;font-size:1.35rem;transform:rotate(-8deg)}.desktop{margin-left:auto;display:flex;gap:20px;align-items:center;white-space:nowrap}.nav-tab{position:relative;color:#FFFBF4;background:transparent;border:0;padding:8px 0}.nav-tab.active:after{content:'';position:absolute;bottom:0;left:0;width:22px;height:2px;background:var(--red)}.language{color:#FFFBF4;background:transparent;border-color:#686055;white-space:nowrap}.hamburger{display:none;margin-left:auto;background:transparent;color:#FFFBF4;border-color:#686055}.mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:#1E1914;padding:12px 22px;border-top:1px solid #51483c;box-shadow:0 10px 20px #0002}.mobile-menu.open{display:grid;gap:8px}.mobile-menu .nav-tab{text-align:left;padding:10px}.nav.compact .desktop{display:none}.nav.compact .hamburger{display:block}main{max-width:1320px;margin:auto;padding:114px 28px 100px}.page[hidden]{display:none}.hero{display:grid;grid-template-columns:1.4fr .6fr;align-items:center;gap:50px;padding:28px 0 52px}.hero p{max-width:660px}.hero-art{height:220px;position:relative;display:grid;place-items:center;overflow:hidden}.hero-art:before{content:'';width:185px;height:185px;border:1px solid var(--ink);border-radius:48% 52% 43% 57%;transform:rotate(-18deg);position:absolute;opacity:.2}.hero-art i{font-size:90px;color:var(--ink);transform:rotate(-25deg);opacity:.6}.hero-art .seal{position:absolute;right:18%;bottom:12%;border-radius:3px;width:45px;height:45px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:44px}.stat{text-align:left;padding:23px}.stat strong{display:block;font:2.5rem var(--serif);margin-bottom:9px}.paper{background:var(--paper);border:1px solid var(--line);border-radius:5px;box-shadow:var(--shadow)}.lift{position:relative;transition:transform .2s}.lift:after{content:'';position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--red);transition:width .3s}.lift:hover{transform:translateY(-3px)}.lift:hover:after{width:100%}.section-head,.row{display:flex;gap:12px;align-items:center;justify-content:space-between}.section-head{margin-bottom:22px}.wrap{flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.work{overflow:hidden}.work-cover{width:100%;height:165px;object-fit:cover;display:block;background:var(--bg)}.no-ref{height:165px;display:grid;place-items:center;border-bottom:1px dashed var(--line);color:var(--muted);font-family:var(--serif)}.work-main{display:block;width:100%;padding:0;text-align:left;border:0;border-radius:0;background:none}.work-body{padding:19px}.clamp{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.stamps{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.stamp{font-size:.72rem;border:1px solid var(--line);padding:2px 6px;color:var(--blue);border-radius:2px}.dot{width:13px;height:13px;border-radius:50%;display:inline-block;border:1px solid #8a847850;vertical-align:middle;flex-shrink:0}.color-line{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.work-actions{display:flex;gap:3px;padding:0 14px 15px;flex-wrap:wrap}.entries{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}.empty{padding:55px 25px;text-align:center;grid-column:1/-1}.empty i{font-size:2rem;color:var(--muted);margin-bottom:18px}.studio{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:26px;align-items:start}.form-paper,.result-paper{padding:28px}.field{margin-bottom:23px}.field>label,.field>.label{display:block;font-weight:600;margin-bottom:8px}.field input[type=text],textarea,.search,select{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink);min-width:0}textarea{resize:vertical;min-height:104px}small{display:block;font-size:.78rem;margin-top:7px}.choices{display:flex;flex-wrap:wrap;gap:8px}.choice{display:flex;align-items:center;gap:8px;text-align:left}.choice input{accent-color:var(--red)}.choice:has(input:checked),.chip.selected{border-color:var(--red);box-shadow:inset 0 -2px var(--red)}.picker-value{padding:11px;border:1px solid var(--line);margin-bottom:7px;overflow-wrap:anywhere;min-height:44px}.swatches{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.ref-preview{max-width:100%;max-height:240px;display:block;margin-bottom:12px;border-radius:3px}.ref-file{font-size:.75rem;overflow-wrap:anywhere}.text-field.soft{opacity:.75}.text-field.expanded textarea{min-height:160px}.result-blank{padding:55px 8px;color:var(--muted);text-align:center;font-family:var(--serif)}.result-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin:15px 0}.markdown{font-size:.94rem;line-height:1.85;overflow-wrap:anywhere}.markdown h1{font-size:2rem}.markdown h2{font-size:1.5rem;margin-top:25px}.markdown h3{margin-top:20px}.markdown img{max-width:100%;height:auto;border-radius:3px;cursor:pointer}.markdown pre{background:var(--bg);padding:42px 15px 15px;overflow-x:auto;position:relative;border:1px solid var(--line);border-radius:3px}.markdown pre button{position:absolute;right:8px;top:6px}.markdown code{font-size:.85em}.markdown blockquote{margin-left:0;border-left:3px solid var(--red);padding:4px 18px;background:var(--bg)}.markdown table{display:block;overflow:auto;border-collapse:collapse}.markdown td,.markdown th{padding:9px;border:1px solid var(--line)}.filters{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0 24px}.table-scroll{max-width:100%;overflow-x:auto}.works-table{width:100%;min-width:1500px;border-collapse:collapse}.works-table td,.works-table th{padding:15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);max-width:230px}.works-table th{font-size:.8rem;color:var(--muted)}.works-table tbody tr{cursor:pointer}.works-table tbody tr:hover{background:var(--bg)}.thumb{width:64px;height:50px;object-fit:cover}.catalog-group{margin-bottom:30px}.catalog-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.catalog-item{padding:15px;display:flex;align-items:center;gap:12px;justify-content:space-between}.catalog-item span{overflow-wrap:anywhere}.modal-layer{position:fixed;inset:0;z-index:2005;background:#15110dac;display:flex;align-items:center;justify-content:center;padding:25px}.modal-layer[hidden]{display:none}.modal{background:var(--paper);width:min(1040px,100%);max-height:calc(100dvh - 50px);overflow:auto;border-radius:5px;border:1px solid var(--line);box-shadow:0 20px 80px #0004;padding:28px;overscroll-behavior:contain}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:22px}.modal-head h2{margin:0}.modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0}.detail-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:20px 0 30px}.detail-field{border-bottom:1px solid var(--line);padding-bottom:12px;overflow-wrap:anywhere;white-space:pre-wrap}.detail-field dt{font-size:.8rem;color:var(--muted);margin-bottom:6px}.detail-field dd{margin:0}.detail-field img{max-height:180px;max-width:100%}.picker-search{position:sticky;top:-28px;background:var(--paper);padding:10px 0;z-index:1}.picker-options details{border-bottom:1px solid var(--line);padding:12px 0}.picker-options summary{cursor:pointer;font-family:var(--serif)}.option-list{display:grid;gap:6px;margin:12px 0}.option-list button{text-align:left}.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:12px 20px;border-radius:4px;z-index:4000;max-width:90%;box-shadow:var(--shadow)}.toast[hidden]{display:none}.busy-note{color:var(--blue);font-size:.8rem}.shake{animation:shake .3s}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}.footnote{text-align:center;color:var(--muted);font-family:var(--serif);padding-top:55px}.color-catalog{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.color-catalog button{text-align:left;display:flex;gap:10px;align-items:center;padding:16px}.color-catalog .dot{width:24px;height:24px}.catalog-bar{position:sticky;bottom:15px;background:var(--paper);padding:15px;border:1px solid var(--line);margin-top:20px;z-index:10}.status{font-size:.8rem;color:var(--muted)}.modal-layer:has(.modal):not([hidden])~.modal-layer{z-index:2015}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.studio{grid-template-columns:1fr}.hero{gap:20px}.catalog-items{grid-template-columns:1fr}.color-catalog{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){main{padding:92px 17px 160px}.nav{padding:12px 17px}.brand{font-size:1rem}.hero{grid-template-columns:1fr;padding:15px 0 30px}.hero-art{display:none}.stats{grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:17px}.stat strong{font-size:2rem}.grid{grid-template-columns:1fr}.entries{grid-template-columns:repeat(2,1fr)}.section-head{align-items:flex-start;flex-wrap:wrap}.form-paper,.result-paper{padding:20px}.modal-layer{padding:12px}.modal{padding:20px;max-height:calc(100dvh - 24px);padding-bottom:150px}.modal-layer.markdown-modal{padding:0}.markdown-modal .modal{max-height:100dvh;height:100dvh;border-radius:0;border:0}.detail-fields{grid-template-columns:1fr}.color-catalog{grid-template-columns:repeat(2,minmax(0,1fr))}.field:focus-within{scroll-margin-top:100px}.studio form:focus-within{padding-bottom:280px}.modal:focus-within{padding-bottom:330px}.catalog-item{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="nav-wrap"><nav id="navigation" class="nav" aria-label="Main navigation">
+<button id="brand" class="brand"><span class="seal">造</span><span data-i18n="app">手绘造境工坊</span></button>
+<div id="desktopNav" class="desktop"></div><button id="hamburger" class="hamburger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menu"><i class="fa-solid fa-bars"></i></button><div id="mobileMenu" class="mobile-menu"></div>
+</nav></header>
+<main>
+<section id="page-home" class="page">
+<div class="hero"><div><div class="eyebrow">HAND-DRAWN ATELIER / 01</div><h1 data-i18n="hero">手绘造境。</h1><p class="muted" data-i18n="intro">写下想看见的画面，选一支笔、一种版式、一碟颜色。留白的风格与颜色，会按主题被推荐；留空的版式与比例，不会被硬塞默认值。</p><button id="start" class="primary"><i class="fa-solid fa-pen-nib"></i> <span data-i18n="start">开始落笔</span></button></div><div class="hero-art" aria-hidden="true"><i class="fa-solid fa-feather-pointed"></i><span class="seal">绘</span></div></div>
+<div id="stats" class="stats"></div><div class="section-head"><h2 data-i18n="recent">刚离开画案的六张</h2><button class="quiet" data-go="gallery"><span data-i18n="allWorks">翻看作品集</span> <i class="fa-solid fa-arrow-right"></i></button></div><div id="recentWorks" class="grid"></div><div id="homeEntries" class="entries"></div>
+</section>
+<section id="page-studio" class="page" hidden>
+<div class="section-head"><div><div class="eyebrow">THE DRAWING DESK / 02</div><h2 data-i18n="studio">创作台</h2><p class="muted" data-i18n="studioIntro">主题必填。风格、图型、主题色、画幅比例都可以空。模式空着，后台按纯图模式理解。</p></div><div class="choices"><button id="clearDesk" class="small" data-i18n="clearDesk">清空画案</button><button class="small" data-go="gallery" data-i18n="backGallery">从作品集回来</button></div></div>
+<div class="studio"><form id="creation" class="paper form-paper" novalidate>
+<div class="field"><label for="creation-subject" data-i18n="画面主题">画面主题</label><textarea id="creation-subject" name="画面主题" required data-placeholder="subjectPlaceholder"></textarea></div>
+<div class="field"><span class="label" data-i18n="手绘风格">手绘风格</span><div id="styleValue" class="picker-value"></div><input id="creation-style" name="手绘风格" type="hidden"><div class="choices"><button type="button" id="pickStyle"><i class="fa-solid fa-pen-fancy"></i> <span data-i18n="choosePen">选一支笔</span></button><button type="button" id="randomStyle" data-i18n="randomPen">换一支笔</button><button type="button" data-clear="手绘风格" class="quiet" data-i18n="clear">清空</button></div><small data-i18n="styleHint">留空则按主题推荐，并在成稿里说明理由。</small></div>
+<div class="field"><span class="label" data-i18n="图型">图型</span><div id="layoutValue" class="picker-value"></div><input id="creation-layout" name="图型" type="hidden"><div class="choices"><button id="pickLayout" type="button" data-i18n="chooseLayout">选一个版式</button><button type="button" data-clear="图型" class="quiet" data-i18n="clear">清空</button></div><small data-i18n="layoutHint">留空则不添加固定排版。</small></div>
+<div class="field"><span class="label" data-i18n="主题色">主题色</span><input id="creation-colors" name="主题色" type="hidden"><div id="selectedColors" class="swatches"></div><div class="choices"><button id="pickColors" type="button" data-i18n="chooseColors">挑几碟颜色</button><button type="button" data-clear="主题色" class="quiet" data-i18n="clear">清空</button></div><small data-i18n="colorHint">留空则按主题推荐。</small></div>
+<div class="field"><label for="creation-ratio" data-i18n="画幅比例">画幅比例</label><input id="creation-ratio" name="画幅比例" type="text"><div id="ratioChips" class="choices" style="margin-top:9px"></div><small data-i18n="ratioHint">留空则不添加默认比例。</small></div>
+<div class="field"><span class="label" data-i18n="模式">模式</span><div id="modeChoices" class="choices"></div></div>
+<div id="textField" class="field text-field soft"><label for="creation-text" data-i18n="文字要求">文字要求</label><textarea id="creation-text" name="文字要求" data-placeholder="textPlaceholder"></textarea></div>
+<div class="field"><label for="creation-reference" data-i18n="参考图片">参考图片</label><input id="creation-reference" name="参考图片" type="text" readonly><div id="referencePreview" style="margin-top:12px"></div><div class="choices"><button type="button" id="selectImage"><i class="fa-regular fa-image"></i> <span data-i18n="album">从相册选取</span></button><button type="button" id="captureImage"><i class="fa-solid fa-camera"></i> <span data-i18n="camera">拍一张</span></button><button type="button" data-clear="参考图片" class="quiet" data-i18n="removeRef">移除参考</button></div><small data-i18n="refHint">有参考图时，后台会按主题做照片转绘。</small></div>
+<input id="creation-execution" name="执行方式" type="hidden" value="生成提示词并生图">
+<div class="choices"><button id="submitCreation" type="submit" class="primary"></button><button id="asNew" type="button" data-i18n="asNew">作为新画再生成</button></div><p id="formStatus" class="busy-note" aria-live="polite"></p>
+</form><aside class="paper result-paper"><div class="row"><h3 data-i18n="draft">成稿纸</h3><div class="choices"><button id="studioPrev" class="small" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></button><button id="studioNext" class="small" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></button></div></div><div class="result-toolbar"><button id="copyStudio" class="small" data-i18n="copyDraft">抄下成稿</button><button id="refreshStudio" class="small" data-i18n="lookAgain">再看一眼</button></div><div id="studioResult" class="markdown"></div></aside></div>
+</section>
+<section id="page-gallery" class="page" hidden><div class="section-head"><div><div class="eyebrow">PAPERS ON THE TABLE / 03</div><h2 data-i18n="gallery">作品集</h2><p class="muted" data-i18n="galleryIntro">每一行都还在纸上，点开就能改，改的是字段，不是重画。</p></div><button id="newPaper" class="primary" data-i18n="newPaper">铺一张新纸</button></div><div class="row wrap"><input id="gallerySearch" class="search" type="search" style="flex:1;min-width:180px" data-placeholder="searchWorks"><div class="choices"><button id="viewCards" class="chip selected" data-i18n="cards">卡片</button><button id="viewTable" class="chip" data-i18n="rows">横栏</button></div></div><div id="galleryFilters" class="filters"></div><div id="galleryStatus" class="status" aria-live="polite"></div><div id="galleryWorks"></div></section>
+<section id="page-catalog" class="page" hidden><div class="eyebrow">THE MATERIAL CABINET / 04</div><h2 data-i18n="catalog">笔墨图鉴</h2><p class="muted" data-i18n="catalogIntro">挑一支笔，铺开版式，把喜欢的颜色带回画案。</p><div id="catalogTabs" class="filters"></div><input id="catalogSearch" class="search" type="search" data-placeholder="searchCabinet"><div id="catalogContent" style="margin-top:24px"></div></section>
+<footer class="footnote" data-i18n="footer">一纸留白，万象生长。</footer>
+</main>
+<div id="detailLayer" class="modal-layer markdown-modal" hidden><section id="detailDialog" class="modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal-head"><h2 id="detailTitle" data-i18n="details">作品详情</h2><div class="choices"><button id="detailPrev" class="small" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></button><button id="detailNext" class="small" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></button><button data-close="detailLayer" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div></div><div id="detailStatus" class="status" aria-live="polite"></div><dl id="detailFields" class="detail-fields"></dl><h3 data-i18n="draft">成稿纸</h3><div id="detailResult" class="markdown"></div><div class="modal-actions"><button id="detailEdit" class="primary" data-i18n="editThis">编辑此作</button><button id="detailClone" data-i18n="clone">以此再画</button><button id="detailDelete" data-i18n="delete">删除</button><button id="copyDetail" data-i18n="copyDraft">抄下成稿</button><button id="refreshDetail" data-i18n="lookAgain">再看一眼</button><button data-close="detailLayer" data-i18n="close">关上</button></div></section></div>
+<div id="pickerLayer" class="modal-layer" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="pickerTitle"><div class="modal-head"><h2 id="pickerTitle"></h2><button data-close="pickerLayer" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div class="picker-search"><input id="pickerSearch" class="search" type="search" data-placeholder="searchCabinet"></div><div id="pickerOptions" class="picker-options"></div><div class="modal-actions"><button id="pickerClear" data-i18n="clear">清空</button><button id="pickerDone" class="primary" data-i18n="done">收好</button></div></section></div>
+<div id="confirmLayer" class="modal-layer" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmText" style="max-width:460px"><h3 id="confirmText"></h3><div class="modal-actions"><button id="confirmYes" class="primary" data-i18n="confirm">确定</button><button id="confirmNo" data-i18n="cancel">取消</button></div></section></div>
+<div id="toast" class="toast" role="status" hidden></div>
+<script>
+        // 统一通信接口medium
+
+        function unescapeString(str) {
+          return str.replace(/\\x[0-9A-Fa-f]{2}|\\[nrt'"\\]/g, function(match) {
+            if (match.startsWith('\\x')) {
+              // 处理十六进制序列（例如 \x0A）
+              const hex = match.substring(2);
+              const charCode = parseInt(hex, 16);
+              return String.fromCharCode(charCode);
+            } else {
+              // 处理其他转义序列
+              switch (match) {
+                case '\\n': return '\n';
+                case '\\r': return '\r';
+                case '\\t': return '\t';
+                case '\\\'': return '\'';
+                case '\\"': return '"';
+                case '\\\\': return '\\';
+                default: return match; // 理论上不会发生，但保留以容错
+              }
+            }
+          });
+        }
+
+        function localAppBridge(request) {
+            // request是json文本如 {type:"表格", data:"数据源", payload:""} 或者 {type:"提交", data:"表", payload:"表单数据"}
+            // 确保全局回调存储对象存在
+            if (!window.__appBridgeCallbacks) window.__appBridgeCallbacks = {};
+            
+            // 注册全局响应接收函数（仅注册一次）
+            if (!window.__receiveAppResponse) {
+                window.__receiveAppResponse = function(eventId, response) {
+                    response = unescapeString(response);
+                    if (window.__appBridgeCallbacks[eventId]) {
+                        const { resolve, timeoutId } = window.__appBridgeCallbacks[eventId];
+                        clearTimeout(timeoutId);  // 清除超时计时器
+                        resolve(response);
+                        delete window.__appBridgeCallbacks[eventId];
+                    }
+                };
+            }
+
+            const requestStr = (typeof request === 'string') ? request : JSON.stringify(request);
+            
+            return new Promise((resolve, reject) => {
+                // 1. Android实现（同步）
+                if (window.AndroidBridge) {
+                    try {
+                        let response = window.AndroidBridge.processRequest(requestStr);
+                        response = unescapeString(response);
+                        resolve(response);
+                    } catch (e) {
+                        reject(`Android通信错误: ${e.message}`);
+                    }
+                }
+                // 2. iOS实现（异步回调）
+                else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) {
+                    try {
+          const eventId = "event_" + Date.now() + Math.random().toString(36).substr(2, 5);
+
+          // 存储resolve并设置超时
+          const timeoutId = setTimeout(() => {
+            if (window.__appBridgeCallbacks[eventId]) {
+              delete window.__appBridgeCallbacks[eventId];
+              reject("iOS响应超时");
+            }
+          }, 600000);
+
+          window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+
+          const message = {
+              eventId: eventId,
+              request: requestStr,
+          };
+          window.webkit.messageHandlers.iosBridge.postMessage(JSON.stringify(message));
+                    } catch (e) {
+                        reject(`iOS通信错误: ${e.message}`);
+                    }
+                }
+                // 3. Windows WebView2实现（异步回调）
+                else if (window.chrome && window.chrome.webview) {
+                    try {
+                        const eventId = 'event_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+                        // 存储resolve并设置超时
+                        const timeoutId = setTimeout(() => {
+                            if (window.__appBridgeCallbacks[eventId]) {
+                                delete window.__appBridgeCallbacks[eventId];
+                                reject('Windows响应超时');
+                            }
+                        }, 600000);
+                        
+                        window.__appBridgeCallbacks[eventId] = { resolve, timeoutId };
+                        
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            eventId: eventId,
+                            request: requestStr
+                        }));
+                    } catch (e) {
+                        reject(`Windows通信错误: ${e.message}`);
+                    }
+                }
+            });
+        }
+
+    function base64StringToFile(base64String, filename, mimeType = 'application/octet-stream') {
+      // 去掉可能存在的 base64 前缀（如 "data:image/png;base64,"）
+      const rawBase64 = base64String.includes(',') 
+        ? base64String.split(',')[1] 
+        : base64String;
+
+      // 解码 Base64 为二进制字符串
+      const binaryString = atob(rawBase64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // 创建 Blob，再转为 File
+      const blob = new Blob([bytes], { type: mimeType });
+      return new File([blob], filename, { type: mimeType });
+    }
+
+
+
+    async function callAppBridge(request)
+    {
+        if (window.AndroidBridge || (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosBridge) || (window.chrome && window.chrome.webview))
+        {
+          if (request['type'] === "CapturePhoto" || request['type'] === "FinishRecordVoice")
+          {
+            const filename = await localAppBridge(request);
+            if (filename != "")
+            {
+              const b64 = await localAppBridge({type:"FileToBase64", data:filename});
+              const file = base64StringToFile(b64, filename);
+
+              // 2. 上传文件到Flask服务端
+              const guidFileName = await uploadToFlaskA(file);
+    
+              // 3. 返回GUID文件名
+              return guidFileName;
+            }
+            return "";
+          }
+          if (request['type'] === "StartRecordVoice" || request['type'] === "PauseRecordVoice" || request['type'] === "ContinueRecordVoice" || request['type'] === "CancelRecordVoice")
+          {
+            await localAppBridge(request);
+            return "";
+          }
+        }
+
+        if (request['type'] === "ExportFile")
+        {
+          exportFileA(request['data'], 'http://' + window.location.hostname + ':3130/download/' + request['payload']);
+          return "";
+        }
+        if (request['type'] === "StartRecordVoice")
+        {
+          await StartRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "PauseRecordVoice")
+        {
+          await PauseRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "ContinueRecordVoice")
+        {
+          await ContinueRecordVoiceA();
+          return "";
+        }
+        if (request['type'] === "CancelRecordVoice")
+        {
+          await CancelRecordVoiceA();
+          return "";
+        }
+        // 定义类型到对应处理函数的映射
+        const HANDLERS = {
+          "SelectFile": selectFileA,
+          "SelectImage": selectImageA,
+          "CapturePhoto": capturePhotoA,
+          "FinishRecordVoice": FinishRecordVoiceA
+        };
+
+        // 检查请求类型是否在支持的映射中
+        if (request['type'] in HANDLERS) {
+          try {
+            // 1. 根据类型选择相应的处理函数获取文件
+            const file = await HANDLERS[request['type']]();
+    
+            // 2. 上传文件到Flask服务端
+            const guidFileName = await uploadToFlaskA(file);
+    
+            // 3. 返回GUID文件名
+            return guidFileName;
+          } catch (error) {
+            // 可以在这里添加错误处理逻辑，如日志记录
+            console.error(`处理${request['type']}时出错:`, error);
+          }
+  
+          // 所有失败情况返回空字符串
+          return "";
+        }
+
+
+
+        url = 'http://' + window.location.hostname + ':3130/request';
+        const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'SessionID': localStorage.getItem('airthink_session_id'),
+            'BaseName': encodeURIComponent("c6e865f5b994bb50_手绘创作")
+        },
+        body: JSON.stringify(request)
+        });
+  
+        if (!response.ok) {
+            throw new Error(`请求失败: ${response.status}`);
+        }
+  
+        return await response.text();
+    }
+
+async function exportFileA(title, url) {
+  try {
+    // 1. 获取文件内容 (需要服务器支持跨域 CORS)
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`下载失败: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+
+    // 2. 尝试使用 File System Access API (Chrome/Edge 等现代浏览器支持)
+    // 这允许程序明确请求“另存为”对话框
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: title,
+          types: [{
+            description: 'File',
+            accept: {
+              // 根据 blob 类型动态推断 MIME，或者直接使用通用流
+              [blob.type || 'application/octet-stream']: [] 
+            }
+          }]
+        });
+        
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return; // 保存成功，退出函数
+      } catch (err) {
+        // 如果用户在弹窗中点击了“取消”，或者API报错，则进入降级方案
+        if (err.name === 'AbortError') return; 
+        console.warn('File System Access API 失败，尝试降级方案:', err);
+      }
+    }
+
+    // 3. 降级方案：使用 <a> 标签下载
+    // 是否弹出选择框取决于用户的浏览器设置 ("下载前询问每个文件的保存位置")
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = title;
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(objectUrl);
+    }, 100);
+
+  } catch (error) {
+    console.error('导出文件出错:', error);
+    alert('导出失败: ' + error.message);
+  }
+}
+
+/**
+ * 全局录音状态管理
+ */
+const VoiceRecorderState = {
+  mediaRecorder: null,
+  stream: null,
+  audioChunks: [],
+  lamejsUrl: 'https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js', // lamejs CDN地址
+  audioContext: null
+};
+
+/**
+ * 动态加载 lamejs 库
+ */
+function loadLamejs() {
+  return new Promise((resolve, reject) => {
+    if (window.lamejs) {
+      resolve(window.lamejs);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = VoiceRecorderState.lamejsUrl;
+    script.onload = () => resolve(window.lamejs);
+    script.onerror = () => reject(new Error('无法加载 lamejs 库'));
+    document.body.appendChild(script);
+  });
+}
+
+/**
+ * 开始录音
+ */
+async function StartRecordVoiceA() {
+  // 1. 预加载 lamejs，确保结束时可用
+  await loadLamejs();
+
+  // 2. 清理旧状态
+  VoiceRecorderState.audioChunks = [];
+  
+  // 3. 获取麦克风权限
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    VoiceRecorderState.stream = stream;
+    
+    // 4. 初始化 MediaRecorder
+    // 即使浏览器默认录制为 WebM/Ogg，我们后续也会通过 AudioContext 转码
+    const recorder = new MediaRecorder(stream);
+    VoiceRecorderState.mediaRecorder = recorder;
+
+    recorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        VoiceRecorderState.audioChunks.push(event.data);
+      }
+    };
+
+    recorder.start();
+    console.log("录音开始");
+    
+  } catch (err) {
+    console.error("无法启动录音:", err);
+    throw new Error("无法访问麦克风或启动录音失败");
+  }
+}
+
+/**
+ * 暂停录音
+ */
+function PauseRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'recording') {
+    VoiceRecorderState.mediaRecorder.pause();
+    console.log("录音暂停");
+  }
+}
+
+/**
+ * 继续录音
+ */
+function ContinueRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder && VoiceRecorderState.mediaRecorder.state === 'paused') {
+    VoiceRecorderState.mediaRecorder.resume();
+    console.log("录音继续");
+  }
+}
+
+/**
+ * 取消录音 (清理资源，不返回文件)
+ */
+function CancelRecordVoiceA() {
+  if (VoiceRecorderState.mediaRecorder) {
+    // 停止录制
+    if (VoiceRecorderState.mediaRecorder.state !== 'inactive') {
+      VoiceRecorderState.mediaRecorder.stop();
+    }
+    VoiceRecorderState.mediaRecorder = null;
+  }
+  
+  // 关闭流（关闭麦克风图标）
+  if (VoiceRecorderState.stream) {
+    VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+    VoiceRecorderState.stream = null;
+  }
+  
+  // 清空数据
+  VoiceRecorderState.audioChunks = [];
+  console.log("录音已取消");
+}
+
+/**
+ * 完成录音并返回 MP3 文件
+ * @returns {Promise<File>} 返回一个 MP3 格式的 File 对象
+ */
+function FinishRecordVoiceA() {
+  return new Promise((resolve, reject) => {
+    const recorder = VoiceRecorderState.mediaRecorder;
+    
+    if (!recorder) {
+      reject(new Error("未找到正在进行的录音"));
+      return;
+    }
+
+    // 定义停止后的处理逻辑
+    recorder.onstop = async () => {
+      try {
+        // 1. 停止所有轨道 (关闭麦克风)
+        if (VoiceRecorderState.stream) {
+          VoiceRecorderState.stream.getTracks().forEach(track => track.stop());
+          VoiceRecorderState.stream = null;
+        }
+
+        // 2. 将录制的块组合成一个 Blob (通常是 webm 或 ogg 格式)
+        const originalBlob = new Blob(VoiceRecorderState.audioChunks, { type: recorder.mimeType });
+        
+        // 3. 转码为 MP3
+        const mp3File = await convertBlobToMp3(originalBlob);
+        
+        // 4. 清理
+        VoiceRecorderState.audioChunks = [];
+        VoiceRecorderState.mediaRecorder = null;
+        
+        resolve(mp3File);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    // 触发停止，进入 onstop 回调
+    if (recorder.state !== 'inactive') {
+      recorder.stop();
+    } else {
+      // 如果已经停止了（以此防守），手动触发 onstop 逻辑
+      recorder.onstop();
+    }
+  });
+}
+
+/**
+ * 内部辅助函数：将任意音频 Blob 转换为 MP3 File
+ */
+async function convertBlobToMp3(blob) {
+  // 1. 读取 Blob 为 ArrayBuffer
+  const arrayBuffer = await blob.arrayBuffer();
+  
+  // 2. 使用 AudioContext 解码音频 (将 WebM/Ogg 解码为 PCM 数据)
+  if (!VoiceRecorderState.audioContext) {
+    VoiceRecorderState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const audioBuffer = await VoiceRecorderState.audioContext.decodeAudioData(arrayBuffer);
+  
+  // 3. 准备 lamejs 编码器
+  const channels = 1; // 强制转为单声道，适合语音，且减小体积
+  const sampleRate = audioBuffer.sampleRate;
+  const kbps = 128;
+  
+  const mp3encoder = new lamejs.Mp3Encoder(channels, sampleRate, kbps);
+  
+  // 4. 获取 PCM 数据并转换 (Float32 -> Int16)
+  // 获取第一个声道的数据（如果是立体声，语音通常取单声道即可）
+  const samples = audioBuffer.getChannelData(0);
+  const sampleBlockSize = 1152; // lamejs 建议的块大小
+  const mp3Data = [];
+  
+  // 转换 Float32 (-1.0 到 1.0) 为 Int16 (-32768 到 32767)
+  const samplesInt16 = new Int16Array(samples.length);
+  for (let i = 0; i < samples.length; i++) {
+    // 简单的线性转换和钳位
+    let s = Math.max(-1, Math.min(1, samples[i]));
+    samplesInt16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  
+  // 5. 编码循环
+  for (let i = 0; i < samplesInt16.length; i += sampleBlockSize) {
+    const chunk = samplesInt16.subarray(i, i + sampleBlockSize);
+    const mp3buf = mp3encoder.encodeBuffer(chunk);
+    if (mp3buf.length > 0) {
+      mp3Data.push(mp3buf);
+    }
+  }
+  
+  // 6. 结束编码
+  const mp3buf = mp3encoder.flush();
+  if (mp3buf.length > 0) {
+    mp3Data.push(mp3buf);
+  }
+  
+  // 7. 生成文件
+  const timestamp = new Date().getTime();
+  const filename = `voice_record_${timestamp}.mp3`;
+  const mp3Blob = new Blob(mp3Data, { type: 'audio/mp3' });
+  
+  // 返回 File 对象
+  return new File([mp3Blob], filename, { type: 'audio/mp3', lastModified: new Date().getTime() });
+}
+
+/**
+ * 选择文件函数
+ * @returns {Promise<File>}
+ */
+function selectFileA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function selectImageA() {
+  return new Promise((resolve, reject) => {
+    // 创建隐藏的文件输入元素
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*'; // 限制只选择图片文件
+    fileInput.style.display = 'none';
+    
+    // 监听文件选择
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // 可选：进一步验证文件确实是图片
+        if (!file.type.startsWith('image/')) {
+          reject(new Error('选择的文件不是图片'));
+          return;
+        }
+        resolve(file);
+      } else {
+        reject(new Error('没有选择文件'));
+      }
+      
+      // 清理DOM
+      document.body.removeChild(fileInput);
+    });
+    
+    // 监听取消选择（注意：cancel事件在某些浏览器中可能不支持）
+    fileInput.addEventListener('cancel', () => {
+      reject(new Error('用户取消了文件选择'));
+      document.body.removeChild(fileInput);
+    });
+    
+    // 添加到DOM并触发点击
+    document.body.appendChild(fileInput);
+    fileInput.click();
+  });
+}
+
+function capturePhotoA() {
+  return new Promise((resolve, reject) => {
+    // 检查浏览器是否支持媒体设备API
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      reject(new Error('您的浏览器不支持拍照功能'));
+      return;
+    }
+    
+    // 创建一个隐藏的视频元素用于预览
+    const video = document.createElement('video');
+    video.style.display = 'none';
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    
+    // 创建一个canvas元素用于捕获照片
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'none';
+    const ctx = canvas.getContext('2d');
+    
+    // 创建拍照按钮和取消按钮的容器
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    `;
+    
+    // 创建视频预览容器
+    const videoContainer = document.createElement('div');
+    videoContainer.style.cssText = `
+      width: 100%;
+      max-width: 640px;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    `;
+    
+    // 将视频放入容器中
+    video.style.cssText = `
+      width: 100%;
+      height: auto;
+      transform: scaleX(-1); /* 镜像翻转，让预览更自然 */
+    `;
+    
+    // 创建按钮容器
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 20px;
+    `;
+    
+    // 创建拍照按钮
+    const captureBtn = document.createElement('button');
+    captureBtn.textContent = '拍照';
+    captureBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 创建取消按钮
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '取消';
+    cancelBtn.style.cssText = `
+      padding: 12px 24px;
+      background: #FF3B30;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+    `;
+    
+    // 组装元素
+    videoContainer.appendChild(video);
+    buttonContainer.appendChild(captureBtn);
+    buttonContainer.appendChild(cancelBtn);
+    container.appendChild(videoContainer);
+    container.appendChild(buttonContainer);
+    document.body.appendChild(container);
+    document.body.appendChild(canvas);
+    
+    // 请求摄像头访问权限
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment', // 使用后置摄像头，如需前置摄像头改为'user'
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    })
+    .then(stream => {
+      // 将视频流连接到video元素
+      video.srcObject = stream;
+      
+      // 等待视频元数据加载
+      video.onloadedmetadata = () => {
+        // 设置canvas尺寸与视频一致
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // 开始播放视频
+        video.play().catch(e => {
+          reject(new Error('无法启动摄像头: ' + e.message));
+          cleanup();
+        });
+      };
+    })
+    .catch(error => {
+      reject(new Error('无法访问摄像头: ' + error.message));
+      cleanup();
+    });
+    
+    // 拍照功能
+    captureBtn.onclick = () => {
+      // 绘制当前视频帧到canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // 将canvas转换为Blob对象（图片文件）
+      canvas.toBlob(blob => {
+        if (blob) {
+          // 创建File对象，类似于文件上传的文件
+          const file = new File([blob], `photo_${Date.now()}.jpg`, {
+            type: 'image/jpeg'
+          });
+          
+          // 清理并返回文件
+          cleanup();
+          resolve(file);
+        } else {
+          reject(new Error('拍照失败'));
+          cleanup();
+        }
+      }, 'image/jpeg', 0.9); // 0.9是JPEG质量参数
+    };
+    
+    // 取消功能
+    cancelBtn.onclick = () => {
+      reject(new Error('用户取消了拍照'));
+      cleanup();
+    };
+    
+    // 清理函数
+    const cleanup = () => {
+      // 停止所有视频流
+      if (video.srcObject) {
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+      
+      // 移除DOM元素
+      if (container.parentNode) {
+        document.body.removeChild(container);
+      }
+      if (canvas.parentNode) {
+        document.body.removeChild(canvas);
+      }
+    };
+    
+    // 监听页面离开，确保清理资源
+    window.addEventListener('beforeunload', cleanup);
+  });
+}
+
+
+
+/**
+ * 上传文件到Flask服务端
+ * @param {File} file - 要上传的文件
+ * @returns {Promise<string>} - 返回GUID文件名
+ */
+async function uploadToFlaskA(file)
+{
+  // 创建FormData对象
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    // 发送到Flask服务端
+    const response = await fetch('http://' + window.location.hostname + ':3130/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      throw new Error(`上传失败: ${response.statusText}`);
+    }
+    
+    const result = await response.text();
+    return result;
+  }
+  catch (error)
+  {
+  }
+  return ""
+}    
+
+
+        // 更健壮的CSV解析器，能处理字段内逗号和换行符
+        function parseCSV(csvText) {
+            const rows = [];
+            let currentRow = [];
+            let currentField = '';
+            let inQuotes = false;
+            let i = 0;
+
+            while (i < csvText.length) {
+                const char = csvText[i];
+                
+                if (inQuotes) {
+                    if (char === '"') {
+                        // 检查下一个字符是否是双引号（转义）
+                        if (i + 1 < csvText.length && csvText[i + 1] === '"') {
+                            currentField += '"';
+                            i += 2; // 跳过两个双引号
+                        } else {
+                            // 结束引号
+                            inQuotes = false;
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        // 字段结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        i++;
+                    } else if (char === '\r' || char === '\n') {
+                        // 处理换行符
+                        if (char === '\r' && i + 1 < csvText.length && csvText[i + 1] === '\n') {
+                            // 处理 \r\n
+                            i++;
+                        }
+                        
+                        // 行结束
+                        currentRow.push(currentField);
+                        currentField = '';
+                        rows.push(currentRow);
+                        currentRow = [];
+                        i++;
+                        
+                        // 跳过连续换行符
+                        while (i < csvText.length && (csvText[i] === '\r' || csvText[i] === '\n')) {
+                            i++;
+                        }
+                    } else {
+                        currentField += char;
+                        i++;
+                    }
+                }
+            }
+
+            // 处理最后一行
+            if (currentField !== '' || currentRow.length > 0) {
+                currentRow.push(currentField);
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        function setInnerHTMLWithScripts(element, html) {
+             element.innerHTML = html;
+             // 执行内联脚本
+             const scripts = element.querySelectorAll('script');
+             scripts.forEach(oldScript => {
+                 const newScript = document.createElement('script');
+                 newScript.text = oldScript.text;
+                 oldScript.parentNode.replaceChild(newScript, oldScript);
+             });
+         }
+
+        function base64DecodeUTF8(base64Str) {
+            // 使用atob解码Base64得到二进制字符串
+            const binaryStr = atob(base64Str);
+    
+            // 将二进制字符串转换为字节数组
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+                bytes[i] = binaryStr.charCodeAt(i);
+            }
+    
+            // 使用TextDecoder将字节数组解码为UTF-8字符串
+            const decoder = new TextDecoder('utf-8');
+            return decoder.decode(bytes);
+        }
+</script>
+<script>
+const OPTIONS={"style":["FA-001 · Gemma Correll · Playful Deadpan Doodle","FA-002 · Saul Steinberg · Conceptual Continuous-Line Editorial","FA-003 · Jean-Jacques Sempé · Fine-Line Urban Miniature","FA-004 · James Thurber · Awkward Minimal Ink Cartoon","FA-005 · Shel Silverstein · Childlike Free-Line Humor","FA-006 · Edward Gorey · Victorian Crosshatch Gothic Cartoon","FA-007 · Ronald Searle · Frenetic Scratch-Ink Caricature","FA-008 · Roz Chast · Nervous Urban Notebook Cartoon","FA-009 · Lynda Barry · Raw Zine Diary Cartoon","FA-010 · Tom Gauld · Geometric Literary Deadpan","FA-011 · David Shrigley · Deliberately Bad Absurd Doodle","FA-012 · Christoph Niemann · Minimal Visual-Pun Editorial","FA-013 · Jean Jullien · Bold Flat Everyday Satire","FA-014 · Mr Bingo · Handwritten British Anti-Inspiration Cartoon","FA-015 · Brian Rea · Soft Relationship Editorial Line Art","FA-016 · Rubyetc · Raw Emotional Internet Doodle","FA-017 · Sarah Andersen · Black-and-White Reaction Diary Cartoon","FA-018 · Poorly Drawn Lines / Reza Farazmand · Minimal Deadpan Dialogue Cartoon","FA-019 · The Oatmeal / Matthew Inman · Explosive Webcomic Exaggeration","FA-020 · Allie Brosh · Low-Fi Frenzy Cartoon","FA-021 · Mari Andrew · Watercolor Handwritten Life Notes","FA-022 · Sally Nixon · Flat Everyday Women Lifestyle","FA-023 · Agathe Sorlet · Warm Minimal Female Line Cartoon","FA-024 · Jean-Michel Tixier · Geometric Fashion Deadpan","FA-025 · Gary Larson · One-Panel Absurd Social Cartoon","FA-026 · Sergio Aragonés · Dense Silent Physical Comedy","FA-027 · R. Crumb · Underground Crosshatched Grotesque Cartoon","FA-028 · Daniel Clowes · Retro Detached American Comic","FA-029 · Chris Ware · Geometric Diagrammatic Narrative","FA-030 · Adrian Tomine · Clean Urban Solitude Comic","FA-031 · Marjane Satrapi · High-Contrast Black-White Memoir Cartoon","FA-032 · Joann Sfar · Loose French Improvised Ink","FA-033 · Charles M. Schulz · Minimal Newspaper Comic","FA-034 · Bill Watterson · Elastic Sunday Strip","FA-035 · Matt Groening · Bold Pop Satire Cartoon","FA-036 · OscarAI · Minimalist Organic Pastel Editorial","FA-037 · Ahmed · Chic Urban Editorial Motion Character","FA-038 · James Yeung · Minimalist Poetic Sempé Ink Doodle","FA-039 · 手绘火柴人漫画 · Hand-Drawn Stick Figure Cartoon","FA-040 · 极简手绘 · Minimalist 2D Hand-Drawn Doodle","FB-001 · Quentin Blake · Loose Ink-and-Wash Storybook","FB-002 · Tove Jansson · Nordic Fine-Line Whimsy","FB-003 · Richard Scarry · Busy Anthropomorphic Everyday World","FB-004 · Arnold Lobel · Warm Vintage Line-and-Wash","FB-005 · Maurice Sendak · Crosshatched Wild Storybook","FB-006 · Dr. Seuss · Bendy Absurd Storybook","FB-007 · Beatrix Potter · Naturalist Watercolor Animal Storybook","FB-008 · E. H. Shepard · Classic Pen-and-Light-Wash Storybook","FB-009 · Satoshi Kitamura · Quirky Ink-and-Watercolor Tale","FB-010 · Oliver Jeffers · Minimal Poetic Picturebook Doodle","FB-011 · Chris Haughton · Bold Geometric Picturebook","FB-012 · Jon Klassen · Muted Deadpan Picturebook","FB-013 · Carson Ellis · Folk-Line Decorative Storybook","FB-014 · Shaun Tan · Dreamlike Surreal Storybook","FB-015 · Lane Smith · Layered Vintage Storybook Collage","FB-016 · Peter de Sève · Expressive Character Sketch Cartoon","FB-017 · Jean Giraud / Moebius · Dreamlike Clean-Line Sci-Fi Figure","FB-018 · Hergé · European Clear-Line Adventure Figure","FB-019 · Joost Swarte · Geometric European Clear-Line Figure","FB-020 · OscarAI · Quirky 60s-70s Retro Storybook Illustration","FB-021 · OscarAI · Charming Vintage Storybook Illustration","FB-022 · OscarAI · Mid-Century Poetic Ink & Watercolor Storybook","FB-023 · OscarAI · Whimsical Watercolor Die-Cut Sticker Cartoon","FB-024 · OscarAI · Painterly Gouache Animation Storybook","FB-025 · OscarAI · Vintage Ink & Watercolor Comic Storybook","FB-026 · OscarAI · Warm Gouache & Colored Pencil Storybook Character","FB-027 · OscarAI · Edwardian Vintage Ink Fashion Editorial","FB-028 · OscarAI · Loose Ink & Gouache Storybook Studio","FB-029 · 儿童蜡笔手绘绘本 · Charming Children Crayon Storybook","FB-030 · なっくす · Soft Crayon & Sumi-e Cat Storybook","FB-031 · 几米 · Jimmy Liao Whimsical & Poetic Storybook Watercolor","FB-032 · yang02010 · Minimalist Atmospheric Storybook & Vast Scale Contrast","FB-033 · 森系儿童插画 · Forest Children Storybook Illustration","FB-034 · 简笔与半写实融合风 · Minimalist Doodle & Semi-Realistic Hybrid Illustration","FC-001 · Jon Burgerman · Chaotic Color Doodle Crowd","FC-002 · Hattie Stewart · Pop Magazine Doodle Overlay","FC-003 · Andy Rementer · Retro Geometric City Cartoon","FC-004 · Olimpia Zagnoli · Minimal Bold-Color Fashion Geometry","FC-005 · Malika Favre · High-Contrast Negative-Space Figure","FC-006 · Noma Bar · Negative-Space Visual-Pun Graphic","FC-007 · Mary Blair · Midcentury Geometric Fairytale","FC-008 · Charley Harper · Ultra-Geometric Nature Character","FC-009 · Saul Bass · Rough Cut-Paper Modernist Graphic","FC-010 · Paul Rand · Playful Modernist Collage Character","FC-011 · Milton Glaser · Retro Pop Editorial Figure","FC-012 · Seymour Chwast · Bold Retro Advertising Cartoon","FC-013 · Push Pin Studios · Decorative Retro Commercial Illustration","FC-014 · Henri Matisse cut-outs · Freeform Cut-Paper Figure","FC-015 · Jean Cocteau line drawing · Poetic Single-Line Figure","FC-016 · Pablo Picasso line drawings · Abstract Continuous-Line Figure","FC-017 · Keith Haring · Bold Kinetic Street-Pictogram","FC-018 · Jean-Michel Basquiat · Raw Symbolic Graffiti Figure","FC-019 · Raymond Pettibon · Punk Ink-and-Text Editorial","FC-020 · George Condo drawing · Grotesque Classical-Comic Portrait","FC-021 · Henri de Toulouse-Lautrec · Flat Belle-poque Poster Figure","FC-022 · Egon Schiele drawing · Angular Expressive Figure Line","FC-023 · Jean Dubuffet · Raw Art-Brut Figure","FC-024 · Paul Klee · Poetic Geometric Symbol Figure","FC-025 · Joan Miró · Biomorphic Symbolic Character","FC-026 · Alexander Calder drawings · Fluid Single-Line Motion Figure","FC-027 · Tom Haugomat · Cinematic Grainy Flat-Shape Illustration","FC-028 · Blexbolex · Retro Silkscreen Geometric Figure","FC-029 · 清透扁平插画 · Clean Airy Flat Vector Illustration","FC-030 · 扁平几何气刷颗粒插画 · Flat Geometric Airbrush Grain Illustration","FC-031 · 美式现代复古橡皮管卡通插画 · Modern Retro Rubber-Hose Cartoon Illustration","FD-001 · Yuko Shimizu · Dynamic East-Asian Ink Editorial","FD-002 · Tatsuro Kiuchi · Quiet Low-Saturation Japanese Editorial","FD-003 · Yu Nagaba · Minimal Fashion Line Figure","FD-004 · Noritake · Cool Minimal Black-and-White Figure","FD-005 · Ryohei Yanagihara · Showa Retro Commercial Cartoon","FD-006 · Chihiro Iwasaki · Airy Transparent Watercolor Figure","FD-007 · Machiko Hasegawa · Showa Everyday Family Comic","FD-008 · Shigeru Mizuki · Folklore Monster Ink Cartoon","FD-009 · Osamu Tezuka · Classic Rounded Manga Character","FD-010 · Yoshitomo Nara · Rebellious Big-Head Deadpan Figure","FD-011 · Hisashi Eguchi · 80s Clean-Line Urban Pop Girl","FD-012 · Yuko Higuchi · Ornate Strange Botanical Ink","FD-013 · きくちあつこ · Fashion Diary Sketch Girl","FD-014 · しまだなな · Loose Deadpan Everyday Sketch","FD-015 · のなか海 · Yuru-Surreal Minimal Everyday Cartoon","FD-016 · tomatomayu · Notebook Lifestyle Doodle","FD-017 · 鈴芽とろ · Cute Essay-Manga Everyday","FD-018 · うめじろう · Rough Gag-Manga Reaction","FD-019 · ASUMINA · Clean Young-Lifestyle Manga Line","FD-020 · モチダちひろ · Friendly Girl-Diary Cartoon","FD-021 · YAGI · Minimal Absurd Short-Gag Cartoon","FD-022 · むらたさき · Warm Slightly-Strange Everyday Line","FD-023 · よこみねさやか · Fast Family-Essay Sketch","FD-024 · おべとも · Minimal Quirky Motion Character","FD-025 · そとこ / Sotoko · Elegant Sparse-Line Girl","FD-026 · yasuna · Delicate Emotional Female Line","FD-027 · オガワナツミ · Pop-Culture Minimal Figure","FD-028 · Mira Lou · Modern Editorial Female Line","FD-029 · ソウノナホ · Soft Magazine Line-and-Wash","FD-030 · Appy · Minimal Daily-Life Girl Line","FD-031 · reismi · Transparent Watercolor Magazine Figure","FD-032 · 北澤平祐 · Playful Marker Fairytale Character","FD-033 · 白根ゆたんぽ · Loose Pop Advertising Girl","FD-034 · 藍にいな / Ai Niina · Transparent Emotional Youth Illustration","FD-035 · 山中玲奈 · Warm Lifestyle Magazine Figure","FD-036 · はまふぐ · Soft Empathy Social Comic","FD-037 · Nah · High-Saturation Gen-Z Fashion Girl","FD-038 · misato. · Soft Dreamy Animated Illustration","FD-039 · min · Pastel Yami-Kawaii Girly","FD-040 · A.YAMI · Tokyo Street Graphic Girl","FD-041 · めめんち · Mystic Fashion Character Graphic","FD-042 · 日系超萌1.5头身Q版 · Japanese Kawaii Mini Chibi 2D Illustration","FE-001 · 卤猫 · Gentle Nature Dreambook Illustration","FE-002 · Tango / 高幼军 · Minimal Black-White Visual-Pun Cartoon","FE-003 · 呼葱觅蒜 · Elongated New-Chinese Minimal Figure","FE-004 · Victo Ngai / 倪传婧 · Dense East-Asian Fantasy Editorial","FE-005 · Oamul Lu · Seasonal Travel Watercolor Diary","FE-006 · 吴和平 Luo · Blue-Orange Grainy Chinese Editorial","FE-007 · 方块阿兽 · Cinematic Saturated Story Illustration","FE-008 · 特浓 TN · Modern New-Guofeng Flat-Line Illustration","FE-009 · 奇舫社 · Decorative Guochao Character Illustration","FE-010 · 唐意 TY · Ornate Flowing Eastern Fantasy Figure","FE-011 · CAA 陈思佚 · Soft Chinese Watercolor Atmosphere","FE-012 · 李旻 · Contemporary Chinese Cultural Editorial","FE-013 · 伊吹五月 · Freehand Ink-Wash Ancient Figure","FE-014 · 早稻 ZAODAO · Wild Ink Eastern Weirdness","FE-015 · 眠狼 · Elegant Soft Ink Ancient Figure","FE-016 · loli武士 · Refined Eastern Line-Art Character","FE-017 · 古戈力 · Modern Eastern Fantasy Character","FE-018 · 夏达 · Elegant Historical Manga Line","FE-019 · 黑色禁药 · Ornate Dark-Fantasy Figure","FE-020 · 杉泽 · Mythic Bestiary Ink Character","FE-021 · Lost7 · Blue-Gray Dream Narrative Figure","FE-022 · 牛轰轰 · Expressive Girl-Life Internet Comic","FE-023 · 郭斯特 · Minimal Youth Emotion Comic","FE-024 · 几米 / Jimmy Liao · Poetic Urban Dreambook Illustration","FE-025 · 朱德庸 · Minimal Adult Relationship Satire","FE-026 · 阿梗 · Delicate Eastern Female Comic","FE-027 · 寂地 · Dreamy Youth Picturebook Color","FE-028 · 伟大的安妮 · Internet Girl-Life Story Comic","FE-029 · 使徒子 · Fast-Paced Chinese Meme Comic","FE-030 · Golo 高佬 · Free-Line Urban Youth Comic","FE-031 · 插画师卷耳 · Contemporary Urban-Tech Character Illustration","FE-032 · 阿梗 · Delicate Youth Narrative Comic","FE-033 · 寂地 · Dreamy Emotional Picturebook Comic","FE-034 · 夏达 · Classical Chinese Fine-Line Manga","FE-035 · 呼葱觅蒜 · Faceless New-Chinese Figure Illustration","FE-036 · 白茶 · Chinese Pet Deadpan Cartoon","FE-037 · 慕容引刀 · Philosophical Minimal Dog Cartoon","FE-038 · Tango · Minimal Visual-Pun Cartoon","FE-039 · 黄海 · Conceptual Eastern Film Poster Design","FE-040 · 张旺 · Digital Chinese Gongbi Fantasy","FE-041 · 熊亮 · Contemporary Chinese Ink Picturebook","FE-042 · 早稻 · Wild Chinese Ink Fantasy Comic","FE-043 · 门小雷 · Hong Kong Urban Female Comic Illustration","FE-044 · 卤猫 · Gentle Seasonal Nature Illustration","FE-045 · 天朝羽 · Warm Nostalgic Everyday Picturebook","FE-046 · 左手韩 · Realistic Absurdist Webcomic","FE-047 · 聂峻 · Beijing Hutong Watercolor Graphic Novel","FE-048 · 中式复古连环画 · Chinese Retro Lianhuanhua","FE-049 · 新国潮工笔扁平 · New-Guochao Flat Gongbi","FE-050 · 敦煌新插画 · Modern Dunhuang Illustration","FE-051 · 宋画淡彩现代化 · Modernized Song-Dynasty Light Color","FE-052 · 新中式水墨小人 · New-Chinese Tiny Ink Figures","FE-053 · 广式早茶国潮 · Cantonese Dim-Sum Guochao","FE-054 · 海派月份牌 Retro · Shanghai Calendar-Poster Retro","FE-055 · 民国广告画再设计 · Republic-Era Advertising Redesign","FE-056 · 素漆螺钿插画风 · Pale Lacquer & Raden Decorative Illustration","FE-057 · 当代戏曲漫画插画风 · Contemporary Peking Opera Comic Illustration","FE-058 · 丰子恺 · Feng Zikai Literati Brushwork & Whimsical Ink Sketch","FE-059 · 中国奇谭·鹅鹅鹅 · Airy Chinese Ink Fantasy Animation","FE-060 · 小林漫画 · Kobayashi Manga Minimal Ink Style","FE-061 · 当代人文水墨漫画 · Contemporary Literati Ink Cartoon","FE-062 · 社会主义现实主义宣传画 · Socialist Realist Propaganda Poster","FE-063 · 中国农民画 · Chinese Farmers Painting","FE-064 · 八九十年代中国课本插图风 · 1980s-1990s Chinese Textbook Illustration","FE-065 · 中国老式手工木偶定格动画风 · Vintage Chinese Handmade Puppet Stop-Motion Animation","FF-001 · OscarAI · Stylized 3D Cartoon Personality","FF-002 · OscarAI · Stylized Graphic 2D Animation Character","FF-003 · OscarAI · Tactile Felt & Knitted 3D Puppet","FF-004 · OscarAI · Retro 70s Tactile Wool & Clay Stop-Motion Puppet","FF-005 · OscarAI · Textured Cut-Paper Collage Storybook","FF-006 · Ahmed · Deadpan Stylized 3D Urban Character","FF-007 · OscarAI · Scandinavian Folk-Art Naive Storybook","FF-008 · OscarAI · Fuzzy Plush Toy 3D Character","FF-009 · OscarAI · Chunky Knit Mohair Stop-Motion Puppet","FF-010 · OscarAI · Stylized 3D Animation Feature Character","FF-011 · OscarAI · Chubby Pastel Knitted Toy 3D Character","FF-012 · OscarAI · Tactile Soft 3D Claymation & Storybook Character","FF-013 · OscarAI · Tactile Papercraft & Fabric 3D Cartoon","FF-014 · OscarAI · Charming 2D Animation Feature Character Visdev","FF-015 · 纸雕 · Paper Sculpture Illustration","FF-016 · 手撕纸拼贴风 · Hand-Torn Paper Collage Illustration","FF-017 · VOX 折纸3D立体拼贴动画 · Vox 3D Origami Collage Animation","FG-001 · OscarAI · Late-80s Cyberpunk Dark OVA Cel Anime","FG-002 · OscarAI · Classic 60s-70s Xerox Cel Animation","FG-003 · OscarAI · Classic 80s-90s Heroic Fantasy Cel Anime","FG-004 · OscarAI · Vintage 70s European Comic Animation Cel","FG-005 · OscarAI · Modern Cinematic 2D Character Animation","FG-006 · Shinyi · Stylized Cinematic Action-Comedy Character","FG-007 · South Park · South Park Animation Style","FG-008 · Patapon Remastered · Patapon Remastered","FG-009 · Don’t Starve · Don't Starve Animation Style","FG-010 · Cartoon Saloon · Cartoon Saloon Animation Style","FG-011 · 黑白恐怖漫画 · Black and White Horror Manga Style","FG-012 · 久保带人《BLEACH》 · Tite Kubo Bleach Manga Style","FG-013 · 藤本树《电锯人》 · Tatsuki Fujimoto Chainsaw Man Manga Style","FG-014 · 芥见下下《咒术回战》 · Gege Akutami Jujutsu Kaisen Manga Style","FG-015 · 岸本齐史《火影忍者》 · Masashi Kishimoto Naruto Manga Style","FG-016 · 尾田荣一郎《海贼王》 · Eiichiro Oda One Piece Manga Style","FH-001 · Editorial Doodle / 社论涂鸦 · Editorial Doodle","FH-002 · Loose Ink / 松散墨线 · Loose Ink","FH-003 · Conceptual Line Drawing / 概念线描 · Conceptual Line Drawing","FH-004 · New Yorker 单格社论漫画 · Classic Magazine Single-Panel Cartoon","FH-005 · 法式 Café Sketch · French Café Sketch","FH-006 · 日系脱力线稿漫画 · Japanese Deadpan Loose-Line Cartoon","FH-007 · 日系手帐 Doodle · Japanese Notebook Doodle","FH-008 · 日系杂志随笔插画 · Japanese Magazine Essay Illustration","FH-009 · 日系脱线四格漫画风 · Japanese Offbeat Four-Panel Cartoon","FH-010 · 韩系 Lifestyle Doodle · Korean Lifestyle Doodle","FH-011 · 韩系黑线红点 Editorial · Korean Black-Line Red-Accent Editorial","FH-012 · Indie Zine 粗糙手绘 · Indie Zine Rough Drawing","FH-013 · Risograph / 双色孔版手绘 · Two-Color Risograph Drawing","FH-014 · Crayon Editorial / 蜡笔社论 · Crayon Editorial","FH-015 · Colored Pencil Diary / 彩铅日记 · Colored Pencil Diary","FH-016 · Brush Pen Cartoon / 毛笔漫画 · Brush-Pen Cartoon","FH-017 · One-Line Character / 单线人物画 · One-Line Character","FH-018 · Naive Folk Cartoon / 稚拙民间漫画 · Naive Folk Cartoon","FH-019 · Primitive Marker Cartoon / 粗马克笔人物 · Primitive Marker Cartoon","FH-020 · Dry Brush Editorial / 干笔社论 · Dry-Brush Editorial","FH-021 · Ink + Flat Spot Color / 墨线点色 · Ink with Flat Spot Color","FH-022 · Notebook Margin Cartoon / 课本边角漫画 · Notebook Margin Cartoon","FH-023 · Deadpan Doodle / 冷脸涂鸦 · Deadpan Doodle","FH-024 · Awkward Cute / 怪尴尬手绘 · Awkward Cute","FH-025 · Heta-Uma / ヘタウマ · Heta-Uma","FH-026 · 昭和レトロ少女 · Showa Retro Girl Illustration","FH-027 · 平成ガールズ日記 · Heisei Girls Diary Illustration","FH-028 · 透明水彩淡彩 · Airy Transparent Watercolor","FH-029 · Copic Pastel · Copic Pastel","FH-030 · 喫茶店 Retro Sketch · Kissaten Retro Sketch","FH-031 · 小红书奶油手绘 · Creamy Social-Media Doodle","FH-032 · 小红书高饱和涂鸦 · High-Saturation Social Doodle","FH-033 · 韩国高饱和涂鸦 · Korean High-Saturation Pop Doodle","FH-034 · 油画棒治愈手绘 · Oil-Pastel Healing Illustration","FH-035 · 儿童蜡笔稚拙风 · Childlike Crayon Naive Style","FH-036 · 黑白钢笔冷幽默 · Black-White Pen Deadpan Humor","FH-037 · 红蓝双色孔版 / Riso 国潮 · Red-Blue Riso Guochao","FH-038 · Mid-century Deadpan Ink Mascot · Mid-century Deadpan Ink Mascot","FH-039 · OscarAI · Quirky Fantasy Sketchbook Character Concept","FH-040 · OscarAI · Medieval Dark Fantasy Ink & Ochre Illustration","FH-041 · midlibrary · Modern Minimalist Sumi-e & Red Gouache Illustration","FH-042 · 梵高 · Van Gogh Expressive Impasto Oil Painting","FH-043 · 复古 Risograph 与丝网印刷插画 · Vintage Risograph and Silkscreen Print Illustration"],"layout":["SC-001 · 上文下图社媒卡","SC-002 · 文案主导底部辅助图卡","SC-003 · 上下双格图文卡","SC-004 · 上下双格图文分区卡","SC-005 · 气泡文字思考IP卡","SC-006 · 三层标题辅助图卡","SC-007 · 引号关键词文字卡","SC-008 · 图上文下留白卡","SC-009 · 居中文字右下辅助图卡","SC-010 · 上下双格标题列表卡","SC-011 · 中心主图多场景信息卡","SC-012 · 中心标题上下图标卡","SC-014 · 留白驱动主视觉信息卡","SC-015 · 上下双区递进短句卡","SC-016 · 极简大字小图点缀卡","SC-017 · 自由标注留白信息卡","SC-018 · 中心主视觉环绕信息卡","SC-019 · 中央人物细线标注卡","SC-020 · 一大一组非对称信息卡","SC-021 · 自适应双拼照片转译社媒卡","SC-022 · 姓名四款签名设计展示卡","IG-001 · 标题金字塔图标信息图","IG-002 · 中心主图标注信息图","IG-003 · 多行左文右图信息图","IG-004 · 双列多行对比信息图","IG-005 · 大主视觉下方图鉴信息图","IG-006 · 多层标题图标对比信息图","IG-007 · 粗体标题标签小图卡","IG-008 · 多路径流程步骤图","IG-009 · 时间轴节点信息图","IG-010 · 阶段等级进阶信息图","IG-011 · 前后变化对比信息图","IG-012 · 分层结构型信息图","IG-013 · 漏斗转化型信息图","IG-014 · 四象限矩阵信息图","IG-015 · 坐标散点型信息图","IG-016 · 分类树状型信息图","IG-017 · 思维导图型信息图","IG-018 · 关系网络型信息图","IG-019 · 循环闭环型信息图","IG-020 · 路径地图型信息图","IG-021 · 真实地图标注型信息图","IG-022 · 数字大字型信息图","IG-023 · 排行榜型信息图","IG-024 · 比例构成型信息图","IG-025 · 尺度比较型信息图","IG-026 · 拆解爆炸图型信息图","IG-027 · 剖面截面型信息图","IG-028 · 连续场景信息图","IG-029 · 人物群像标签型信息图","IG-030 · 一大多小知识图谱型信息图","IG-031 · 百科全书式信息卡","IG-032 · 手绘编辑式知识信息图","IG-033 · 讲义式高密分析信息图","IG-034 · 编辑式等距轴测全景地图信息图","IG-035 · 2.5D等距轴测微缩场景","SB-001 · 规则网格","SB-002 · 四格起承转合","SB-003 · 大格 + 小格","SB-004 · 顶部大格开场","SB-005 · 底部大格收尾","SB-006 · 中央大格爆发","SB-007 · 对角切割","SB-008 · Z 字阅读","SB-009 · S 型阅读","SB-010 · 螺旋阅读","SB-011 · 放射型分镜","SB-012 · 碎片面板","SB-013 · 破框构图","SB-014 · 跨格人物","SB-015 · 跨格背景","SB-016 · 一镜到底","SB-017 · 电影胶片式","SB-018 · 宽银幕横格","SB-019 · 竖向长格","SB-020 · 超窄反应格","SB-021 · 眼睛特写链","SB-022 · 手部动作链","SB-023 · 由远到近","SB-024 · 由近到远","SB-025 · 正反打","SB-026 · 三连特写","SB-027 · 动作分解","SB-028 · 连续动作残影","SB-029 · 静止重复","SB-030 · 节奏骤停","SB-031 · 爆发后留白","SB-032 · 上下镜像","SB-033 · 左右对峙","SB-034 · 双线并行","SB-035 · 交叉剪辑","SB-036 · 闪回嵌套","SB-037 · 想象嵌套","SB-038 · 监控屏幕式","SB-039 · 手机聊天式","SB-040 · 档案拼贴式","SB-041 · 杂志编辑式","SB-042 · 信息图漫画","SB-043 · 地图路线式","SB-044 · 时间轴式","SB-045 · 时钟式","SB-046 · 中心物件式","SB-047 · 中心人物式","SB-048 · 环形阅读","SB-049 · 上下坠落式","SB-050 · 阶梯式","SB-051 · 波浪式","SB-052 · 自由漂浮式","SB-053 · 无边框分镜","SB-054 · 白场分镜","SB-055 · 满版冲击格","SB-056 · 跨页式单页模拟","SB-057 · 海报式漫画","SB-058 · 封面式叙事页","SB-059 · 舞台式分镜","SB-060 · 横卷式分镜","SB-061 · 竖卷式分镜","SB-062 · 镜面反射式","SB-063 · 窗口式分镜","SB-064 · 物件遮挡式","SB-065 · 文字主导式","SB-066 · 音效主导式","SB-067 · 色块主导式","SB-068 · 几何分割式","IP-001 · IP定位卡","IP-002 · 角色形象三视图基准图","IP-003 · 16宫格角色微信表情包","IP-004 · IP服装与道具卡","IP-005 · IP内容传播示范卡","IP-006 · IP角色家族卡","IP-007 · IP商业应用卡","IP-008 · IP角色关系卡","IP-009 · IP角色一日生活相册","IP-010 · IP角色社交圈动态卡","IP-011 · IP角色微信群聊界面卡","IP-012 · IP角色小红书主页卡","IP-013 · IP招牌体态与动态力线卡","EC-001 · 单品主图","EC-002 · 多角度展示图","EC-003 · 细节特写图","EC-004 · 包装 / 套装 / 内容物展示图","EC-005 · 卖点标注图","EC-006 · 功能演示图","EC-007 · 参数尺寸图","EC-008 · 材质 / 结构解析图","EC-009 · 生活方式场景图","EC-010 · 人物使用图","EC-011 · 多场景适用图","EC-012 · 使用步骤 / 教程图","EC-013 · 对比优势图","EC-014 · 型号 / SKU 差异图","EC-015 · 适配 / 选择指南图","EC-016 · FAQ / 注意事项图","EC-017 · 品质 / 工艺说明图","EC-018 · 认证 / 数据证明图","EC-019 · 评价 / 口碑图","EC-020 · 品牌 / 来源故事图","EC-021 · 新品上市图","EC-022 · 促销活动图","EC-023 · 内容种草 / UGC 图","EC-024 · 广告主视觉 / Hero / KV"],"colors":[{"value":"C-01 · 克莱因蓝","hex":"#002FA7"},{"value":"C-02 · 马若雷勒蓝","hex":"#6050DC"},{"value":"C-03 · 普鲁士蓝","hex":"#003153"},{"value":"C-04 · 钴蓝","hex":"#0047AB"},{"value":"C-05 · 群青","hex":"#3F00FF"},{"value":"C-06 · 孔雀蓝","hex":"#0D9488"},{"value":"C-07 · 蒂芙尼蓝","hex":"#0ABAB5"},{"value":"C-08 · 湖蓝","hex":"#4BA3C3"},{"value":"C-09 · 薄荷绿","hex":"#7DCEA0"},{"value":"C-10 · 鼠尾草绿","hex":"#9CAF88"},{"value":"C-11 · 祖母绿","hex":"#046307"},{"value":"C-12 · 橄榄绿","hex":"#6B6B2F"},{"value":"C-13 · 维罗纳绿","hex":"#5C7A5A"},{"value":"C-14 · 森林绿","hex":"#1E5B45"},{"value":"C-15 · 朱砂红","hex":"#E34234"},{"value":"C-16 · 中国红","hex":"#DE2910"},{"value":"C-17 · 勃艮第红","hex":"#800020"},{"value":"C-18 · 庞贝红","hex":"#A4243B"},{"value":"C-19 · 玫瑰红","hex":"#C74375"},{"value":"C-20 · 洋红","hex":"#D1006F"},{"value":"C-21 · 珊瑚粉","hex":"#F08080"},{"value":"C-22 · 灰粉","hex":"#C9A3A8"},{"value":"C-23 · 薰衣草紫","hex":"#B7A1C9"},{"value":"C-24 · 帝王紫","hex":"#5B2C6F"},{"value":"C-25 · 爱马仕橙","hex":"#F37021"},{"value":"C-26 · 柿子橙","hex":"#E86A17"},{"value":"C-27 · 那不勒斯黄","hex":"#F5D76E"},{"value":"C-28 · 芥末黄","hex":"#D4B44A"},{"value":"C-29 · 赭石","hex":"#C56A1A"},{"value":"C-30 · 象牙白","hex":"#F7F3E8"},{"value":"C-31 · 佩恩灰","hex":"#536878"},{"value":"C-32 · 炭黑","hex":"#2B2B2B"},{"value":"C-33 · 暖灰","hex":"#A39890"},{"value":"C-34 · 奶油白","hex":"#F3E6C8"},{"value":"C-35 · 石板灰","hex":"#6E7B86"},{"value":"C-36 · 米驼色","hex":"#C4A574"}]};
+const OPTION_LABELS={"FA-001 · Gemma Correll · Playful Deadpan Doodle":["FA-001 · 杰玛·科雷尔 · 俏皮冷幽默涂鸦","FA-001 · Gemma Correll · Playful Deadpan Doodle"],"FA-002 · Saul Steinberg · Conceptual Continuous-Line Editorial":["FA-002 · 索尔·斯坦伯格 · 概念性连续线条社论插画","FA-002 · Saul Steinberg · Conceptual Continuous-Line Editorial"],"FA-003 · Jean-Jacques Sempé · Fine-Line Urban Miniature":["FA-003 · 让-雅克·桑贝 · 细线都市微景","FA-003 · Jean-Jacques Sempé · Fine-Line Urban Miniature"],"FA-004 · James Thurber · Awkward Minimal Ink Cartoon":["FA-004 · 詹姆斯·瑟伯 · 笨拙极简墨线漫画","FA-004 · James Thurber · Awkward Minimal Ink Cartoon"],"FA-005 · Shel Silverstein · Childlike Free-Line Humor":["FA-005 · 谢尔·希尔弗斯坦 · 童趣自由线条幽默画","FA-005 · Shel Silverstein · Childlike Free-Line Humor"],"FA-006 · Edward Gorey · Victorian Crosshatch Gothic Cartoon":["FA-006 · 爱德华·戈里 · 维多利亚交叉排线哥特漫画","FA-006 · Edward Gorey · Victorian Crosshatch Gothic Cartoon"],"FA-007 · Ronald Searle · Frenetic Scratch-Ink Caricature":["FA-007 · 罗纳德·瑟尔 · 狂放刮擦墨线讽刺画","FA-007 · Ronald Searle · Frenetic Scratch-Ink Caricature"],"FA-008 · Roz Chast · Nervous Urban Notebook Cartoon":["FA-008 · 罗兹·查斯特 · 紧张都市手账漫画","FA-008 · Roz Chast · Nervous Urban Notebook Cartoon"],"FA-009 · Lynda Barry · Raw Zine Diary Cartoon":["FA-009 · 琳达·巴里 · 粗粝独立刊物日记漫画","FA-009 · Lynda Barry · Raw Zine Diary Cartoon"],"FA-010 · Tom Gauld · Geometric Literary Deadpan":["FA-010 · 汤姆·高尔德 · 几何文学冷幽默","FA-010 · Tom Gauld · Geometric Literary Deadpan"],"FA-011 · David Shrigley · Deliberately Bad Absurd Doodle":["FA-011 · 大卫·施里格利 · 刻意拙劣的荒诞涂鸦","FA-011 · David Shrigley · Deliberately Bad Absurd Doodle"],"FA-012 · Christoph Niemann · Minimal Visual-Pun Editorial":["FA-012 · 克里斯托夫·尼曼 · 极简视觉双关社论插画","FA-012 · Christoph Niemann · Minimal Visual-Pun Editorial"],"FA-013 · Jean Jullien · Bold Flat Everyday Satire":["FA-013 · 让·朱利安 · 粗线平涂日常讽刺画","FA-013 · Jean Jullien · Bold Flat Everyday Satire"],"FA-014 · Mr Bingo · Handwritten British Anti-Inspiration Cartoon":["FA-014 · Mr Bingo · 英式手写反励志漫画","FA-014 · Mr Bingo · Handwritten British Anti-Inspiration Cartoon"],"FA-015 · Brian Rea · Soft Relationship Editorial Line Art":["FA-015 · 布赖恩·雷 · 温柔情感关系线描插画","FA-015 · Brian Rea · Soft Relationship Editorial Line Art"],"FA-016 · Rubyetc · Raw Emotional Internet Doodle":["FA-016 · Rubyetc · 原生态情绪网络涂鸦","FA-016 · Rubyetc · Raw Emotional Internet Doodle"],"FA-017 · Sarah Andersen · Black-and-White Reaction Diary Cartoon":["FA-017 · 莎拉·安德森 · 黑白反应日记漫画","FA-017 · Sarah Andersen · Black-and-White Reaction Diary Cartoon"],"FA-018 · Poorly Drawn Lines / Reza Farazmand · Minimal Deadpan Dialogue Cartoon":["FA-018 · Poorly Drawn Lines / Reza Farazmand · 极简冷幽默对白漫画","FA-018 · Poorly Drawn Lines / Reza Farazmand · Minimal Deadpan Dialogue Cartoon"],"FA-019 · The Oatmeal / Matthew Inman · Explosive Webcomic Exaggeration":["FA-019 · The Oatmeal / Matthew Inman · 夸张爆发式网络漫画","FA-019 · The Oatmeal / Matthew Inman · Explosive Webcomic Exaggeration"],"FA-020 · Allie Brosh · Low-Fi Frenzy Cartoon":["FA-020 · 艾莉·布罗什 · 低保真狂躁漫画","FA-020 · Allie Brosh · Low-Fi Frenzy Cartoon"],"FA-021 · Mari Andrew · Watercolor Handwritten Life Notes":["FA-021 · 玛丽·安德鲁 · 水彩手写生活札记","FA-021 · Mari Andrew · Watercolor Handwritten Life Notes"],"FA-022 · Sally Nixon · Flat Everyday Women Lifestyle":["FA-022 · Sally Nixon · 平涂女性日常生活插画","FA-022 · Sally Nixon · Flat Everyday Women Lifestyle"],"FA-023 · Agathe Sorlet · Warm Minimal Female Line Cartoon":["FA-023 · Agathe Sorlet · 温暖极简女性线条漫画","FA-023 · Agathe Sorlet · Warm Minimal Female Line Cartoon"],"FA-024 · Jean-Michel Tixier · Geometric Fashion Deadpan":["FA-024 · Jean-Michel Tixier · 几何时尚冷幽默","FA-024 · Jean-Michel Tixier · Geometric Fashion Deadpan"],"FA-025 · Gary Larson · One-Panel Absurd Social Cartoon":["FA-025 · 加里·拉尔森 · 单格荒诞社会漫画","FA-025 · Gary Larson · One-Panel Absurd Social Cartoon"],"FA-026 · Sergio Aragonés · Dense Silent Physical Comedy":["FA-026 · 塞尔吉奥·阿拉贡内斯 · 密集无声肢体喜剧","FA-026 · Sergio Aragonés · Dense Silent Physical Comedy"],"FA-027 · R. Crumb · Underground Crosshatched Grotesque Cartoon":["FA-027 · R. Crumb · 地下漫画交叉排线怪诞风","FA-027 · R. Crumb · Underground Crosshatched Grotesque Cartoon"],"FA-028 · Daniel Clowes · Retro Detached American Comic":["FA-028 · 丹尼尔·克洛斯 · 复古疏离美式漫画","FA-028 · Daniel Clowes · Retro Detached American Comic"],"FA-029 · Chris Ware · Geometric Diagrammatic Narrative":["FA-029 · 克里斯·韦尔 · 几何图解叙事","FA-029 · Chris Ware · Geometric Diagrammatic Narrative"],"FA-030 · Adrian Tomine · Clean Urban Solitude Comic":["FA-030 · 阿德里安·托米内 · 清晰线条都市孤独漫画","FA-030 · Adrian Tomine · Clean Urban Solitude Comic"],"FA-031 · Marjane Satrapi · High-Contrast Black-White Memoir Cartoon":["FA-031 · 玛赞·莎塔碧 · 高对比黑白回忆录漫画","FA-031 · Marjane Satrapi · High-Contrast Black-White Memoir Cartoon"],"FA-032 · Joann Sfar · Loose French Improvised Ink":["FA-032 · 乔安·斯法 · 随性法式即兴墨线","FA-032 · Joann Sfar · Loose French Improvised Ink"],"FA-033 · Charles M. Schulz · Minimal Newspaper Comic":["FA-033 · 查尔斯·舒尔茨 · 极简报刊漫画","FA-033 · Charles M. Schulz · Minimal Newspaper Comic"],"FA-034 · Bill Watterson · Elastic Sunday Strip":["FA-034 · 比尔·沃特森 · 灵动周日连环漫画","FA-034 · Bill Watterson · Elastic Sunday Strip"],"FA-035 · Matt Groening · Bold Pop Satire Cartoon":["FA-035 · 马特·格勒宁 · 粗线流行文化讽刺漫画","FA-035 · Matt Groening · Bold Pop Satire Cartoon"],"FA-036 · OscarAI · Minimalist Organic Pastel Editorial":["FA-036 · OscarAI · 极简有机粉彩社论插画","FA-036 · OscarAI · Minimalist Organic Pastel Editorial"],"FA-037 · Ahmed · Chic Urban Editorial Motion Character":["FA-037 · Ahmed · 时髦都市动态人物插画","FA-037 · Ahmed · Chic Urban Editorial Motion Character"],"FA-038 · James Yeung · Minimalist Poetic Sempé Ink Doodle":["FA-038 · James Yeung · 极简诗意桑贝式墨线涂鸦","FA-038 · James Yeung · Minimalist Poetic Sempé Ink Doodle"],"FA-039 · 手绘火柴人漫画 · Hand-Drawn Stick Figure Cartoon":["FA-039 · 手绘火柴人漫画","FA-039 · Hand-Drawn Stick Figure Cartoon"],"FA-040 · 极简手绘 · Minimalist 2D Hand-Drawn Doodle":["FA-040 · 极简二维手绘涂鸦","FA-040 · Minimalist 2D Hand-Drawn Doodle"],"FB-001 · Quentin Blake · Loose Ink-and-Wash Storybook":["FB-001 · 昆汀·布莱克 · 松散墨线淡彩绘本","FB-001 · Quentin Blake · Loose Ink-and-Wash Storybook"],"FB-002 · Tove Jansson · Nordic Fine-Line Whimsy":["FB-002 · 托芙·扬松 · 北欧细线奇趣插画","FB-002 · Tove Jansson · Nordic Fine-Line Whimsy"],"FB-003 · Richard Scarry · Busy Anthropomorphic Everyday World":["FB-003 · 理查德·斯凯瑞 · 繁忙拟人化日常世界","FB-003 · Richard Scarry · Busy Anthropomorphic Everyday World"],"FB-004 · Arnold Lobel · Warm Vintage Line-and-Wash":["FB-004 · 阿诺德·洛贝尔 · 温暖复古线描淡彩","FB-004 · Arnold Lobel · Warm Vintage Line-and-Wash"],"FB-005 · Maurice Sendak · Crosshatched Wild Storybook":["FB-005 · 莫里斯·桑达克 · 交叉排线奇幻绘本","FB-005 · Maurice Sendak · Crosshatched Wild Storybook"],"FB-006 · Dr. Seuss · Bendy Absurd Storybook":["FB-006 · 苏斯博士 · 弯曲荒诞绘本","FB-006 · Dr. Seuss · Bendy Absurd Storybook"],"FB-007 · Beatrix Potter · Naturalist Watercolor Animal Storybook":["FB-007 · 碧翠克丝·波特 · 自然主义水彩动物绘本","FB-007 · Beatrix Potter · Naturalist Watercolor Animal Storybook"],"FB-008 · E. H. Shepard · Classic Pen-and-Light-Wash Storybook":["FB-008 · 欧内斯特·谢泼德 · 经典钢笔轻淡彩绘本","FB-008 · E. H. Shepard · Classic Pen-and-Light-Wash Storybook"],"FB-009 · Satoshi Kitamura · Quirky Ink-and-Watercolor Tale":["FB-009 · 北村悟 · 奇趣墨线水彩故事","FB-009 · Satoshi Kitamura · Quirky Ink-and-Watercolor Tale"],"FB-010 · Oliver Jeffers · Minimal Poetic Picturebook Doodle":["FB-010 · 奥利弗·杰弗斯 · 极简诗意绘本涂鸦","FB-010 · Oliver Jeffers · Minimal Poetic Picturebook Doodle"],"FB-011 · Chris Haughton · Bold Geometric Picturebook":["FB-011 · Chris Haughton · 大胆几何绘本","FB-011 · Chris Haughton · Bold Geometric Picturebook"],"FB-012 · Jon Klassen · Muted Deadpan Picturebook":["FB-012 · 乔恩·克拉森 · 低饱和冷幽默绘本","FB-012 · Jon Klassen · Muted Deadpan Picturebook"],"FB-013 · Carson Ellis · Folk-Line Decorative Storybook":["FB-013 · Carson Ellis · 民俗线条装饰绘本","FB-013 · Carson Ellis · Folk-Line Decorative Storybook"],"FB-014 · Shaun Tan · Dreamlike Surreal Storybook":["FB-014 · 陈志勇 · 梦幻超现实绘本","FB-014 · Shaun Tan · Dreamlike Surreal Storybook"],"FB-015 · Lane Smith · Layered Vintage Storybook Collage":["FB-015 · Lane Smith · 层叠复古绘本拼贴","FB-015 · Lane Smith · Layered Vintage Storybook Collage"],"FB-016 · Peter de Sève · Expressive Character Sketch Cartoon":["FB-016 · Peter de Sève · 富有表情的人物速写漫画","FB-016 · Peter de Sève · Expressive Character Sketch Cartoon"],"FB-017 · Jean Giraud / Moebius · Dreamlike Clean-Line Sci-Fi Figure":["FB-017 · Jean Giraud / Moebius · 梦幻清线科幻人物","FB-017 · Jean Giraud / Moebius · Dreamlike Clean-Line Sci-Fi Figure"],"FB-018 · Hergé · European Clear-Line Adventure Figure":["FB-018 · 埃尔热 · 欧洲清线冒险人物","FB-018 · Hergé · European Clear-Line Adventure Figure"],"FB-019 · Joost Swarte · Geometric European Clear-Line Figure":["FB-019 · Joost Swarte · 几何欧洲清线人物","FB-019 · Joost Swarte · Geometric European Clear-Line Figure"],"FB-020 · OscarAI · Quirky 60s-70s Retro Storybook Illustration":["FB-020 · OscarAI · 奇趣六七十年代复古绘本插画","FB-020 · OscarAI · Quirky 60s-70s Retro Storybook Illustration"],"FB-021 · OscarAI · Charming Vintage Storybook Illustration":["FB-021 · OscarAI · 迷人复古绘本插画","FB-021 · OscarAI · Charming Vintage Storybook Illustration"],"FB-022 · OscarAI · Mid-Century Poetic Ink & Watercolor Storybook":["FB-022 · OscarAI · 世纪中期诗意墨线水彩绘本","FB-022 · OscarAI · Mid-Century Poetic Ink & Watercolor Storybook"],"FB-023 · OscarAI · Whimsical Watercolor Die-Cut Sticker Cartoon":["FB-023 · OscarAI · 奇趣水彩异形贴纸漫画","FB-023 · OscarAI · Whimsical Watercolor Die-Cut Sticker Cartoon"],"FB-024 · OscarAI · Painterly Gouache Animation Storybook":["FB-024 · OscarAI · 绘画感水粉动画绘本","FB-024 · OscarAI · Painterly Gouache Animation Storybook"],"FB-025 · OscarAI · Vintage Ink & Watercolor Comic Storybook":["FB-025 · OscarAI · 复古墨线水彩漫画绘本","FB-025 · OscarAI · Vintage Ink & Watercolor Comic Storybook"],"FB-026 · OscarAI · Warm Gouache & Colored Pencil Storybook Character":["FB-026 · OscarAI · 温暖水粉彩铅绘本人物","FB-026 · OscarAI · Warm Gouache & Colored Pencil Storybook Character"],"FB-027 · OscarAI · Edwardian Vintage Ink Fashion Editorial":["FB-027 · OscarAI · 爱德华时代复古墨线时尚插画","FB-027 · OscarAI · Edwardian Vintage Ink Fashion Editorial"],"FB-028 · OscarAI · Loose Ink & Gouache Storybook Studio":["FB-028 · OscarAI · 松散墨线水粉绘本工作室风","FB-028 · OscarAI · Loose Ink & Gouache Storybook Studio"],"FB-029 · 儿童蜡笔手绘绘本 · Charming Children Crayon Storybook":["FB-029 · 童趣儿童蜡笔绘本","FB-029 · Charming Children Crayon Storybook"],"FB-030 · なっくす · Soft Crayon & Sumi-e Cat Storybook":["FB-030 · なっくす · 柔和蜡笔水墨猫咪绘本","FB-030 · Nakkusu · Soft Crayon & Sumi-e Cat Storybook"],"FB-031 · 几米 · Jimmy Liao Whimsical & Poetic Storybook Watercolor":["FB-031 · 几米 · 几米式奇趣诗意水彩绘本","FB-031 · Jimmy Liao · Jimmy Liao Whimsical & Poetic Storybook Watercolor"],"FB-032 · yang02010 · Minimalist Atmospheric Storybook & Vast Scale Contrast":["FB-032 · yang02010 · 极简氛围绘本与巨大尺度对比","FB-032 · yang02010 · Minimalist Atmospheric Storybook & Vast Scale Contrast"],"FB-033 · 森系儿童插画 · Forest Children Storybook Illustration":["FB-033 · 森系儿童绘本插画","FB-033 · Forest Children Storybook Illustration"],"FB-034 · 简笔与半写实融合风 · Minimalist Doodle & Semi-Realistic Hybrid Illustration":["FB-034 · 简笔与半写实融合插画","FB-034 · Minimalist Doodle & Semi-Realistic Hybrid Illustration"],"FC-001 · Jon Burgerman · Chaotic Color Doodle Crowd":["FC-001 · Jon Burgerman · 混乱彩色涂鸦群像","FC-001 · Jon Burgerman · Chaotic Color Doodle Crowd"],"FC-002 · Hattie Stewart · Pop Magazine Doodle Overlay":["FC-002 · Hattie Stewart · 流行杂志涂鸦叠绘","FC-002 · Hattie Stewart · Pop Magazine Doodle Overlay"],"FC-003 · Andy Rementer · Retro Geometric City Cartoon":["FC-003 · Andy Rementer · 复古几何城市漫画","FC-003 · Andy Rementer · Retro Geometric City Cartoon"],"FC-004 · Olimpia Zagnoli · Minimal Bold-Color Fashion Geometry":["FC-004 · Olimpia Zagnoli · 极简大胆色彩时尚几何","FC-004 · Olimpia Zagnoli · Minimal Bold-Color Fashion Geometry"],"FC-005 · Malika Favre · High-Contrast Negative-Space Figure":["FC-005 · Malika Favre · 高对比负空间人物","FC-005 · Malika Favre · High-Contrast Negative-Space Figure"],"FC-006 · Noma Bar · Negative-Space Visual-Pun Graphic":["FC-006 · Noma Bar · 负空间视觉双关图形","FC-006 · Noma Bar · Negative-Space Visual-Pun Graphic"],"FC-007 · Mary Blair · Midcentury Geometric Fairytale":["FC-007 · Mary Blair · 世纪中期几何童话","FC-007 · Mary Blair · Midcentury Geometric Fairytale"],"FC-008 · Charley Harper · Ultra-Geometric Nature Character":["FC-008 · Charley Harper · 超几何自然角色","FC-008 · Charley Harper · Ultra-Geometric Nature Character"],"FC-009 · Saul Bass · Rough Cut-Paper Modernist Graphic":["FC-009 · Saul Bass · 粗糙剪纸现代主义图形","FC-009 · Saul Bass · Rough Cut-Paper Modernist Graphic"],"FC-010 · Paul Rand · Playful Modernist Collage Character":["FC-010 · Paul Rand · 趣味现代主义拼贴角色","FC-010 · Paul Rand · Playful Modernist Collage Character"],"FC-011 · Milton Glaser · Retro Pop Editorial Figure":["FC-011 · Milton Glaser · 复古流行社论人物","FC-011 · Milton Glaser · Retro Pop Editorial Figure"],"FC-012 · Seymour Chwast · Bold Retro Advertising Cartoon":["FC-012 · Seymour Chwast · 粗线复古广告漫画","FC-012 · Seymour Chwast · Bold Retro Advertising Cartoon"],"FC-013 · Push Pin Studios · Decorative Retro Commercial Illustration":["FC-013 · Push Pin Studios · 装饰性复古商业插画","FC-013 · Push Pin Studios · Decorative Retro Commercial Illustration"],"FC-014 · Henri Matisse cut-outs · Freeform Cut-Paper Figure":["FC-014 · 亨利·马蒂斯剪纸 · 自由形态剪纸人物","FC-014 · Henri Matisse cut-outs · Freeform Cut-Paper Figure"],"FC-015 · Jean Cocteau line drawing · Poetic Single-Line Figure":["FC-015 · 让·科克托线描 · 诗意单线人物","FC-015 · Jean Cocteau line drawing · Poetic Single-Line Figure"],"FC-016 · Pablo Picasso line drawings · Abstract Continuous-Line Figure":["FC-016 · 巴勃罗·毕加索线描 · 抽象连续线条人物","FC-016 · Pablo Picasso line drawings · Abstract Continuous-Line Figure"],"FC-017 · Keith Haring · Bold Kinetic Street-Pictogram":["FC-017 · 凯斯·哈林 · 粗线动感街头象形图","FC-017 · Keith Haring · Bold Kinetic Street-Pictogram"],"FC-018 · Jean-Michel Basquiat · Raw Symbolic Graffiti Figure":["FC-018 · 让-米歇尔·巴斯奎特 · 原生态符号涂鸦人物","FC-018 · Jean-Michel Basquiat · Raw Symbolic Graffiti Figure"],"FC-019 · Raymond Pettibon · Punk Ink-and-Text Editorial":["FC-019 · Raymond Pettibon · 朋克墨线文字社论插画","FC-019 · Raymond Pettibon · Punk Ink-and-Text Editorial"],"FC-020 · George Condo drawing · Grotesque Classical-Comic Portrait":["FC-020 · George Condo drawing · 怪诞古典漫画肖像","FC-020 · George Condo drawing · Grotesque Classical-Comic Portrait"],"FC-021 · Henri de Toulouse-Lautrec · Flat Belle-poque Poster Figure":["FC-021 · Henri de Toulouse-Lautrec · 平涂美好年代海报人物","FC-021 · Henri de Toulouse-Lautrec · Flat Belle-poque Poster Figure"],"FC-022 · Egon Schiele drawing · Angular Expressive Figure Line":["FC-022 · 埃贡·席勒线描 · 棱角分明的表现性人物线描","FC-022 · Egon Schiele drawing · Angular Expressive Figure Line"],"FC-023 · Jean Dubuffet · Raw Art-Brut Figure":["FC-023 · Jean Dubuffet · 原生艺术粗粝人物","FC-023 · Jean Dubuffet · Raw Art-Brut Figure"],"FC-024 · Paul Klee · Poetic Geometric Symbol Figure":["FC-024 · 保罗·克利 · 诗意几何符号人物","FC-024 · Paul Klee · Poetic Geometric Symbol Figure"],"FC-025 · Joan Miró · Biomorphic Symbolic Character":["FC-025 · 胡安·米罗 · 生物形态符号角色","FC-025 · Joan Miró · Biomorphic Symbolic Character"],"FC-026 · Alexander Calder drawings · Fluid Single-Line Motion Figure":["FC-026 · Alexander Calder drawings · 流畅单线动态人物","FC-026 · Alexander Calder drawings · Fluid Single-Line Motion Figure"],"FC-027 · Tom Haugomat · Cinematic Grainy Flat-Shape Illustration":["FC-027 · Tom Haugomat · 电影感颗粒平面插画","FC-027 · Tom Haugomat · Cinematic Grainy Flat-Shape Illustration"],"FC-028 · Blexbolex · Retro Silkscreen Geometric Figure":["FC-028 · Blexbolex · 复古丝网印刷几何人物","FC-028 · Blexbolex · Retro Silkscreen Geometric Figure"],"FC-029 · 清透扁平插画 · Clean Airy Flat Vector Illustration":["FC-029 · 清透扁平矢量插画","FC-029 · Clean Airy Flat Vector Illustration"],"FC-030 · 扁平几何气刷颗粒插画 · Flat Geometric Airbrush Grain Illustration":["FC-030 · 扁平几何气刷颗粒插画","FC-030 · Flat Geometric Airbrush Grain Illustration"],"FC-031 · 美式现代复古橡皮管卡通插画 · Modern Retro Rubber-Hose Cartoon Illustration":["FC-031 · 现代美式复古橡皮管卡通插画","FC-031 · Modern Retro Rubber-Hose Cartoon Illustration"],"FD-001 · Yuko Shimizu · Dynamic East-Asian Ink Editorial":["FD-001 · Yuko Shimizu · 动感东亚墨线社论插画","FD-001 · Yuko Shimizu · Dynamic East-Asian Ink Editorial"],"FD-002 · Tatsuro Kiuchi · Quiet Low-Saturation Japanese Editorial":["FD-002 · Tatsuro Kiuchi · 安静低饱和日系社论插画","FD-002 · Tatsuro Kiuchi · Quiet Low-Saturation Japanese Editorial"],"FD-003 · Yu Nagaba · Minimal Fashion Line Figure":["FD-003 · 长场雄 · 极简时尚线条人物","FD-003 · Yu Nagaba · Minimal Fashion Line Figure"],"FD-004 · Noritake · Cool Minimal Black-and-White Figure":["FD-004 · Noritake · 冷感极简黑白人物","FD-004 · Noritake · Cool Minimal Black-and-White Figure"],"FD-005 · Ryohei Yanagihara · Showa Retro Commercial Cartoon":["FD-005 · 柳原良平 · 昭和复古商业漫画","FD-005 · Ryohei Yanagihara · Showa Retro Commercial Cartoon"],"FD-006 · Chihiro Iwasaki · Airy Transparent Watercolor Figure":["FD-006 · 岩崎知弘 · 轻盈透明水彩人物","FD-006 · Chihiro Iwasaki · Airy Transparent Watercolor Figure"],"FD-007 · Machiko Hasegawa · Showa Everyday Family Comic":["FD-007 · 长谷川町子 · 昭和日常家庭漫画","FD-007 · Machiko Hasegawa · Showa Everyday Family Comic"],"FD-008 · Shigeru Mizuki · Folklore Monster Ink Cartoon":["FD-008 · 水木茂 · 民俗妖怪墨线漫画","FD-008 · Shigeru Mizuki · Folklore Monster Ink Cartoon"],"FD-009 · Osamu Tezuka · Classic Rounded Manga Character":["FD-009 · 手冢治虫 · 经典圆润漫画角色","FD-009 · Osamu Tezuka · Classic Rounded Manga Character"],"FD-010 · Yoshitomo Nara · Rebellious Big-Head Deadpan Figure":["FD-010 · 奈良美智 · 叛逆大头冷幽默人物","FD-010 · Yoshitomo Nara · Rebellious Big-Head Deadpan Figure"],"FD-011 · Hisashi Eguchi · 80s Clean-Line Urban Pop Girl":["FD-011 · 江口寿史 · 八十年代清线都市流行少女","FD-011 · Hisashi Eguchi · 80s Clean-Line Urban Pop Girl"],"FD-012 · Yuko Higuchi · Ornate Strange Botanical Ink":["FD-012 · 樋口裕子 · 繁复奇异植物墨线","FD-012 · Yuko Higuchi · Ornate Strange Botanical Ink"],"FD-013 · きくちあつこ · Fashion Diary Sketch Girl":["FD-013 · きくちあつこ · 时尚日记速写少女","FD-013 · Atsuko Kikuchi · Fashion Diary Sketch Girl"],"FD-014 · しまだなな · Loose Deadpan Everyday Sketch":["FD-014 · しまだなな · 松散冷幽默日常速写","FD-014 · Nana Shimada · Loose Deadpan Everyday Sketch"],"FD-015 · のなか海 · Yuru-Surreal Minimal Everyday Cartoon":["FD-015 · のなか海 · 轻松超现实极简日常漫画","FD-015 · Umi Nonaka · Yuru-Surreal Minimal Everyday Cartoon"],"FD-016 · tomatomayu · Notebook Lifestyle Doodle":["FD-016 · tomatomayu · 手账生活涂鸦","FD-016 · tomatomayu · Notebook Lifestyle Doodle"],"FD-017 · 鈴芽とろ · Cute Essay-Manga Everyday":["FD-017 · 鈴芽とろ · 可爱随笔漫画日常","FD-017 · Suzume Toro · Cute Essay-Manga Everyday"],"FD-018 · うめじろう · Rough Gag-Manga Reaction":["FD-018 · うめじろう · 粗糙搞笑反应漫画","FD-018 · Umejiro · Rough Gag-Manga Reaction"],"FD-019 · ASUMINA · Clean Young-Lifestyle Manga Line":["FD-019 · ASUMINA · 清爽青年生活漫画线描","FD-019 · ASUMINA · Clean Young-Lifestyle Manga Line"],"FD-020 · モチダちひろ · Friendly Girl-Diary Cartoon":["FD-020 · モチダちひろ · 亲切少女日记漫画","FD-020 · Chihiro Mochida · Friendly Girl-Diary Cartoon"],"FD-021 · YAGI · Minimal Absurd Short-Gag Cartoon":["FD-021 · YAGI · 极简荒诞短篇搞笑漫画","FD-021 · YAGI · Minimal Absurd Short-Gag Cartoon"],"FD-022 · むらたさき · Warm Slightly-Strange Everyday Line":["FD-022 · むらたさき · 温暖微怪日常线描","FD-022 · Saki Murata · Warm Slightly-Strange Everyday Line"],"FD-023 · よこみねさやか · Fast Family-Essay Sketch":["FD-023 · よこみねさやか · 快速家庭随笔速写","FD-023 · Sayaka Yokomine · Fast Family-Essay Sketch"],"FD-024 · おべとも · Minimal Quirky Motion Character":["FD-024 · おべとも · 极简奇趣动态角色","FD-024 · Obetomo · Minimal Quirky Motion Character"],"FD-025 · そとこ / Sotoko · Elegant Sparse-Line Girl":["FD-025 · そとこ / Sotoko · 优雅稀疏线条少女","FD-025 · Sotoko · Elegant Sparse-Line Girl"],"FD-026 · yasuna · Delicate Emotional Female Line":["FD-026 · yasuna · 细腻情感女性线描","FD-026 · yasuna · Delicate Emotional Female Line"],"FD-027 · オガワナツミ · Pop-Culture Minimal Figure":["FD-027 · オガワナツミ · 流行文化极简人物","FD-027 · Natsumi Ogawa · Pop-Culture Minimal Figure"],"FD-028 · Mira Lou · Modern Editorial Female Line":["FD-028 · Mira Lou · 现代女性社论线描","FD-028 · Mira Lou · Modern Editorial Female Line"],"FD-029 · ソウノナホ · Soft Magazine Line-and-Wash":["FD-029 · ソウノナホ · 柔和杂志线描淡彩","FD-029 · Naho Sono · Soft Magazine Line-and-Wash"],"FD-030 · Appy · Minimal Daily-Life Girl Line":["FD-030 · Appy · 极简日常少女线描","FD-030 · Appy · Minimal Daily-Life Girl Line"],"FD-031 · reismi · Transparent Watercolor Magazine Figure":["FD-031 · reismi · 透明水彩杂志人物","FD-031 · reismi · Transparent Watercolor Magazine Figure"],"FD-032 · 北澤平祐 · Playful Marker Fairytale Character":["FD-032 · 北澤平祐 · 趣味马克笔童话角色","FD-032 · Heisuke Kitazawa · Playful Marker Fairytale Character"],"FD-033 · 白根ゆたんぽ · Loose Pop Advertising Girl":["FD-033 · 白根ゆたんぽ · 松散流行广告少女","FD-033 · Yutanpo Shirane · Loose Pop Advertising Girl"],"FD-034 · 藍にいな / Ai Niina · Transparent Emotional Youth Illustration":["FD-034 · 藍にいな / Ai Niina · 透明情感青春插画","FD-034 · Ai Niina · Transparent Emotional Youth Illustration"],"FD-035 · 山中玲奈 · Warm Lifestyle Magazine Figure":["FD-035 · 山中玲奈 · 温暖生活杂志人物","FD-035 · Rena Yamanaka · Warm Lifestyle Magazine Figure"],"FD-036 · はまふぐ · Soft Empathy Social Comic":["FD-036 · はまふぐ · 柔和共情社会漫画","FD-036 · Hamafugu · Soft Empathy Social Comic"],"FD-037 · Nah · High-Saturation Gen-Z Fashion Girl":["FD-037 · Nah · 高饱和年轻世代时尚少女","FD-037 · Nah · High-Saturation Gen-Z Fashion Girl"],"FD-038 · misato. · Soft Dreamy Animated Illustration":["FD-038 · misato. · 柔和梦幻动画插画","FD-038 · misato. · Soft Dreamy Animated Illustration"],"FD-039 · min · Pastel Yami-Kawaii Girly":["FD-039 · min · 粉彩病娇可爱少女风","FD-039 · min · Pastel Yami-Kawaii Girly"],"FD-040 · A.YAMI · Tokyo Street Graphic Girl":["FD-040 · A.YAMI · 东京街头图形少女","FD-040 · A.YAMI · Tokyo Street Graphic Girl"],"FD-041 · めめんち · Mystic Fashion Character Graphic":["FD-041 · めめんち · 神秘时尚角色图形","FD-041 · Memenchi · Mystic Fashion Character Graphic"],"FD-042 · 日系超萌1.5头身Q版 · Japanese Kawaii Mini Chibi 2D Illustration":["FD-042 · 日系超萌一点五头身二维迷你角色","FD-042 · Japanese Kawaii Mini Chibi 2D Illustration"],"FE-001 · 卤猫 · Gentle Nature Dreambook Illustration":["FE-001 · 卤猫 · 温柔自然梦境绘本","FE-001 · Oamul Lu · Gentle Nature Dreambook Illustration"],"FE-002 · Tango / 高幼军 · Minimal Black-White Visual-Pun Cartoon":["FE-002 · Tango / 高幼军 · 极简黑白视觉双关漫画","FE-002 · Tango / Gao Youjun · Minimal Black-White Visual-Pun Cartoon"],"FE-003 · 呼葱觅蒜 · Elongated New-Chinese Minimal Figure":["FE-003 · 呼葱觅蒜 · 修长新中式极简人物","FE-003 · Hucong Misuan · Elongated New-Chinese Minimal Figure"],"FE-004 · Victo Ngai / 倪传婧 · Dense East-Asian Fantasy Editorial":["FE-004 · Victo Ngai / 倪传婧 · 密集东亚奇幻社论插画","FE-004 · Victo Ngai · Dense East-Asian Fantasy Editorial"],"FE-005 · Oamul Lu · Seasonal Travel Watercolor Diary":["FE-005 · 卤猫 · 四季旅行水彩日记","FE-005 · Oamul Lu · Seasonal Travel Watercolor Diary"],"FE-006 · 吴和平 Luo · Blue-Orange Grainy Chinese Editorial":["FE-006 · 吴和平 Luo · 蓝橙颗粒中式社论插画","FE-006 · Luo / Wu Heping · Blue-Orange Grainy Chinese Editorial"],"FE-007 · 方块阿兽 · Cinematic Saturated Story Illustration":["FE-007 · 方块阿兽 · 电影感饱和色叙事插画","FE-007 · Fangkuai Ashou · Cinematic Saturated Story Illustration"],"FE-008 · 特浓 TN · Modern New-Guofeng Flat-Line Illustration":["FE-008 · 特浓 TN · 现代新国风平面线描","FE-008 · TN · Modern New-Guofeng Flat-Line Illustration"],"FE-009 · 奇舫社 · Decorative Guochao Character Illustration":["FE-009 · 奇舫社 · 装饰性国潮人物插画","FE-009 · Qifang Studio · Decorative Guochao Character Illustration"],"FE-010 · 唐意 TY · Ornate Flowing Eastern Fantasy Figure":["FE-010 · 唐意 TY · 繁复流动东方奇幻人物","FE-010 · TY / Tang Yi · Ornate Flowing Eastern Fantasy Figure"],"FE-011 · CAA 陈思佚 · Soft Chinese Watercolor Atmosphere":["FE-011 · CAA 陈思佚 · 柔和中式水彩氛围","FE-011 · CAA / Chen Siyi · Soft Chinese Watercolor Atmosphere"],"FE-012 · 李旻 · Contemporary Chinese Cultural Editorial":["FE-012 · 李旻 · 当代中国文化社论插画","FE-012 · Li Min · Contemporary Chinese Cultural Editorial"],"FE-013 · 伊吹五月 · Freehand Ink-Wash Ancient Figure":["FE-013 · 伊吹五月 · 写意水墨古风人物","FE-013 · Ibuki Satsuki · Freehand Ink-Wash Ancient Figure"],"FE-014 · 早稻 ZAODAO · Wild Ink Eastern Weirdness":["FE-014 · 早稻 ZAODAO · 狂野水墨东方奇诡风","FE-014 · ZAODAO · Wild Ink Eastern Weirdness"],"FE-015 · 眠狼 · Elegant Soft Ink Ancient Figure":["FE-015 · 眠狼 · 优雅柔和墨线古风人物","FE-015 · Mian Lang · Elegant Soft Ink Ancient Figure"],"FE-016 · loli武士 · Refined Eastern Line-Art Character":["FE-016 · loli武士 · 精致东方线描角色","FE-016 · Loli Samurai · Refined Eastern Line-Art Character"],"FE-017 · 古戈力 · Modern Eastern Fantasy Character":["FE-017 · 古戈力 · 现代东方奇幻角色","FE-017 · Gugeli · Modern Eastern Fantasy Character"],"FE-018 · 夏达 · Elegant Historical Manga Line":["FE-018 · 夏达 · 优雅历史漫画线描","FE-018 · Xia Da · Elegant Historical Manga Line"],"FE-019 · 黑色禁药 · Ornate Dark-Fantasy Figure":["FE-019 · 黑色禁药 · 繁复黑暗奇幻人物","FE-019 · Heise Jinyao · Ornate Dark-Fantasy Figure"],"FE-020 · 杉泽 · Mythic Bestiary Ink Character":["FE-020 · 杉泽 · 神话异兽墨线角色","FE-020 · Shan Ze · Mythic Bestiary Ink Character"],"FE-021 · Lost7 · Blue-Gray Dream Narrative Figure":["FE-021 · Lost7 · 蓝灰梦境叙事人物","FE-021 · Lost7 · Blue-Gray Dream Narrative Figure"],"FE-022 · 牛轰轰 · Expressive Girl-Life Internet Comic":["FE-022 · 牛轰轰 · 生动少女生活网络漫画","FE-022 · Niu Honghong · Expressive Girl-Life Internet Comic"],"FE-023 · 郭斯特 · Minimal Youth Emotion Comic":["FE-023 · 郭斯特 · 极简青春情绪漫画","FE-023 · Guo Site · Minimal Youth Emotion Comic"],"FE-024 · 几米 / Jimmy Liao · Poetic Urban Dreambook Illustration":["FE-024 · 几米 / Jimmy Liao · 诗意都市梦境绘本","FE-024 · Jimmy Liao · Poetic Urban Dreambook Illustration"],"FE-025 · 朱德庸 · Minimal Adult Relationship Satire":["FE-025 · 朱德庸 · 极简成人关系讽刺漫画","FE-025 · Zhu Deyong · Minimal Adult Relationship Satire"],"FE-026 · 阿梗 · Delicate Eastern Female Comic":["FE-026 · 阿梗 · 细腻东方女性漫画","FE-026 · A Geng · Delicate Eastern Female Comic"],"FE-027 · 寂地 · Dreamy Youth Picturebook Color":["FE-027 · 寂地 · 梦幻青春彩色绘本","FE-027 · Ji Di · Dreamy Youth Picturebook Color"],"FE-028 · 伟大的安妮 · Internet Girl-Life Story Comic":["FE-028 · 伟大的安妮 · 网络少女生活故事漫画","FE-028 · Great Anny · Internet Girl-Life Story Comic"],"FE-029 · 使徒子 · Fast-Paced Chinese Meme Comic":["FE-029 · 使徒子 · 快节奏中式网络梗漫画","FE-029 · Shituzi · Fast-Paced Chinese Meme Comic"],"FE-030 · Golo 高佬 · Free-Line Urban Youth Comic":["FE-030 · Golo 高佬 · 自由线条都市青春漫画","FE-030 · Golo · Free-Line Urban Youth Comic"],"FE-031 · 插画师卷耳 · Contemporary Urban-Tech Character Illustration":["FE-031 · 插画师卷耳 · 当代都市科技人物插画","FE-031 · Juan Er · Contemporary Urban-Tech Character Illustration"],"FE-032 · 阿梗 · Delicate Youth Narrative Comic":["FE-032 · 阿梗 · 细腻青春叙事漫画","FE-032 · A Geng · Delicate Youth Narrative Comic"],"FE-033 · 寂地 · Dreamy Emotional Picturebook Comic":["FE-033 · 寂地 · 梦幻情感绘本漫画","FE-033 · Ji Di · Dreamy Emotional Picturebook Comic"],"FE-034 · 夏达 · Classical Chinese Fine-Line Manga":["FE-034 · 夏达 · 古典中式细线漫画","FE-034 · Xia Da · Classical Chinese Fine-Line Manga"],"FE-035 · 呼葱觅蒜 · Faceless New-Chinese Figure Illustration":["FE-035 · 呼葱觅蒜 · 无脸新中式人物插画","FE-035 · Hucong Misuan · Faceless New-Chinese Figure Illustration"],"FE-036 · 白茶 · Chinese Pet Deadpan Cartoon":["FE-036 · 白茶 · 中式宠物冷幽默漫画","FE-036 · Bai Cha · Chinese Pet Deadpan Cartoon"],"FE-037 · 慕容引刀 · Philosophical Minimal Dog Cartoon":["FE-037 · 慕容引刀 · 哲理极简狗狗漫画","FE-037 · Murong Yindao · Philosophical Minimal Dog Cartoon"],"FE-038 · Tango · Minimal Visual-Pun Cartoon":["FE-038 · Tango · 极简视觉双关漫画","FE-038 · Tango · Minimal Visual-Pun Cartoon"],"FE-039 · 黄海 · Conceptual Eastern Film Poster Design":["FE-039 · 黄海 · 概念性东方电影海报设计","FE-039 · Huang Hai · Conceptual Eastern Film Poster Design"],"FE-040 · 张旺 · Digital Chinese Gongbi Fantasy":["FE-040 · 张旺 · 数字中式工笔奇幻","FE-040 · Zhang Wang · Digital Chinese Gongbi Fantasy"],"FE-041 · 熊亮 · Contemporary Chinese Ink Picturebook":["FE-041 · 熊亮 · 当代中式水墨绘本","FE-041 · Xiong Liang · Contemporary Chinese Ink Picturebook"],"FE-042 · 早稻 · Wild Chinese Ink Fantasy Comic":["FE-042 · 早稻 · 狂野中式水墨奇幻漫画","FE-042 · ZAODAO · Wild Chinese Ink Fantasy Comic"],"FE-043 · 门小雷 · Hong Kong Urban Female Comic Illustration":["FE-043 · 门小雷 · 香港都市女性漫画插画","FE-043 · Little Thunder · Hong Kong Urban Female Comic Illustration"],"FE-044 · 卤猫 · Gentle Seasonal Nature Illustration":["FE-044 · 卤猫 · 温柔四季自然插画","FE-044 · Oamul Lu · Gentle Seasonal Nature Illustration"],"FE-045 · 天朝羽 · Warm Nostalgic Everyday Picturebook":["FE-045 · 天朝羽 · 温暖怀旧日常绘本","FE-045 · Tian Chaoyu · Warm Nostalgic Everyday Picturebook"],"FE-046 · 左手韩 · Realistic Absurdist Webcomic":["FE-046 · 左手韩 · 写实荒诞网络漫画","FE-046 · Zuo Shou Han · Realistic Absurdist Webcomic"],"FE-047 · 聂峻 · Beijing Hutong Watercolor Graphic Novel":["FE-047 · 聂峻 · 北京胡同水彩图像小说","FE-047 · Nie Jun · Beijing Hutong Watercolor Graphic Novel"],"FE-048 · 中式复古连环画 · Chinese Retro Lianhuanhua":["FE-048 · 中式复古连环画","FE-048 · Chinese Retro Lianhuanhua"],"FE-049 · 新国潮工笔扁平 · New-Guochao Flat Gongbi":["FE-049 · 新国潮扁平工笔","FE-049 · New-Guochao Flat Gongbi"],"FE-050 · 敦煌新插画 · Modern Dunhuang Illustration":["FE-050 · 现代敦煌插画","FE-050 · Modern Dunhuang Illustration"],"FE-051 · 宋画淡彩现代化 · Modernized Song-Dynasty Light Color":["FE-051 · 现代化宋画淡彩","FE-051 · Modernized Song-Dynasty Light Color"],"FE-052 · 新中式水墨小人 · New-Chinese Tiny Ink Figures":["FE-052 · 新中式水墨小人","FE-052 · New-Chinese Tiny Ink Figures"],"FE-053 · 广式早茶国潮 · Cantonese Dim-Sum Guochao":["FE-053 · 广式早茶国潮","FE-053 · Cantonese Dim-Sum Guochao"],"FE-054 · 海派月份牌 Retro · Shanghai Calendar-Poster Retro":["FE-054 · 海派月份牌复古","FE-054 · Shanghai Calendar-Poster Retro"],"FE-055 · 民国广告画再设计 · Republic-Era Advertising Redesign":["FE-055 · 民国广告画再设计","FE-055 · Republic-Era Advertising Redesign"],"FE-056 · 素漆螺钿插画风 · Pale Lacquer & Raden Decorative Illustration":["FE-056 · 素漆螺钿装饰插画","FE-056 · Pale Lacquer & Raden Decorative Illustration"],"FE-057 · 当代戏曲漫画插画风 · Contemporary Peking Opera Comic Illustration":["FE-057 · 当代戏曲漫画插画","FE-057 · Contemporary Peking Opera Comic Illustration"],"FE-058 · 丰子恺 · Feng Zikai Literati Brushwork & Whimsical Ink Sketch":["FE-058 · 丰子恺 · 丰子恺式文人笔墨与童趣速写","FE-058 · Feng Zikai · Feng Zikai Literati Brushwork & Whimsical Ink Sketch"],"FE-059 · 中国奇谭·鹅鹅鹅 · Airy Chinese Ink Fantasy Animation":["FE-059 · 轻盈中式水墨奇幻动画","FE-059 · Airy Chinese Ink Fantasy Animation"],"FE-060 · 小林漫画 · Kobayashi Manga Minimal Ink Style":["FE-060 · 小林漫画极简水墨","FE-060 · Kobayashi Manga Minimal Ink Style"],"FE-061 · 当代人文水墨漫画 · Contemporary Literati Ink Cartoon":["FE-061 · 当代人文水墨漫画","FE-061 · Contemporary Literati Ink Cartoon"],"FE-062 · 社会主义现实主义宣传画 · Socialist Realist Propaganda Poster":["FE-062 · 社会主义现实主义宣传画","FE-062 · Socialist Realist Propaganda Poster"],"FE-063 · 中国农民画 · Chinese Farmers Painting":["FE-063 · 中国农民画","FE-063 · Chinese Farmers Painting"],"FE-064 · 八九十年代中国课本插图风 · 1980s-1990s Chinese Textbook Illustration":["FE-064 · 八九十年代中国课本插图","FE-064 · 1980s-1990s Chinese Textbook Illustration"],"FE-065 · 中国老式手工木偶定格动画风 · Vintage Chinese Handmade Puppet Stop-Motion Animation":["FE-065 · 中国老式手工木偶定格动画","FE-065 · Vintage Chinese Handmade Puppet Stop-Motion Animation"],"FF-001 · OscarAI · Stylized 3D Cartoon Personality":["FF-001 · OscarAI · 风格化三维卡通个性角色","FF-001 · OscarAI · Stylized 3D Cartoon Personality"],"FF-002 · OscarAI · Stylized Graphic 2D Animation Character":["FF-002 · OscarAI · 风格化图形二维动画角色","FF-002 · OscarAI · Stylized Graphic 2D Animation Character"],"FF-003 · OscarAI · Tactile Felt & Knitted 3D Puppet":["FF-003 · OscarAI · 触感毛毡针织三维木偶","FF-003 · OscarAI · Tactile Felt & Knitted 3D Puppet"],"FF-004 · OscarAI · Retro 70s Tactile Wool & Clay Stop-Motion Puppet":["FF-004 · OscarAI · 七十年代复古羊毛黏土定格木偶","FF-004 · OscarAI · Retro 70s Tactile Wool & Clay Stop-Motion Puppet"],"FF-005 · OscarAI · Textured Cut-Paper Collage Storybook":["FF-005 · OscarAI · 纹理剪纸拼贴绘本","FF-005 · OscarAI · Textured Cut-Paper Collage Storybook"],"FF-006 · Ahmed · Deadpan Stylized 3D Urban Character":["FF-006 · Ahmed · 冷幽默风格化三维都市角色","FF-006 · Ahmed · Deadpan Stylized 3D Urban Character"],"FF-007 · OscarAI · Scandinavian Folk-Art Naive Storybook":["FF-007 · OscarAI · 北欧民俗稚拙绘本","FF-007 · OscarAI · Scandinavian Folk-Art Naive Storybook"],"FF-008 · OscarAI · Fuzzy Plush Toy 3D Character":["FF-008 · OscarAI · 毛绒玩具三维角色","FF-008 · OscarAI · Fuzzy Plush Toy 3D Character"],"FF-009 · OscarAI · Chunky Knit Mohair Stop-Motion Puppet":["FF-009 · OscarAI · 粗针织马海毛定格木偶","FF-009 · OscarAI · Chunky Knit Mohair Stop-Motion Puppet"],"FF-010 · OscarAI · Stylized 3D Animation Feature Character":["FF-010 · OscarAI · 风格化三维动画长片角色","FF-010 · OscarAI · Stylized 3D Animation Feature Character"],"FF-011 · OscarAI · Chubby Pastel Knitted Toy 3D Character":["FF-011 · OscarAI · 圆润粉彩针织玩具三维角色","FF-011 · OscarAI · Chubby Pastel Knitted Toy 3D Character"],"FF-012 · OscarAI · Tactile Soft 3D Claymation & Storybook Character":["FF-012 · OscarAI · 柔软触感三维黏土动画绘本角色","FF-012 · OscarAI · Tactile Soft 3D Claymation & Storybook Character"],"FF-013 · OscarAI · Tactile Papercraft & Fabric 3D Cartoon":["FF-013 · OscarAI · 触感纸艺织物三维卡通","FF-013 · OscarAI · Tactile Papercraft & Fabric 3D Cartoon"],"FF-014 · OscarAI · Charming 2D Animation Feature Character Visdev":["FF-014 · OscarAI · 迷人二维动画长片角色视觉开发","FF-014 · OscarAI · Charming 2D Animation Feature Character Visdev"],"FF-015 · 纸雕 · Paper Sculpture Illustration":["FF-015 · 纸雕插画","FF-015 · Paper Sculpture Illustration"],"FF-016 · 手撕纸拼贴风 · Hand-Torn Paper Collage Illustration":["FF-016 · 手撕纸拼贴插画","FF-016 · Hand-Torn Paper Collage Illustration"],"FF-017 · VOX 折纸3D立体拼贴动画 · Vox 3D Origami Collage Animation":["FF-017 · 三维折纸立体拼贴动画","FF-017 · Vox 3D Origami Collage Animation"],"FG-001 · OscarAI · Late-80s Cyberpunk Dark OVA Cel Anime":["FG-001 · OscarAI · 八十年代末赛博朋克黑暗原创录像赛璐珞动画","FG-001 · OscarAI · Late-80s Cyberpunk Dark OVA Cel Anime"],"FG-002 · OscarAI · Classic 60s-70s Xerox Cel Animation":["FG-002 · OscarAI · 六七十年代经典复印线条赛璐珞动画","FG-002 · OscarAI · Classic 60s-70s Xerox Cel Animation"],"FG-003 · OscarAI · Classic 80s-90s Heroic Fantasy Cel Anime":["FG-003 · OscarAI · 八九十年代经典英雄奇幻赛璐珞动画","FG-003 · OscarAI · Classic 80s-90s Heroic Fantasy Cel Anime"],"FG-004 · OscarAI · Vintage 70s European Comic Animation Cel":["FG-004 · OscarAI · 七十年代复古欧洲漫画赛璐珞动画","FG-004 · OscarAI · Vintage 70s European Comic Animation Cel"],"FG-005 · OscarAI · Modern Cinematic 2D Character Animation":["FG-005 · OscarAI · 现代电影感二维角色动画","FG-005 · OscarAI · Modern Cinematic 2D Character Animation"],"FG-006 · Shinyi · Stylized Cinematic Action-Comedy Character":["FG-006 · Shinyi · 风格化电影感动作喜剧角色","FG-006 · Shinyi · Stylized Cinematic Action-Comedy Character"],"FG-007 · South Park · South Park Animation Style":["FG-007 · 南方公园 · 南方公园动画风","FG-007 · South Park · South Park Animation Style"],"FG-008 · Patapon Remastered · Patapon Remastered":["FG-008 · 战鼓啪打碰重制版 · 战鼓啪打碰重制版风","FG-008 · Patapon Remastered · Patapon Remastered"],"FG-009 · Don’t Starve · Don't Starve Animation Style":["FG-009 · 饥荒 · 饥荒动画风","FG-009 · Don’t Starve · Don't Starve Animation Style"],"FG-010 · Cartoon Saloon · Cartoon Saloon Animation Style":["FG-010 · 卡通沙龙 · 卡通沙龙动画风","FG-010 · Cartoon Saloon · Cartoon Saloon Animation Style"],"FG-011 · 黑白恐怖漫画 · Black and White Horror Manga Style":["FG-011 · 黑白恐怖漫画风","FG-011 · Black and White Horror Manga Style"],"FG-012 · 久保带人《BLEACH》 · Tite Kubo Bleach Manga Style":["FG-012 · 久保带人死神漫画风","FG-012 · Tite Kubo Bleach Manga Style"],"FG-013 · 藤本树《电锯人》 · Tatsuki Fujimoto Chainsaw Man Manga Style":["FG-013 · 藤本树电锯人漫画风","FG-013 · Tatsuki Fujimoto Chainsaw Man Manga Style"],"FG-014 · 芥见下下《咒术回战》 · Gege Akutami Jujutsu Kaisen Manga Style":["FG-014 · 芥见下下咒术回战漫画风","FG-014 · Gege Akutami Jujutsu Kaisen Manga Style"],"FG-015 · 岸本齐史《火影忍者》 · Masashi Kishimoto Naruto Manga Style":["FG-015 · 岸本齐史火影忍者漫画风","FG-015 · Masashi Kishimoto Naruto Manga Style"],"FG-016 · 尾田荣一郎《海贼王》 · Eiichiro Oda One Piece Manga Style":["FG-016 · 尾田荣一郎海贼王漫画风","FG-016 · Eiichiro Oda One Piece Manga Style"],"FH-001 · Editorial Doodle / 社论涂鸦 · Editorial Doodle":["FH-001 · 社论涂鸦","FH-001 · Editorial Doodle"],"FH-002 · Loose Ink / 松散墨线 · Loose Ink":["FH-002 · 松散墨线","FH-002 · Loose Ink"],"FH-003 · Conceptual Line Drawing / 概念线描 · Conceptual Line Drawing":["FH-003 · 概念线描","FH-003 · Conceptual Line Drawing"],"FH-004 · New Yorker 单格社论漫画 · Classic Magazine Single-Panel Cartoon":["FH-004 · 经典杂志单格漫画","FH-004 · Classic Magazine Single-Panel Cartoon"],"FH-005 · 法式 Café Sketch · French Café Sketch":["FH-005 · 法式咖啡馆速写","FH-005 · French Café Sketch"],"FH-006 · 日系脱力线稿漫画 · Japanese Deadpan Loose-Line Cartoon":["FH-006 · 日系脱力松散线稿漫画","FH-006 · Japanese Deadpan Loose-Line Cartoon"],"FH-007 · 日系手帐 Doodle · Japanese Notebook Doodle":["FH-007 · 日系手账涂鸦","FH-007 · Japanese Notebook Doodle"],"FH-008 · 日系杂志随笔插画 · Japanese Magazine Essay Illustration":["FH-008 · 日系杂志随笔插画","FH-008 · Japanese Magazine Essay Illustration"],"FH-009 · 日系脱线四格漫画风 · Japanese Offbeat Four-Panel Cartoon":["FH-009 · 日系脱线四格漫画","FH-009 · Japanese Offbeat Four-Panel Cartoon"],"FH-010 · 韩系 Lifestyle Doodle · Korean Lifestyle Doodle":["FH-010 · 韩系生活涂鸦","FH-010 · Korean Lifestyle Doodle"],"FH-011 · 韩系黑线红点 Editorial · Korean Black-Line Red-Accent Editorial":["FH-011 · 韩系黑线红点社论插画","FH-011 · Korean Black-Line Red-Accent Editorial"],"FH-012 · Indie Zine 粗糙手绘 · Indie Zine Rough Drawing":["FH-012 · 独立刊物粗糙手绘","FH-012 · Indie Zine Rough Drawing"],"FH-013 · Risograph / 双色孔版手绘 · Two-Color Risograph Drawing":["FH-013 · 双色孔版手绘","FH-013 · Two-Color Risograph Drawing"],"FH-014 · Crayon Editorial / 蜡笔社论 · Crayon Editorial":["FH-014 · 蜡笔社论插画","FH-014 · Crayon Editorial"],"FH-015 · Colored Pencil Diary / 彩铅日记 · Colored Pencil Diary":["FH-015 · 彩铅日记","FH-015 · Colored Pencil Diary"],"FH-016 · Brush Pen Cartoon / 毛笔漫画 · Brush-Pen Cartoon":["FH-016 · 毛笔漫画","FH-016 · Brush-Pen Cartoon"],"FH-017 · One-Line Character / 单线人物画 · One-Line Character":["FH-017 · 单线人物画","FH-017 · One-Line Character"],"FH-018 · Naive Folk Cartoon / 稚拙民间漫画 · Naive Folk Cartoon":["FH-018 · 稚拙民间漫画","FH-018 · Naive Folk Cartoon"],"FH-019 · Primitive Marker Cartoon / 粗马克笔人物 · Primitive Marker Cartoon":["FH-019 · 粗马克笔人物漫画","FH-019 · Primitive Marker Cartoon"],"FH-020 · Dry Brush Editorial / 干笔社论 · Dry-Brush Editorial":["FH-020 · 干笔社论插画","FH-020 · Dry-Brush Editorial"],"FH-021 · Ink + Flat Spot Color / 墨线点色 · Ink with Flat Spot Color":["FH-021 · 墨线平涂点色","FH-021 · Ink with Flat Spot Color"],"FH-022 · Notebook Margin Cartoon / 课本边角漫画 · Notebook Margin Cartoon":["FH-022 · 课本边角漫画","FH-022 · Notebook Margin Cartoon"],"FH-023 · Deadpan Doodle / 冷脸涂鸦 · Deadpan Doodle":["FH-023 · 冷脸涂鸦","FH-023 · Deadpan Doodle"],"FH-024 · Awkward Cute / 怪尴尬手绘 · Awkward Cute":["FH-024 · 怪尴尬可爱手绘","FH-024 · Awkward Cute"],"FH-025 · Heta-Uma / ヘタウマ · Heta-Uma":["FH-025 · 拙趣手绘","FH-025 · Heta-Uma"],"FH-026 · 昭和レトロ少女 · Showa Retro Girl Illustration":["FH-026 · 昭和复古少女插画","FH-026 · Showa Retro Girl Illustration"],"FH-027 · 平成ガールズ日記 · Heisei Girls Diary Illustration":["FH-027 · 平成少女日记插画","FH-027 · Heisei Girls Diary Illustration"],"FH-028 · 透明水彩淡彩 · Airy Transparent Watercolor":["FH-028 · 轻盈透明水彩淡彩","FH-028 · Airy Transparent Watercolor"],"FH-029 · Copic Pastel · Copic Pastel":["FH-029 · 马克笔粉彩","FH-029 · Copic Pastel"],"FH-030 · 喫茶店 Retro Sketch · Kissaten Retro Sketch":["FH-030 · 日式喫茶店复古速写","FH-030 · Kissaten Retro Sketch"],"FH-031 · 小红书奶油手绘 · Creamy Social-Media Doodle":["FH-031 · 奶油色社交媒体手绘","FH-031 · Creamy Social-Media Doodle"],"FH-032 · 小红书高饱和涂鸦 · High-Saturation Social Doodle":["FH-032 · 高饱和社交媒体涂鸦","FH-032 · High-Saturation Social Doodle"],"FH-033 · 韩国高饱和涂鸦 · Korean High-Saturation Pop Doodle":["FH-033 · 韩国高饱和流行涂鸦","FH-033 · Korean High-Saturation Pop Doodle"],"FH-034 · 油画棒治愈手绘 · Oil-Pastel Healing Illustration":["FH-034 · 油画棒治愈插画","FH-034 · Oil-Pastel Healing Illustration"],"FH-035 · 儿童蜡笔稚拙风 · Childlike Crayon Naive Style":["FH-035 · 儿童蜡笔稚拙风","FH-035 · Childlike Crayon Naive Style"],"FH-036 · 黑白钢笔冷幽默 · Black-White Pen Deadpan Humor":["FH-036 · 黑白钢笔冷幽默","FH-036 · Black-White Pen Deadpan Humor"],"FH-037 · 红蓝双色孔版 / Riso 国潮 · Red-Blue Riso Guochao":["FH-037 · 红蓝双色孔版国潮","FH-037 · Red-Blue Riso Guochao"],"FH-038 · Mid-century Deadpan Ink Mascot · Mid-century Deadpan Ink Mascot":["FH-038 · 世纪中期冷幽默墨线吉祥物","FH-038 · Mid-century Deadpan Ink Mascot"],"FH-039 · OscarAI · Quirky Fantasy Sketchbook Character Concept":["FH-039 · OscarAI · 奇趣幻想速写本角色概念","FH-039 · OscarAI · Quirky Fantasy Sketchbook Character Concept"],"FH-040 · OscarAI · Medieval Dark Fantasy Ink & Ochre Illustration":["FH-040 · OscarAI · 中世纪黑暗奇幻墨线赭色插画","FH-040 · OscarAI · Medieval Dark Fantasy Ink & Ochre Illustration"],"FH-041 · midlibrary · Modern Minimalist Sumi-e & Red Gouache Illustration":["FH-041 · midlibrary · 现代极简水墨朱红水粉插画","FH-041 · midlibrary · Modern Minimalist Sumi-e & Red Gouache Illustration"],"FH-042 · 梵高 · Van Gogh Expressive Impasto Oil Painting":["FH-042 · 梵高 · 梵高式表现性厚涂油画","FH-042 · Vincent van Gogh · Van Gogh Expressive Impasto Oil Painting"],"FH-043 · 复古 Risograph 与丝网印刷插画 · Vintage Risograph and Silkscreen Print Illustration":["FH-043 · 复古孔版与丝网印刷插画","FH-043 · Vintage Risograph and Silkscreen Print Illustration"],"SC-001 · 上文下图社媒卡":["SC-001 · 上文下图社媒卡","SC-001 · Text-above-image social card"],"SC-002 · 文案主导底部辅助图卡":["SC-002 · 文案主导底部辅助图卡","SC-002 · Copy-led card with supporting image below"],"SC-003 · 上下双格图文卡":["SC-003 · 上下双格图文卡","SC-003 · Two-panel vertical text-and-image card"],"SC-004 · 上下双格图文分区卡":["SC-004 · 上下双格图文分区卡","SC-004 · Two-zone vertical text-and-image card"],"SC-005 · 气泡文字思考IP卡":["SC-005 · 气泡文字思考IP卡","SC-005 · Thought-bubble character card"],"SC-006 · 三层标题辅助图卡":["SC-006 · 三层标题辅助图卡","SC-006 · Three-tier heading with supporting image"],"SC-007 · 引号关键词文字卡":["SC-007 · 引号关键词文字卡","SC-007 · Quotation and keyword text card"],"SC-008 · 图上文下留白卡":["SC-008 · 图上文下留白卡","SC-008 · Image-above-text card with white space"],"SC-009 · 居中文字右下辅助图卡":["SC-009 · 居中文字右下辅助图卡","SC-009 · Centered text with lower-right supporting image"],"SC-010 · 上下双格标题列表卡":["SC-010 · 上下双格标题列表卡","SC-010 · Two-panel heading-and-list card"],"SC-011 · 中心主图多场景信息卡":["SC-011 · 中心主图多场景信息卡","SC-011 · Central image with multi-scene information"],"SC-012 · 中心标题上下图标卡":["SC-012 · 中心标题上下图标卡","SC-012 · Central heading with icons above and below"],"SC-014 · 留白驱动主视觉信息卡":["SC-014 · 留白驱动主视觉信息卡","SC-014 · White-space-led visual information card"],"SC-015 · 上下双区递进短句卡":["SC-015 · 上下双区递进短句卡","SC-015 · Two-zone progressive short-copy card"],"SC-016 · 极简大字小图点缀卡":["SC-016 · 极简大字小图点缀卡","SC-016 · Minimal large type with small image accents"],"SC-017 · 自由标注留白信息卡":["SC-017 · 自由标注留白信息卡","SC-017 · Free annotations with white space"],"SC-018 · 中心主视觉环绕信息卡":["SC-018 · 中心主视觉环绕信息卡","SC-018 · Central visual with surrounding information"],"SC-019 · 中央人物细线标注卡":["SC-019 · 中央人物细线标注卡","SC-019 · Central figure with fine-line annotations"],"SC-020 · 一大一组非对称信息卡":["SC-020 · 一大一组非对称信息卡","SC-020 · Asymmetric large visual and grouped details"],"SC-021 · 自适应双拼照片转译社媒卡":["SC-021 · 自适应双拼照片转译社媒卡","SC-021 · Adaptive paired-photo social card"],"SC-022 · 姓名四款签名设计展示卡":["SC-022 · 姓名四款签名设计展示卡","SC-022 · Four signature designs for a name"],"IG-001 · 标题金字塔图标信息图":["IG-001 · 标题金字塔图标信息图","IG-001 · Heading pyramid with icon infographic"],"IG-002 · 中心主图标注信息图":["IG-002 · 中心主图标注信息图","IG-002 · Central image with annotations"],"IG-003 · 多行左文右图信息图":["IG-003 · 多行左文右图信息图","IG-003 · Multi-row text-left image-right infographic"],"IG-004 · 双列多行对比信息图":["IG-004 · 双列多行对比信息图","IG-004 · Two-column multi-row comparison"],"IG-005 · 大主视觉下方图鉴信息图":["IG-005 · 大主视觉下方图鉴信息图","IG-005 · Large visual with illustrated guide below"],"IG-006 · 多层标题图标对比信息图":["IG-006 · 多层标题图标对比信息图","IG-006 · Multi-level headings and icon comparison"],"IG-007 · 粗体标题标签小图卡":["IG-007 · 粗体标题标签小图卡","IG-007 · Bold headings, labels and small images"],"IG-008 · 多路径流程步骤图":["IG-008 · 多路径流程步骤图","IG-008 · Multi-path process diagram"],"IG-009 · 时间轴节点信息图":["IG-009 · 时间轴节点信息图","IG-009 · Timeline node infographic"],"IG-010 · 阶段等级进阶信息图":["IG-010 · 阶段等级进阶信息图","IG-010 · Stage and level progression"],"IG-011 · 前后变化对比信息图":["IG-011 · 前后变化对比信息图","IG-011 · Before-and-after comparison"],"IG-012 · 分层结构型信息图":["IG-012 · 分层结构型信息图","IG-012 · Layered structure infographic"],"IG-013 · 漏斗转化型信息图":["IG-013 · 漏斗转化型信息图","IG-013 · Conversion funnel"],"IG-014 · 四象限矩阵信息图":["IG-014 · 四象限矩阵信息图","IG-014 · Four-quadrant matrix"],"IG-015 · 坐标散点型信息图":["IG-015 · 坐标散点型信息图","IG-015 · Scatter plot infographic"],"IG-016 · 分类树状型信息图":["IG-016 · 分类树状型信息图","IG-016 · Classification tree"],"IG-017 · 思维导图型信息图":["IG-017 · 思维导图型信息图","IG-017 · Mind map"],"IG-018 · 关系网络型信息图":["IG-018 · 关系网络型信息图","IG-018 · Relationship network"],"IG-019 · 循环闭环型信息图":["IG-019 · 循环闭环型信息图","IG-019 · Closed-loop cycle"],"IG-020 · 路径地图型信息图":["IG-020 · 路径地图型信息图","IG-020 · Route map"],"IG-021 · 真实地图标注型信息图":["IG-021 · 真实地图标注型信息图","IG-021 · Annotated geographic map"],"IG-022 · 数字大字型信息图":["IG-022 · 数字大字型信息图","IG-022 · Large-number infographic"],"IG-023 · 排行榜型信息图":["IG-023 · 排行榜型信息图","IG-023 · Ranking infographic"],"IG-024 · 比例构成型信息图":["IG-024 · 比例构成型信息图","IG-024 · Proportional composition"],"IG-025 · 尺度比较型信息图":["IG-025 · 尺度比较型信息图","IG-025 · Scale comparison"],"IG-026 · 拆解爆炸图型信息图":["IG-026 · 拆解爆炸图型信息图","IG-026 · Exploded-view infographic"],"IG-027 · 剖面截面型信息图":["IG-027 · 剖面截面型信息图","IG-027 · Cross-section infographic"],"IG-028 · 连续场景信息图":["IG-028 · 连续场景信息图","IG-028 · Sequential scene infographic"],"IG-029 · 人物群像标签型信息图":["IG-029 · 人物群像标签型信息图","IG-029 · Character ensemble with labels"],"IG-030 · 一大多小知识图谱型信息图":["IG-030 · 一大多小知识图谱型信息图","IG-030 · Knowledge map with one large and many small visuals"],"IG-031 · 百科全书式信息卡":["IG-031 · 百科全书式信息卡","IG-031 · Encyclopedic information card"],"IG-032 · 手绘编辑式知识信息图":["IG-032 · 手绘编辑式知识信息图","IG-032 · Hand-drawn editorial knowledge infographic"],"IG-033 · 讲义式高密分析信息图":["IG-033 · 讲义式高密分析信息图","IG-033 · Dense analytical lecture infographic"],"IG-034 · 编辑式等距轴测全景地图信息图":["IG-034 · 编辑式等距轴测全景地图信息图","IG-034 · Editorial isometric panoramic map infographic"],"IG-035 · 2.5D等距轴测微缩场景":["IG-035 · 2.5D等距轴测微缩场景","IG-035 · 2.5D isometric miniature scene"],"SB-001 · 规则网格":["SB-001 · 规则网格","SB-001 · Regular grid"],"SB-002 · 四格起承转合":["SB-002 · 四格起承转合","SB-002 · Four-panel setup, development, twist and resolution"],"SB-003 · 大格 + 小格":["SB-003 · 大格 + 小格","SB-003 · Large panel with small panels"],"SB-004 · 顶部大格开场":["SB-004 · 顶部大格开场","SB-004 · Large opening panel at top"],"SB-005 · 底部大格收尾":["SB-005 · 底部大格收尾","SB-005 · Large closing panel at bottom"],"SB-006 · 中央大格爆发":["SB-006 · 中央大格爆发","SB-006 · Central impact panel"],"SB-007 · 对角切割":["SB-007 · 对角切割","SB-007 · Diagonal panel divisions"],"SB-008 · Z 字阅读":["SB-008 · Z 字阅读","SB-008 · Z-shaped reading flow"],"SB-009 · S 型阅读":["SB-009 · S 型阅读","SB-009 · S-shaped reading flow"],"SB-010 · 螺旋阅读":["SB-010 · 螺旋阅读","SB-010 · Spiral reading flow"],"SB-011 · 放射型分镜":["SB-011 · 放射型分镜","SB-011 · Radial storyboard"],"SB-012 · 碎片面板":["SB-012 · 碎片面板","SB-012 · Fragmented panels"],"SB-013 · 破框构图":["SB-013 · 破框构图","SB-013 · Frame-breaking composition"],"SB-014 · 跨格人物":["SB-014 · 跨格人物","SB-014 · Character spanning panels"],"SB-015 · 跨格背景":["SB-015 · 跨格背景","SB-015 · Background spanning panels"],"SB-016 · 一镜到底":["SB-016 · 一镜到底","SB-016 · Continuous single take"],"SB-017 · 电影胶片式":["SB-017 · 电影胶片式","SB-017 · Filmstrip layout"],"SB-018 · 宽银幕横格":["SB-018 · 宽银幕横格","SB-018 · Widescreen horizontal panels"],"SB-019 · 竖向长格":["SB-019 · 竖向长格","SB-019 · Tall vertical panels"],"SB-020 · 超窄反应格":["SB-020 · 超窄反应格","SB-020 · Extra-narrow reaction panels"],"SB-021 · 眼睛特写链":["SB-021 · 眼睛特写链","SB-021 · Sequence of eye close-ups"],"SB-022 · 手部动作链":["SB-022 · 手部动作链","SB-022 · Sequence of hand close-ups"],"SB-023 · 由远到近":["SB-023 · 由远到近","SB-023 · Long shot to close-up"],"SB-024 · 由近到远":["SB-024 · 由近到远","SB-024 · Close-up to long shot"],"SB-025 · 正反打":["SB-025 · 正反打","SB-025 · Shot and reverse shot"],"SB-026 · 三连特写":["SB-026 · 三连特写","SB-026 · Three consecutive close-ups"],"SB-027 · 动作分解":["SB-027 · 动作分解","SB-027 · Action breakdown"],"SB-028 · 连续动作残影":["SB-028 · 连续动作残影","SB-028 · Sequential motion trails"],"SB-029 · 静止重复":["SB-029 · 静止重复","SB-029 · Repeated still panels"],"SB-030 · 节奏骤停":["SB-030 · 节奏骤停","SB-030 · Sudden rhythmic pause"],"SB-031 · 爆发后留白":["SB-031 · 爆发后留白","SB-031 · White space after impact"],"SB-032 · 上下镜像":["SB-032 · 上下镜像","SB-032 · Vertical mirror layout"],"SB-033 · 左右对峙":["SB-033 · 左右对峙","SB-033 · Left-right confrontation"],"SB-034 · 双线并行":["SB-034 · 双线并行","SB-034 · Parallel storylines"],"SB-035 · 交叉剪辑":["SB-035 · 交叉剪辑","SB-035 · Cross-cutting"],"SB-036 · 闪回嵌套":["SB-036 · 闪回嵌套","SB-036 · Nested flashback"],"SB-037 · 想象嵌套":["SB-037 · 想象嵌套","SB-037 · Nested imagined scene"],"SB-038 · 监控屏幕式":["SB-038 · 监控屏幕式","SB-038 · Surveillance-screen layout"],"SB-039 · 手机聊天式":["SB-039 · 手机聊天式","SB-039 · Phone-chat layout"],"SB-040 · 档案拼贴式":["SB-040 · 档案拼贴式","SB-040 · Archive collage"],"SB-041 · 杂志编辑式":["SB-041 · 杂志编辑式","SB-041 · Magazine editorial layout"],"SB-042 · 信息图漫画":["SB-042 · 信息图漫画","SB-042 · Infographic comic"],"SB-043 · 地图路线式":["SB-043 · 地图路线式","SB-043 · Map-route layout"],"SB-044 · 时间轴式":["SB-044 · 时间轴式","SB-044 · Timeline layout"],"SB-045 · 时钟式":["SB-045 · 时钟式","SB-045 · Clock layout"],"SB-046 · 中心物件式":["SB-046 · 中心物件式","SB-046 · Central-object layout"],"SB-047 · 中心人物式":["SB-047 · 中心人物式","SB-047 · Central-character layout"],"SB-048 · 环形阅读":["SB-048 · 环形阅读","SB-048 · Circular reading flow"],"SB-049 · 上下坠落式":["SB-049 · 上下坠落式","SB-049 · Vertical falling layout"],"SB-050 · 阶梯式":["SB-050 · 阶梯式","SB-050 · Stepped layout"],"SB-051 · 波浪式":["SB-051 · 波浪式","SB-051 · Wave layout"],"SB-052 · 自由漂浮式":["SB-052 · 自由漂浮式","SB-052 · Free-floating layout"],"SB-053 · 无边框分镜":["SB-053 · 无边框分镜","SB-053 · Borderless storyboard"],"SB-054 · 白场分镜":["SB-054 · 白场分镜","SB-054 · White-space storyboard"],"SB-055 · 满版冲击格":["SB-055 · 满版冲击格","SB-055 · Full-bleed impact panel"],"SB-056 · 跨页式单页模拟":["SB-056 · 跨页式单页模拟","SB-056 · Single-page spread simulation"],"SB-057 · 海报式漫画":["SB-057 · 海报式漫画","SB-057 · Poster-style comic"],"SB-058 · 封面式叙事页":["SB-058 · 封面式叙事页","SB-058 · Cover-style narrative page"],"SB-059 · 舞台式分镜":["SB-059 · 舞台式分镜","SB-059 · Stage-style storyboard"],"SB-060 · 横卷式分镜":["SB-060 · 横卷式分镜","SB-060 · Horizontal scroll storyboard"],"SB-061 · 竖卷式分镜":["SB-061 · 竖卷式分镜","SB-061 · Vertical scroll storyboard"],"SB-062 · 镜面反射式":["SB-062 · 镜面反射式","SB-062 · Mirror-reflection layout"],"SB-063 · 窗口式分镜":["SB-063 · 窗口式分镜","SB-063 · Window-style storyboard"],"SB-064 · 物件遮挡式":["SB-064 · 物件遮挡式","SB-064 · Object-obscured layout"],"SB-065 · 文字主导式":["SB-065 · 文字主导式","SB-065 · Text-led layout"],"SB-066 · 音效主导式":["SB-066 · 音效主导式","SB-066 · Sound-effect-led layout"],"SB-067 · 色块主导式":["SB-067 · 色块主导式","SB-067 · Color-block-led layout"],"SB-068 · 几何分割式":["SB-068 · 几何分割式","SB-068 · Geometric panel divisions"],"IP-001 · IP定位卡":["IP-001 · IP定位卡","IP-001 · Character identity card"],"IP-002 · 角色形象三视图基准图":["IP-002 · 角色形象三视图基准图","IP-002 · Character three-view reference sheet"],"IP-003 · 16宫格角色微信表情包":["IP-003 · 16宫格角色微信表情包","IP-003 · 16-panel character sticker sheet for WeChat"],"IP-004 · IP服装与道具卡":["IP-004 · IP服装与道具卡","IP-004 · Character clothing and props card"],"IP-005 · IP内容传播示范卡":["IP-005 · IP内容传播示范卡","IP-005 · Character content promotion examples"],"IP-006 · IP角色家族卡":["IP-006 · IP角色家族卡","IP-006 · Character family card"],"IP-007 · IP商业应用卡":["IP-007 · IP商业应用卡","IP-007 · Character commercial applications"],"IP-008 · IP角色关系卡":["IP-008 · IP角色关系卡","IP-008 · Character relationship card"],"IP-009 · IP角色一日生活相册":["IP-009 · IP角色一日生活相册","IP-009 · Character daily-life photo album"],"IP-010 · IP角色社交圈动态卡":["IP-010 · IP角色社交圈动态卡","IP-010 · Character social-feed card"],"IP-011 · IP角色微信群聊界面卡":["IP-011 · IP角色微信群聊界面卡","IP-011 · Character WeChat group-chat screen"],"IP-012 · IP角色小红书主页卡":["IP-012 · IP角色小红书主页卡","IP-012 · Character Xiaohongshu profile card"],"IP-013 · IP招牌体态与动态力线卡":["IP-013 · IP招牌体态与动态力线卡","IP-013 · Signature poses and motion-line card"],"EC-001 · 单品主图":["EC-001 · 单品主图","EC-001 · Single-product hero image"],"EC-002 · 多角度展示图":["EC-002 · 多角度展示图","EC-002 · Multi-angle product display"],"EC-003 · 细节特写图":["EC-003 · 细节特写图","EC-003 · Detail close-up"],"EC-004 · 包装 / 套装 / 内容物展示图":["EC-004 · 包装 / 套装 / 内容物展示图","EC-004 · Packaging, bundles and contents display"],"EC-005 · 卖点标注图":["EC-005 · 卖点标注图","EC-005 · Annotated selling points"],"EC-006 · 功能演示图":["EC-006 · 功能演示图","EC-006 · Feature demonstration"],"EC-007 · 参数尺寸图":["EC-007 · 参数尺寸图","EC-007 · Specifications and dimensions"],"EC-008 · 材质 / 结构解析图":["EC-008 · 材质 / 结构解析图","EC-008 · Material and structure breakdown"],"EC-009 · 生活方式场景图":["EC-009 · 生活方式场景图","EC-009 · Lifestyle scene"],"EC-010 · 人物使用图":["EC-010 · 人物使用图","EC-010 · Product in use by a person"],"EC-011 · 多场景适用图":["EC-011 · 多场景适用图","EC-011 · Multiple usage scenarios"],"EC-012 · 使用步骤 / 教程图":["EC-012 · 使用步骤 / 教程图","EC-012 · Usage steps and tutorial"],"EC-013 · 对比优势图":["EC-013 · 对比优势图","EC-013 · Competitive comparison"],"EC-014 · 型号 / SKU 差异图":["EC-014 · 型号 / SKU 差异图","EC-014 · Model and SKU differences"],"EC-015 · 适配 / 选择指南图":["EC-015 · 适配 / 选择指南图","EC-015 · Compatibility and selection guide"],"EC-016 · FAQ / 注意事项图":["EC-016 · FAQ / 注意事项图","EC-016 · FAQ and precautions"],"EC-017 · 品质 / 工艺说明图":["EC-017 · 品质 / 工艺说明图","EC-017 · Quality and craftsmanship"],"EC-018 · 认证 / 数据证明图":["EC-018 · 认证 / 数据证明图","EC-018 · Certifications and supporting data"],"EC-019 · 评价 / 口碑图":["EC-019 · 评价 / 口碑图","EC-019 · Reviews and reputation"],"EC-020 · 品牌 / 来源故事图":["EC-020 · 品牌 / 来源故事图","EC-020 · Brand and origin story"],"EC-021 · 新品上市图":["EC-021 · 新品上市图","EC-021 · New-product launch"],"EC-022 · 促销活动图":["EC-022 · 促销活动图","EC-022 · Promotional campaign"],"EC-023 · 内容种草 / UGC 图":["EC-023 · 内容种草 / UGC 图","EC-023 · Product discovery and user-generated content"],"EC-024 · 广告主视觉 / Hero / KV":["EC-024 · 广告主视觉 / Hero / KV","EC-024 · Advertising hero visual"],"C-01 · 克莱因蓝":["C-01 · 克莱因蓝","C-01 · Klein Blue"],"C-02 · 马若雷勒蓝":["C-02 · 马若雷勒蓝","C-02 · Majorelle Blue"],"C-03 · 普鲁士蓝":["C-03 · 普鲁士蓝","C-03 · Prussian Blue"],"C-04 · 钴蓝":["C-04 · 钴蓝","C-04 · Cobalt Blue"],"C-05 · 群青":["C-05 · 群青","C-05 · Ultramarine"],"C-06 · 孔雀蓝":["C-06 · 孔雀蓝","C-06 · Peacock Blue"],"C-07 · 蒂芙尼蓝":["C-07 · 蒂芙尼蓝","C-07 · Tiffany Blue"],"C-08 · 湖蓝":["C-08 · 湖蓝","C-08 · Lake Blue"],"C-09 · 薄荷绿":["C-09 · 薄荷绿","C-09 · Mint Green"],"C-10 · 鼠尾草绿":["C-10 · 鼠尾草绿","C-10 · Sage Green"],"C-11 · 祖母绿":["C-11 · 祖母绿","C-11 · Emerald Green"],"C-12 · 橄榄绿":["C-12 · 橄榄绿","C-12 · Olive Green"],"C-13 · 维罗纳绿":["C-13 · 维罗纳绿","C-13 · Verona Green"],"C-14 · 森林绿":["C-14 · 森林绿","C-14 · Forest Green"],"C-15 · 朱砂红":["C-15 · 朱砂红","C-15 · Vermilion"],"C-16 · 中国红":["C-16 · 中国红","C-16 · Chinese Red"],"C-17 · 勃艮第红":["C-17 · 勃艮第红","C-17 · Burgundy"],"C-18 · 庞贝红":["C-18 · 庞贝红","C-18 · Pompeian Red"],"C-19 · 玫瑰红":["C-19 · 玫瑰红","C-19 · Rose Red"],"C-20 · 洋红":["C-20 · 洋红","C-20 · Magenta"],"C-21 · 珊瑚粉":["C-21 · 珊瑚粉","C-21 · Coral Pink"],"C-22 · 灰粉":["C-22 · 灰粉","C-22 · Dusty Pink"],"C-23 · 薰衣草紫":["C-23 · 薰衣草紫","C-23 · Lavender"],"C-24 · 帝王紫":["C-24 · 帝王紫","C-24 · Imperial Purple"],"C-25 · 爱马仕橙":["C-25 · 爱马仕橙","C-25 · Hermès Orange"],"C-26 · 柿子橙":["C-26 · 柿子橙","C-26 · Persimmon Orange"],"C-27 · 那不勒斯黄":["C-27 · 那不勒斯黄","C-27 · Naples Yellow"],"C-28 · 芥末黄":["C-28 · 芥末黄","C-28 · Mustard Yellow"],"C-29 · 赭石":["C-29 · 赭石","C-29 · Ochre"],"C-30 · 象牙白":["C-30 · 象牙白","C-30 · Ivory"],"C-31 · 佩恩灰":["C-31 · 佩恩灰","C-31 · Payne's Gray"],"C-32 · 炭黑":["C-32 · 炭黑","C-32 · Charcoal Black"],"C-33 · 暖灰":["C-33 · 暖灰","C-33 · Warm Gray"],"C-34 · 奶油白":["C-34 · 奶油白","C-34 · Cream"],"C-35 · 石板灰":["C-35 · 石板灰","C-35 · Slate Gray"],"C-36 · 米驼色":["C-36 · 米驼色","C-36 · Camel Beige"]};
+function optionLabel(value){return OPTION_LABELS[value]?.[lang==='en'?1:0]||String(value??'')}
+function optionSearch(value,query){return [value,...(OPTION_LABELS[value]||[])].some(text=>text.toLocaleLowerCase().includes(query))}
+function fieldLabel(field,value){return ['手绘风格','图型'].includes(field)?optionLabel(value):['模式','执行方式'].includes(field)?t(value):value}
+const SOURCE='手绘创作/默认表格',TABLE='手绘创作',FIELDS=['画面主题','手绘风格','图型','主题色','画幅比例','模式','文字要求','参考图片','执行方式'];
+const FIELD_IDS={'画面主题':'creation-subject','手绘风格':'creation-style','图型':'creation-layout','主题色':'creation-colors','画幅比例':'creation-ratio','文字要求':'creation-text','参考图片':'creation-reference'};
+const GROUPS={FA:['冷幽默与社论涂鸦','Deadpan & editorial doodles'],FB:['绘本与故事','Picture books & stories'],FC:['图形、海报与现代艺术','Graphics, posters & modern art'],FD:['日系线条与生活','Japanese lines & everyday life'],FE:['东方、国潮与人文','Eastern art & culture'],FF:['材质、立体与纸艺','Texture, sculpture & paper'],FG:['动画与漫画名作','Animation & comics'],FH:['媒介与手账技法','Media & journal techniques'],SC:['社媒卡片','Social cards'],IG:['信息图','Infographics'],SB:['分镜版式','Storyboards'],IP:['角色与 IP','Characters & IP'],EC:['电商画面','Commerce visuals']};
+const WORDS={app:['手绘造境工坊','Hand-drawn Atelier'],hero:['手绘造境。','Draw a world.'],intro:['写下想看见的画面，选一支笔、一种版式、一碟颜色。留白的风格与颜色，会按主题被推荐；留空的版式与比例，不会被硬塞默认值。','Describe a scene. Choose a pen, a layout, a little color. Leave style and colors open for a recommendation; empty layout and ratio stay open.'],start:['开始落笔','Start drawing'],home:['画室','Atelier'],studio:['创作台','Drawing desk'],gallery:['作品集','Collection'],catalog:['笔墨图鉴','Material cabinet'],recent:['刚离开画案的六张','Six fresh sheets'],allWorks:['翻看作品集','Browse collection'],studioIntro:['主题必填。风格、图型、主题色、画幅比例都可以空。模式空着，后台按纯图模式理解。','A subject is required. Style, layout, colors and ratio can stay blank. A blank mode means image only.'],clearDesk:['清空画案','Clear the desk'],backGallery:['从作品集回来','Back to collection'],'画面主题':['画面主题','Scene subject'],'手绘风格':['手绘风格','Drawing style'],'图型':['图型','Layout'],'主题色':['主题色','Colors'],'画幅比例':['画幅比例','Aspect ratio'],'模式':['模式','Mode'],'文字要求':['文字要求','Text instructions'],'参考图片':['参考图片','Reference image'],'执行方式':['执行方式','Execution'],'纯图模式':['纯图模式','Image only'],'图文模式':['图文模式','Image & text'],'仅生成提示词':['仅生成提示词','Prompt only'],'生成提示词并生图':['生成提示词并生图','Prompt & image'],subjectPlaceholder:['例如：雨停后的旧书店，猫卧在画册上','For example: a bookshop after the rain, a cat resting on an art book'],textPlaceholder:['希望印在画面上的标题、短句或标注。没有就留空。','Titles, short lines or annotations to include. Leave blank if none.'],choosePen:['选一支笔','Choose a pen'],randomPen:['换一支笔','Try another pen'],clear:['清空','Clear'],styleHint:['留空则按主题推荐，并在成稿里说明理由。','Leave blank for a recommendation, explained in the draft.'],chooseLayout:['选一个版式','Choose a layout'],layoutHint:['留空则不添加固定排版。','Leave blank for an open composition.'],chooseColors:['挑几碟颜色','Choose colors'],colorHint:['留空则按主题推荐。','Leave blank for colors suited to the scene.'],ratioHint:['留空则不添加默认比例。','Leave blank to keep the ratio open.'],album:['从相册选取','Choose from album'],camera:['拍一张','Take a photo'],removeRef:['移除参考','Remove reference'],refHint:['有参考图时，后台会按主题做照片转绘。','A reference photo can be redrawn to match your scene.'],asNew:['作为新画再生成','Prepare as a new drawing'],draft:['成稿纸','Finished draft'],copyDraft:['抄下成稿','Copy draft'],lookAgain:['再看一眼','Look again'],galleryIntro:['每一行都还在纸上，点开就能改，改的是字段，不是重画。','Every sheet can be reopened and edited. Saving edits keeps the existing draft.'],newPaper:['铺一张新纸','Lay out a new sheet'],searchWorks:['找主题、风格、版式或文字…','Search subject, style, layout or text…'],cards:['卡片','Cards'],rows:['横栏','Rows'],catalogIntro:['挑一支笔，铺开版式，把喜欢的颜色带回画案。','Choose a pen, a layout, and colors to bring to the desk.'],searchCabinet:['搜一搜名字…','Search names…'],footer:['一纸留白，万象生长。','A little blank paper. A world unfolding.'],details:['作品详情','Artwork details'],editThis:['编辑此作','Edit this work'],clone:['以此再画','Draw from this'],delete:['删除','Delete'],close:['关上','Close'],done:['收好','Done'],confirm:['确定','Confirm'],cancel:['取消','Cancel'],total:['作品总数','Total works'],images:['已出图','Image requests'],prompts:['只写提示词','Prompt requests'],photos:['照片转绘','Photo redraws'],emptyTitle:['画案还是空的','The desk is still empty'],emptyText:['写下一个画面，让墨线自己长出来。','Describe a scene and let the ink find its way.'],firstPaper:['铺开第一张纸','Lay out the first sheet'],noMatch:['没有对上的纸','No matching sheets'],noRef:['无参考','No reference'],noSelection:['留白','Open'],cold:['冷笔','Deadpan'],storybook:['绘本','Picture books'],east:['东方','Eastern'],material:['材质','Texture'],save:['保存修改','Save changes'],promptButton:['只写提示词','Write the prompt'],imageButton:['落笔并出图','Draw the scene'],blank:['纸还空白着','The paper is still blank'],pending:['还在落纸','Still taking shape'],waitPrompt:['笔尖悬着。正在把画面收成提示词。','The pen is poised. Gathering the scene into a prompt.'],waitImage:['笔尖悬着。提示词与画面都在落纸。','The pen is poised. The prompt and picture are taking shape.'],copied:['已抄下','Copied'],copyError:['未能抄下，请稍后再试','Could not copy. Please try again.'],error:['画案暂时没连上，请稍后再试','The desk is out of reach. Please try again.'],required:['先写下画面主题，再选一种执行方式','Write a subject and choose an execution first'],saved:['这张纸已收好','Your sheet is saved'],deleteAsk:['这张纸撤掉后不能回来','Once removed, this sheet cannot be brought back.'],leaveAsk:['离开正在修改的这张，用新选择开一幅新画？','Leave this edit and start a new drawing with this selection?'],clearAsk:['清空还未收好的画案？','Clear the work on this desk?'],loading:['正在翻纸…','Turning the sheets…'],all:['全部','All'],hasRef:['有参考图','With reference'],withoutRef:['无参考图','Without reference'],product:['看成品','View draft'],edit:['编辑','Edit'],actions:['操作','Actions'],pen:['笔','Pens'],layout:['版式','Layouts'],paint:['颜料','Pigments'],usePen:['用这支笔','Use this pen'],useLayout:['用这个版式','Use this layout'],bringColors:['把选中的颜色带到画案','Bring these colors to the desk'],noColors:['先挑几碟颜色','Choose some colors first'],busy:['笔尖还悬着，等这张落好再收下一张','The pen is still poised. Let this sheet settle first.'],refreshError:['这次没读到成稿，可以再看一眼','Could not read the draft. You can look again.'],noDraft:['纸上还没有可抄的成稿','There is no draft to copy yet'],count:['张纸','sheets'],retry:['再翻一次','Try again'],partialSave:['这张纸还未全部收好，请重试保存','Some changes are not saved yet. Please save again.']};
+let lang='cn',page='home',currentRow=0,records=[],recordCount=0,draft='',filter='全部',view='cards',catalogTab='style',catalogColors=new Set(),pickerKind='style',detailRow=0,detailData=null,detailDraft='',saving=false,loadVersion=0,dataVersion=0;
+const historyStack=[],modalStack=[],polls=new Map();let confirmResolve=null,toastTimer,dirty=false,focusReturn=new Map();
+const $=id=>document.getElementById(id),t=key=>WORDS[key]?.[lang==='en'?1:0]||key,esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function fileUrl(file,privateFile=false){return 'https://www.ithinkair.com:3031/'+(privateFile?'private/':'download/')+encodeURIComponent(file)}
+function imageHtml(file,cls='ref-preview'){return `<img class="${cls}" src="${esc(fileUrl(file))}" alt="${esc(t('参考图片'))}" loading="lazy">`}
+async function api(type,payload,data=SOURCE){const req={type,data};if(payload!==undefined)req.payload=String(payload);return await callAppBridge(req)}
+function toast(key){$('toast').textContent=t(key);$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4200)}
+function safe(action){return async(...args)=>{try{await action(...args)}catch(e){console.error(e);toast('error')}}}
+function initialLanguage(){let stored=null;try{stored=localStorage.getItem('iThinkAir_UiLanguage')}catch{}const requested=new URLSearchParams(location.search).get('lang');if(stored)return stored==='en'?'en':'cn';if(requested==='cn'||requested==='en')return requested;const list=navigator.languages;return !list||!list.length||Array.from(list).some(x=>/^zh(?:-|$)/i.test(x))?'cn':'en'}
+function translate(root=document){root.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));root.querySelectorAll('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));document.documentElement.lang=lang==='cn'?'zh-CN':'en';document.title=t('app')}
+function navigation(){const tabs=['home','studio','gallery','catalog'].map(p=>`<button class="nav-tab ${page===p?'active':''}" data-go="${p}" ${page===p?'aria-current="page"':''}>${esc(t(p))}</button>`).join('');const language=`<button class="language small" data-language="true">${lang==='cn'?'English':'中文'}</button>`;$('desktopNav').innerHTML=tabs+language;$('mobileMenu').innerHTML=tabs+language;requestAnimationFrame(resizeNavigation)}
+function resizeNavigation(){const nav=$('navigation'),desktop=$('desktopNav');nav.classList.remove('compact');if($('brand').offsetWidth+desktop.scrollWidth+100>nav.clientWidth)nav.classList.add('compact');if(!nav.classList.contains('compact'))closeMenu()}
+function closeMenu(){$('mobileMenu').classList.remove('open');$('hamburger').setAttribute('aria-expanded','false')}
+async function switchPage(next,remember=true){if(next!==page){if(remember)historyStack.push({page,scroll:window.scrollY});page=next;document.querySelectorAll('.page').forEach(el=>el.hidden=el.id!=='page-'+page);window.scrollTo(0,0)}navigation();closeMenu();if(next==='home'||next==='gallery')await reloadData();if(next==='catalog')renderCatalog()}
+function openModal(id){if(modalStack.includes(id))return;focusReturn.set(id,document.activeElement);modalStack.push(id);$(id).hidden=false;$(id).style.zIndex=String(2005+modalStack.length*10);document.body.style.overflow='hidden';setTimeout(()=>$(id).querySelector('button,input')?.focus(),50)}
+function closeModal(id=modalStack.at(-1)){if(!id)return;$(id).hidden=true;modalStack.splice(modalStack.indexOf(id),1);if(id==='confirmLayer'&&confirmResolve){const resolve=confirmResolve;confirmResolve=null;resolve(false)}if(id==='detailLayer'){detailRow=0;detailData=null;detailDraft=''}document.body.style.overflow=modalStack.length?'hidden':'';focusReturn.get(id)?.focus();focusReturn.delete(id)}
+function ask(key){$('confirmText').textContent=t(key);openModal('confirmLayer');return new Promise(resolve=>confirmResolve=resolve)}
+window.airBack=function(){if(modalStack.length){closeModal();return 'false'}if($('mobileMenu').classList.contains('open')){closeMenu();return 'false'}if(historyStack.length){const prev=historyStack.pop();safe(async()=>{await switchPage(prev.page,false);window.scrollTo(0,prev.scroll)})();return 'false'}return 'true'};
+function getValue(field){if(field==='执行方式')return '生成提示词并生图';if(field==='模式')return document.querySelector(`#creation input[name="${field}"]:checked`)?.value||'';return $(FIELD_IDS[field]).value}
+function setValue(field,value){value=String(value??'');if(field==='执行方式'){$('creation-execution').value='生成提示词并生图';return}if(field==='模式'){document.querySelectorAll(`#creation input[name="${field}"]`).forEach(el=>el.checked=el.value===value)}else $(FIELD_IDS[field]).value=value}
+function formData(){return Object.fromEntries(FIELDS.map(field=>[field,getValue(field)]))}
+function colorMatches(value){return OPTIONS.colors.filter(c=>String(value||'').split(',').includes(c.value))}
+function colorHtml(value,labels=false){return colorMatches(value).map(c=>`<span class="color-line"><span class="dot" style="background:${c.hex}" title="${esc(optionLabel(c.value))}"></span>${labels?`<span>${esc(optionLabel(c.value))}</span>`:''}</span>`).join('')}
+function formChoices(){['模式'].forEach(field=>{const values=['纯图模式','图文模式'];$('modeChoices').innerHTML=values.map((v,i)=>`<label class="choice paper" style="padding:12px"><input id="creation-mode-${i}" name="${field}" type="radio" value="${esc(v)}"><span>${esc(t(v))}</span></label>`).join('')});$('ratioChips').innerHTML=['1:1','3:4','4:3','2:3','3:2','4:5','5:4','9:16','16:9'].map(r=>`<button class="chip small" type="button" data-ratio="${r}">${r}</button>`).join('')}
+function syncForm(){$('styleValue').textContent=optionLabel(getValue('手绘风格'))||t('noSelection');$('layoutValue').textContent=optionLabel(getValue('图型'))||t('noSelection');$('selectedColors').innerHTML=colorHtml(getValue('主题色'),true);const ref=getValue('参考图片');$('referencePreview').innerHTML=ref?`<a href="${esc(fileUrl(ref,true))}" target="_blank" rel="noopener">${imageHtml(ref)}</a>`:'';const text=getValue('模式')==='图文模式';$('textField').classList.toggle('expanded',text);$('textField').classList.toggle('soft',!text);document.querySelectorAll('[data-ratio]').forEach(el=>el.classList.toggle('selected',getValue('画幅比例')===el.dataset.ratio));$('submitCreation').textContent=t(currentRow?'save':getValue('执行方式')==='生成提示词并生图'?'imageButton':'promptButton');$('asNew').hidden=currentRow===0;const busy=saving||[...polls.values()].some(p=>p.active);$('submitCreation').disabled=busy;$('formStatus').textContent=saving?t('loading'):busy?t('busy'):'';updateRowButtons();renderStudioResult()}
+function populate(data){FIELDS.forEach(f=>setValue(f,data[f]||''));dirty=false;syncForm()}
+function resetDesk(clear=true){currentRow=0;draft='';if(clear){FIELDS.forEach(f=>setValue(f,''));setValue('执行方式','生成提示词并生图');dirty=false}syncForm()}
+function updateRowButtons(){$('studioPrev').disabled=!currentRow||currentRow<=1||saving;$('studioNext').disabled=!currentRow||currentRow>=recordCount||saving;$('detailPrev').disabled=detailRow<=1;$('detailNext').disabled=!detailRow||detailRow>=recordCount;$('refreshStudio').disabled=!currentRow;$('copyStudio').disabled=!draft;$('copyDetail').disabled=!detailDraft}
+function renderMarkdown(target,text){target.replaceChildren();if(!text)return;if(!window.marked||!window.DOMPurify){const p=document.createElement('pre');p.textContent=text;target.append(p);return}const clean=DOMPurify.sanitize(String(text),{FORBID_TAGS:['script','iframe','object','embed','form','input','style'],FORBID_ATTR:['style']});target.innerHTML=DOMPurify.sanitize(marked.parse(clean,{gfm:true,breaks:false}),{FORBID_TAGS:['script','iframe','object','embed','form','input','style'],FORBID_ATTR:['style']});target.querySelectorAll('a').forEach(a=>{a.target='_blank';a.rel='noopener noreferrer'});target.querySelectorAll('img').forEach(img=>{const raw=img.getAttribute('src')||'';let filename='';if(!/^(https?:|data:|blob:)/i.test(raw)){filename=raw;img.src=fileUrl(filename)}else if(raw.includes('/download/')||raw.includes('/private/')){try{filename=decodeURIComponent(new URL(raw,location.href).pathname.split('/').pop())}catch{}}img.tabIndex=0;const download=()=>{const a=document.createElement('a');a.href=filename?fileUrl(filename):img.src;a.target='_blank';a.rel='noopener';a.download=filename||'image';a.click()};img.addEventListener('click',download);img.addEventListener('keydown',e=>{if(e.key==='Enter')download()})});target.querySelectorAll('pre').forEach(pre=>{const code=pre.querySelector('code'),button=document.createElement('button');button.className='small';button.textContent=lang==='cn'?'复制这段':'Copy code';button.onclick=safe(()=>copy(code?.textContent||pre.textContent));pre.append(button)})}
+function renderStudioResult(){if(draft)renderMarkdown($('studioResult'),draft);else{const p=polls.get(currentRow);$('studioResult').innerHTML=`<div class="result-blank">${esc(t(p?.active?(getValue('执行方式')==='生成提示词并生图'?'waitImage':'waitPrompt'):currentRow?'pending':'blank'))}</div>`}}
+function renderDetailResult(){if(detailDraft)renderMarkdown($('detailResult'),detailDraft);else $('detailResult').innerHTML=`<div class="result-blank">${esc(t('pending'))}</div>`;updateRowButtons()}
+async function copy(text){if(!text){toast('noDraft');return}try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);else{const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.top='0';document.body.append(area);area.focus();area.select();const ok=document.execCommand('copy');area.remove();if(!ok)throw Error('copy')}toast('copied')}catch{toast('copyError')}}
+async function reloadData(){const token=++dataVersion;$('galleryStatus').textContent=t('loading');try{const [csv,count]=await Promise.all([api('GetTableCSV',[...FIELDS,'创作结果'].join(',')),api('GetRecordCount')]);if(token!==dataVersion)return;records=parseCSV(csv).map((cells,index)=>({row:index+1,result:cells[FIELDS.length]||'',data:Object.fromEntries(FIELDS.map((f,j)=>[f,cells[j]||'']))}));recordCount=Math.max(0,Number(count)||0);renderHome();renderGallery();updateRowButtons()}catch(e){if(token===dataVersion){$('galleryStatus').innerHTML=`${esc(t('error'))} <button class="small" data-reload="true">${esc(t('retry'))}</button>`;if(!records.length)$('recentWorks').innerHTML=$('galleryStatus').innerHTML}throw e}}
+function statData(){return [{label:'total',n:recordCount,filter:'全部'},{label:'images',n:records.filter(r=>r.data['执行方式']==='生成提示词并生图').length,filter:'生成提示词并生图'},{label:'prompts',n:records.filter(r=>r.data['执行方式']==='仅生成提示词').length,filter:'仅生成提示词'},{label:'photos',n:records.filter(r=>r.data['参考图片'].trim()).length,filter:'有参考图'}]}
+function emptyHtml(filtered=false){return `<div class="paper empty"><i class="fa-solid fa-feather-pointed"></i><h3>${esc(t(filtered?'noMatch':'emptyTitle'))}</h3>${filtered?'':`<p class="muted">${esc(t('emptyText'))}</p><button class="primary" data-new="true">${esc(t('firstPaper'))}</button>`}</div>`}
+function artworkCover(result){const container=document.createElement('div');renderMarkdown(container,result||'');const image=container.querySelector('img[src]');return image?`<img class="work-cover" src="${esc(image.getAttribute('src'))}" alt="${esc(lang==='cn'?'作品图':'Artwork')}" loading="lazy">`:`<div class="no-ref">${esc(lang==='cn'?'暂无作品图':'No artwork yet')}</div>`}
+function card(r,recent=false){const d=r.data;return `<article class="paper work lift"><button class="work-main" data-action="${recent?'detail':'edit'}" data-row="${r.row}">${artworkCover(r.result)}<div class="work-body"><h3 class="clamp" title="${esc(d['画面主题'])}">${esc(d['画面主题'])}</h3><div class="muted clamp" title="${esc(optionLabel(d['手绘风格']))}">${esc(optionLabel(d['手绘风格'])||t('noSelection'))}</div><div class="swatches">${colorHtml(d['主题色'],!recent)}</div><div class="muted clamp">${esc(optionLabel(d['图型'])||t('noSelection'))}</div><div class="stamps">${['模式','执行方式'].filter(f=>d[f]).map(f=>`<span class="stamp">${esc(t(d[f]))}</span>`).join('')}</div></div></button>${recent?'':`<div class="work-actions">${actionButtons(r.row)}</div>`}</article>`}
+function actionButtons(row){return [['detail','product'],['edit','edit'],['delete','delete'],['clone','clone']].map(([action,label])=>`<button class="small quiet" data-action="${action}" data-row="${row}">${esc(t(label))}</button>`).join('')}
+function renderHome(){$('stats').innerHTML=statData().map(s=>`<button class="paper stat lift" data-filter-go="${s.filter}"><strong>${s.n}</strong><span>${esc(t(s.label))}</span></button>`).join('');$('recentWorks').innerHTML=records.length?records.slice(0,6).map(r=>card(r,true)).join(''):emptyHtml();$('homeEntries').innerHTML=[['FA','cold'],['FB','storybook'],['FE','east'],['FF','material']].map(([group,label])=>`<button class="paper" data-cabinet-group="${group}"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${esc(t(label))}</button>`).join('')}
+function filteredRecords(){const q=$('gallerySearch').value.trim().toLocaleLowerCase();return records.filter(({data:d})=>{const matches=!q||['画面主题','手绘风格','图型','文字要求'].some(f=>(['手绘风格','图型'].includes(f)?optionSearch(d[f],q):d[f].toLocaleLowerCase().includes(q)));let matchesFilter=true;if(filter==='有参考图')matchesFilter=!!d['参考图片'].trim();else if(filter==='无参考图')matchesFilter=!d['参考图片'].trim();else if(['纯图模式','图文模式'].includes(filter))matchesFilter=d['模式']===filter;else if(filter!=='全部')matchesFilter=d['执行方式']===filter;return matches&&matchesFilter})}
+function renderGallery(){const filters=['全部','仅生成提示词','生成提示词并生图','纯图模式','图文模式','有参考图','无参考图'];$('galleryFilters').innerHTML=filters.map(f=>`<button class="chip small ${filter===f?'selected':''}" data-filter="${f}">${esc(t(f==='全部'?'all':f==='有参考图'?'hasRef':f==='无参考图'?'withoutRef':f))}</button>`).join('');const list=filteredRecords();$('galleryStatus').textContent=list.length+' '+t('count');$('viewCards').classList.toggle('selected',view==='cards');$('viewTable').classList.toggle('selected',view==='table');$('galleryWorks').className=view==='cards'?'grid':'';if(!list.length){$('galleryWorks').innerHTML=emptyHtml(records.length>0);return}if(view==='cards'){$('galleryWorks').innerHTML=list.map(r=>card(r)).join('');return}$('galleryWorks').innerHTML=`<div class="paper table-scroll"><table class="works-table"><thead><tr>${FIELDS.map(f=>`<th>${esc(t(f))}</th>`).join('')}<th>${esc(t('actions'))}</th></tr></thead><tbody>${list.map(r=>`<tr data-action="edit" data-row="${r.row}" tabindex="0">${FIELDS.map(f=>`<td>${f==='参考图片'?(r.data[f]?imageHtml(r.data[f],'thumb'):`<span class="muted">${esc(t('noRef'))}</span>`):f==='主题色'?colorHtml(r.data[f],true):`<div class="clamp" title="${esc(fieldLabel(f,r.data[f]))}">${esc(fieldLabel(f,r.data[f]))}</div>`}</td>`).join('')}<td><div class="choices">${actionButtons(r.row)}</div></td></tr>`).join('')}</tbody></table></div>`}
+async function readRecord(row){const data={};for(const field of FIELDS)data[field]=await api('GetCellValue',field+'/'+row);const result=await api('GetCellValue','创作结果/'+row);return {data,result}}
+async function editRecord(row){if(saving)return;if(dirty&&!(await ask('leaveAsk')))return;const token=++loadVersion;const loaded=await readRecord(row);if(token!==loadVersion)return;currentRow=row;draft=loaded.result;populate(loaded.data);closeModalIfOpen('detailLayer');await switchPage('studio');if(!draft)startPoll(row)}
+function closeModalIfOpen(id){if(modalStack.includes(id))closeModal(id)}
+async function cloneRecord(row){if(saving)return;if(dirty&&!(await ask('leaveAsk')))return;const loaded=await readRecord(row);currentRow=0;draft='';populate(loaded.data);dirty=true;closeModalIfOpen('detailLayer');await switchPage('studio')}
+async function openDetail(row){detailRow=row;detailData=null;detailDraft='';$('detailFields').replaceChildren();$('detailStatus').textContent=t('loading');renderDetailResult();openModal('detailLayer');const loaded=await readRecord(row);if(detailRow!==row)return;detailData=loaded.data;detailDraft=loaded.result;$('detailStatus').textContent='';renderDetailFields();renderDetailResult();if(!detailDraft)startPoll(row)}
+function renderDetailFields(){if(!detailData)return;$('detailFields').innerHTML=FIELDS.map(f=>`<div class="detail-field"><dt>${esc(t(f))}</dt><dd>${f==='参考图片'&&detailData[f]?`<a href="${esc(fileUrl(detailData[f],true))}" target="_blank" rel="noopener">${imageHtml(detailData[f])}</a>`:f==='主题色'?colorHtml(detailData[f],true):esc(fieldLabel(f,detailData[f])||t('noSelection'))}</dd></div>`).join('')}
+async function deleteRecord(row){if(saving)return;if([...polls.values()].some(p=>p.active)){toast('busy');return}if(!(await ask('deleteAsk')))return;await api('DeleteRecord',row.toString());for(const p of polls.values()){if(p.timer)clearTimeout(p.timer)}polls.clear();if(currentRow===row)resetDesk();else if(currentRow>row)currentRow--;if(detailRow===row)closeModal('detailLayer');else if(detailRow>row)detailRow--;await reloadData();syncForm();toast('saved')}
+function deliverResult(row,text){const record=records.find(r=>r.row===row);if(record){record.result=text;renderHome();renderGallery()}if(currentRow===row){draft=text;renderStudioResult()}if(detailRow===row){detailDraft=text;renderDetailResult()}updateRowButtons()}
+function startPoll(row){if(!row)return;if(polls.get(row)?.active)return;const state={active:true,last:'',started:Date.now(),timer:null};polls.set(row,state);syncForm();const tick=async()=>{if(!state.active)return;try{const text=await api('GetCellValue','创作结果/'+row);if(polls.get(row)!==state)return;if(text.trim()){deliverResult(row,text);if(text===state.last){state.active=false;syncForm();return}state.last=text}else state.last=''}catch(e){console.error(e)}if(Date.now()-state.started>=180000){state.active=false;syncForm();return}state.timer=setTimeout(tick,2000)};state.timer=setTimeout(tick,2000)}
+async function refreshResult(row){if(!row)return;const text=await api('GetCellValue','创作结果/'+row);deliverResult(row,text);if(!text.trim())startPoll(row)}
+function shiftPollRows(){const next=new Map();for(const [row,p]of polls){if(p.timer)clearTimeout(p.timer);p.active=false;next.set(row+1,{...p,active:false,timer:null})}polls.clear();for(const [row,p]of next)polls.set(row,p)}
+async function submitForm(e){e.preventDefault();if(saving||[...polls.values()].some(p=>p.active)){toast('busy');return}const data=formData();if(!data['画面主题'].trim()||!data['执行方式']){$('creation').classList.add('shake');setTimeout(()=>$('creation').classList.remove('shake'),350);toast('required');$('creation-subject').focus();return}const wasEditing=currentRow>0;let committed=false;saving=true;syncForm();try{if(!wasEditing){await api('SubmitRecord',JSON.stringify(data),TABLE);shiftPollRows();if(detailRow)detailRow++;currentRow=1;draft='';dirty=false;committed=true;startPoll(1)}else{for(const field of FIELDS)await api('SetCellValue',field+'/'+currentRow+'/'+data[field]);dirty=false;committed=true;toast('saved')}await reloadData()}catch(e){console.error(e);toast(wasEditing&&!committed?'partialSave':'error')}finally{saving=false;syncForm()}}
+function groupName(group){return GROUPS[group]?.[lang==='en'?1:0]||group}
+function renderPicker(){const q=$('pickerSearch').value.trim().toLocaleLowerCase();$('pickerTitle').textContent=t(pickerKind==='style'?'手绘风格':pickerKind==='layout'?'图型':'主题色');if(pickerKind==='colors'){$('pickerOptions').innerHTML=`<div class="color-catalog">${OPTIONS.colors.filter(c=>optionSearch(c.value,q)).map(c=>`<button class="chip ${colorMatches(getValue('主题色')).some(x=>x.value===c.value)?'selected':''}" data-pick-color="${esc(c.value)}"><span class="dot" style="background:${c.hex}"></span><span>${esc(optionLabel(c.value))}</span></button>`).join('')}</div>`;return}const list=OPTIONS[pickerKind].filter(v=>optionSearch(v,q)||groupName(v.slice(0,2)).toLocaleLowerCase().includes(q));const groups=[...new Set(list.map(v=>v.slice(0,2)))];$('pickerOptions').innerHTML=groups.map(group=>`<details ${q?'open':''}><summary>${group} · ${esc(groupName(group))} (${list.filter(v=>v.startsWith(group+'-')).length})</summary><div class="option-list">${list.filter(v=>v.startsWith(group+'-')).map(v=>`<button data-pick-value="${esc(v)}">${esc(optionLabel(v))}</button>`).join('')}</div></details>`).join('')||`<p class="muted">${esc(t('noMatch'))}</p>`}
+function openPicker(kind){pickerKind=kind;$('pickerSearch').value='';renderPicker();openModal('pickerLayer');$('pickerSearch').focus()}
+function toggleColor(value){const selected=new Set(colorMatches(getValue('主题色')).map(c=>c.value));if(selected.has(value))selected.delete(value);else selected.add(value);setValue('主题色',OPTIONS.colors.filter(c=>selected.has(c.value)).map(c=>c.value).join(','));dirty=true;syncForm();renderPicker()}
+function renderCatalog(){const tabs=[['style','pen'],['layout','layout'],['colors','paint']];$('catalogTabs').innerHTML=tabs.map(([key,label])=>`<button class="chip ${catalogTab===key?'selected':''}" data-catalog-tab="${key}">${esc(t(label))}</button>`).join('');const q=$('catalogSearch').value.trim().toLocaleLowerCase();if(catalogTab==='colors'){$('catalogContent').innerHTML=`<div class="color-catalog">${OPTIONS.colors.filter(c=>optionSearch(c.value,q)).map(c=>`<button class="chip paper ${catalogColors.has(c.value)?'selected':''}" data-catalog-color="${esc(c.value)}"><span class="dot" style="background:${c.hex}"></span><span>${esc(optionLabel(c.value))}</span></button>`).join('')}</div><div class="catalog-bar"><button class="primary" data-bring-colors="true">${esc(t('bringColors'))}</button> <button class="quiet" data-clear-catalog="true">${esc(t('clear'))}</button></div>`;return}const values=OPTIONS[catalogTab].filter(v=>optionSearch(v,q)||groupName(v.slice(0,2)).toLocaleLowerCase().includes(q));$('catalogContent').innerHTML=[...new Set(values.map(v=>v.slice(0,2)))].map(g=>`<section id="cabinet-${g}" class="catalog-group" style="scroll-margin-top:100px"><h3>${g} · ${esc(groupName(g))}</h3><div class="catalog-items">${values.filter(v=>v.startsWith(g+'-')).map(v=>`<article class="paper catalog-item lift"><span>${esc(optionLabel(v))}</span><button class="small" data-use-value="${esc(v)}">${esc(t(catalogTab==='style'?'usePen':'useLayout'))}</button></article>`).join('')}</div></section>`).join('')||`<div class="empty">${esc(t('noMatch'))}</div>`}
+async function bringToDesk(field,value){if(saving)return;if(currentRow>0&&!(await ask('leaveAsk')))return;currentRow=0;draft='';setValue(field,value);dirty=true;syncForm();await switchPage('studio')}
+async function changeLanguage(){const data=formData();lang=lang==='cn'?'en':'cn';try{localStorage.setItem('iThinkAir_UiLanguage',lang)}catch{}translate();formChoices();FIELDS.forEach(f=>setValue(f,data[f]));navigation();syncForm();renderHome();renderGallery();renderCatalog();if(detailData){renderDetailFields();renderDetailResult()}if(modalStack.includes('pickerLayer'))renderPicker()}
+async function handleClick(e){const el=e.target.closest('button,[data-action]');if(!el)return;if(el.dataset.go){await switchPage(el.dataset.go);return}if(el.dataset.language){await changeLanguage();return}if(el.dataset.close){closeModal(el.dataset.close);return}if(el.dataset.filterGo){filter=el.dataset.filterGo;await switchPage('gallery');return}if(el.dataset.filter){filter=el.dataset.filter;renderGallery();return}if(el.dataset.new){resetDesk();await switchPage('studio');return}if(el.dataset.action){const row=Number(el.dataset.row);if(el.dataset.action==='detail')await openDetail(row);if(el.dataset.action==='edit')await editRecord(row);if(el.dataset.action==='clone')await cloneRecord(row);if(el.dataset.action==='delete')await deleteRecord(row);return}if(el.dataset.clear){setValue(el.dataset.clear,'');dirty=true;syncForm();return}if(el.dataset.ratio){setValue('画幅比例',getValue('画幅比例')===el.dataset.ratio?'':el.dataset.ratio);dirty=true;syncForm();return}if(el.dataset.pickValue){setValue(pickerKind==='style'?'手绘风格':'图型',el.dataset.pickValue);dirty=true;syncForm();closeModal('pickerLayer');return}if(el.dataset.pickColor){toggleColor(el.dataset.pickColor);return}if(el.dataset.catalogTab){catalogTab=el.dataset.catalogTab;renderCatalog();return}if(el.dataset.catalogColor){const v=el.dataset.catalogColor;catalogColors.has(v)?catalogColors.delete(v):catalogColors.add(v);renderCatalog();return}if(el.dataset.useValue){await bringToDesk(catalogTab==='style'?'手绘风格':'图型',el.dataset.useValue);return}if(el.dataset.bringColors){if(!catalogColors.size){toast('noColors');return}await bringToDesk('主题色',OPTIONS.colors.filter(c=>catalogColors.has(c.value)).map(c=>c.value).join(','));return}if(el.dataset.clearCatalog){catalogColors.clear();renderCatalog();return}if(el.dataset.cabinetGroup){catalogTab='style';$('catalogSearch').value='';await switchPage('catalog');$('cabinet-'+el.dataset.cabinetGroup)?.scrollIntoView({block:'start',behavior:'smooth'});return}if(el.dataset.reload)await reloadData()}
+function keyboardSupport(){const keepVisible=()=>{const el=document.activeElement;if(el?.matches('input:not([type=hidden]),textarea,select'))setTimeout(()=>el.scrollIntoView({block:'center',behavior:'smooth'}),180)};document.addEventListener('focusin',keepVisible);window.visualViewport?.addEventListener('resize',keepVisible);document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(modalStack.length)closeModal();else closeMenu()}if(e.key==='Enter'&&e.target.matches('tr[data-action]'))safe(()=>editRecord(Number(e.target.dataset.row)))();if(e.key==='Tab'&&modalStack.length){const modal=$(modalStack.at(-1));const items=[...modal.querySelectorAll('button:not(:disabled),input:not([type=hidden]),textarea,select,a[href],[tabindex="0"]')].filter(x=>x.getClientRects().length);if(!items.length)return;const first=items[0],last=items.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}})}
+async function initialize(){lang=initialLanguage();translate();formChoices();resetDesk();navigation();renderHome();renderGallery();renderCatalog();document.addEventListener('click',safe(handleClick));document.addEventListener('click',e=>{if(!$('navigation').contains(e.target))closeMenu()});$('hamburger').onclick=()=>{const open=$('mobileMenu').classList.toggle('open');$('hamburger').setAttribute('aria-expanded',String(open))};$('brand').onclick=()=>{try{parent.closeFullHtml(false)}catch{toast('error')}};window.addEventListener('resize',resizeNavigation);document.querySelectorAll('.modal-layer').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id)}));$('confirmYes').onclick=()=>{const resolve=confirmResolve;confirmResolve=null;closeModal('confirmLayer');resolve?.(true)};$('confirmNo').onclick=()=>closeModal('confirmLayer');$('creation').addEventListener('input',()=>{dirty=true;syncForm()});$('creation').addEventListener('change',()=>{dirty=true;syncForm()});$('creation').addEventListener('submit',safe(submitForm));$('start').onclick=safe(async()=>{if(saving)return;resetDesk(false);await switchPage('studio')});$('newPaper').onclick=safe(async()=>{if(saving)return;if(dirty&&!(await ask('clearAsk')))return;resetDesk();await switchPage('studio')});$('clearDesk').onclick=safe(async()=>{if(saving)return;if(dirty&&!(await ask('clearAsk')))return;resetDesk()});$('asNew').onclick=()=>{if(saving)return;currentRow=0;draft='';dirty=true;syncForm()};$('randomStyle').onclick=()=>{setValue('手绘风格',OPTIONS.style[Math.floor(Math.random()*OPTIONS.style.length)]);dirty=true;syncForm()};$('pickStyle').onclick=()=>openPicker('style');$('pickLayout').onclick=()=>openPicker('layout');$('pickColors').onclick=()=>openPicker('colors');$('pickerSearch').oninput=renderPicker;$('pickerClear').onclick=()=>{setValue(pickerKind==='style'?'手绘风格':pickerKind==='layout'?'图型':'主题色','');dirty=true;syncForm();renderPicker()};$('pickerDone').onclick=()=>closeModal('pickerLayer');$('selectImage').onclick=safe(async()=>{const file=await callAppBridge({type:'SelectImage'});if(file){setValue('参考图片',file);dirty=true;syncForm()}});$('captureImage').onclick=safe(async()=>{const file=await callAppBridge({type:'CapturePhoto'});if(file){setValue('参考图片',file);dirty=true;syncForm()}});$('studioPrev').onclick=safe(()=>editRecord(currentRow-1));$('studioNext').onclick=safe(()=>editRecord(currentRow+1));$('copyStudio').onclick=()=>copy(draft);$('refreshStudio').onclick=safe(()=>refreshResult(currentRow));$('gallerySearch').oninput=renderGallery;$('viewCards').onclick=()=>{view='cards';renderGallery()};$('viewTable').onclick=()=>{view='table';renderGallery()};$('catalogSearch').oninput=renderCatalog;$('detailPrev').onclick=safe(()=>openDetail(detailRow-1));$('detailNext').onclick=safe(()=>openDetail(detailRow+1));$('detailEdit').onclick=safe(()=>editRecord(detailRow));$('detailClone').onclick=safe(()=>cloneRecord(detailRow));$('detailDelete').onclick=safe(()=>deleteRecord(detailRow));$('copyDetail').onclick=()=>copy(detailDraft);$('refreshDetail').onclick=safe(()=>refreshResult(detailRow));keyboardSupport();try{const mode=await callAppBridge({type:'模式'});document.body.classList.toggle('dark',mode==='暗色')}catch(e){console.error(e);toast('error')}try{await reloadData()}catch(e){console.error(e)}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{(async()=>{await initialize()})()});else (async()=>{await initialize()})();
+</script>
+</body>
+</html>
