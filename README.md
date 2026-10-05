@@ -15,6 +15,8 @@
 
 openair 由 **AirCode** 和 **AirThink** 两个本地服务组成。AirCode 让应用通过本机 Codex 使用 AI；AirThink 提供应用集页面，收集了上百个应用，也支持导入自己开发的应用。
 
+![openair 首页截图](docs/images/screenshot.png)
+
 ## 为什么做 openair
 
 - **让 Skill 有应用界面**：把任务流程做成可操作的页面，方便日常使用。

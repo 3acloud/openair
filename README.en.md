@@ -15,6 +15,8 @@ Skills are typically used through conversations in Codex. openair aims to turn t
 
 openair consists of two local services: **AirCode** and **AirThink**. AirCode lets apps use AI through your local Codex installation. AirThink provides an app collection with over a hundred apps and supports importing apps you build yourself.
 
+![openair homepage screenshot](docs/images/screenshot.en.png)
+
 ## Why openair?
 
 - **Give Skills an app interface**: Turn task workflows into interactive pages for everyday use.
