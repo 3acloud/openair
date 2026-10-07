@@ -1,0 +1,27 @@
+// Japanese.
+// `langs` are the :lang() ranges the fonts apply to (a range matches the tag and every tag that starts with it, so `ja` covers `ja-JP`).
+// Japanese fonts come before Chinese ones: a named Chinese font overrides the language, and Han characters would use Chinese glyphs (`直`, `込`).
+// `serif` is the CJK part of a theme's serif stack; the theme puts its own Latin fonts in front.
+export default {
+  id: 'ja',
+  language: 'ja',
+  langs: ['ja'],
+  fonts: {
+    sans: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans CJK JP", "Noto Sans JP", "PingFang SC", "Microsoft YaHei", Roboto, "Helvetica Neue", Arial, sans-serif',
+    serif: '"Hiragino Mincho ProN", "Yu Mincho", "Noto Serif CJK JP", "Noto Serif JP", "Songti SC"',
+  },
+  ui: {
+    theme: 'テーマ', modeLabel: '表示',
+    mode: { auto: '自動', light: 'ライト', dark: 'ダーク' },
+    copy: '原稿をコピー', done: 'コピーしました ✓', copyCode: 'コピー',
+    reply: {
+      button: '返信', comment: 'コメント', commentHint: 'このパネルへのコメント', title: 'あなたの返信',
+      hint: 'コピーしてチャットに貼り付けてください。', copy: '返信をコピー', close: '閉じる', suggested: '推奨',
+      empty: '選択肢を選ぶか、パネルにコメントしてください。', decisions: '決定', comments: 'コメント',
+      confirmed: '推奨を確認', untouched: '未回答（推奨のまま）', was: '変更前',
+      typed: '「>」で始まる行は読者が入力した文字です。',
+    },
+    toc: '目次', flow: 'フローチャート', sequence: 'シーケンス図', colon: '：', sep: '、',
+  },
+  videoUi: { play: '再生', pause: '一時停止', chapters: '章' },
+};
