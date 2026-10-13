@@ -22,6 +22,6 @@ timeout /t 1 /nobreak >nul
 netstat -ano -p tcp | findstr "LISTENING" | findstr ":3130 " >nul
 if errorlevel 1 goto wait
 
-start "" "http://127.0.0.1:3130/index.html"
+start "" "http://127.0.0.1:3130"
 
 endlocal

@@ -13,6 +13,7 @@ from pathlib import Path
 
 from utilities.ask_answer import Answer
 from utilities.workflow import Workflow
+from utilities.detect import detect_available_agent
 from worker.tasks import task
 import math
 
@@ -120,25 +121,13 @@ def exec_codex(inputfile, outputfile):
             encoding="utf-8",
             errors="replace",
         )
-    except OSError as e:
-        return 0
+    except FileNotFoundError:
+        return False
 
-    full_output = []
-
-    assert proc.stdout is not None
     for line in proc.stdout:
         print(line, end="")
-        full_output.append(line)
 
-    returncode = proc.wait()
-
-    if returncode != 0:
-        return 0
-
-    output_text = "".join(full_output)
-    tokens = extract_tokens_used(output_text)
-
-    return tokens if tokens is not None else 0
+    return proc.wait() == 0
 
 
 def exec_claude(inputfile, outputfile):
@@ -218,31 +207,60 @@ def exec_grok(inputfile, outputfile):
 
     return proc.wait() == 0
 
-def extract_tokens_used(text):
-    """
-    从文本中查找 'tokens used' 后的数字（允许逗号分隔），返回整数。
-    例如: "tokens used\n61,887" -> 61887
-    """
 
-    # 检查模型容量已满的情况（不区分大小写）
-    if 'selected model is at capacity.' in text.lower():
-        return None
-    
-    # 匹配模式：tokens used 后面可能紧跟换行，然后是数字（可能含逗号）
-    match = re.search(r'tokens used\s*[\r\n]+\s*([\d,]+)', text, re.IGNORECASE)
-    if match:
-        number_str = match.group(1)
-        # 移除逗号，转为整数
-        return int(number_str.replace(',', ''))
-    # 尝试另一种简单模式：同一行内的 "tokens used: 61,887" 或 "tokens used 61887"
-    match = re.search(r'tokens used[:\s]+([\d,]+)', text, re.IGNORECASE)
-    if match:
-        number_str = match.group(1)
-        return int(number_str.replace(',', ''))
-    return None
+def exec_dsh(inputfile, outputfile):
+    """Run DeepSeek Harness in SERVERFILES; return whether it completed."""
+    instruction = (
+        f"处理'{inputfile}'里的请求（UTF-8格式文本），结果文本输出到'{outputfile}'。"
+        "如果需要输出文档或图片，那么文件名为以花括号包裹的UUID4字符串加扩展名，"
+        "存放到当前目录下。绝对不允许列出当前目录下的所有项目。使用UTF-8。"
+    )
+
+    executable = shutil.which("dsh")
+    if executable is None:
+        return False
+
+    # headless defaults to plain text. Read the prompt from UTF-8 stdin,
+    # keeping filenames out of shell arguments (including Windows npm shims).
+    cmd = [executable, "--profile", "headless", "-"]
+    env = os.environ.copy()
+    # DSH's equivalent of Grok's --always-approve; also disables sandboxing.
+    env["DSH_PERMISSION_MODE"] = "danger-full-access"
+
+    try:
+        proc = subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=env,
+        )
+    except FileNotFoundError:
+        return False
+
+    with proc:
+        try:
+            proc.stdin.write(instruction)
+            proc.stdin.flush()
+        except BrokenPipeError:
+            pass
+        finally:
+            try:
+                proc.stdin.close()
+            except BrokenPipeError:
+                pass
+
+        for line in proc.stdout:
+            print(line, end="", flush=True)
+
+        return proc.wait() == 0
 
 
-def CallCodex(prompt,workflow):
+def CallAgent(prompt,workflow):
     result = ""
     try:
         inputfile = "{" + str(uuid.uuid4()) + "}.txt" 
@@ -251,16 +269,20 @@ def CallCodex(prompt,workflow):
         outputfile = "{" + str(uuid.uuid4()) + "}.txt" 
         workflow.data["tempfiles"].append(f"SERVERFILES/{inputfile}")
         workflow.data["tempfiles"].append(f"SERVERFILES/{outputfile}")
-        tokens_used = exec_codex(inputfile, outputfile)
-        if tokens_used > 0:
-            if os.path.exists(f"SERVERFILES/{outputfile}"):
-                with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
-                    result = f.read()
+        agent = detect_available_agent()
+        if agent == "Claude Code":
+            exec_claude(inputfile, outputfile)
+        elif agent == "Codex":
+            exec_codex(inputfile, outputfile)
+        elif agent == "Grok Build":
+            exec_grok(inputfile, outputfile)
+        elif agent == "DeepSeek Harness":
+            exec_dsh(inputfile, outputfile)
         else:
-            if exec_grok(inputfile, outputfile):
-                if os.path.exists(f"SERVERFILES/{outputfile}"):
-                    with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
-                        result = f.read()
+            pass
+        if os.path.exists(f"SERVERFILES/{outputfile}"):
+            with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
+                result = f.read()
     except:
         pass
     return result
@@ -314,7 +336,7 @@ def task_agent(
 上面是可用的技能csv表，下面是我的请求，请选择技能来满足我的要求，只返回选择后的逗号分隔的baseDir，如果没有匹配的技能则返回空字符串，不要其它说明文字。
 ---
 {taskdesc}'''
-            baseDirs = CallCodex(prompt,workflow)
+            baseDirs = CallAgent(prompt,workflow)
             if baseDirs == "空字符串":
                 baseDirs = ""
             baseDirs = baseDirs.strip()
@@ -343,16 +365,20 @@ def task_agent(
         outputfile = "{" + str(uuid.uuid4()) + "}.txt" 
         workflow.data["tempfiles"].append(f"SERVERFILES/{inputfile}")
         workflow.data["tempfiles"].append(f"SERVERFILES/{outputfile}")
-        tokens_used = exec_codex(inputfile, outputfile)
-        if tokens_used > 0:
-            if os.path.exists(f"SERVERFILES/{outputfile}"):
-                with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
-                    result = f.read()
+        agent = detect_available_agent()
+        if agent == "Claude Code":
+            exec_claude(inputfile, outputfile)
+        elif agent == "Codex":
+            exec_codex(inputfile, outputfile)
+        elif agent == "Grok Build":
+            exec_grok(inputfile, outputfile)
+        elif agent == "DeepSeek Harness":
+            exec_dsh(inputfile, outputfile)
         else:
-            if exec_grok(inputfile, outputfile):
-                if os.path.exists(f"SERVERFILES/{outputfile}"):
-                    with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
-                        result = f.read()
+            pass
+        if os.path.exists(f"SERVERFILES/{outputfile}"):
+            with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
+                result = f.read()
     except:
         pass
 
@@ -451,11 +477,11 @@ def code_interpreter(
 {pure_code}
 ```
 请根据上面的我的请求以及你的代码，为我阐述你是如何实现我的请求的。'''
-            resultdesc = CallCodex(prompt,workflow)
+            resultdesc = CallAgent(prompt,workflow)
     else:
         prompt = f'''"""{codedesc}"""
 上面这个需求是否输出文件或图表或者处理图片？只回答是、否。'''
-        outfile = CallCodex(prompt,workflow)
+        outfile = CallAgent(prompt,workflow)
         filein = ""
         fileout = ""
 
@@ -491,7 +517,7 @@ def code_interpreter(
                 j += 1 
 
                 errdesc = ""
-                code = CallCodex(prompt,workflow)
+                code = CallAgent(prompt,workflow)
                 #pattern = r"```.*?\n(.*?)\n```"
                 pattern = r"^\s*```(?:[^\n]*\n)?(.*?)(?:\n)?```\s*$"
                 code_block_search = re.search(pattern, code, re.DOTALL)
@@ -501,7 +527,7 @@ def code_interpreter(
                 else:
                     pure_code = code
 
-                allowed_modules = ['music21','mido','requests','skimage','moviepy','abc','copy','dataclasses','typing','zipfile','io','pyaudio','pygame','seaborn','functools','gzip','xml.etree.ElementTree','enum','collections','itertools','csv','json','datetime','pytesseract','pyzbar','xmindparser','pptx','speech_recognition','lxml','skimage','matplotlib','sympy','imageio','wordcloud','PIL','hashlib','string','math','random','cv2','base64','uuid','qrcode','re','BeautifulSoup4','pandas','numpy','scipy','scikit-learn','openpyxl','jieba','mammoth','pypdf','openpyxl','python-pptx','python-docx','htmldocx','markdown2']
+                allowed_modules = ['music21','mido','requests','skimage','moviepy','abc','copy','dataclasses','typing','zipfile','io','pyaudio','pygame','seaborn','functools','gzip','xml.etree.ElementTree','enum','collections','itertools','csv','json','datetime','pytesseract','pyzbar','xmindparser','pptx','lxml','skimage','matplotlib','sympy','imageio','wordcloud','PIL','hashlib','string','math','random','cv2','base64','uuid','qrcode','re','BeautifulSoup4','pandas','numpy','scipy','scikit-learn','openpyxl','jieba','mammoth','pypdf','openpyxl','python-pptx','python-docx','htmldocx','markdown2']
                 if illegal_import(pure_code, allowed_modules):
                     errdesc = "Error"
                     pure_code = ""
@@ -532,7 +558,7 @@ def code_interpreter(
 {pure_code}
 ```
 请根据上面的我的请求以及你的代码，为我阐述你是如何实现我的请求的。'''
-            resultdesc = CallCodex(prompt,workflow)
+            resultdesc = CallAgent(prompt,workflow)
         if pure_code != "" and result != "":
             hash = get_hash(codedesc)
             try:

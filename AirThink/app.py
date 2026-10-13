@@ -1,6 +1,26 @@
 import sys
 import subprocess
 import importlib
+import urllib.error
+import urllib.request
+
+
+def _is_mainland_china(timeout=5):
+    """根据出口 IP 的国家代码判断是否在中国大陆，检测失败返回 False。"""
+    request = urllib.request.Request(
+        "https://www.cloudflare.com/cdn-cgi/trace",
+        headers={"User-Agent": "dependency-installer/1.0"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            trace = response.read(16384).decode("utf-8")
+        fields = dict(
+            line.split("=", 1) for line in trace.splitlines() if "=" in line
+        )
+        return fields.get("loc", "").strip().upper() == "CN"
+    except (urllib.error.URLError, OSError, UnicodeError):
+        return False
+
 
 def _ensure_dependencies():
     dependencies = [
@@ -10,15 +30,26 @@ def _ensure_dependencies():
         ("websockets", "websockets"),
         ("PyYAML", "yaml"),
         ("duckdb", "duckdb"),
-        ("pandas", "pandas")
+        ("pandas", "pandas"),
     ]
-    
+
+    use_china_mirror = None
     for pkg, mod in dependencies:
         try:
             importlib.import_module(mod)
         except ImportError:
+            # 仅在需要安装时检测，并在本次运行中复用结果。
+            if use_china_mirror is None:
+                use_china_mirror = _is_mainland_china()
+
+            command = [sys.executable, "-m", "pip", "install", pkg]
+            if use_china_mirror:
+                command.extend(
+                    ["--index-url", "https://pypi.tuna.tsinghua.edu.cn/simple"]
+                )
+
             print(f"Missing module '{mod}', installing package '{pkg}'...")
-            subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+            subprocess.check_call(command)
             importlib.invalidate_caches()
 
 _ensure_dependencies()
@@ -57,6 +88,7 @@ from websockets.headers import parse_connection, parse_upgrade
 import yaml
 import duckdb
 from zipfile import ZipFile
+import socket
 
 # 基础路径配置
 base_path = Path.cwd() / "files"
@@ -319,11 +351,51 @@ def is_valid_guid_filename(filename):
         return False
 
 
+
+# 生成的替换文件统一放在这个子目录，避免被 rglob('*.html') 重新扫到
+REP_DIR_NAME = '__rep__'
+
+SERVER_IP = ''
+def get_server_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('8.8.8.8', 80))
+        ip = s.getsockname()[0]
+    except Exception:
+        ip = '127.0.0.1'
+    finally:
+        s.close()
+    return ip
+
+def is_local_request():
+    """判断当前请求是否来自本机"""
+    remote = request.remote_addr
+    if not remote:
+        return False
+    # 通过 127.0.0.1 / ::1 访问
+    if remote in ('127.0.0.1', '::1'):
+        return True
+    # 通过本机内网 IP（如 192.168.0.106:3130）访问
+    try:
+        if remote == get_server_ip():
+            return True
+    except Exception:
+        pass
+    return False
+
 @app.route('/')
 @app.route('/<path:filename>')
 def serve_file(filename=''):
     if filename == '':
         filename = 'index.html'
+
+    if filename == 'index.html':
+        url = f'https://www.3acloud.com/index.zip'
+        resp = requests.get(url)
+        if resp.status_code == 200:
+            # 将 zip 解压到 Path.cwd()，自动覆盖同名文件
+            with ZipFile(io.BytesIO(resp.content)) as zf:
+                zf.extractall(base_app)
 
     base_path = Path(base_app)
 
@@ -333,14 +405,58 @@ def serve_file(filename=''):
         # index.html 不存在时，使用 base_app 及其子目录中的第一个 .html 文件
         if filename == 'index.html' and not (base_path / filename).is_file():
             first_html = next(
-                (path for path in base_path.rglob('*.html') if path.is_file()),
-                None
+                (
+                    path for path in base_path.rglob('*.html')
+                    if path.is_file()
+                    and REP_DIR_NAME not in path.relative_to(base_path).parts
+                ),
+                None,
             )
             if first_html is None:
-                  abort(404)
+                abort(404)
 
             # send_from_directory 需要相对于 base_app 的路径
             filename = first_html.relative_to(base_path).as_posix()
+
+    # ---- 新增：html 文件做 hostname 替换，另存为 rep 文件 ----
+    if filename.lower().endswith('.html'):
+        src_path = base_path / filename
+        if not src_path.is_file():
+            abort(404)
+
+        # 读原文件
+        try:
+            content = src_path.read_text(encoding='utf-8')
+        except UnicodeDecodeError:
+            content = src_path.read_text(encoding='utf-8', errors='ignore')
+
+        # 替换：window.location.hostname  ->  SERVER_IP
+        global SERVER_IP
+        if not SERVER_IP:
+            SERVER_IP = get_server_ip()
+
+        # 本机访问 -> 127.0.0.1；其它机器访问 -> 本机内网 IP
+        target_ip = '127.0.0.1' if is_local_request() else SERVER_IP
+
+        new_content = content.replace(
+            'window.location.hostname',
+            f"'{target_ip}'",
+        )
+        
+        new_content = new_content.replace(
+            'https://www.ithinkair.com:3031/',
+            f"http://{target_ip}:3130/",
+        )
+
+        # 生成 rep 文件名：foo/bar.html  ->  __rep__/foo/bar.rep.html
+        rel = Path(filename)
+        rep_rel = Path(REP_DIR_NAME) / rel.parent / (rel.stem + '.rep.html')
+        rep_path = base_path / rep_rel
+        rep_path.parent.mkdir(parents=True, exist_ok=True)
+        rep_path.write_text(new_content, encoding='utf-8')
+
+        # 改成发送 rep 文件
+        filename = rep_rel.as_posix()
 
     try:
         return send_from_directory(base_app, filename)
@@ -1400,10 +1516,6 @@ def serve_private_file(filename):
         abort(404)
 
 
-import json
-import shutil
-from pathlib import Path, PurePosixPath
-from zipfile import ZipFile
 
 
 def import_app(zip_path, appclass):
@@ -1502,6 +1614,28 @@ def handle_request():
         request_data = data.get('data', '')
         request_payload = data.get('payload', '')
 
+        if request_type == 'InstallApp':
+            if request_data:
+                app_dir = base_app / request_data
+
+                # 如果 base_app / request_data 不存在，则从远程下载并解压
+                if not app_dir.exists():
+                    url = f'https://www.3acloud.com/airzips/{request_data}.zip'
+                    #print(f"Downloading from: {url}")
+
+                    resp = requests.get(url)
+                    if resp.status_code != 200:
+                        print(f"Download failed with status {resp.status_code}")
+                        return Response('Download failed', status=500, mimetype='text/plain; charset=utf-8')
+
+                    # 将 zip 解压到 Path.cwd()，自动覆盖同名文件
+                    with ZipFile(io.BytesIO(resp.content)) as zf:
+                        zf.extractall(Path.cwd())
+
+                    print(f"Extracted {request_data}.zip to {Path.cwd()}")
+
+            return Response('OK', mimetype='text/plain; charset=utf-8')
+        
         if request_type == 'VerifyUserKey':
             response_text = 'No'
             if request_data:

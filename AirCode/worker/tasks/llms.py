@@ -4,11 +4,13 @@ import os
 import shutil
 import uuid
 import re
-
+from pathlib import Path
 from utilities.ask_answer import Answer
 from utilities.workflow import Workflow
+from utilities.detect import detect_available_agent
 from worker.tasks import task
-
+import base64
+import json
 import subprocess
 from types import SimpleNamespace
 
@@ -49,6 +51,150 @@ def gen_image(inputfile, outputfile):
 
     return True
 
+
+def gen_cimage(inputfile, outputfile):
+    """调用 Claude Code；需要预先配置可用的图片生成工具及其权限。"""
+    instruction = (
+        f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+        f"生成图片输出到'{outputfile}'。"
+    )
+
+    # 通过环境变量传递指令，避免路径里的引号等字符被 PowerShell 解析。
+    env = os.environ.copy()
+    env["CLAUDE_GEN_IMAGE_INSTRUCTION"] = instruction
+    ps_command = (
+        "$ErrorActionPreference = 'Stop'\n"
+        "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)\n"
+        "& claude -p $env:CLAUDE_GEN_IMAGE_INSTRUCTION --output-format text\n"
+        "exit $LASTEXITCODE"
+    )
+    cmd = ["pwsh", "-NoProfile", "-NonInteractive", "-Command", ps_command]
+
+    try:
+        proc = subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        )
+    except OSError:
+        return False
+
+    with proc.stdout:
+        for line in proc.stdout:
+            print(line, end="", flush=True)
+
+    return proc.wait() == 0
+
+
+def gen_ximage(inputfile, outputfile):
+    """通过已安装并登录的 Grok Build 生成图片；相对路径基于 SERVERFILES。"""
+    workdir = Path("SERVERFILES").resolve()
+    input_path = (workdir / inputfile).resolve()
+    output_path = (workdir / outputfile).resolve()
+
+    if not workdir.is_dir() or not input_path.is_file():
+        return False
+
+    instruction = (
+        f"读取 UTF-8 文本文件 {str(input_path)!r} 里的 Prompt，"
+        f"使用图片生成工具生成图片，并将实际图片文件保存到 {str(output_path)!r}。"
+        "如目标目录不存在，请先创建。不要用文本文件代替图片；"
+        "如果无法生成或保存，请明确报告失败。"
+    )
+
+    # 直接传递参数，避免 PowerShell 对引号、美元符号等进行解释。
+    # 自动批准工具调用，使该函数可以无人值守运行。
+    cmd = ["grok", "-p", instruction, "--always-approve"]
+
+    try:
+        with subprocess.Popen(
+            cmd,
+            cwd=workdir,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as proc:
+            for line in proc.stdout:
+                print(line, end="", flush=True)
+
+            returncode = proc.wait()
+
+        return (
+            returncode == 0
+            and output_path.is_file()
+            and output_path.stat().st_size > 0
+        )
+    except OSError:
+        return False
+
+
+def gen_dimage(inputfile, outputfile):
+    """实时打印 Harness 输出；任务正常完成返回 True，否则返回 False。"""
+    workdir = Path("SERVERFILES").resolve()
+    input_path = Path(inputfile)
+    output_path = Path(outputfile)
+    if not input_path.is_absolute():
+        input_path = workdir / input_path
+    if not output_path.is_absolute():
+        output_path = workdir / output_path
+
+    if not workdir.is_dir() or not input_path.is_file():
+        print(f"工作目录或 Prompt 文件不存在：{workdir} / {input_path}")
+        return False
+
+    instruction = (
+        f"读取文件 {json.dumps(str(input_path), ensure_ascii=False)} 中的 Prompt"
+        "（UTF-8 格式文本），使用已配置的图片生成工具生成图片，"
+        f"将图片保存到 {json.dumps(str(output_path), ensure_ascii=False)}。"
+        "如没有可用的图片生成工具，请明确报告失败。"
+    )
+
+    # PowerShell 单引号字符串只需将单引号加倍；EncodedCommand 避免多层转义。
+    quoted_instruction = "'" + instruction.replace("'", "''") + "'"
+    ps_command = (
+        "$ErrorActionPreference = 'Stop'\n"
+        "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)\n"
+        "$OutputEncoding = [Console]::OutputEncoding\n"
+        f"& dsh --profile headless {quoted_instruction}\n"
+        "exit $LASTEXITCODE\n"
+    )
+    encoded_command = base64.b64encode(ps_command.encode("utf-16-le")).decode("ascii")
+    cmd = ["pwsh", "-NoProfile", "-NonInteractive", "-EncodedCommand", encoded_command]
+
+    try:
+        with subprocess.Popen(
+            cmd,
+            cwd=str(workdir),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as proc:
+            for line in proc.stdout:
+                print(line, end="", flush=True)
+            returncode = proc.wait()
+    except OSError as exc:
+        print(f"无法启动 DeepSeek Harness：{exc}")
+        return False
+
+    if returncode != 0:
+        return False
+    if not output_path.is_file() or output_path.stat().st_size == 0:
+        print(f"Harness 已退出，但未找到非空图片文件：{output_path}")
+        return False
+    return True
 
 
 def edit_image(imagefile, inputfile, outputfile):
@@ -91,6 +237,162 @@ def edit_image(imagefile, inputfile, outputfile):
     return True
 
 
+def edit_dimage(imagefile, inputfile, outputfile):
+    """实时打印 Harness 输出；进程退出码为 0 时返回 True，否则 False。"""
+    imagefile = os.fsdecode(imagefile)
+    inputfile = os.fsdecode(inputfile)
+    outputfile = os.fsdecode(outputfile)
+
+    if imagefile.lower().endswith(".zip"):
+        instruction = (
+            f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+            f"处理压缩包'{imagefile}'里的图片，结果输出到'{outputfile}'。"
+        )
+    else:
+        instruction = (
+            f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+            f"编辑图片'{imagefile}'，结果输出到'{outputfile}'。"
+        )
+
+    # 指令作为数据传递，不拼接到 PowerShell 代码中；支持 npm 的 dsh.ps1/dsh.cmd。
+    env = os.environ.copy()
+    env["EDIT_DIMAGE_INSTRUCTION"] = instruction
+    ps_command = (
+        "$ErrorActionPreference = 'Stop'; "
+        "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); "
+        "$dshCommand = Get-Command dsh -ErrorAction Stop; "
+        "& $dshCommand.Source --profile headless $env:EDIT_DIMAGE_INSTRUCTION; "
+        "exit $LASTEXITCODE"
+    )
+    cmd = ["pwsh", "-NoProfile", "-NonInteractive", "-Command", ps_command]
+
+    try:
+        with subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as proc:
+            for line in proc.stdout:
+                print(line, end="", flush=True)
+            return proc.wait() == 0
+    except OSError as exc:
+        print(f"启动 DeepSeek Harness 失败：{exc}", flush=True)
+        return False
+
+
+def edit_cimage(imagefile, inputfile, outputfile):
+    """调用 Claude Code 处理图片，实时打印日志，按进程退出码返回结果。
+
+    相对文件路径以 SERVERFILES 为基准。Claude Code 需要已登录，
+    并配置可用的图片编辑工具及相应工具权限。
+    """
+    imagefile = os.fsdecode(imagefile)
+    inputfile = os.fsdecode(inputfile)
+    outputfile = os.fsdecode(outputfile)
+
+    if imagefile.lower().endswith(".zip"):
+        instruction = (
+            f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+            f"处理压缩包'{imagefile}'里的图片，结果输出到'{outputfile}'。"
+        )
+    else:
+        instruction = (
+            f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+            f"编辑图片'{imagefile}'，结果输出到'{outputfile}'。"
+        )
+
+    claude = shutil.which("claude")
+    if claude is None:
+        print("未找到 Claude Code，请先安装并将 claude 加入 PATH。", flush=True)
+        return False
+
+    # 直接传递参数，文件名中的引号、$ 等字符不会被 PowerShell 解释。
+    # stream-json + verbose 输出逐行 JSON 日志，包含工具调用和执行结果。
+    cmd = [
+        claude,
+        "--print",
+        "--permission-mode", "acceptEdits",
+        "--output-format", "stream-json",
+        "--verbose",
+        instruction,
+    ]
+
+    try:
+        proc = subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        )
+    except OSError as exc:
+        print(f"无法启动 Claude Code：{exc}", flush=True)
+        return False
+
+    with proc.stdout:
+        for line in proc.stdout:
+            print(line, end="", flush=True)
+
+    return proc.wait() == 0
+
+
+def edit_ximage(imagefile, inputfile, outputfile):
+    """在 SERVERFILES 中执行任务，实时打印日志并返回进程是否成功退出。
+
+    相对文件路径以 SERVERFILES 为基准。运行前需安装 Grok Build，
+    完成 grok login 或设置 XAI_API_KEY，并配置可用的图片编辑工具。
+    True 表示 CLI 正常退出，不代表已验证输出图片的内容。
+    """
+    imagefile = os.fspath(imagefile)
+    inputfile = os.fspath(inputfile)
+    outputfile = os.fspath(outputfile)
+
+    if imagefile.lower().endswith(".zip"):
+        instruction = (
+            f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+            f"处理压缩包'{imagefile}'里的图片，结果输出到'{outputfile}'。"
+        )
+    else:
+        instruction = (
+            f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+            f"编辑图片'{imagefile}'，结果输出到'{outputfile}'。"
+        )
+
+    # -p 使用非交互模式；自动批准工具调用，避免脚本等待确认。
+    # 直接传递参数，无需 PowerShell 拼接或转义指令。
+    cmd = ["grok", "-p", instruction, "--always-approve"]
+
+    try:
+        with subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as proc:
+            for line in proc.stdout:
+                print(line, end="", flush=True)
+
+            return proc.wait() == 0
+    except OSError as exc:
+        print(f"无法启动 Grok Build：{exc}", flush=True)
+        return False
+
+
 @task
 def image_ai(
     workflow_data: dict,
@@ -129,14 +431,34 @@ def image_ai(
         workflow.data["tempfiles"].append(f"SERVERFILES/{inputfile}")
         workflow.data["tempfiles"].append(f"SERVERFILES/{outputfile}")
         if init_image == "":
-            gened = gen_image(inputfile, outputfile)
+            agent = detect_available_agent()
+            if agent == "Claude Code":
+                gened = gen_cimage(inputfile, outputfile)
+            elif agent == "Codex":
+                gened = gen_image(inputfile, outputfile)
+            elif agent == "Grok Build":
+                gened = gen_ximage(inputfile, outputfile)
+            elif agent == "DeepSeek Harness":
+                gened = gen_dimage(inputfile, outputfile)
+            else:
+                gened = False
         else:
             init_image = init_image.replace('Image://', 'SERVERFILES/', 1) if init_image.startswith('Image://') else init_image
             init_image = init_image.replace('File://', 'SERVERFILES/', 1) if init_image.startswith('File://') else init_image
             if init_image.find("SERVERFILES") == -1:
                 init_image = "SERVERFILES/" + init_image
             workflow.data["tempfiles"].append(init_image)
-            gened = edit_image(init_image, inputfile, outputfile)
+            agent = detect_available_agent()
+            if agent == "Claude Code":
+                gened = edit_cimage(init_image, inputfile, outputfile)
+            elif agent == "Codex":
+                gened = edit_image(init_image, inputfile, outputfile)
+            elif agent == "Grok Build":
+                gened = edit_ximage(init_image, inputfile, outputfile)
+            elif agent == "DeepSeek Harness":
+                gened = edit_dimage(init_image, inputfile, outputfile)
+            else:
+                gened = False
         if gened:
             if os.path.exists(f"SERVERFILES/{outputfile}"):
                 results.append("Image://" + outputfile)
@@ -165,18 +487,21 @@ async def ltask(workflow,node_id,responses,i,prompt):
     outputfile = "{" + str(uuid.uuid4()) + "}.txt" 
     workflow.data["tempfiles"].append(f"SERVERFILES/{inputfile}")
     workflow.data["tempfiles"].append(f"SERVERFILES/{outputfile}")
-    tokens_used = run_codex(inputfile, outputfile)
-    if tokens_used > 0:
-        if os.path.exists(f"SERVERFILES/{outputfile}"):
-            with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
-                responses[i] = SimpleNamespace(output_text=f.read().rstrip('\n'))
-            return
+    agent = detect_available_agent()
+    if agent == "Claude Code":
+        run_claude(inputfile, outputfile)
+    elif agent == "Codex":
+        run_codex(inputfile, outputfile)
+    elif agent == "Grok Build":
+        run_grok(inputfile, outputfile)
+    elif agent == "DeepSeek Harness":
+        run_dsh(inputfile, outputfile)
     else:
-        if run_grok(inputfile, outputfile):
-            if os.path.exists(f"SERVERFILES/{outputfile}"):
-                with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
-                    responses[i] = SimpleNamespace(output_text=f.read().rstrip('\n'))
-                return
+        pass
+    if os.path.exists(f"SERVERFILES/{outputfile}"):
+        with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
+            responses[i] = SimpleNamespace(output_text=f.read().rstrip('\n'))
+        return
 
 
 
@@ -211,6 +536,84 @@ def read_ximage(imagefile, inputfile, outputfile):
     return proc.wait() == 0
 
 
+def read_cimage(imagefile, inputfile, outputfile):
+    """在 SERVERFILES 中调用 Claude Code 读图并写入结果。"""
+    instruction = (
+        f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+        f"理解图片'{imagefile}'，结果以UTF-8格式输出到'{outputfile}'。"
+    )
+
+    cmd = [
+        "claude",
+        "--dangerously-skip-permissions",
+        "--output-format",
+        "text",
+        "-p",
+        instruction,
+    ]
+
+    # Claude Code 通过环境变量禁用自动更新。
+    env = os.environ.copy()
+    env["DISABLE_AUTOUPDATER"] = "1"
+
+    try:
+        proc = subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+    except FileNotFoundError:
+        return False
+
+    with proc.stdout:
+        for line in proc.stdout:
+            print(line, end="", flush=True)
+
+    return proc.wait() == 0
+
+
+def read_dimage(imagefile, inputfile, outputfile):
+    """
+    通过 DeepSeek Harness 根据 UTF-8 Prompt 理解图片并写入结果。
+    """
+    instruction = (
+        f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+        f"理解图片'{imagefile}'，结果以UTF-8格式输出到'{outputfile}'。"
+    )
+
+    # 解析完整路径，同时兼容 Windows 下 npm 安装生成的 dsh.cmd。
+    executable = shutil.which("dsh")
+    if executable is None:
+        return False
+
+    cmd = [executable, "--profile", "headless", instruction]
+
+    try:
+        proc = subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        )
+    except FileNotFoundError:
+        return False
+
+    with proc.stdout:
+        for line in proc.stdout:
+            print(line, end="", flush=True)
+
+    return proc.wait() == 0
+
+
 def read_image(imagefile, inputfile, outputfile):
     instruction = f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），理解图片'{imagefile}'，结果输出到'{outputfile}'。"
     ps_command = f'codex exec --skip-git-repo-check "{instruction}"'
@@ -234,26 +637,13 @@ def read_image(imagefile, inputfile, outputfile):
             errors='replace'
         )
     except FileNotFoundError:
-        return 0
+        return False
 
-    # 实时打印输出，并保存所有行以便后续解析
-    full_output = []
-    for line in proc.stdout:
-        print(line, end='')       # 实时输出到终端
-        full_output.append(line)
+    with proc.stdout:
+        for line in proc.stdout:
+            print(line, end="", flush=True)
 
-    # 等待进程结束
-    returncode = proc.wait()
-
-    if returncode != 0:
-        return 0
-
-    # 提取 tokens used 数值
-    output_text = ''.join(full_output)
-    tokens = extract_tokens_used(output_text)
-    if tokens is None:
-        tokens = 0
-    return tokens
+    return proc.wait() == 0
 
 
 @task
@@ -297,16 +687,20 @@ def l_ai(
             outputfile = "{" + str(uuid.uuid4()) + "}.txt" 
             workflow.data["tempfiles"].append(f"SERVERFILES/{inputfile}")
             workflow.data["tempfiles"].append(f"SERVERFILES/{outputfile}")
-            tokens_used = read_image(image, inputfile, outputfile)
-            if tokens_used > 0:
-                if os.path.exists(f"SERVERFILES/{outputfile}"):
-                    with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
-                        output=f.read()
+            agent = detect_available_agent()
+            if agent == "Claude Code":
+                read_cimage(image, inputfile, outputfile)
+            elif agent == "Codex":
+                read_image(image, inputfile, outputfile)
+            elif agent == "Grok Build":
+                read_ximage(image, inputfile, outputfile)
+            elif agent == "DeepSeek Harness":
+                read_dimage(image, inputfile, outputfile)
             else:
-                if read_ximage(image, inputfile, outputfile):
-                    if os.path.exists(f"SERVERFILES/{outputfile}"):
-                        with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
-                            output=f.read()
+                pass
+            if os.path.exists(f"SERVERFILES/{outputfile}"):
+                with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
+                    output=f.read()
 
             results.append(output)
         result = results if isinstance(input_image, list) else results[0]
@@ -438,6 +832,39 @@ def run_grok(inputfile, outputfile):
     return proc.wait() == 0
 
 
+def run_dsh(inputfile, outputfile):
+    instruction = (
+        f"处理'{inputfile}'里的请求（UTF-8格式文本），输出到'{outputfile}'。"
+        "绝对不允许列出当前目录下的所有项目。使用UTF-8。"
+    )
+
+    # Headless 模式接收位置参数，默认以纯文本输出并在任务完成后退出。
+    cmd = ["dsh", "--profile", "headless", instruction]
+
+    env = os.environ.copy()
+    # 保留原来的自动批准行为；此模式同时允许完整文件访问。
+    env["DSH_PERMISSION_MODE"] = "danger-full-access"
+
+    try:
+        proc = subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+    except FileNotFoundError:
+        return False
+
+    for line in proc.stdout:
+        print(line, end="", flush=True)
+
+    return proc.wait() == 0
+
+
 def run_codex(inputfile, outputfile):
     project_dir = os.path.abspath("SERVERFILES")
 
@@ -480,47 +907,11 @@ def run_codex(inputfile, outputfile):
             encoding="utf-8",
             errors="replace",
         )
-    except (FileNotFoundError, OSError):
-        return 0
+    except FileNotFoundError:
+        return False
 
-    full_output = []
+    for line in proc.stdout:
+        print(line, end="")
 
-    if proc.stdout is not None:
-        for line in proc.stdout:
-            print(line, end="")
-            full_output.append(line)
-
-    returncode = proc.wait()
-
-    if returncode != 0:
-        return 0
-
-    output_text = "".join(full_output)
-    tokens = extract_tokens_used(output_text)
-
-    return tokens if tokens is not None else 0
-
-
-def extract_tokens_used(text):
-    """
-    从文本中查找 'tokens used' 后的数字（允许逗号分隔），返回整数。
-    例如: "tokens used\n61,887" -> 61887
-    """
-
-    # 检查模型容量已满的情况（不区分大小写）
-    if 'selected model is at capacity.' in text.lower():
-        return None
-    
-    # 匹配模式：tokens used 后面可能紧跟换行，然后是数字（可能含逗号）
-    match = re.search(r'tokens used\s*[\r\n]+\s*([\d,]+)', text, re.IGNORECASE)
-    if match:
-        number_str = match.group(1)
-        # 移除逗号，转为整数
-        return int(number_str.replace(',', ''))
-    # 尝试另一种简单模式：同一行内的 "tokens used: 61,887" 或 "tokens used 61887"
-    match = re.search(r'tokens used[:\s]+([\d,]+)', text, re.IGNORECASE)
-    if match:
-        number_str = match.group(1)
-        return int(number_str.replace(',', ''))
-    return None
+    return proc.wait() == 0
 

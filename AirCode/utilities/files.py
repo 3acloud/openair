@@ -3,7 +3,6 @@ import re
 import uuid
 import shutil
 from pathlib import Path
-import speech_recognition as sr
 import pypdf
 import mammoth
 import openpyxl

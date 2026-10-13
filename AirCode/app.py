@@ -1,6 +1,21 @@
 import importlib
 import subprocess
 import sys
+import urllib.request
+
+def _is_china_network():
+    """判断公网出口 IP 是否位于中国大陆，失败时返回 False。"""
+    try:
+        request = urllib.request.Request(
+            "https://ipapi.co/country/",
+            headers={"User-Agent": "AirCode/1.0"},
+        )
+        with urllib.request.urlopen(request, timeout=3) as response:
+            country = response.read(32).decode("utf-8").strip().upper()
+        return country == "CN"
+    except (OSError, ValueError) as exc:
+        print(f"网络区域检测失败，使用默认 pip 源：{exc}")
+        return False
 
 
 def _ensure_dependencies():
@@ -11,7 +26,6 @@ def _ensure_dependencies():
         ("waitress", "waitress"),
         ("requests", "requests"),
         ("websockets", "websockets"),
-        ("SpeechRecognition", "speech_recognition"),
         ("pypdf", "pypdf"),
         ("mammoth", "mammoth"),
         ("openpyxl", "openpyxl"),
@@ -32,13 +46,27 @@ def _ensure_dependencies():
         ("chardet", "chardet"),
     ]
 
+    # 仅在需要安装时检测网络，且整个过程只检测一次。
+    index_args = None
+
     for package, module in dependencies:
         try:
             importlib.import_module(module)
         except ImportError:
+            if index_args is None:
+                if _is_china_network():
+                    index_args = [
+                        "--index-url",
+                        "https://pypi.tuna.tsinghua.edu.cn/simple",
+                    ]
+                    print("检测到中国大陆网络，使用清华 PyPI 镜像。")
+                else:
+                    index_args = []
+                    print("使用默认 pip 源。")
+
             print(f"Missing module '{module}', installing package '{package}'...")
             subprocess.check_call(
-                [sys.executable, "-m", "pip", "install", package]
+                [sys.executable, "-m", "pip", "install", package] + index_args
             )
             importlib.invalidate_caches()
 
