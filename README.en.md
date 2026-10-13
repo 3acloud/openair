@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/banner.en.svg" alt="openair — Turn Skills into apps with AirThink, AirCode and your local Codex" width="100%">
+  <img src="docs/images/banner.en.svg" alt="openair — Turn Skills into apps with AirThink, AirCode and your local Agent" width="100%">
 </p>
 
 <p align="center">
@@ -11,17 +11,17 @@
 
 **Turn Skills into apps, making AI capabilities easier to use and manage.**
 
-Skills are typically used through conversations in Codex. openair aims to turn those capabilities into apps you can open directly: choose a tool in your browser, enter your input, get results, and manage and expand your own app collection.
+Skills are typically used through conversations in Agent. openair aims to turn those capabilities into apps you can open directly: choose a tool in your browser, enter your input, get results, and manage and expand your own app collection.
 
-openair consists of two local services: **AirCode** and **AirThink**. AirCode lets apps use AI through your local Codex installation. AirThink provides an app collection with over a hundred apps and supports importing apps you build yourself.
+openair consists of two local services: **AirCode** and **AirThink**. AirCode lets apps use AI through your local Claude Code、Codex、Grok Build、DeepSeek Harness installation. AirThink provides an app collection with over a hundred apps and supports importing apps you build yourself.
 
 ![openair homepage screenshot](docs/images/screenshot.en.png)
 
 ## Why openair?
 
 - **Give Skills an app interface**: Turn task workflows into interactive pages for everyday use.
-- **Use your own Codex**: Apps call your local Codex CLI through AirCode, using your existing sign-in environment.
-- **Make use of your subscription**: Use your Codex subscription to help reduce everyday costs and spending on usage-based model APIs. Actual costs and available usage depend on your subscription and usage patterns.
+- **Use your own Agent**: Apps call your local Agent CLI through AirCode, using your existing sign-in environment.
+- **Make use of your subscription**: Use your Agent subscription to help reduce everyday costs and spending on usage-based model APIs. Actual costs and available usage depend on your subscription and usage patterns.
 - **Discover and manage apps in one place**: Search apps, browse by category, and access your own apps from a single page.
 - **Customize as needed**: Build apps on [ithinkair](https://www.ithinkair.com), export their source code, and import them into your local app collection.
 
@@ -39,13 +39,13 @@ AirCode (3131)
 Task and workflow execution
       │
       ▼
-Local Codex CLI
+Local Agent CLI
       │
       ▼
 AI processes the task and returns results to the app
 ```
 
-AirCode runs AI tasks through `codex exec`. Before using the apps, make sure the Windows user running the services can successfully use Codex from the command line.
+AirCode runs AI tasks through Agent CLI. Before using the apps, make sure the Windows user running the services can successfully use Agent from the command line.
 
 ## Quick Start
 
@@ -54,16 +54,14 @@ AirCode runs AI tasks through `codex exec`. Before using the apps, make sure the
 The current startup scripts target **Windows**. You will need:
 
 - Python 3, with working `python` and `pip` commands.
-- Codex CLI installed, signed in, and able to run tasks, with `codex` on your `PATH`.
+- Agent CLI installed, signed in, and able to run tasks.
 - A modern browser and a network connection for installing dependencies and accessing AI services.
 
-Check your environment in PowerShell and install `waitress`, which is required to start the services:
+Check your environment in PowerShell:
 
 ```powershell
 python --version
 python -m pip --version
-codex --version
-python -m pip install waitress
 ```
 
 Both services check for missing Python dependencies at startup and install them through pip. The first startup may take a while, so watch the output in the service windows. Some apps may also require additional tools or runtime environments.
@@ -91,7 +89,7 @@ Keep both service windows open while using the apps. AirCode may still be instal
 
 Search by keyword or browse by category on the app collection page, then click an app card to open it.
 
-The first time you open the page, you will be asked to enter a **User Key**. This is AirThink's local access key, separate from your Codex sign-in credentials or any model API key:
+The first time you open the page, you will be asked to enter a **User Key**. This is AirThink's local access key, separate from your Agent sign-in credentials or any model API key:
 
 - Keys are stored in `AirThink/apps/userkey.json` as a JSON array of strings. Before use, you can set it to your own key, for example `["your-own-local-key"]`.
 - If the file does not exist, the first non-empty key submitted will be saved as the local key.
@@ -112,7 +110,7 @@ The collection includes over a hundred apps across the following categories:
 | Life & Personal Growth | Everyday tools and personal development |
 | Traditional Culture | Apps related to traditional culture |
 
-You can open these apps directly from the local collection. AI tasks run through your own Codex installation.
+You can open these apps directly from the local collection. AI tasks run through your own Agent CLI installation.
 
 ## Create and Import Your Own Apps
 
@@ -134,7 +132,7 @@ openair/
 │   ├── run.bat
 │   ├── worker/            # Workflows, AI calls, and task execution
 │   ├── utilities/         # File handling, communication, and other utilities
-│   └── SERVERFILES/       # Task files and Codex working directory
+│   └── SERVERFILES/       # Task files and Agent CLI working directory
 └── AirThink/
     ├── app.py             # App, file, import, and communication services
     ├── startweb.py         # HTTP server startup entry point (3130)
@@ -154,7 +152,7 @@ Check the output in the AirThink window to confirm that dependency installation 
 
 **The page opens, but AI tasks produce no results.**
 
-Check the output in the AirCode window to confirm that the service has started. Also verify that the same Windows user can successfully run Codex tasks in a terminal. Being able to run `codex --version` alone does not mean you are signed in or have available usage.
+Check the output in the AirCode window to confirm that the service has started. Also verify that the same Windows user can successfully run Agent tasks in a terminal. 
 
 **App import failed.**
 
@@ -162,8 +160,8 @@ Select a source code ZIP archive exported from ithinkair and preserve its intern
 
 ## Running the Services
 
-The services currently listen on `0.0.0.0`. AirCode runs Codex tasks with `danger-full-access` and disables per-action approvals. Run the services and import apps only in a trusted personal environment. Do not expose the services directly to the public internet.
+The services currently listen on `0.0.0.0`. AirCode runs Agent tasks with `danger-full-access` and disables per-action approvals. Run the services and import apps only in a trusted personal environment. Do not expose the services directly to the public internet.
 
 ## Contributing
 
-Bug reports, suggestions, and code contributions are welcome. When reporting an issue, include steps to reproduce it, error messages from the relevant service, and your Python and Codex CLI versions. Remove keys and personal data before sharing logs.
+Bug reports, suggestions, and code contributions are welcome. When reporting an issue, include steps to reproduce it, error messages from the relevant service, and your Python and Agent CLI versions. Remove keys and personal data before sharing logs.

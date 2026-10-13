@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/banner.svg" alt="openair — 把 Skill 做成应用，由 AirThink、AirCode 和本机 Codex 驱动" width="100%">
+  <img src="docs/images/banner.svg" alt="openair — 把 Skill 做成应用，由 AirThink、AirCode 和本机 Agent 驱动" width="100%">
 </p>
 
 <p align="center">
@@ -11,17 +11,17 @@
 
 **把 Skill 做成应用，让 AI 能力更容易使用和管理。**
 
-通常，我们在 Codex 中通过对话使用 Skill。openair 希望将这些能力变成可以直接打开的应用：用户在浏览器中选择工具、输入内容、获取结果，并在自己的应用集中管理和扩展它们。
+通常，我们在 Agent 中通过对话使用 Skill。openair 希望将这些能力变成可以直接打开的应用：用户在浏览器中选择工具、输入内容、获取结果，并在自己的应用集中管理和扩展它们。
 
-openair 由 **AirCode** 和 **AirThink** 两个本地服务组成。AirCode 让应用通过本机 Codex 使用 AI；AirThink 提供应用集页面，收集了上百个应用，也支持导入自己开发的应用。
+openair 由 **AirCode** 和 **AirThink** 两个本地服务组成。AirCode 让应用通过本机 Claude Code、Codex、Grok Build、DeepSeek Harness 使用 AI；AirThink 提供应用集页面，收集了上百个应用，也支持导入自己开发的应用。
 
 ![openair 首页截图](docs/images/screenshot.png)
 
 ## 为什么做 openair
 
 - **让 Skill 有应用界面**：把任务流程做成可操作的页面，方便日常使用。
-- **使用自己的 Codex**：应用通过 AirCode 调用本机 Codex CLI，使用用户自己的登录环境。
-- **利用订阅服务**：希望借助 Codex 订阅降低日常使用成本，减少按量调用模型 API 的开销；实际成本与可用额度取决于用户的订阅和使用情况。
+- **使用自己的 Agent**：应用通过 AirCode 调用本机 Agent CLI，使用用户自己的登录环境。
+- **利用订阅服务**：希望借助 Agent 订阅降低日常使用成本，减少按量调用模型 API 的开销；实际成本与可用额度取决于用户的订阅和使用情况。
 - **集中发现和管理应用**：在同一个页面搜索应用、按分类浏览，并访问自己的应用。
 - **按需定制**：在 [ithinkair](https://www.ithinkair.com) 开发应用，导出源码后导入本地应用集。
 
@@ -39,13 +39,13 @@ AirCode（3131）
 任务与工作流执行
       │
       ▼
-本机 Codex CLI
+本机 Agent CLI
       │
       ▼
 AI 处理任务，结果返回应用
 ```
 
-AirCode 通过 `codex exec` 执行 AI 任务。因此，运行应用前，需要让启动服务的 Windows 用户能够在命令行中正常使用 Codex。
+AirCode 通过 Agent CLI 执行 AI 任务。因此，运行应用前，需要让启动服务的 Windows 用户能够在命令行中正常使用 Agent。
 
 ## 快速开始
 
@@ -54,16 +54,14 @@ AirCode 通过 `codex exec` 执行 AI 任务。因此，运行应用前，需要
 当前启动脚本面向 **Windows**。请准备：
 
 - Python 3，且 `python`、`pip` 可以正常使用。
-- 已安装、登录并可正常执行任务的 Codex CLI，且 `codex` 已加入 `PATH`。
+- 已安装、登录并可正常执行任务的 Agent CLI。
 - 现代浏览器，以及安装依赖和访问 AI 服务所需的网络连接。
 
-在 PowerShell 中检查环境，并预先安装服务启动需要的 `waitress`：
+在 PowerShell 中检查环境：
 
 ```powershell
 python --version
 python -m pip --version
-codex --version
-python -m pip install waitress
 ```
 
 两个服务会在启动时检查并通过 pip 安装缺失的 Python 依赖。首次启动可能需要较长时间，请留意服务窗口中的输出。部分应用还可能需要额外的工具或运行环境。
@@ -91,7 +89,7 @@ cd openair
 
 在应用集页面搜索关键词，或按分类浏览应用，点击应用卡片即可打开。
 
-首次打开时，页面会要求输入 **用户密钥（User Key）**。这是 AirThink 的本地访问密钥，与 Codex 登录凭据、模型 API Key 无关：
+首次打开时，页面会要求输入 **用户密钥（User Key）**。这是 AirThink 的本地访问密钥，与 Agent 登录凭据、模型 API Key 无关：
 
 - 密钥保存在 `AirThink/apps/userkey.json` 中，格式为 JSON 字符串数组。使用前可将其设置为自己的密钥，例如 `["your-own-local-key"]`。
 - 如果该文件不存在，首次提交的非空密钥会被保存为本地密钥。
@@ -112,7 +110,7 @@ cd openair
 | 生活与成长 | 日常工具、个人成长 |
 | 传统文化 | 传统文化相关应用 |
 
-这些应用可以从本地应用集直接打开，AI 任务由自己的 Codex 执行。
+这些应用可以从本地应用集直接打开，AI 任务由自己的 Agent CLI 执行。
 
 ## 创建和导入自己的应用
 
@@ -134,7 +132,7 @@ openair/
 │   ├── run.bat
 │   ├── worker/            # 工作流、AI 调用与任务执行
 │   ├── utilities/         # 文件处理和通信等工具
-│   └── SERVERFILES/       # 任务文件与 Codex 工作目录
+│   └── SERVERFILES/       # 任务文件与 Agent CLI 工作目录
 └── AirThink/
     ├── app.py             # 应用、文件、导入和通信服务
     ├── startweb.py         # HTTP 服务启动入口（3130）
@@ -154,7 +152,7 @@ AirThink 还使用 `3133` 端口提供 WebSocket 服务。
 
 **页面能打开，但 AI 任务没有结果？**
 
-检查 AirCode 窗口中的输出，确认服务已启动，并确认同一个 Windows 用户可以在终端中正常运行 Codex 任务。仅能执行 `codex --version` 并不代表已经完成登录或具备可用额度。
+检查 AirCode 窗口中的输出，确认服务已启动，并确认同一个 Windows 用户可以在终端中正常运行 Agent 任务。
 
 **导入应用失败？**
 
@@ -162,8 +160,8 @@ AirThink 还使用 `3133` 端口提供 WebSocket 服务。
 
 ## 运行说明
 
-当前服务监听 `0.0.0.0`；AirCode 执行 Codex 任务时使用 `danger-full-access`，并关闭逐次审批。请在可信的个人环境中运行和导入应用，不要直接将服务暴露到公网。
+当前服务监听 `0.0.0.0`；AirCode 执行 Agent 任务时使用 `danger-full-access`，并关闭逐次审批。请在可信的个人环境中运行和导入应用，不要直接将服务暴露到公网。
 
 ## 参与贡献
 
-欢迎提交问题反馈、改进建议和代码贡献。反馈问题时，请附上复现步骤、相关服务的报错信息，以及 Python 和 Codex CLI 版本；分享日志前请移除密钥和个人数据。
+欢迎提交问题反馈、改进建议和代码贡献。反馈问题时，请附上复现步骤、相关服务的报错信息，以及 Python 和 Agent CLI 版本；分享日志前请移除密钥和个人数据。
