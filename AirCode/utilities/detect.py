@@ -109,12 +109,93 @@ def _validate(provider: str, stdout: str, token: str) -> bool:
     return any(line.strip() == token for line in clean.splitlines())
 
 
+CONFIG_FILENAME = ".agent_config.json"
+
+
+CONFIG_FILENAME = ".agent_config.json"
+
+
+def _read_config_provider(
+    diagnostics: list[dict[str, str]] | None = None,
+) -> str | None:
+    """读取当前工作目录下的 agent 配置文件，返回 provider 名称。
+
+    配置文件为 `.agent_config.json`，内容示例：
+        {"provider": "Claude Code"}
+    也接受直接是 provider 名称的 JSON 字符串。
+
+    文件不存在时会创建默认模板 {"provider": ""}，此时视为未指定，
+    返回 None 交由调用方继续自动探测。文件无法解析、结构非法或
+    provider 为空时同样返回 None。
+    """
+    path = os.path.join(os.getcwd(), CONFIG_FILENAME)
+
+    if not os.path.isfile(path):
+        # 不存在则创建默认模板，方便用户后续手动填写。
+        try:
+            with open(path, "x", encoding="utf-8") as handle:
+                handle.write('{"provider": ""}\n')
+            if diagnostics is not None:
+                diagnostics.append(
+                    {"provider": "config", "status": "created_default"}
+                )
+        except FileExistsError:
+            # 并发场景下别的进程刚创建成功，按已存在处理即可。
+            pass
+        except OSError as exc:
+            if diagnostics is not None:
+                diagnostics.append({
+                    "provider": "config",
+                    "status": f"create_failed:{type(exc).__name__}",
+                })
+            return None
+        # 无论新建成功与否，本次都没有可用的 provider，回落自动探测。
+        return None
+
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            data = json.load(handle)
+    except (OSError, ValueError) as exc:
+        if diagnostics is not None:
+            diagnostics.append({
+                "provider": "config",
+                "status": f"read_failed:{type(exc).__name__}",
+            })
+        return None
+
+    if isinstance(data, dict):
+        provider = data.get("provider")
+    elif isinstance(data, str):
+        provider = data
+    else:
+        if diagnostics is not None:
+            diagnostics.append({"provider": "config", "status": "invalid_format"})
+        return None
+
+    if provider is None:
+        # 默认模板 {"provider": ""} 的语义就是"未指定"。
+        return None
+    if not isinstance(provider, str):
+        if diagnostics is not None:
+            diagnostics.append(
+                {"provider": "config", "status": "invalid_provider_type"}
+            )
+        return None
+    return provider.strip() or None
+
+
 def detect_available_agent(
     timeout: float = 45,
     *,
     diagnostics: list[dict[str, str]] | None = None,
 ) -> str:
-    """依次探测 Claude Code → Codex → Antigravity → Grok Build → DeepSeek Harness。
+    """先读配置，再依次探测可用工具。
+
+    1. 读取当前工作目录下的 `.agent_config.json`。若其中给出的 provider
+       在受支持列表中且对应 CLI 已安装，则直接采用（不再逐项探测）；
+       配置缺失、无效或对应 CLI 未安装时进入下一步。
+    2. 依次探测 Claude Code → Codex → Antigravity → Grok Build
+       → DeepSeek Harness。
 
     每项最多等待 timeout 秒，实际调用成功后立即返回工具名称：
     'Claude Code'、'Codex'、'Antigravity'、'Grok Build' 或 'DeepSeek Harness'。
@@ -125,10 +206,11 @@ def detect_available_agent(
     global available_agent
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("timeout 必须是大于 0 的有限秒数")
-    # 每次重新探测，避免缓存已失效的登录、网络或模型配置。
-    available_agent = ''
+    if available_agent:
+        return available_agent
     token = "PROBE_" + uuid.uuid4().hex
-    prompt = "Do not use any tools. Reply with exactly this text and nothing else: " + token
+    prompt = ("Do not use any tools. Reply with exactly this text and nothing else: "
+              + token)
     candidates = (
         ("Claude Code", "claude", ["-p", "--output-format", "json", "--tools", "",
                                    "--no-session-persistence"]),
@@ -139,7 +221,39 @@ def detect_available_agent(
                                 "--no-subagents", "--tools", "", "-p"]),
         ("DeepSeek Harness", "dsh", ["--profile", "headless"]),
     )
+
+    # 1) 优先使用当前目录下的配置文件
+    skipped: set[str] = set()
+    config_provider = _read_config_provider(diagnostics)
+    if config_provider:
+        match = next((c for c in candidates if c[0] == config_provider), None)
+        if match is None:
+            if diagnostics is not None:
+                diagnostics.append({
+                    "provider": "config",
+                    "status": f"unknown_provider:{config_provider}",
+                })
+        else:
+            provider, name, _flags = match
+            skipped.add(provider)
+            if _executable(name):
+                if diagnostics is not None:
+                    diagnostics.append({
+                        "provider": provider,
+                        "status": "available:from_config",
+                    })
+                available_agent = provider
+                return provider
+            if diagnostics is not None:
+                diagnostics.append({
+                    "provider": provider,
+                    "status": "config_not_installed",
+                })
+
+    # 2) 回退到自动探测
     for provider, name, flags in candidates:
+        if provider in skipped:
+            continue
         executable = _executable(name)
         status = "not_installed"
         if executable:
@@ -161,3 +275,4 @@ def detect_available_agent(
         if diagnostics is not None:
             diagnostics.append({"provider": provider, "status": status})
     return ""
+
