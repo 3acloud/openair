@@ -1519,91 +1519,90 @@ def serve_private_file(filename):
 
 
 def import_app(zip_path, appclass):
-      """
-      将 ZIP 内 AirThink 下的 apps、files、skills 解压到 base_app。
-      返回：id|name|appclass|baseDesc
+    """
+    将 ZIP 内的 apps、files、skills 解压到 base_app。
+    返回：id|name|appclass|baseDesc
 
-      同名文件会被覆盖。
-      """
-      allowed_dirs = {"apps", "files", "skills"}
-      target = Path.cwd()
-      if appclass == '全部应用':
-          appclass = ''
+    同名文件会被覆盖。
+    """
+    allowed_dirs = {"apps", "files", "skills"}
+    target = Path.cwd()
+    if appclass == '全部应用':
+        appclass = ''
 
-      with ZipFile(zip_path, "r") as archive:
-          entries = archive.infolist()
+    with ZipFile(zip_path, "r") as archive:
+        entries = archive.infolist()
 
-          # 获取 AirThink/apps 下的第一个文件夹名称。
-          base_name = None
-          for entry in entries:
-              parts = PurePosixPath(entry.filename).parts
-              if (
-                  len(parts) >= 3
-                  and parts[:2] == ("AirThink", "apps")
-                  and (len(parts) > 3 or entry.is_dir())
-              ):
-                  base_name = parts[2]
-                  break
+        # 获取 apps 下的第一个文件夹名称。
+        base_name = None
+        for entry in entries:
+            parts = PurePosixPath(entry.filename).parts
+            if (
+                len(parts) >= 2
+                and parts[0] == "apps"
+                and (len(parts) > 2 or entry.is_dir())
+            ):
+                base_name = parts[1]
+                break
 
-          if base_name is None:
-              raise ValueError("ZIP 中未找到 AirThink/apps 下的文件夹")
+        if base_name is None:
+            raise ValueError("ZIP 中未找到 apps 下的文件夹")
 
-          app_id, separator, name = base_name.partition("_")
-          if not separator or not app_id or not name:
-              raise ValueError(f"文件夹名称不符合 id_name 格式：{base_name}")
+        app_id, separator, name = base_name.partition("_")
+        if not separator or not app_id or not name:
+            raise ValueError(f"文件夹名称不符合 id_name 格式：{base_name}")
 
-          # 先校验所有待解压路径，防止路径越界。
-          copy_jobs = []
-          for entry in entries:
-              parts = PurePosixPath(entry.filename).parts
-              if (
-                  len(parts) < 2
-                  or parts[0] != "AirThink"
-                  or parts[1] not in allowed_dirs
-              ):
-                  continue
+        # 先校验所有待解压路径，防止路径越界。
+        copy_jobs = []
+        for entry in entries:
+            parts = PurePosixPath(entry.filename).parts
+            if (
+                len(parts) < 1
+                or parts[0] not in allowed_dirs
+            ):
+                continue
 
-              relative_parts = parts[1:]
-              if any(
-                  part in {".", ".."} or "\\" in part or ":" in part
-                  for part in relative_parts
-              ):
-                  raise ValueError(f"ZIP 中存在不安全的路径：{entry.filename}")
+            relative_parts = parts
+            if any(
+                part in {".", ".."} or "\\" in part or ":" in part
+                for part in relative_parts
+            ):
+                raise ValueError(f"ZIP 中存在不安全的路径：{entry.filename}")
 
-              destination = target.joinpath(*relative_parts).resolve()
-              if target not in destination.parents:
-                  raise ValueError(f"解压路径超出目标目录：{entry.filename}")
+            destination = target.joinpath(*relative_parts).resolve()
+            if target not in destination.parents:
+                raise ValueError(f"解压路径超出目标目录：{entry.filename}")
 
-              copy_jobs.append((entry, destination))
+            copy_jobs.append((entry, destination))
 
-          # utf-8-sig 同时支持普通 UTF-8 和带 BOM 的 UTF-8。
-          config_path = f"AirThink/apps/{base_name}/{base_name}.json"
-          try:
-              config = json.loads(
-                  archive.read(config_path).decode("utf-8-sig")
-              )
-          except KeyError as exc:
-              raise ValueError(f"ZIP 中缺少配置文件：{config_path}") from exc
+        # utf-8-sig 同时支持普通 UTF-8 和带 BOM 的 UTF-8。
+        config_path = f"apps/{base_name}/{base_name}.json"
+        try:
+            config = json.loads(
+                archive.read(config_path).decode("utf-8-sig")
+            )
+        except KeyError as exc:
+            raise ValueError(f"ZIP 中缺少配置文件：{config_path}") from exc
 
-          if not isinstance(config, dict) or "库描述" not in config:
-              raise ValueError("配置 JSON 必须是对象，且包含“库描述”属性")
+        if not isinstance(config, dict) or "库描述" not in config:
+            raise ValueError("配置 JSON 必须是对象，且包含“库描述”属性")
 
-          base_desc = config["库描述"]
-          if not isinstance(base_desc, str):
-              raise ValueError("“库描述”属性必须是字符串")
+        base_desc = config["库描述"]
+        if not isinstance(base_desc, str):
+            raise ValueError("“库描述”属性必须是字符串")
 
-          # 保留 apps、files、skills 文件夹及内部目录结构。
-          target.mkdir(parents=True, exist_ok=True)
-          for entry, destination in copy_jobs:
-              if entry.is_dir():
-                  destination.mkdir(parents=True, exist_ok=True)
-              else:
-                  destination.parent.mkdir(parents=True, exist_ok=True)
-                  with archive.open(entry) as source:
-                      with destination.open("wb") as output:
-                          shutil.copyfileobj(source, output)
+        # 保留 apps、files、skills 文件夹及内部目录结构。
+        target.mkdir(parents=True, exist_ok=True)
+        for entry, destination in copy_jobs:
+            if entry.is_dir():
+                destination.mkdir(parents=True, exist_ok=True)
+            else:
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                with archive.open(entry) as source:
+                    with destination.open("wb") as output:
+                        shutil.copyfileobj(source, output)
 
-      return f"{app_id}|{name}|{appclass}|{base_desc}"
+    return f"{app_id}|{name}|{appclass}|{base_desc}"
 
 
 @app.route('/request', methods=['POST'])

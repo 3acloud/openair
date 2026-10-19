@@ -130,6 +130,61 @@ def exec_codex(inputfile, outputfile):
     return proc.wait() == 0
 
 
+def exec_antigravity(inputfile, outputfile):
+    """在 SERVERFILES 中执行 Antigravity 任务，实时输出并返回退出状态。
+
+    运行前需安装 Antigravity CLI 并使用 agy 完成登录。
+    自动批准工具权限请求，沿用原函数的无人值守执行方式。
+    True 表示 CLI 成功退出，未额外验证输出文件的内容。
+    """
+    project_dir = os.path.abspath("SERVERFILES")
+    antigravity_executable = (
+        shutil.which("agy.exe")
+        or shutil.which("agy.cmd")
+        or shutil.which("agy")
+    )
+    if antigravity_executable is None:
+        return False
+
+    inputfile = os.fspath(inputfile)
+    outputfile = os.fspath(outputfile)
+    instruction = (
+        f"处理'{inputfile}'里的请求（UTF-8格式文本），"
+        f"结果文本输出到'{outputfile}'。"
+        "如果需要输出文档或图片，那么文件名为以花括号包裹的UUID4字符串加扩展名，"
+        "存放到当前目录下。绝对不允许列出当前目录下的所有项目。使用UTF-8。"
+    )
+
+    # -p 执行一次非交互任务；参数直接传递，不经 PowerShell 解析。
+    # cwd 指定工作区；无需 Codex 的信任配置和 Git 检查参数。
+    cmd = [
+        antigravity_executable,
+        "--dangerously-skip-permissions",
+        "-p",
+        instruction,
+    ]
+
+    try:
+        with subprocess.Popen(
+            cmd,
+            cwd=project_dir,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as proc:
+            for line in proc.stdout:
+                print(line, end="", flush=True)
+
+            return proc.wait() == 0
+    except OSError as exc:
+        print(f"无法启动 Antigravity CLI：{exc}", flush=True)
+        return False
+
+
 def exec_claude(inputfile, outputfile):
     """在 SERVERFILES 中调用 Claude Code，按进程退出码返回是否成功。"""
     instruction = (
@@ -274,6 +329,8 @@ def CallAgent(prompt,workflow):
             exec_claude(inputfile, outputfile)
         elif agent == "Codex":
             exec_codex(inputfile, outputfile)
+        elif agent == "Antigravity":
+            exec_antigravity(inputfile, outputfile)
         elif agent == "Grok Build":
             exec_grok(inputfile, outputfile)
         elif agent == "DeepSeek Harness":

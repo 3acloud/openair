@@ -197,6 +197,44 @@ def gen_dimage(inputfile, outputfile):
     return True
 
 
+def gen_aimage(inputfile, outputfile):
+    """通过 Antigravity CLI 生成图片，实时打印输出并返回退出状态。
+
+    相对文件路径以 SERVERFILES 为基准。运行前需安装 Antigravity CLI，
+    使用 agy 完成登录，并配置可用的图片生成工具及其调用权限。
+    True 表示 CLI 成功退出，未额外验证输出图片的内容。
+    """
+    inputfile = os.fspath(inputfile)
+    outputfile = os.fspath(outputfile)
+    instruction = (
+        f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+        f"生成图片输出到'{outputfile}'。"
+    )
+
+    # -p 执行一次非交互任务；直接传递参数，避免 PowerShell 转义问题。
+    cmd = ["agy", "-p", instruction]
+
+    try:
+        with subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as proc:
+            for line in proc.stdout:
+                print(line, end="", flush=True)
+
+            return proc.wait() == 0
+    except OSError as exc:
+        print(f"无法启动 Antigravity CLI：{exc}", flush=True)
+        return False
+
+
 def edit_image(imagefile, inputfile, outputfile):
     if imagefile.lower().endswith(".zip"):
         instruction = f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），处理压缩包'{imagefile}'里的图片，结果输出到'{outputfile}'。"
@@ -393,6 +431,52 @@ def edit_ximage(imagefile, inputfile, outputfile):
         return False
 
 
+def edit_aimage(imagefile, inputfile, outputfile):
+    """通过 Antigravity CLI 处理图片或 ZIP，实时输出日志。
+
+    相对文件路径以 SERVERFILES 为基准。运行前需安装 Antigravity CLI，
+    使用 agy 完成登录，并配置可用的图片编辑工具及其调用权限。
+    返回 True 表示 CLI 成功退出，未额外验证输出文件的内容。
+    """
+    imagefile = os.fspath(imagefile)
+    inputfile = os.fspath(inputfile)
+    outputfile = os.fspath(outputfile)
+
+    if imagefile.lower().endswith(".zip"):
+        instruction = (
+            f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+            f"处理压缩包'{imagefile}'里的图片，结果输出到'{outputfile}'。"
+        )
+    else:
+        instruction = (
+            f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+            f"编辑图片'{imagefile}'，结果输出到'{outputfile}'。"
+        )
+
+    # -p 执行一次非交互任务；参数直接传递，不经 PowerShell 解析。
+    cmd = ["agy", "-p", instruction]
+
+    try:
+        with subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as proc:
+            for line in proc.stdout:
+                print(line, end="", flush=True)
+
+            return proc.wait() == 0
+    except OSError as exc:
+        print(f"无法启动 Antigravity CLI：{exc}", flush=True)
+        return False
+    
+
 @task
 def image_ai(
     workflow_data: dict,
@@ -436,6 +520,8 @@ def image_ai(
                 gened = gen_cimage(inputfile, outputfile)
             elif agent == "Codex":
                 gened = gen_image(inputfile, outputfile)
+            elif agent == "Antigravity":
+                gened = gen_aimage(inputfile, outputfile)
             elif agent == "Grok Build":
                 gened = gen_ximage(inputfile, outputfile)
             elif agent == "DeepSeek Harness":
@@ -453,6 +539,8 @@ def image_ai(
                 gened = edit_cimage(init_image, inputfile, outputfile)
             elif agent == "Codex":
                 gened = edit_image(init_image, inputfile, outputfile)
+            elif agent == "Antigravity":
+                gened = edit_aimage(init_image, inputfile, outputfile)
             elif agent == "Grok Build":
                 gened = edit_ximage(init_image, inputfile, outputfile)
             elif agent == "DeepSeek Harness":
@@ -492,6 +580,8 @@ async def ltask(workflow,node_id,responses,i,prompt):
         run_claude(inputfile, outputfile)
     elif agent == "Codex":
         run_codex(inputfile, outputfile)
+    elif agent == "Antigravity":
+        run_antigravity(inputfile, outputfile)
     elif agent == "Grok Build":
         run_grok(inputfile, outputfile)
     elif agent == "DeepSeek Harness":
@@ -614,6 +704,45 @@ def read_dimage(imagefile, inputfile, outputfile):
     return proc.wait() == 0
 
 
+def read_aimage(imagefile, inputfile, outputfile):
+    """通过 Antigravity CLI 理解图片，实时打印日志并返回退出状态。
+
+    相对文件路径以 SERVERFILES 为基准。运行前需安装 Antigravity CLI，
+    使用 agy 完成登录，并配置可用的图片理解能力及文件访问权限。
+    True 表示 CLI 成功退出，未额外验证输出文件的内容。
+    """
+    imagefile = os.fspath(imagefile)
+    inputfile = os.fspath(inputfile)
+    outputfile = os.fspath(outputfile)
+    instruction = (
+        f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），"
+        f"理解图片'{imagefile}'，结果输出到'{outputfile}'。"
+    )
+
+    # -p 执行一次非交互任务；参数直接传递，不经 PowerShell 解析。
+    cmd = ["agy", "-p", instruction]
+
+    try:
+        with subprocess.Popen(
+            cmd,
+            cwd="SERVERFILES",
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as proc:
+            for line in proc.stdout:
+                print(line, end="", flush=True)
+
+            return proc.wait() == 0
+    except OSError as exc:
+        print(f"无法启动 Antigravity CLI：{exc}", flush=True)
+        return False
+
+
 def read_image(imagefile, inputfile, outputfile):
     instruction = f"根据文件'{inputfile}'里的Prompt（UTF-8格式文本），理解图片'{imagefile}'，结果输出到'{outputfile}'。"
     ps_command = f'codex exec --skip-git-repo-check "{instruction}"'
@@ -692,6 +821,8 @@ def l_ai(
                 read_cimage(image, inputfile, outputfile)
             elif agent == "Codex":
                 read_image(image, inputfile, outputfile)
+            elif agent == "Antigravity":
+                read_aimage(image, inputfile, outputfile)
             elif agent == "Grok Build":
                 read_ximage(image, inputfile, outputfile)
             elif agent == "DeepSeek Harness":
@@ -863,6 +994,61 @@ def run_dsh(inputfile, outputfile):
         print(line, end="", flush=True)
 
     return proc.wait() == 0
+
+
+
+def run_antigravity(inputfile, outputfile):
+    """在 SERVERFILES 中运行 Antigravity，实时输出日志并返回退出状态。
+
+    运行前需安装 Antigravity CLI 并使用 agy 完成登录。
+    自动批准工具权限请求，沿用原函数的无人值守执行方式。
+    True 表示 CLI 成功退出，未额外验证输出文件的内容。
+    """
+    project_dir = os.path.abspath("SERVERFILES")
+    antigravity_executable = (
+        shutil.which("agy.exe")
+        or shutil.which("agy.cmd")
+        or shutil.which("agy")
+    )
+    if antigravity_executable is None:
+        return False
+
+    inputfile = os.fspath(inputfile)
+    outputfile = os.fspath(outputfile)
+    instruction = (
+        f"处理'{inputfile}'里的请求（UTF-8格式文本），"
+        f"用补丁方式创建文件并输出到'{outputfile}'。"
+        "绝对不允许列出当前目录下的所有项目。使用UTF-8。"
+    )
+
+    # -p 执行一次非交互任务；直接传递参数，不经 PowerShell 解析。
+    # cwd 指定工作区；无需 Codex 的信任配置和 Git 检查参数。
+    cmd = [
+        antigravity_executable,
+        "--dangerously-skip-permissions",
+        "-p",
+        instruction,
+    ]
+
+    try:
+        with subprocess.Popen(
+            cmd,
+            cwd=project_dir,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as proc:
+            for line in proc.stdout:
+                print(line, end="", flush=True)
+
+            return proc.wait() == 0
+    except OSError as exc:
+        print(f"无法启动 Antigravity CLI：{exc}", flush=True)
+        return False
 
 
 def run_codex(inputfile, outputfile):

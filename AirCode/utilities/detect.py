@@ -103,6 +103,7 @@ def _validate(provider: str, stdout: str, token: str) -> bool:
             completed |= event.get("type") == "turn.completed"
             failed |= event.get("type") in {"error", "turn.failed"}
         return answered and completed and not failed
+    # Antigravity 的默认 -p 输出是回复文本，进度及错误写入 stderr。
     # headless 的纯文本输出必须包含完整的独立回复行，不能仅命中回显的提示词。
     clean = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", stdout)
     return any(line.strip() == token for line in clean.splitlines())
@@ -113,19 +114,19 @@ def detect_available_agent(
     *,
     diagnostics: list[dict[str, str]] | None = None,
 ) -> str:
-    """依次探测 Claude Code → Codex → Grok Build → DeepSeek Harness。
+    """依次探测 Claude Code → Codex → Antigravity → Grok Build → DeepSeek Harness。
 
     每项最多等待 timeout 秒，实际调用成功后立即返回工具名称：
-    'Claude Code'、'Codex'、'Grok Build' 或 'DeepSeek Harness'。
+    'Claude Code'、'Codex'、'Antigravity'、'Grok Build' 或 'DeepSeek Harness'。
     全部不可用时返回空字符串 ''。
     使用当前进程的 PATH、环境变量、工作目录和 CLI 登录/模型配置。
     diagnostics 可传入空列表，接收已尝试工具的状态，不包含原始日志或密钥。
     """
     global available_agent
-    if available_agent:
-        return available_agent
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("timeout 必须是大于 0 的有限秒数")
+    # 每次重新探测，避免缓存已失效的登录、网络或模型配置。
+    available_agent = ''
     token = "PROBE_" + uuid.uuid4().hex
     prompt = "Do not use any tools. Reply with exactly this text and nothing else: " + token
     candidates = (
@@ -133,6 +134,7 @@ def detect_available_agent(
                                    "--no-session-persistence"]),
         ("Codex", "codex", ["exec", "--skip-git-repo-check", "--sandbox", "read-only",
                              "--ephemeral", "--json"]),
+        ("Antigravity", "agy", ["-p"]),
         ("Grok Build", "grok", ["--output-format", "plain", "--max-turns", "1",
                                 "--no-subagents", "--tools", "", "-p"]),
         ("DeepSeek Harness", "dsh", ["--profile", "headless"]),
@@ -148,6 +150,7 @@ def detect_available_agent(
                 if result.returncode == 0 and valid:
                     if diagnostics is not None:
                         diagnostics.append({"provider": provider, "status": "available"})
+                    available_agent = provider
                     return provider
                 status = (f"exit_code_{result.returncode}" if result.returncode
                           else "invalid_response")
