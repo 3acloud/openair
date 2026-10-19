@@ -103,6 +103,7 @@ import inspect
 from worker import main_worker, sub_worker
 from utilities.ask_answer import threadLock
 from utilities.ask_answer import asks, askhandle
+import utilities.detect as detect
 
 
 set_terminal_title('AirCode')
@@ -259,6 +260,7 @@ def handle_ask():
         prompt = data.get('prompt', '')
         streamid = data.get('streamid', '')
         print(streamid)
+        detect.available_agent = data.get('use_agent', '') 
 
         threadLock.acquire()
         global askhandle

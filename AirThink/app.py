@@ -95,6 +95,8 @@ base_path = Path.cwd() / "files"
 base_app = Path.cwd() / "apps"
 base_skill = Path.cwd() / "skills"
 
+use_agent = ''
+
 app = Flask(__name__)
 CORS(app)  # 允许跨域请求
 
@@ -1420,7 +1422,7 @@ def submit_record(vData, vPayload, gBaseName):
                     askstream[streamid]["tTableName"] = tTableName
                     askstream[streamid]["tFieldName"] = tFieldName
                     askstream[streamid]["tFieldValue"] = tFieldValue
-                    request_data = {"prompt": processed_json_str, "streamid": streamid}
+                    request_data = {"prompt": processed_json_str, "streamid": streamid, "use_agent": use_agent}
                     upload_matched_files(processed_json_str)
                     call_workflow(request_data)
                     
@@ -1614,6 +1616,10 @@ def handle_request():
         request_payload = data.get('payload', '')
 
         if request_type == 'InstallApp':
+            if request_payload:
+                global use_agent
+                use_agent = request_payload
+
             if request_data:
                 app_dir = base_app / request_data
 
