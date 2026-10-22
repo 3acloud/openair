@@ -18,6 +18,24 @@ from worker.tasks import task
 import math
 
 
+
+def extract_skills(text: str) -> str:
+    # 16位十六进制ID + 下划线 + 技能名（允许字母、数字、连字符、下划线）
+    pattern = r'(?<![0-9A-Za-z])[0-9a-fA-F]{16}_[A-Za-z0-9][A-Za-z0-9_-]*'
+
+    skills = re.findall(pattern, text)
+
+    # 去重并保持原顺序
+    seen = set()
+    result = []
+    for skill in skills:
+        if skill not in seen:
+            seen.add(skill)
+            result.append(skill)
+
+    return ','.join(result)
+
+
 def get_hash(text):
     # 创建一个hash对象
     hasher = hashlib.sha256()
@@ -386,27 +404,29 @@ def task_agent(
 
     skills = ""
     if claw != "":
-        skillcsv = asyncio.run(send_ws_message(claw, "技能表"))
-        if skillcsv != "":
-            prompt = f'''{skillcsv}
+        baseDirs = extract_skills(taskdesc)
+        if not baseDirs:
+            skillcsv = asyncio.run(send_ws_message(claw, "技能表"))
+            if skillcsv != "":
+                prompt = f'''{skillcsv}
 ---
 上面是可用的技能csv表，下面是我的请求，请选择技能来满足我的要求，只返回选择后的逗号分隔的baseDir，如果没有匹配的技能则返回空字符串，不要其它说明文字。
 ---
-{taskdesc}'''
-            baseDirs = CallAgent(prompt,workflow)
-            if baseDirs == "空字符串":
-                baseDirs = ""
-            baseDirs = baseDirs.strip()
-            baseDirs = baseDirs.strip('"\'')
-            if baseDirs != "":
-                skills = asyncio.run(send_ws_message(claw, "技能信息," + baseDirs))
+    {taskdesc}'''
+                baseDirs = CallAgent(prompt,workflow)
+                if baseDirs == "空字符串":
+                    baseDirs = ""
+                baseDirs = baseDirs.strip()
+                baseDirs = baseDirs.strip('"\'')
+        if baseDirs != "":
+            skills = asyncio.run(send_ws_message(claw, "技能信息," + baseDirs))
 
-                pattern = r'\{[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}\}\.\w+'
-                matches = re.findall(pattern, skills)  # 返回所有匹配的文件名列表
-                matches = set(matches)
-                for filename in matches:
-                    if not os.path.exists("SERVERFILES/" + filename):
-                        asyncio.run(send_ws_message(claw, "技能文件," + filename, timeout=1000))
+            pattern = r'\{[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}\}\.\w+'
+            matches = re.findall(pattern, skills)  # 返回所有匹配的文件名列表
+            matches = set(matches)
+            for filename in matches:
+                if not os.path.exists("SERVERFILES/" + filename):
+                    asyncio.run(send_ws_message(claw, "技能文件," + filename, timeout=1000))
 
     result = ""
     try:
