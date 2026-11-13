@@ -97,7 +97,7 @@ When accessing the local service at `127.0.0.1`, the collection opens apps direc
 
 ## Included Apps
 
-The collection includes over a hundred apps, organized into the same 10 categories shown on the app collection page:
+The collection includes hundreds of apps, organized into the same 10 categories shown on the app collection page:
 
 | Category | Use Cases |
 | --- | --- |
