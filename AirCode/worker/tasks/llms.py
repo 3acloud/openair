@@ -801,40 +801,43 @@ def l_ai(
             images = [input_image]
         elif isinstance(input_image, list):
             images = input_image
-        results = []
+        inputimage = ""
         for image in images:
             image = image.replace('Image://', 'SERVERFILES/', 1) if image.startswith('Image://') else image
             image = image.replace('File://', 'SERVERFILES/', 1) if image.startswith('File://') else image
             if image.find("SERVERFILES") == -1:
                 image = "SERVERFILES/" + image
             workflow.data["tempfiles"].append(image)
-            prompt = workflow.get_node_field_value(node_id, "Prompt")
+            if inputimage:
+                inputimage = inputimage + ','
+            inputimage = inputimage + image
 
-            inputfile = "{" + str(uuid.uuid4()) + "}.txt" 
-            with open(f"SERVERFILES/{inputfile}", "w", encoding='utf-8') as f:
-                f.write(prompt)
-            outputfile = "{" + str(uuid.uuid4()) + "}.txt" 
-            workflow.data["tempfiles"].append(f"SERVERFILES/{inputfile}")
-            workflow.data["tempfiles"].append(f"SERVERFILES/{outputfile}")
-            agent = detect_available_agent()
-            if agent == "Claude Code":
-                read_cimage(image, inputfile, outputfile)
-            elif agent == "Codex":
-                read_image(image, inputfile, outputfile)
-            elif agent == "Antigravity":
-                read_aimage(image, inputfile, outputfile)
-            elif agent == "Grok Build":
-                read_ximage(image, inputfile, outputfile)
-            elif agent == "DeepSeek Harness":
-                read_dimage(image, inputfile, outputfile)
-            else:
-                pass
-            if os.path.exists(f"SERVERFILES/{outputfile}"):
-                with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
-                    output=f.read()
+        output = ""
+        prompt = workflow.get_node_field_value(node_id, "Prompt")
+        inputfile = "{" + str(uuid.uuid4()) + "}.txt" 
+        with open(f"SERVERFILES/{inputfile}", "w", encoding='utf-8') as f:
+            f.write(prompt)
+        outputfile = "{" + str(uuid.uuid4()) + "}.txt" 
+        workflow.data["tempfiles"].append(f"SERVERFILES/{inputfile}")
+        workflow.data["tempfiles"].append(f"SERVERFILES/{outputfile}")
+        agent = detect_available_agent()
+        if agent == "Claude Code":
+            read_cimage(inputimage, inputfile, outputfile)
+        elif agent == "Codex":
+            read_image(inputimage, inputfile, outputfile)
+        elif agent == "Antigravity":
+            read_aimage(inputimage, inputfile, outputfile)
+        elif agent == "Grok Build":
+            read_ximage(inputimage, inputfile, outputfile)
+        elif agent == "DeepSeek Harness":
+            read_dimage(inputimage, inputfile, outputfile)
+        else:
+            pass
+        if os.path.exists(f"SERVERFILES/{outputfile}"):
+            with open(f"SERVERFILES/{outputfile}", "r", encoding="utf-8") as f:
+                output=f.read()
+        result = output
 
-            results.append(output)
-        result = results if isinstance(input_image, list) else results[0]
         workflow.update_node_field_value(node_id, "输出", result)
         if (workflow.nodesout.get(node_id) == False):
             if workflow_data["answered"]:

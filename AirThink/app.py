@@ -1607,6 +1607,32 @@ def import_app(zip_path, appclass):
     return f"{app_id}|{name}|{appclass}|{base_desc}"
 
 
+def get_client_ip():
+    """获取客户端的真实IP地址"""
+    # 优先检查 X-Forwarded-For（常用于代理）
+    x_forwarded_for = request.headers.get('X-Forwarded-For')
+    if x_forwarded_for:
+        # X-Forwarded-For 可能包含多个IP，第一个是原始客户端IP
+        ip = x_forwarded_for.split(',')[0].strip()
+        return ip
+    
+    # 检查其他常见代理头部
+    headers_to_check = [
+        'X-Real-IP',
+        'X-Client-IP',
+        'CF-Connecting-IP',  # Cloudflare
+        'True-Client-IP',    # Akamai
+    ]
+    
+    for header in headers_to_check:
+        ip = request.headers.get(header)
+        if ip:
+            return ip
+    
+    # 最后使用 remote_addr
+    return request.remote_addr
+
+
 @app.route('/request', methods=['POST'])
 def handle_request():
     try:
@@ -1674,28 +1700,36 @@ def handle_request():
                     response_text = f.read()
             apptxt = import_app(base_path / request_data, request_payload)
             if apptxt:
-                if apptxt not in response_text:
-                    if response_text and not response_text.endswith('\n'):
-                        response_text += '\n'
-                    response_text += apptxt
-                    with open(base_app / 'myapps.txt', 'w', encoding='utf-8') as f:
-                        f.write(response_text)
+                app_id = apptxt.split('|', 1)[0].strip()
+                lines = response_text.splitlines()
+                existing = next(
+                    (line for line in lines if line.split('|', 1)[0].strip() == app_id),
+                    None,
+                )
+                lines = [
+                    line for line in lines
+                    if line.split('|', 1)[0].strip() != app_id
+                ]
+                lines.insert(0, existing if existing is not None else apptxt)
+                with open(base_app / 'myapps.txt', 'w', encoding='utf-8') as f:
+                    f.write('\n'.join(lines) + '\n')
             return Response(response_text, mimetype='text/plain; charset=utf-8')        
 
         basename = unquote(request.headers.get('BaseName'))
-        session_id_header = request.headers.get('SessionID')
-        if session_id_header is not None:
-            session_id = unquote(session_id_header)
-        else:
-            session_id = None
 
-        if os.path.exists(base_app / 'userkey.json'):
-            userkeys = []
-            with open(base_app / 'userkey.json', 'r', encoding='utf-8') as f:
-                userkeys = json.load(f)
-            if session_id not in userkeys:
-                response_text = ''
-                return Response(response_text, mimetype='text/plain; charset=utf-8')
+        if get_client_ip() != '127.0.0.1':
+            session_id_header = request.headers.get('SessionID')
+            if session_id_header is not None:
+                session_id = unquote(session_id_header)
+            else:
+                session_id = None
+            if os.path.exists(base_app / 'userkey.json'):
+                userkeys = []
+                with open(base_app / 'userkey.json', 'r', encoding='utf-8') as f:
+                    userkeys = json.load(f)
+                if session_id not in userkeys:
+                    response_text = ''
+                    return Response(response_text, mimetype='text/plain; charset=utf-8')
         
         if request_type == 'GetTableCSV':
             response_text = get_table_csv(request_data, request_payload, basename)
