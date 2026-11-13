@@ -13,7 +13,7 @@
 
 Skills are typically used through conversations in Agent. openair aims to turn those capabilities into apps you can open directly: choose a tool in your browser, enter your input, get results, and manage and expand your own app collection.
 
-openair consists of two local services: **AirCode** and **AirThink**. AirCode lets apps use AI through your local Claude Code、Codex、Grok Build、DeepSeek Harness installation. AirThink provides an app collection with over a hundred apps and supports importing apps you build yourself.
+openair consists of two local services: **AirCode** and **AirThink**. AirCode lets apps use AI through your local Claude Code、Codex、Grok Build、DeepSeek Harness installation. AirThink provides an app collection with hundreds of apps and can receive your own apps deployed from iThinkAir to your local network.
 
 ![openair homepage screenshot](docs/images/screenshot.en.png)
 
@@ -23,7 +23,7 @@ openair consists of two local services: **AirCode** and **AirThink**. AirCode le
 - **Use your own Agent**: Apps call your local Agent CLI through AirCode, using your existing sign-in environment.
 - **Make use of your subscription**: Use your Agent subscription to help reduce everyday costs and spending on usage-based model APIs. Actual costs and available usage depend on your subscription and usage patterns.
 - **Discover and manage apps in one place**: Search apps, browse by category, and access your own apps from a single page.
-- **Customize as needed**: Build apps on [ithinkair](https://www.ithinkair.com), export their source code, and import them into your local app collection.
+- **Customize as needed**: Build apps on [iThinkAir](https://www.ithinkair.com), then click "Deploy to intranet" on an app's detail page to deploy it to your own local app collection.
 
 ## How It Works
 
@@ -89,7 +89,7 @@ Keep both service windows open while using the apps. AirCode may still be instal
 
 Search by keyword or browse by category on the app collection page, then click an app card to open it.
 
-The first time you open the page, you will be asked to enter a **User Key**. This is AirThink's local access key, separate from your Agent sign-in credentials or any model API key:
+When accessing the local service at `127.0.0.1`, the collection opens apps directly. When accessing another internal server, enter a **User Key** if prompted. This is AirThink's local access key, separate from the iThinkAir API Key used to connect your local service, your Agent sign-in credentials, and any model API key:
 
 - Keys are stored in `AirThink/apps/userkey.json` as a JSON array of strings. Before use, you can set it to your own key, for example `["your-own-local-key"]`.
 - If the file does not exist, the first non-empty key submitted will be saved as the local key.
@@ -97,29 +97,32 @@ The first time you open the page, you will be asked to enter a **User Key**. Thi
 
 ## Included Apps
 
-The collection includes over a hundred apps across the following categories:
+The collection includes over a hundred apps, organized into the same 10 categories shown on the app collection page:
 
 | Category | Use Cases |
 | --- | --- |
-| Writing & Content | Content creation, articles, and copywriting |
-| Images & Design | Image processing and visual design |
-| Slides & Visualization | Presentations, charts, and information displays |
-| Learning & Teaching | Study aids and teaching tools |
-| Research & Productivity | Information processing, research, and office tasks |
-| Speech & Language | Speech, language learning, and conversion |
-| Life & Personal Growth | Everyday tools and personal development |
-| Traditional Culture | Apps related to traditional culture |
+| Slides & Diagrams | Presentations, infographics, flowcharts, mind maps, and data visualization |
+| Images & Design | Image generation and editing, posters and covers, SVG illustrations, and visual design |
+| Video & Animation | Video scripts, storyboards, comics, animation, and video production |
+| Writing & Copy | Articles and fiction, marketing copy, editing, and structured writing |
+| Social & Cards | Xiaohongshu posts, social media graphics, knowledge cards, and publishing assets |
+| Learning & Teaching | Problem explanations, study notes, classroom materials, homework, and essay feedback |
+| Languages & Translation | Text and document translation, bilingual learning, speech recognition, and speech synthesis |
+| Research & Office | Topic research, information organization, document processing, office automation, and analytical reports |
+| Life & Growth | Everyday records, object recognition, planning and reflection, and personal development |
+| Tradition & Humanities | Traditional culture, art and antiques, I Ching studies, and humanities content |
 
 You can open these apps directly from the local collection. AI tasks run through your own Agent CLI installation.
 
-## Create and Import Your Own Apps
+## Create Apps and Deploy to Your Local Network
 
-1. Visit [https://www.ithinkair.com](https://www.ithinkair.com), or click "Create App" (创建应用) in the app collection.
-2. Build an app for your needs, then export its source code as a ZIP archive.
-3. Return to the local app collection, click "Import App" (导入应用), and select the exported `.zip` file.
-4. Once the import is complete, open the app under "My Apps" (我的应用).
+1. Visit [iThinkAir](https://www.ithinkair.com), or click the logo + "iThinkAir" link on the right side of the app collection.
+2. Create an app for your needs, then open its detail page in your own app library.
+3. Keep OpenAir (AirThink and AirCode) running on your local computer. Run ThinkClaw on the same computer and connect it using an API Key added and copied from iThinkAir's "Manage API keys" window. You can download ThinkClaw for Windows from that window.
+4. Click "Deploy to intranet" (部署到内网) on the app's detail page. iThinkAir first checks whether your local service is online. If "Local service offline" appears, restore the service and use "Check connection" before retrying deployment.
+5. After "Deployment succeeded" appears, reopen or manually refresh the local app collection, then find and run the app under "My Apps" (我的应用). If "Deployment failed" appears, see the troubleshooting advice below.
 
-Keep the exported archive's original directory structure. The importer reads `AirThink/apps/`, `AirThink/files/`, and `AirThink/skills/` from the ZIP, imports the apps and related resources locally, and updates the app list. Existing files at matching paths will be overwritten during import.
+Deployment sends the app directly from iThinkAir to the local service connected to your current account. 
 
 ## Project Structure
 
@@ -134,7 +137,7 @@ openair/
 │   ├── utilities/         # File handling, communication, and other utilities
 │   └── SERVERFILES/       # Task files and Agent CLI working directory
 └── AirThink/
-    ├── app.py             # App, file, import, and communication services
+    ├── app.py             # App, file, and communication services
     ├── startweb.py         # HTTP server startup entry point (3130)
     ├── run.bat
     ├── apps/              # App collection pages, app source code, and local configuration
@@ -154,13 +157,13 @@ Check the output in the AirThink window to confirm that dependency installation 
 
 Check the output in the AirCode window to confirm that the service has started. Also verify that the same Windows user can successfully run Agent tasks in a terminal. 
 
-**App import failed.**
+**Deployment reports "Local service offline" or "Deployment failed".**
 
-Select a source code ZIP archive exported from ithinkair and preserve its internal directory structure, including `AirThink/apps/`. Check the AirThink window for specific error messages.
+Make sure your local computer is on and connected to the network, with OpenAir's AirThink and AirCode services and ThinkClaw running. ThinkClaw must use an API Key from your current iThinkAir account. Once the service is available, use "Check connection", then retry "Deploy to intranet" on the app's detail page. If it still fails, check the AirThink and ThinkClaw windows for specific errors.
 
 ## Running the Services
 
-The services currently listen on `0.0.0.0`. AirCode runs Agent tasks with `danger-full-access` and disables per-action approvals. Run the services and import apps only in a trusted personal environment. Do not expose the services directly to the public internet.
+The services currently listen on `0.0.0.0`. AirCode runs Agent tasks with `danger-full-access` and disables per-action approvals. Run the services and deploy apps only in a trusted personal environment. Do not expose the services directly to the public internet.
 
 ## Contributing
 
